@@ -1,0 +1,510 @@
+\documentclass[11pt,a4paper]{article}
+
+% Packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage[margin=1in]{geometry}
+\usepackage{enumitem}
+\usepackage{xcolor}
+
+% Custom commands
+\newcommand{\stage}[1]{\textbf{\textcolor{blue}{#1}}}
+
+% Title information
+\title{Exercise Sheet 4: Maps\\
+Question 2 - Complete Solution}
+\author{Methods of Applied Mathematics}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section*{Problem Statement}
+
+Derive a discrete map for the predator-prey system, in a similar way we did for the 1d population model.
+
+\vspace{10pt}
+\hrule
+\vspace{10pt}
+
+\section{Step 1: The Continuous Predator-Prey System}
+
+\subsection*{The Lotka-Volterra equations}
+
+The classical predator-prey model is:
+\begin{align}
+\frac{dx}{dt} &= ax - bxy \label{eq:prey}\\
+\frac{dy}{dt} &= -cy + dxy \label{eq:predator}
+\end{align}
+
+where:
+\begin{itemize}
+\item $x(t)$ is the prey population at time $t$
+\item $y(t)$ is the predator population at time $t$
+\item $a > 0$ is the prey birth rate (in absence of predators)
+\item $b > 0$ is the predation rate coefficient
+\item $c > 0$ is the predator death rate (in absence of prey)
+\item $d > 0$ is the predator growth rate from consumption
+\end{itemize}
+
+\subsection*{XYZ Analysis of the System}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (What we have):} A coupled system of two first-order nonlinear ODEs. Each equation has a linear term (natural growth/death) and a nonlinear interaction term ($xy$).
+
+\item \stage{STAGE Y (Why this structure):}
+\begin{itemize}
+\item \textbf{Prey equation} $\dot{x} = ax - bxy$:
+\begin{itemize}
+\item $ax$: Prey reproduce exponentially when alone
+\item $-bxy$: Prey are consumed proportional to encounter rate (product of populations)
+\end{itemize}
+\item \textbf{Predator equation} $\dot{y} = -cy + dxy$:
+\begin{itemize}
+\item $-cy$: Predators die exponentially without food
+\item $+dxy$: Predators grow proportional to prey consumed
+\end{itemize}
+\end{itemize}
+The coupling through $xy$ creates the predator-prey dynamic: predators need prey to survive, prey are limited by predators.
+
+\item \stage{STAGE Z (What we need):} Derive discrete-time versions by approximating derivatives for finite time step $\Delta t$, analogous to the single population case.
+\end{itemize}
+
+\vspace{10pt}
+\hrule
+\vspace{10pt}
+
+\section{Step 2: Discretize Using Euler Approximation}
+
+\subsection*{Approximate derivatives}
+
+Recall the definition of derivative:
+\[
+\frac{dx}{dt} = \lim_{\Delta t \to 0} \frac{x(t+\Delta t) - x(t)}{\Delta t}
+\]
+
+For finite (small) $\Delta t$, we approximate:
+\[
+\frac{x(t+\Delta t) - x(t)}{\Delta t} \approx ax(t) - bx(t)y(t)
+\]
+
+Similarly for $y$:
+\[
+\frac{y(t+\Delta t) - y(t)}{\Delta t} \approx -cy(t) + dx(t)y(t)
+\]
+
+\subsection*{Rearrange to get update rules}
+
+From the prey equation:
+\begin{align*}
+x(t+\Delta t) - x(t) &\approx \Delta t[ax(t) - bx(t)y(t)] \\
+x(t+\Delta t) &\approx x(t) + \Delta t \cdot x(t)[a - by(t)] \\
+x(t+\Delta t) &\approx x(t)[1 + \Delta t(a - by(t))]
+\end{align*}
+
+From the predator equation:
+\begin{align*}
+y(t+\Delta t) - y(t) &\approx \Delta t[-cy(t) + dx(t)y(t)] \\
+y(t+\Delta t) &\approx y(t) + \Delta t \cdot y(t)[-c + dx(t)] \\
+y(t+\Delta t) &\approx y(t)[1 + \Delta t(-c + dx(t))]
+\end{align*}
+
+\subsection*{Set time step $\Delta t = 1$}
+
+Taking the fundamental time unit as $\Delta t = 1$ (e.g., one day, one generation), and using discrete notation $x_n = x(n)$, $y_n = y(n)$:
+
+\begin{align}
+x_{n+1} &= x_n[1 + a - by_n] \label{eq:prey_map}\\
+y_{n+1} &= y_n[1 - c + dx_n] \label{eq:predator_map}
+\end{align}
+
+\subsection*{XYZ Analysis of Discretization}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (What we derived):} A pair of coupled difference equations that map $(x_n, y_n) \to (x_{n+1}, y_{n+1})$.
+
+\item \stage{STAGE Y (Why this works):} The Euler method approximates:
+\[
+\text{Population at next step} = \text{Current population} + \text{Change over } \Delta t
+\]
+For $\Delta t = 1$:
+\begin{itemize}
+\item \textbf{Prey:} $x_{n+1} = x_n + x_n(a - by_n) = x_n(1 + a - by_n)$
+\begin{itemize}
+\item Factor $(1+a)$ would give exponential growth alone
+\item Factor $by_n$ represents reduction due to predation
+\end{itemize}
+\item \textbf{Predator:} $y_{n+1} = y_n + y_n(-c + dx_n) = y_n(1 - c + dx_n)$
+\begin{itemize}
+\item Factor $(1-c)$ would give exponential decay alone
+\item Factor $dx_n$ represents growth from eating prey
+\end{itemize}
+\end{itemize}
+
+\item \stage{STAGE Z (What this gives):} A 2D discrete dynamical system (map). Unlike the continuous ODE which requires solving differential equations, this map can be iterated directly:
+\[
+(x_0, y_0) \to (x_1, y_1) \to (x_2, y_2) \to \cdots
+\]
+Each iteration is algebraic, making it computationally simple.
+\end{itemize}
+
+\vspace{10pt}
+\hrule
+\vspace{10pt}
+
+\section{Step 3: Standard Form of the Discrete Map}
+
+\subsection*{Present as a map}
+
+We can write the discrete predator-prey system as:
+\[
+\boxed{\begin{aligned}
+x_{n+1} &= x_n(1 + a - by_n) \\
+y_{n+1} &= y_n(1 - c + dx_n)
+\end{aligned}}
+\]
+
+or in vector form as $\mathbf{z}_{n+1} = \mathbf{F}(\mathbf{z}_n)$ where $\mathbf{z}_n = (x_n, y_n)$ and:
+\[
+\mathbf{F}(x,y) = \begin{pmatrix} x(1 + a - by) \\ y(1 - c + dx) \end{pmatrix}
+\]
+
+\subsection*{Alternative formulation}
+
+We can also write this emphasizing the change:
+\begin{align*}
+x_{n+1} - x_n &= x_n(a - by_n) \\
+y_{n+1} - y_n &= y_n(-c + dx_n)
+\end{align*}
+
+This makes clear that:
+\begin{itemize}
+\item Prey increase when $a > by_n$ (birth rate exceeds predation rate)
+\item Predators increase when $dx_n > c$ (consumption exceeds death rate)
+\end{itemize}
+
+\subsection*{XYZ Analysis of Form}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (What the form shows):} The map is \textit{multiplicative} - each population is multiplied by a growth factor that depends on the other population.
+
+\item \stage{STAGE Y (Why multiplicative):} Because the original ODEs are:
+\begin{itemize}
+\item Linear in each variable separately: $\dot{x} = x(\cdots)$ and $\dot{y} = y(\cdots)$
+\item This "factorizable" structure is preserved under Euler discretization
+\item Each population's next value is current value $\times$ (1 + change rate)
+\end{itemize}
+If either population is zero, it remains zero (extinction is permanent). The interaction terms $xy$ couple the equations but maintain the multiplicative structure.
+
+\item \stage{STAGE Z (What this means for analysis):}
+\begin{itemize}
+\item The map has fixed points where $x_{n+1} = x_n$ and $y_{n+1} = y_n$
+\item We can analyze stability using the Jacobian matrix
+\item For small time steps, behavior mimics continuous system
+\item For larger time steps, discrete map can show different dynamics
+\end{itemize}
+\end{itemize}
+
+\vspace{10pt}
+\hrule
+\vspace{10pt}
+
+\section{Step 4: Properties of the Discrete Map}
+
+\subsection*{Fixed points}
+
+Fixed points satisfy $x_{n+1} = x_n$ and $y_{n+1} = y_n$:
+\begin{align*}
+x^* &= x^*(1 + a - by^*) \\
+y^* &= y^*(1 - c + dx^*)
+\end{align*}
+
+This gives:
+\begin{align*}
+0 &= x^*(a - by^*) \\
+0 &= y^*(-c + dx^*)
+\end{align*}
+
+\textbf{Fixed point 1:} $(x^*, y^*) = (0, 0)$ - extinction of both species
+
+\textbf{Fixed point 2:} $x^* = 0$, $y^* \neq 0$ gives $0 = y^*(-c) \Rightarrow$ no solution (unless $y^*=0$)
+
+\textbf{Fixed point 3:} $y^* = 0$, $x^* \neq 0$ gives $0 = x^* \cdot a \Rightarrow$ no solution (unless $x^*=0$)
+
+\textbf{Fixed point 4:} $x^*, y^* \neq 0$ requires:
+\begin{align*}
+a - by^* &= 0 \quad \Rightarrow \quad y^* = \frac{a}{b} \\
+-c + dx^* &= 0 \quad \Rightarrow \quad x^* = \frac{c}{d}
+\end{align*}
+
+Therefore: $\boxed{(x^*, y^*) = \left(\frac{c}{d}, \frac{a}{b}\right)}$ - coexistence equilibrium
+
+\subsection*{Jacobian matrix}
+
+The Jacobian of $\mathbf{F}(x,y)$ is:
+\[
+J = \begin{pmatrix}
+\frac{\partial}{\partial x}[x(1+a-by)] & \frac{\partial}{\partial y}[x(1+a-by)] \\[10pt]
+\frac{\partial}{\partial x}[y(1-c+dx)] & \frac{\partial}{\partial y}[y(1-c+dx)]
+\end{pmatrix}
+\]
+
+Computing derivatives:
+\[
+J = \begin{pmatrix}
+1 + a - by & -bx \\
+dy & 1 - c + dx
+\end{pmatrix}
+\]
+
+At the coexistence fixed point $(x^*, y^*) = (c/d, a/b)$:
+\[
+J^* = \begin{pmatrix}
+1 + a - b \cdot \frac{a}{b} & -b \cdot \frac{c}{d} \\[10pt]
+d \cdot \frac{a}{b} & 1 - c + d \cdot \frac{c}{d}
+\end{pmatrix} = \begin{pmatrix}
+1 & -\frac{bc}{d} \\[10pt]
+\frac{ad}{b} & 1
+\end{pmatrix}
+\]
+
+\subsection*{Eigenvalue analysis}
+
+For the Jacobian $J^* = \begin{pmatrix} 1 & -\frac{bc}{d} \\ \frac{ad}{b} & 1 \end{pmatrix}$:
+
+Characteristic equation:
+\[
+\det(J^* - \lambda I) = (1-\lambda)^2 + \frac{bc}{d} \cdot \frac{ad}{b} = 0
+\]
+
+\[
+(1-\lambda)^2 + ac = 0
+\]
+
+\[
+\lambda = 1 \pm i\sqrt{ac}
+\]
+
+The eigenvalues are complex with:
+\begin{itemize}
+\item Real part: $\text{Re}(\lambda) = 1$
+\item Imaginary part: $\text{Im}(\lambda) = \pm\sqrt{ac}$
+\item Modulus: $|\lambda| = \sqrt{1 + ac}$
+\end{itemize}
+
+Since $|\lambda| = \sqrt{1 + ac} > 1$ (for $a, c > 0$), the fixed point is \textbf{unstable}.
+
+\subsection*{XYZ Analysis of Fixed Points}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (What we found):} Two fixed points: $(0,0)$ (trivial) and $(c/d, a/b)$ (coexistence). The coexistence point has complex eigenvalues with modulus $>1$.
+
+\item \stage{STAGE Y (Why this instability):}
+\begin{itemize}
+\item In the continuous Lotka-Volterra system, the coexistence point is a \textit{center} with purely imaginary eigenvalues - neutral stability with closed orbits
+\item The discrete map shifts eigenvalues: $\lambda_{\text{map}} \approx e^{\lambda_{\text{ODE}} \Delta t}$
+\item For the ODE with $\lambda_{\text{ODE}} = \pm i\sqrt{ac}$, we get $\lambda_{\text{map}} = e^{\pm i\sqrt{ac}}$ which has $|\lambda| = 1$
+\item However, our Euler discretization introduces additional terms that push $|\lambda|$ slightly above 1
+\item The spiral instability means orbits slowly diverge outward from the fixed point
+\end{itemize}
+
+\item \stage{STAGE Z (What this means):} The discrete map has fundamentally different stability than the continuous system:
+\begin{itemize}
+\item Continuous: Neutral stability, periodic orbits (conservative system)
+\item Discrete (with $\Delta t = 1$): Unstable spiral (trajectories diverge)
+\end{itemize}
+This illustrates that discrete maps are \textit{not} just approximations to ODEs - they can exhibit genuinely different dynamics. For predator-prey, the discretization breaks the conservation law that existed in the continuous case.
+\end{itemize}
+
+\vspace{10pt}
+\hrule
+\vspace{10pt}
+
+\section{Step 5: Comparison with Continuous System}
+
+\subsection*{Continuous system properties}
+
+The Lotka-Volterra ODE has:
+\begin{itemize}
+\item Fixed point at $(c/d, a/b)$ with purely imaginary eigenvalues $\pm i\sqrt{ac}$
+\item This is a \textbf{center} - neutrally stable
+\item Solutions are closed periodic orbits around the fixed point
+\item System is \textbf{conservative}: has a conserved quantity $H(x,y) = d x - c\log x + b y - a\log y$
+\end{itemize}
+
+\subsection*{Discrete system properties}
+
+The discrete map has:
+\begin{itemize}
+\item Same fixed point at $(c/d, a/b)$
+\item But eigenvalues $1 \pm i\sqrt{ac}$ have modulus $\sqrt{1+ac} > 1$
+\item This is an \textbf{unstable spiral}
+\item Solutions spiral outward (for $\Delta t = 1$)
+\item System is \textbf{not conservative}: no preserved quantity
+\end{itemize}
+
+\subsection*{Why the difference?}
+
+\begin{enumerate}
+\item \textbf{Euler method is first-order}: It only captures behavior to $O(\Delta t)$
+
+\item \textbf{Time step too large}: For $\Delta t = 1$, discrete approximation introduces significant error
+
+\item \textbf{Conservation broken}: Euler method doesn't preserve the Hamiltonian structure
+
+\item \textbf{Eigenvalue transformation}: The map $\lambda_{\text{map}} = e^{\lambda_{\text{ODE}}\Delta t}$ takes $\pm i\omega \to e^{\pm i\omega}$ which has $|e^{\pm i\omega}| = 1$, but the Euler approximation $\lambda \approx 1 + \lambda_{\text{ODE}}\Delta t$ gives $1 \pm i\omega$ with $|1 \pm i\omega| = \sqrt{1+\omega^2} > 1$
+\end{enumerate}
+
+\subsection*{XYZ Analysis of Comparison}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (What differs):} The continuous system has periodic orbits (center), while the naive discrete system has spiraling unstable orbits.
+
+\item \stage{STAGE Y (Why this happens):}
+\begin{itemize}
+\item The continuous predator-prey system is \textit{Hamiltonian} - it conserves energy-like quantities
+\item Euler discretization is \textit{not symplectic} - it doesn't preserve Hamiltonian structure
+\item Each iteration adds a small numerical dissipation/excitation
+\item Over many iterations, these errors accumulate, causing spiraling
+\item The magnitude $|\lambda| = \sqrt{1 + ac}$ quantifies the "per-iteration drift"
+\end{itemize}
+Better discretization schemes (like symplectic integrators) can preserve the center structure.
+
+\item \stage{STAGE Z (What we learn):}
+\begin{enumerate}
+\item \textbf{Maps $\neq$ ODEs}: Discrete maps are independent models with their own dynamics
+\item \textbf{Discretization matters}: Choice of scheme affects qualitative behavior
+\item \textbf{Time step critical}: Smaller $\Delta t$ improves agreement with ODE
+\item \textbf{Both are valid}: The map models discrete-time processes (generations), the ODE models continuous time
+\end{enumerate}
+In applications where time is naturally discrete (insect populations with distinct generations), the map may be more appropriate than the ODE.
+\end{itemize}
+
+\vspace{10pt}
+\hrule
+\vspace{10pt}
+
+\section{Step 6: Improved Discretization (Optional)}
+
+\subsection*{Better time step}
+
+For smaller time step $\Delta t \ll 1$, the discrete map becomes:
+\begin{align*}
+x_{n+1} &= x_n[1 + \Delta t(a - by_n)] \\
+y_{n+1} &= y_n[1 + \Delta t(-c + dx_n)]
+\end{align*}
+
+At the fixed point $(c/d, a/b)$, eigenvalues:
+\[
+\lambda \approx 1 \pm i\sqrt{ac}\,\Delta t
+\]
+
+with modulus:
+\[
+|\lambda| = \sqrt{1 + ac(\Delta t)^2} \approx 1 + \frac{ac(\Delta t)^2}{2}
+\]
+
+As $\Delta t \to 0$, we have $|\lambda| \to 1$, recovering the center behavior.
+
+\subsection*{Stroboscopic interpretation}
+
+The discrete map with $\Delta t = 1$ can be viewed as:
+\begin{itemize}
+\item A \textbf{stroboscopic map} of the continuous system
+\item Sampling the ODE solution at times $t = 0, 1, 2, 3, \ldots$
+\item Each "flash" captures the instantaneous populations
+\item The sequence $\{(x_n, y_n)\}$ traces out points on the continuous trajectory
+\end{itemize}
+
+For systems with natural periodicity (seasonal breeding), stroboscopic sampling at appropriate intervals gives meaningful discrete models.
+
+\subsection*{XYZ Analysis of Improvements}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (What improves):} Using smaller $\Delta t$ makes the discrete map better approximate the continuous ODE's qualitative behavior.
+
+\item \stage{STAGE Y (Why smaller is better):} Taylor expansion shows:
+\[
+x(t + \Delta t) = x(t) + \dot{x}(t)\Delta t + \frac{1}{2}\ddot{x}(t)(\Delta t)^2 + O(\Delta t^3)
+\]
+Euler method only uses first two terms, so error is $O(\Delta t^2)$ per step. Over time interval $T$, we take $n = T/\Delta t$ steps, accumulating error $\sim n \cdot (\Delta t)^2 = T \cdot \Delta t$. Thus error $\to 0$ as $\Delta t \to 0$.
+
+\item \stage{STAGE Z (What this teaches):}
+\begin{itemize}
+\item \textbf{Resolution vs. accuracy}: Smaller $\Delta t$ requires more iterations but gives better accuracy
+\item \textbf{Map as model}: When $\Delta t$ is naturally determined (breeding season), accept the map's own dynamics
+\item \textbf{Map as algorithm}: When approximating ODE, choose $\Delta t$ carefully
+\end{itemize}
+The "right" choice depends on whether we're modeling inherently discrete-time processes or approximating continuous-time processes.
+\end{itemize}
+
+\vspace{10pt}
+\hrule
+\vspace{10pt}
+
+\section{Summary}
+
+\subsection*{Derivation}
+
+Starting from continuous Lotka-Volterra equations:
+\[
+\dot{x} = ax - bxy, \quad \dot{y} = -cy + dxy
+\]
+
+Euler approximation with $\Delta t = 1$ gives discrete predator-prey map:
+\[
+\boxed{\begin{aligned}
+x_{n+1} &= x_n(1 + a - by_n) \\
+y_{n+1} &= y_n(1 - c + dx_n)
+\end{aligned}}
+\]
+
+\subsection*{Key properties}
+
+\begin{itemize}
+\item \textbf{Fixed points:}
+\begin{itemize}
+\item Extinction: $(0, 0)$
+\item Coexistence: $(c/d, a/b)$
+\end{itemize}
+
+\item \textbf{Stability:} Coexistence point has eigenvalues $\lambda = 1 \pm i\sqrt{ac}$ with $|\lambda| = \sqrt{1+ac} > 1$ (unstable spiral)
+
+\item \textbf{Dynamics:} Unlike continuous system (neutral center with closed orbits), discrete system has spiraling trajectories
+\end{itemize}
+
+\subsection*{Biological interpretation}
+
+The discrete map models populations measured at regular intervals:
+\begin{itemize}
+\item $x_n$ = number of prey at generation $n$
+\item $y_n$ = number of predators at generation $n$
+\item Updates depend on current populations through:
+\begin{itemize}
+\item Prey growth rate: $1 + a - by_n$ (high predators $\Rightarrow$ low growth)
+\item Predator growth rate: $1 - c + dx_n$ (high prey $\Rightarrow$ high growth)
+\end{itemize}
+\end{itemize}
+
+\subsection*{Continuous vs. discrete}
+
+\begin{center}
+\begin{tabular}{|l|c|c|}
+\hline
+\textbf{Property} & \textbf{Continuous ODE} & \textbf{Discrete Map ($\Delta t=1$)} \\
+\hline
+Fixed point & $(c/d, a/b)$ & $(c/d, a/b)$ \\
+Eigenvalues & $\pm i\sqrt{ac}$ & $1 \pm i\sqrt{ac}$ \\
+$|\lambda|$ & $\sqrt{ac}$ & $\sqrt{1 + ac}$ \\
+Stability type & Center (neutral) & Unstable spiral \\
+Orbits & Closed periodic & Outward spiraling \\
+Conservative? & Yes & No \\
+\hline
+\end{tabular}
+\end{center}
+
+\textbf{Conclusion:} The discrete predator-prey map is a valid model in its own right for discrete-generation populations, but exhibits different long-term behavior than the continuous model due to broken conservation and numerical artifacts of Euler discretization.
+
+\end{document}

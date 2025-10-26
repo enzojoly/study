@@ -1,0 +1,567 @@
+\documentclass[11pt,a4paper]{article}
+
+% Packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage[margin=1in]{geometry}
+\usepackage{enumitem}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usepackage{xcolor}
+\pgfplotsset{compat=1.18}
+
+% Custom commands
+\newcommand{\stage}[1]{\textbf{\textcolor{blue}{#1}}}
+
+% Title information
+\title{Exercise Sheet 3: Bifurcations\\
+Question 7 - Complete Solution}
+\author{Methods of Applied Mathematics}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section*{Problem Statement}
+
+Determine what bifurcation happens as $\mu$ changes in the systems:
+\begin{enumerate}[label=(\alph*)]
+\item $\frac{dx}{dt} = \mu x - x^3$
+\item $\frac{dx}{dt} = \mu x + (1 + \mu)x^2 - x^3$
+\item $\frac{dx}{dt} = \tanh(x) - \mu x$
+\item $\frac{d^2x}{dt^2} + \frac{dx}{dt} + \mu x + x^3 = 0$
+\item $\frac{dx}{dt} = \mu y - x, \quad \frac{dy}{dt} = \frac{1}{3}y^3 + y^2 - y + x$
+\end{enumerate}
+
+\vspace{10pt}
+\hrule
+\vspace{10pt}
+
+\section{Part (a): $\dot{x} = \mu x - x^3$}
+
+\subsection*{Step 1: Find equilibria}
+
+Set $\dot{x} = 0$:
+\[
+\mu x - x^3 = 0 \quad \Rightarrow \quad x(\mu - x^2) = 0
+\]
+
+Solutions: $x = 0$ or $x^2 = \mu$
+
+\textbf{For $\mu < 0$:} Only $x = 0$ (real)
+
+\textbf{For $\mu = 0$:} Only $x = 0$
+
+\textbf{For $\mu > 0$:} Three equilibria: $x = 0, \pm\sqrt{\mu}$
+
+\subsection*{Step 2: Analyze stability}
+
+Compute $f'(x) = \mu - 3x^2$
+
+\textbf{At $x = 0$:}
+\[
+f'(0) = \mu
+\]
+\begin{itemize}
+\item $\mu < 0$: stable
+\item $\mu = 0$: neutral
+\item $\mu > 0$: unstable
+\end{itemize}
+
+\textbf{At $x = \pm\sqrt{\mu}$ (for $\mu > 0$):}
+\[
+f'(\pm\sqrt{\mu}) = \mu - 3\mu = -2\mu < 0 \quad \Rightarrow \quad \text{stable}
+\]
+
+\subsection*{Step 3: Identify bifurcation}
+
+\textbf{Characteristics:}
+\begin{itemize}
+\item One equilibrium becomes three
+\item Origin loses stability at $\mu = 0$
+\item Two stable equilibria emerge symmetrically
+\item System has symmetry: $f(-x) = -(\mu x - x^3) = -f(x)$
+\end{itemize}
+
+\[
+\boxed{\text{SUPERCRITICAL PITCHFORK BIFURCATION at } \mu = 0}
+\]
+
+\subsection*{XYZ Analysis}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (What we found):} Classic pitchfork structure: 1 → 3 equilibria, symmetric emergence of stable branches.
+
+\item \stage{STAGE Y (Why pitchfork):} The odd symmetry $f(-x) = -f(x)$ forces equilibria to appear in $\pm$ pairs. The new equilibria are stable (supercritical) rather than unstable (subcritical). This is the canonical example from lecture notes (pages 48-49).
+
+\item \stage{STAGE Z (Meaning):} Spontaneous symmetry breaking: for $\mu > 0$, system must "choose" between $x > 0$ or $x < 0$ states. Common in physics (ferromagnetism), mechanics (buckling), and biology (pattern formation).
+\end{itemize}
+
+\vspace{10pt}
+\hrule
+\vspace{10pt}
+
+\section{Part (b): $\dot{x} = \mu x + (1 + \mu)x^2 - x^3$}
+
+\subsection*{Step 1: Find equilibria}
+
+Set $\dot{x} = 0$:
+\[
+\mu x + (1 + \mu)x^2 - x^3 = 0 \quad \Rightarrow \quad x[\mu + (1+\mu)x - x^2] = 0
+\]
+
+Either $x = 0$ or $x^2 - (1+\mu)x - \mu = 0$
+
+For the quadratic: $x = \frac{(1+\mu) \pm \sqrt{(1+\mu)^2 + 4\mu}}{2}$
+
+Simplify discriminant:
+\[
+(1+\mu)^2 + 4\mu = 1 + 2\mu + \mu^2 + 4\mu = \mu^2 + 6\mu + 1
+\]
+
+This is always positive for reasonable $\mu$ (discriminant of $\mu^2 + 6\mu + 1 = 0$ gives $\mu = -3 \pm 2\sqrt{2}$).
+
+So we always have three real equilibria:
+\[
+x_0 = 0, \quad x_\pm = \frac{(1+\mu) \pm \sqrt{\mu^2 + 6\mu + 1}}{2}
+\]
+
+\subsection*{Step 2: Analyze stability}
+
+Compute $f'(x) = \mu + 2(1+\mu)x - 3x^2$
+
+\textbf{At $x = 0$:}
+\[
+f'(0) = \mu
+\]
+\begin{itemize}
+\item $\mu < 0$: stable
+\item $\mu = 0$: neutral (bifurcation point)
+\item $\mu > 0$: unstable
+\end{itemize}
+
+\textbf{At $x = x_+$ (upper root):}
+
+For $\mu = 0$: $x_+ = \frac{1 + 1}{2} = 1$
+
+Check: $f'(1) = 0 + 2(1)(1) - 3(1)^2 = 2 - 3 = -1 < 0$ → stable
+
+\textbf{At $x = x_-$ (lower root):}
+
+For $\mu = 0$: $x_- = \frac{1 - 1}{2} = 0$ (coincides with origin)
+
+For small $\mu < 0$: $x_- \approx -\mu/1 = -\mu > 0$ (small positive)
+
+Check sign at $\mu = -0.1$: $x_- \approx 0.1$, and we need to verify stability.
+
+\subsection*{Step 3: Behavior near $\mu = 0$}
+
+At $\mu = 0$:
+\begin{itemize}
+\item $x_0 = 0$ and $x_- = 0$ coincide (two equilibria meet)
+\item $x_+ = 1$ exists separately
+\end{itemize}
+
+For $\mu$ slightly negative: $x_0 = 0$ stable, $x_-$ unstable, $x_+$ stable
+
+For $\mu$ slightly positive: $x_0 = 0$ unstable, $x_-$ stable (moved to negative), $x_+$ stable
+
+\subsection*{Step 4: Identify bifurcation}
+
+The equilibrium at origin is pinned (always exists). As $\mu$ varies, $x_-$ passes through the origin at $\mu = 0$, and they exchange stability.
+
+\[
+\boxed{\text{TRANSCRITICAL BIFURCATION at } \mu = 0}
+\]
+
+\subsection*{XYZ Analysis}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (What we found):} The system always has three equilibria (for $\mu$ near 0), but one passes through the origin at $\mu = 0$, exchanging stability with it.
+
+\item \stage{STAGE Y (Why transcritical):} The origin is pinned: $f(0, \mu) = 0$ for all $\mu$. The moving equilibrium $x_-$ passes through it, not annihilating (fold) or splitting (pitchfork). The number of equilibria stays constant at 3. This is transcritical behavior with a third "spectator" equilibrium at $x_+$.
+
+\item \stage{STAGE Z (Meaning):} The additional quadratic term $(1+\mu)x^2$ breaks the pitchfork symmetry of part (a), converting it to transcritical. The third equilibrium $x_+ \approx 1$ provides an additional stable state that persists through the bifurcation.
+\end{itemize}
+
+\vspace{10pt}
+\hrule
+\vspace{10pt}
+
+\section{Part (c): $\dot{x} = \tanh(x) - \mu x$}
+
+\subsection*{Step 1: Find equilibria}
+
+Set $\dot{x} = 0$:
+\[
+\tanh(x) = \mu x
+\]
+
+Graphically: intersections of $y = \tanh(x)$ (sigmoid, bounded by $\pm 1$) with $y = \mu x$ (line through origin, slope $\mu$).
+
+\subsection*{Step 2: Analyze number of equilibria}
+
+\textbf{For $\mu \leq 0$:} Since $\tanh(x)$ has slope 1 at $x=0$ and $\mu x$ has slope $\mu \leq 0$, and $\tanh(x) > \mu x$ for $x > 0$, $\tanh(x) < \mu x$ for $x < 0$, only intersection at origin.
+
+\textbf{For small $\mu > 0$:} Line $y = \mu x$ has small positive slope. Since $\tanh'(0) = 1$, for $\mu < 1$, the line intersects $\tanh(x)$ three times: at origin and two points $\pm x^*$.
+
+\textbf{For $\mu = 1$:} Critical case. The line $y = x$ is tangent to $\tanh(x)$ at origin (both have slope 1).
+
+\textbf{For $\mu > 1$:} Line too steep, only intersection at origin.
+
+\subsection*{Step 3: Stability analysis}
+
+Compute $f'(x) = \text{sech}^2(x) - \mu = \frac{1}{\cosh^2(x)} - \mu$
+
+\textbf{At origin:}
+\[
+f'(0) = 1 - \mu
+\]
+\begin{itemize}
+\item $\mu < 1$: stable
+\item $\mu = 1$: neutral
+\item $\mu > 1$: unstable
+\end{itemize}
+
+Wait, this seems backwards. Let me reconsider.
+
+Actually, for $\mu > 1$, we have $f'(0) = 1 - \mu < 0$, so origin is stable.
+
+For $0 < \mu < 1$, we have $f'(0) = 1 - \mu > 0$, so origin is unstable.
+
+Let me reconsider the equilibrium count:
+
+For $\mu < 1$: The slope of $\tanh(x)$ at origin is 1, which exceeds the slope $\mu$ of the line. So near origin, $\tanh(x) > \mu x$ for small positive $x$, meaning $\dot{x} > 0$ just right of origin. But far from origin, $\tanh(x) \to 1$ while $\mu x \to \infty$, so eventually $\mu x > \tanh(x)$. Thus there must be an intersection at positive $x$. By symmetry (both functions are odd), three intersections total.
+
+For $\mu > 1$: The line is steeper than $\tanh(x)$ at origin, so $\mu x > \tanh(x)$ for small positive $x$, meaning $\dot{x} < 0$ just right of origin. Thus only one intersection at origin.
+
+\subsection*{Step 4: Identify bifurcation}
+
+\textbf{Summary:}
+\begin{itemize}
+\item $\mu < 1$: Three equilibria (origin unstable, $\pm x^*$ stable)
+\item $\mu = 1$: One equilibrium (origin, marginally stable)
+\item $\mu > 1$: One equilibrium (origin stable)
+\end{itemize}
+
+This is a supercritical pitchfork in reverse (as $\mu$ increases, three equilibria merge into one).
+
+\[
+\boxed{\text{SUPERCRITICAL PITCHFORK BIFURCATION at } \mu = 1}
+\]
+
+(Direction reversed: stable equilibrium splits into three as $\mu$ decreases through 1)
+
+\subsection*{XYZ Analysis}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (What we found):} For $\mu < 1$: three equilibria. For $\mu > 1$: one equilibrium. Change at $\mu = 1$.
+
+\item \stage{STAGE Y (Why pitchfork):} The system has odd symmetry: $f(-x) = \tanh(-x) - \mu(-x) = -\tanh(x) + \mu x = -f(x)$. This forces equilibria to appear in $\pm$ pairs. At $\mu = 1$, the tangency condition $\tanh'(0) = \mu$ is satisfied, marking the bifurcation point. For $\mu < 1$, the origin loses stability and two stable equilibria emerge. This is the "backwards" version of standard pitchfork - or equivalently, a standard supercritical pitchfork as $\mu$ decreases.
+
+\item \stage{STAGE Z (Meaning):} The function $\tanh(x)$ represents a saturating nonlinearity (common in neural networks, control systems). The parameter $\mu$ represents linear damping/feedback. For weak feedback ($\mu < 1$), the nonlinearity dominates and system exhibits bistability (two stable states $\pm x^*$). For strong feedback ($\mu > 1$), linear damping dominates and only origin is stable.
+\end{itemize}
+
+\vspace{10pt}
+\hrule
+\vspace{10pt}
+
+\section{Part (d): $\ddot{x} + \dot{x} + \mu x + x^3 = 0$}
+
+\subsection*{Step 1: Convert to first-order system}
+
+Let $y = \dot{x}$. Then:
+\begin{align*}
+\dot{x} &= y \\
+\dot{y} &= -\dot{x} - \mu x - x^3 = -y - \mu x - x^3
+\end{align*}
+
+\subsection*{Step 2: Find equilibria}
+
+Set $\dot{x} = 0$ and $\dot{y} = 0$:
+\begin{align*}
+y &= 0 \\
+-y - \mu x - x^3 &= 0
+\end{align*}
+
+From second equation with $y = 0$:
+\[
+\mu x + x^3 = 0 \quad \Rightarrow \quad x(\mu + x^2) = 0
+\]
+
+Solutions: $x = 0$ or $x^2 = -\mu$
+
+\textbf{For $\mu > 0$:} Only $(0, 0)$
+
+\textbf{For $\mu = 0$:} Only $(0, 0)$
+
+\textbf{For $\mu < 0$:} Three equilibria: $(0, 0)$ and $(\pm\sqrt{-\mu}, 0)$
+
+\subsection*{Step 3: Jacobian analysis}
+
+\[
+J = \begin{pmatrix}
+0 & 1 \\
+-\mu - 3x^2 & -1
+\end{pmatrix}
+\]
+
+\textbf{At origin:}
+\[
+J(0,0) = \begin{pmatrix}
+0 & 1 \\
+-\mu & -1
+\end{pmatrix}
+\]
+
+Trace: $\tau = -1$, Determinant: $\Delta = \mu$
+
+Eigenvalues: $\lambda^2 + \lambda + \mu = 0$, so $\lambda = \frac{-1 \pm \sqrt{1 - 4\mu}}{2}$
+
+\textbf{For $\mu > 1/4$:} Complex eigenvalues $\lambda = -\frac{1}{2} \pm i\frac{\sqrt{4\mu - 1}}{2}$ with negative real part → stable spiral
+
+\textbf{For $\mu = 0$:} $\lambda = \frac{-1 \pm 1}{2}$, so $\lambda = 0, -1$ → neutral
+
+\textbf{For $\mu < 0$:} Real eigenvalues. $\Delta = \mu < 0$ means opposite signs → saddle
+
+\textbf{At $(\pm\sqrt{-\mu}, 0)$ for $\mu < 0$:}
+\[
+J = \begin{pmatrix}
+0 & 1 \\
+-\mu - 3(-\mu) & -1
+\end{pmatrix} = \begin{pmatrix}
+0 & 1 \\
+2\mu & -1
+\end{pmatrix}
+\]
+
+Since $\mu < 0$: $\Delta = -2\mu > 0$ and $\tau = -1 < 0$ → stable (node or spiral depending on discriminant)
+
+\subsection*{Step 4: Identify bifurcation}
+
+\textbf{Characteristics:}
+\begin{itemize}
+\item One equilibrium becomes three as $\mu$ decreases through 0
+\item Origin changes from stable to saddle
+\item Two stable equilibria emerge symmetrically
+\item System has Hamiltonian structure (conservative for $\dot{x} = 0$)
+\end{itemize}
+
+\[
+\boxed{\text{SUPERCRITICAL PITCHFORK BIFURCATION at } \mu = 0}
+\]
+
+(In reverse direction: as $\mu$ decreases through 0)
+
+\subsection*{XYZ Analysis}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (What we found):} The second-order ODE exhibits pitchfork bifurcation when converted to phase-plane system. For $\mu > 0$: stable equilibrium at origin. For $\mu < 0$: saddle at origin, two stable equilibria at $\pm\sqrt{-\mu}$.
+
+\item \stage{STAGE Y (Why pitchfork):} This is Duffing's equation with damping. The term $\mu x + x^3$ represents a potential $V(x) = \frac{\mu x^2}{2} + \frac{x^4}{4}$:
+\begin{itemize}
+\item For $\mu > 0$: Single-well potential (minimum at $x=0$)
+\item For $\mu < 0$: Double-well potential (minima at $x = \pm\sqrt{-\mu}$, maximum at $x=0$)
+\end{itemize}
+The damping term $\dot{x}$ dissipates energy, causing trajectories to settle at potential minima. The pitchfork occurs when the single well bifurcates into double well at $\mu = 0$.
+
+\item \stage{STAGE Z (Meaning):} This models mechanical systems like buckled beams, magnetic pendulums, or nonlinear springs. For $\mu > 0$ (stiff restoring force), unique stable position at origin. For $\mu < 0$ (negative stiffness + cubic hardening), two stable positions emerge - the system buckles. Common in structural mechanics and nonlinear oscillators.
+\end{itemize}
+
+\vspace{10pt}
+\hrule
+\vspace{10pt}
+
+\section{Part (e): $\dot{x} = \mu y - x, \quad \dot{y} = \frac{1}{3}y^3 + y^2 - y + x$}
+
+\subsection*{Step 1: Find equilibria}
+
+Set $\dot{x} = 0$ and $\dot{y} = 0$:
+\begin{align*}
+\mu y - x &= 0 \quad \Rightarrow \quad x = \mu y \quad \cdots(1)\\
+\frac{1}{3}y^3 + y^2 - y + x &= 0 \quad \cdots(2)
+\end{align*}
+
+Substitute (1) into (2):
+\[
+\frac{1}{3}y^3 + y^2 - y + \mu y = 0
+\]
+\[
+\frac{1}{3}y^3 + y^2 + (\mu - 1)y = 0
+\]
+\[
+y\left[\frac{1}{3}y^2 + y + (\mu - 1)\right] = 0
+\]
+
+Either $y = 0$ or $\frac{1}{3}y^2 + y + (\mu - 1) = 0$
+
+\textbf{Equilibrium 1:} $y = 0$, then $x = 0$
+\[
+(x, y) = (0, 0)
+\]
+
+\textbf{Equilibria 2, 3:} From quadratic:
+\[
+y = \frac{-1 \pm \sqrt{1 - 4 \cdot \frac{1}{3}(\mu - 1)}}{2 \cdot \frac{1}{3}} = \frac{-3 \pm \sqrt{9 - 4(\mu - 1)}}{2}
+\]
+\[
+y = \frac{-3 \pm \sqrt{13 - 4\mu}}{2}
+\]
+
+For real solutions: $13 - 4\mu \geq 0$, i.e., $\mu \leq 13/4$
+
+\subsection*{Step 2: Analyze equilibrium count}
+
+\textbf{For $\mu < 13/4$:} Three equilibria
+
+\textbf{For $\mu = 13/4$:} Two equilibria coincide at $y = -3/2$
+
+\textbf{For $\mu > 13/4$:} One equilibrium at origin
+
+\subsection*{Step 3: Jacobian at origin}
+
+\[
+J = \begin{pmatrix}
+-1 & \mu \\
+1 & y^2 + 2y - 1
+\end{pmatrix}
+\]
+
+At origin:
+\[
+J(0,0) = \begin{pmatrix}
+-1 & \mu \\
+1 & -1
+\end{pmatrix}
+\]
+
+Trace: $\tau = -2$
+
+Determinant: $\Delta = (-1)(-1) - \mu \cdot 1 = 1 - \mu$
+
+Eigenvalues: $\lambda^2 + 2\lambda + (1-\mu) = 0$
+
+\[
+\lambda = \frac{-2 \pm \sqrt{4 - 4(1-\mu)}}{2} = -1 \pm \sqrt{\mu}
+\]
+
+\textbf{For $\mu < 0$:} Complex eigenvalues $\lambda = -1 \pm i\sqrt{|\mu|}$ → stable spiral
+
+\textbf{For $\mu = 0$:} $\lambda = -1$ (repeated) → stable node
+
+\textbf{For $0 < \mu < 1$:} Complex eigenvalues $\lambda = -1 \pm i\sqrt{\mu}$ → stable spiral
+
+\textbf{For $\mu = 1$:} $\lambda = 0, -2$ → neutral (one zero eigenvalue)
+
+\textbf{For $\mu > 1$:} Real eigenvalues, one positive ($\lambda = -1 + \sqrt{\mu} > 0$) → saddle
+
+\subsection*{Step 4: Identify bifurcation}
+
+At $\mu = 1$, the origin has one zero eigenvalue, suggesting a codimension-1 bifurcation.
+
+From equilibrium structure: for $\mu$ slightly less than 1, origin is stable and there exist two other equilibria. For $\mu$ slightly greater than 1, origin becomes saddle.
+
+The equilibria meet at $y = (-3 \pm \sqrt{13-4})/2 = (-3 \pm 3)/2$, giving $y = 0$ or $y = -3$.
+
+At $\mu = 1$: one equilibrium at origin, another at $y = -3$ (so $x = -3$).
+
+This doesn't look like a simple collision at origin. Let me recalculate where equilibria collide.
+
+Actually, at $\mu = 13/4$, the discriminant vanishes, and the two non-origin equilibria collide at:
+\[
+y = -3/2, \quad x = \mu(-3/2) = (13/4)(-3/2) = -39/8
+\]
+
+This is a fold bifurcation of the two non-origin equilibria at $\mu = 13/4$.
+
+But at $\mu = 1$, the origin changes stability (eigenvalue crosses zero). This could be a transcritical bifurcation where one of the non-origin equilibria passes through the origin.
+
+Let me check: at $\mu = 1$, do any of the non-origin equilibria equal $(0, 0)$?
+\[
+y = \frac{-3 \pm \sqrt{13 - 4}}{2} = \frac{-3 \pm 3}{2}
+\]
+
+So $y = 0$ or $y = -3$.
+
+Yes! At $\mu = 1$, one equilibrium is at $y = 0, x = 0$ (the origin), confirming a collision.
+
+\[
+\boxed{\text{TRANSCRITICAL BIFURCATION at } \mu = 1}
+\]
+
+and
+
+\[
+\boxed{\text{FOLD BIFURCATION at } \mu = 13/4}
+\]
+
+\subsection*{XYZ Analysis}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (What we found):} Two bifurcations occur in this system as $\mu$ varies. At $\mu = 1$, a transcritical bifurcation where a moving equilibrium passes through the origin. At $\mu = 13/4$, a fold bifurcation where two equilibria collide and annihilate.
+
+\item \stage{STAGE Y (Why this complexity):} The $y$-equation is cubic, giving up to three values of $y$ for equilibrium, hence up to three equilibria total. The parameter $\mu$ enters only through the coupling term $\mu y$ in the $x$-equation. As $\mu$ increases:
+\begin{itemize}
+\item $\mu < 1$: Three equilibria exist; origin stable
+\item $\mu = 1$: Transcritical bifurcation; moving equilibrium passes through origin
+\item $1 < \mu < 13/4$: Three equilibria; origin now saddle
+\item $\mu = 13/4$: Fold bifurcation; two non-origin equilibria collide
+\item $\mu > 13/4$: Only origin remains (saddle)
+\end{itemize}
+
+\item \stage{STAGE Z (Meaning):} This system exhibits a sequence of bifurcations, showing that complex dynamics can have multiple qualitative transitions. The cubic nonlinearity in $y$ combined with linear coupling creates a rich bifurcation structure. Such sequences appear in chemical reactors, neural networks, and ecological models where multiple mechanisms interact.
+\end{itemize}
+
+\vspace{10pt}
+\hrule
+\vspace{10pt}
+
+\section{Summary Table}
+
+\begin{center}
+\begin{tabular}{|c|c|c|}
+\hline
+\textbf{System} & \textbf{Bifurcation Type} & \textbf{Critical Value} \\
+\hline
+(a) $\dot{x} = \mu x - x^3$ & Supercritical Pitchfork & $\mu = 0$ \\
+\hline
+(b) $\dot{x} = \mu x + (1+\mu)x^2 - x^3$ & Transcritical & $\mu = 0$ \\
+\hline
+(c) $\dot{x} = \tanh(x) - \mu x$ & Supercritical Pitchfork & $\mu = 1$ \\
+\hline
+(d) $\ddot{x} + \dot{x} + \mu x + x^3 = 0$ & Supercritical Pitchfork & $\mu = 0$ \\
+\hline
+\multirow{2}{*}{(e) $\dot{x} = \mu y - x$, $\dot{y} = \frac{y^3}{3} + y^2 - y + x$} & Transcritical & $\mu = 1$ \\
+\cline{2-3}
+& Fold & $\mu = 13/4$ \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsection*{Key Insights}
+
+\textbf{Identifying bifurcation types:}
+\begin{itemize}
+\item \textbf{Pitchfork}: Odd symmetry, 1 ↔ 3 equilibria, symmetric branches
+\item \textbf{Transcritical}: Pinned equilibrium, passing equilibrium, stability exchange
+\item \textbf{Fold}: Equilibria created/destroyed, tangent collision, 2 ↔ 0 equilibria
+\end{itemize}
+
+\textbf{Analysis strategy:}
+\begin{enumerate}
+\item Find equilibria as functions of parameter
+\item Count equilibria for different parameter ranges
+\item Compute stability (1D: $f'(x)$; 2D: eigenvalues of Jacobian)
+\item Look for:
+\begin{itemize}
+\item Changes in equilibrium count → fold or pitchfork
+\item Equilibria passing through each other → transcritical
+\item Eigenvalues becoming complex/real → potential Hopf (if imaginary axis crossing)
+\end{itemize}
+\item Check for symmetries ($f(-x) = -f(x)$ suggests pitchfork)
+\item Verify critical point: equilibrium exists, eigenvalue = 0
+\end{enumerate}
+
+\end{document}

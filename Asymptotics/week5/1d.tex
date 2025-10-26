@@ -1,0 +1,96 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath, amssymb}
+\usepackage[margin=1in]{geometry}
+
+\title{Asymptotics Problem Sheet 5 - Question 1(d)}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+\section*{Problem Statement}
+Use the method of stationary phase to obtain the leading asymptotic behaviour as $X \to \infty$ of:
+$$I(X) = \int_0^\infty e^{iX(2t-t^2)} \ln(1+t^2)\, dt$$
+
+\section*{Solution}
+
+\subsection*{Step 1: Identify the integral structure}
+This is a Fourier-type integral of the form:
+$$I(X) = \int_a^b f(t)\, e^{iX\phi(t)}\, dt$$
+
+where:
+\begin{itemize}
+    \item $f(t) = \ln(1+t^2)$
+    \item $\phi(t) = 2t - t^2$
+    \item Integration domain: $[a,b] = [0, \infty)$
+\end{itemize}
+
+\subsection*{Step 2: Locate stationary points}
+Following Section 4.3.2 of the lecture notes, we search for critical points where $\phi'(t) = 0$ in the integration domain.
+
+Computing the derivative:
+$$\phi'(t) = \frac{d}{dt}(2t - t^2) = 2 - 2t$$
+
+Setting $\phi'(t) = 0$:
+$$2 - 2t = 0 \implies t = 1$$
+
+\textbf{Check:} Is $t = 1 \in (0, \infty)$? Yes, this is a valid interior stationary point.
+
+\subsection*{Step 3: Classify the stationary point}
+Compute the second derivative:
+$$\phi''(t) = -2$$
+
+At $t = 1$:
+$$\phi''(1) = -2 < 0$$
+
+Since $\phi''(1) \neq 0$, this is a \textbf{non-degenerate stationary point}. The negative second derivative indicates $t = 1$ is a \textbf{maximum} of $\phi(t)$.
+
+\subsection*{Step 4: Evaluate quantities at the stationary point}
+At $t = 1$:
+\begin{align*}
+f(1) &= \ln(1 + 1^2) = \ln(2) \\
+\phi(1) &= 2(1) - 1^2 = 1 \\
+\phi''(1) &= -2
+\end{align*}
+
+\subsection*{Step 5: Apply the stationary phase formula}
+From equation (235) in the lecture notes, for a stationary point $c$ with $\phi'(c) = 0$ and $\phi''(c) \neq 0$:
+
+$$I(X) \sim \sqrt{\frac{2\pi i}{X\phi''(c)}}\, f(c)\, e^{iX\phi(c)} \quad \text{as } X \to \infty$$
+
+Substituting our values with $c = 1$:
+$$I(X) \sim \sqrt{\frac{2\pi i}{X \cdot (-2)}}\, \ln(2)\, e^{iX}$$
+
+\subsection*{Step 6: Simplify the square root}
+$$\sqrt{\frac{2\pi i}{-2X}} = \sqrt{\frac{-\pi i}{X}} = \sqrt{\frac{\pi}{X}} \cdot \sqrt{-i}$$
+
+To evaluate $\sqrt{-i}$, write $-i$ in exponential form:
+$$-i = e^{-i\pi/2}$$
+
+Therefore:
+$$\sqrt{-i} = e^{-i\pi/4}$$
+
+This gives:
+$$\sqrt{\frac{2\pi i}{-2X}} = \sqrt{\frac{\pi}{X}}\, e^{-i\pi/4}$$
+
+\subsection*{Step 7: Write the final result}
+Combining all terms:
+$$I(X) \sim \sqrt{\frac{\pi}{X}}\, e^{-i\pi/4} \cdot \ln(2) \cdot e^{iX}$$
+
+$$I(X) \sim \ln(2)\sqrt{\frac{\pi}{X}}\, e^{iX - i\pi/4}$$
+
+\section*{Final Answer}
+$$\boxed{I(X) \sim \ln(2)\sqrt{\frac{\pi}{X}}\, e^{i(X - \pi/4)} \quad \text{as } X \to \infty}$$
+
+Alternatively, this can be written as:
+$$\boxed{I(X) \sim \frac{\ln(2)}{\sqrt{X}}\sqrt{\pi}\, e^{iX}\, e^{-i\pi/4} \quad \text{as } X \to \infty}$$
+
+\subsection*{Remarks}
+\begin{itemize}
+    \item The leading order behavior is $O(X^{-1/2})$, which is characteristic of contributions from non-degenerate stationary points.
+    \item The phase shift of $-\pi/4$ arises from the negative second derivative $\phi''(1) = -2 < 0$.
+    \item No contributions from the endpoints $t = 0$ or $t \to \infty$ compete at this order, as they contribute at higher order in $X^{-1}$ (see equation 232).
+\end{itemize}
+
+\end{document}

@@ -1,0 +1,129 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{mathtools}
+\usepackage{enumitem}
+
+\newcommand{\dd}{\mathrm{d}}
+
+\title{Asymptotics 2025/2026 \\ Solution to Problem Sheet 5, Question 1(c)}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+\section*{Question 1(c)}
+Use the method of stationary phase to obtain the leading asymptotic behaviour of
+\[
+I(X) = \int_0^\infty \frac{1}{1+t^2} \, e^{iXt} \dd t \quad \text{as } X \to \infty.
+\]
+
+\section*{Solution}
+
+We have a Fourier-type integral of the form
+\[
+I(X) = \int_0^\infty f(t) \, e^{iX\phi(t)} \dd t
+\]
+where $f(t) = \frac{1}{1+t^2}$ and $\phi(t) = t$.
+
+\subsection*{Step 1: Check for stationary points}
+
+Following the method of stationary phase (Section 4.3 of the lecture notes), we first look for stationary points where $\phi'(t) = 0$ within the integration interval $[0,\infty)$.
+
+Compute the derivative:
+\[
+\phi'(t) = 1.
+\]
+
+Since $\phi'(t) = 1 \neq 0$ for all $t \in [0,\infty)$, there are \textbf{no stationary points} in the integration interval.
+
+\subsection*{Step 2: Contributions from endpoints}
+
+According to Section 4.3.1 of the lecture notes, when there are no stationary points in the interior of the integration interval, the dominant asymptotic contributions come from the endpoints of integration.
+
+For the integral over $[0,\infty)$, we have:
+\begin{itemize}
+\item \textbf{Lower endpoint} $t = 0$: This gives a contribution of order $O(X^{-1})$.
+\item \textbf{Upper endpoint} $t = \infty$: By the Riemann-Lebesgue lemma (Equation 230 in the notes), contributions from infinity vanish as $X \to \infty$.
+\end{itemize}
+
+\subsection*{Step 3: Integration by parts}
+
+From Equation (229) of the lecture notes, when $\phi'(t) \neq 0$ throughout the integration interval, we apply integration by parts:
+\[
+I(X) = \int_a^b f(t) e^{iX\phi(t)} \dd t = \frac{f(t)}{iX\phi'(t)} e^{iX\phi(t)} \bigg|_a^b - \frac{1}{iX} \int_a^b \frac{\dd}{\dd t}\left(\frac{f(t)}{\phi'(t)}\right) e^{iX\phi(t)} \dd t.
+\]
+
+In our case, $\phi'(t) = 1$ is constant, so:
+\[
+I(X) = \frac{f(t)}{iX} e^{iXt} \bigg|_0^\infty - \frac{1}{iX} \int_0^\infty f'(t) e^{iXt} \dd t.
+\]
+
+\subsection*{Step 4: Evaluate the boundary term}
+
+The boundary term is:
+\[
+\frac{f(t)}{iX} e^{iXt} \bigg|_0^\infty = \lim_{t \to \infty} \frac{e^{iXt}}{iX(1+t^2)} - \frac{1}{iX(1+0^2)} e^{0}.
+\]
+
+\textbf{At the upper limit} ($t \to \infty$):
+
+Although $|e^{iXt}| = 1$ remains bounded, the factor $\frac{1}{1+t^2} \to 0$ as $t \to \infty$. More precisely, by the Riemann-Lebesgue lemma, any integral of the form $\int_a^\infty g(t) e^{iXt} \dd t$ where $g(t)$ is integrable vanishes as $X \to \infty$. The boundary contribution at infinity is therefore negligible.
+
+\textbf{At the lower limit} ($t = 0$):
+\[
+-\frac{f(0)}{iX} e^{0} = -\frac{1}{iX \cdot 1} = -\frac{1}{iX} = \frac{i}{X}.
+\]
+
+\subsection*{Step 5: Analyze the remaining integral}
+
+The remaining integral is:
+\[
+-\frac{1}{iX} \int_0^\infty f'(t) e^{iXt} \dd t.
+\]
+
+Compute the derivative of $f(t)$:
+\[
+f(t) = \frac{1}{1+t^2} \implies f'(t) = -\frac{2t}{(1+t^2)^2}.
+\]
+
+Therefore:
+\[
+-\frac{1}{iX} \int_0^\infty \left(-\frac{2t}{(1+t^2)^2}\right) e^{iXt} \dd t = \frac{2}{iX} \int_0^\infty \frac{t}{(1+t^2)^2} e^{iXt} \dd t.
+\]
+
+This integral is again a Fourier-type integral. The function $\frac{t}{(1+t^2)^2}$ is integrable on $[0,\infty)$ and decays like $t^{-3}$ as $t \to \infty$. By the Riemann-Lebesgue lemma:
+\[
+\int_0^\infty \frac{t}{(1+t^2)^2} e^{iXt} \dd t \to 0 \quad \text{as } X \to \infty.
+\]
+
+Moreover, if we were to apply integration by parts again, we would obtain a contribution of order $O(X^{-2})$, which is subdominant to the $O(X^{-1})$ term we already have.
+
+\subsection*{Step 6: Determine the leading order behaviour}
+
+From the analysis above, the leading asymptotic contribution comes from the boundary term at $t = 0$:
+\[
+I(X) \sim \frac{i}{X} \quad \text{as } X \to \infty.
+\]
+
+The remaining integral contributes at order $O(X^{-2})$ or higher, which is subdominant.
+
+\subsection*{Final Answer}
+
+\[
+\boxed{I(X) \sim \frac{i}{X} \quad \text{as } X \to \infty}
+\]
+
+Alternatively, this can be written as:
+\[
+I(X) \sim -\frac{1}{iX} \quad \text{as } X \to \infty.
+\]
+
+The asymptotic order is $O(X^{-1})$.
+
+\subsection*{Remark}
+
+This problem illustrates the case where the phase function $\phi(t) = t$ has no stationary points. According to Equation (232) in the lecture notes, contributions from endpoints where $\phi'(t) \neq 0$ yield asymptotic expansions of order $O(X^{-1})$, which is algebraically larger (i.e., decays more slowly) than the $O(X^{-1/2})$ contributions typically obtained from interior stationary points.
+
+\end{document}

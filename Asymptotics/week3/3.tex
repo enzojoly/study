@@ -1,0 +1,243 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{geometry}
+\geometry{margin=1in}
+\usepackage{enumitem}
+\usepackage{xcolor}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+
+\title{Asymptotics 2025/2026 -- Problem Sheet 3\\
+\large Question 3: Watson's Lemma Application}
+\author{Solution}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section*{Question 3}
+
+\textbf{Problem:} Use Watson's lemma to find an infinite asymptotic expansion of
+\[
+I(X) = \int_1^\infty e^{-X(t^2+1)} \, dt.
+\]
+
+\subsection*{Solution Strategy}
+
+\textbf{Why this approach?} Watson's lemma (Section 4.2.2 of lecture notes) applies to integrals of the form
+\[
+\int_0^b f(t) e^{-Xt} \, dt
+\]
+where $f(t)$ has an asymptotic expansion near $t = 0$. Our integral has limits $[1,\infty)$ and exponent $-X(t^2+1)$, so we must transform it into Watson's lemma standard form.
+
+\subsection*{Step 1: Factor the Exponential}
+
+\textbf{What we have:}
+\[
+I(X) = \int_1^\infty e^{-X(t^2+1)} \, dt
+\]
+
+\textbf{What we do:} Factor $e^{-X(t^2+1)} = e^{-X} \cdot e^{-Xt^2}$:
+\[
+I(X) = e^{-X} \int_1^\infty e^{-Xt^2} \, dt
+\]
+
+\textbf{Why?} The factor $e^{-X}$ is independent of the integration variable $t$. Factoring it out isolates the $t$-dependent exponential $e^{-Xt^2}$, which we'll address with a substitution. This prepares us to transform the integral into Watson's standard form.
+
+\subsection*{Step 2: Change of Variable}
+
+\textbf{What we have:}
+\[
+I(X) = e^{-X} \int_1^\infty e^{-Xt^2} \, dt
+\]
+
+\textbf{What we do:} Substitute $s = t^2 - 1$, so $t^2 = s + 1$.
+
+\textbf{Why this substitution?} We need the integral to start at $0$ (Watson's lemma requirement) and the exponent to be linear in the new variable. Since the lower limit is $t=1$, setting $s = t^2 - 1$ gives $s=0$ when $t=1$.
+
+\textbf{Computing the differential:}
+\begin{align*}
+s &= t^2 - 1 \\
+ds &= 2t \, dt \\
+dt &= \frac{ds}{2t} = \frac{ds}{2\sqrt{s+1}}
+\end{align*}
+
+\textbf{Why this form?} From $s = t^2 - 1$, we have $t = \sqrt{s+1}$ (taking positive root since $t \geq 1$). Thus $dt = ds/(2\sqrt{s+1})$.
+
+\textbf{Transforming limits:}
+\begin{itemize}
+\item When $t = 1$: $s = 1^2 - 1 = 0$
+\item When $t \to \infty$: $s \to \infty$
+\end{itemize}
+
+\textbf{Why check limits?} Watson's lemma requires integration from $0$ to some positive limit. We verify the transformation achieves this.
+
+\subsection*{Step 3: Rewrite the Integral}
+
+\textbf{What we have after substitution:}
+\[
+I(X) = e^{-X} \int_0^\infty e^{-X(s+1)} \cdot \frac{1}{2\sqrt{s+1}} \, ds
+\]
+
+\textbf{What we do:} Factor the exponential:
+\[
+I(X) = e^{-X} \cdot e^{-X} \int_0^\infty e^{-Xs} \cdot \frac{1}{2\sqrt{s+1}} \, ds
+\]
+\[
+I(X) = e^{-2X} \int_0^\infty e^{-Xs} \cdot \frac{1}{2\sqrt{s+1}} \, ds
+\]
+
+\textbf{Why?} We factor $e^{-X(s+1)} = e^{-Xs} \cdot e^{-X}$ to isolate $e^{-Xs}$, which is the required exponential form for Watson's lemma. The factor $e^{-2X}$ (combining both $e^{-X}$ terms) is pulled outside the integral.
+
+\textbf{Identifying Watson's lemma components:}
+\[
+I(X) = e^{-2X} \int_0^\infty f(s) e^{-Xs} \, ds
+\]
+where
+\[
+f(s) = \frac{1}{2\sqrt{s+1}} = \frac{1}{2}(1+s)^{-1/2}
+\]
+
+\textbf{Why identify $f(s)$?} Watson's lemma requires $f(s)$ to have an asymptotic expansion as $s \to 0^+$. We've now achieved the standard form.
+
+\subsection*{Step 4: Asymptotic Expansion of $f(s)$}
+
+\textbf{What we need:} An expansion of $f(s) = \frac{1}{2}(1+s)^{-1/2}$ as $s \to 0^+$.
+
+\textbf{What we do:} Use the binomial series:
+\[
+(1+s)^{-1/2} = \sum_{n=0}^\infty \binom{-1/2}{n} s^n
+\]
+
+\textbf{Why the binomial series?} For $|s| < 1$, the generalized binomial theorem gives:
+\[
+(1+s)^\alpha = \sum_{n=0}^\infty \binom{\alpha}{n} s^n
+\]
+where $\binom{\alpha}{n} = \frac{\alpha(\alpha-1)\cdots(\alpha-n+1)}{n!}$.
+
+\textbf{Computing binomial coefficients:}
+\[
+\binom{-1/2}{n} = \frac{(-1/2)(-1/2-1)(-1/2-2)\cdots(-1/2-n+1)}{n!}
+\]
+\[
+= \frac{(-1/2)(-3/2)(-5/2)\cdots(-(2n-1)/2)}{n!}
+\]
+\[
+= \frac{(-1)^n \cdot 1 \cdot 3 \cdot 5 \cdots (2n-1)}{2^n \cdot n!}
+\]
+
+\textbf{Why this form?} Each factor in the numerator is $(-1/2 - k) = -(2k+1)/2$ for $k=0,1,\ldots,n-1$, giving us odd numbers with alternating sign.
+
+\textbf{Expressing with Gamma functions:}
+\[
+\binom{-1/2}{n} = \frac{(-1)^n}{2^n} \cdot \frac{1 \cdot 3 \cdot 5 \cdots (2n-1)}{n!}
+\]
+
+The product of odd numbers can be written as:
+\[
+1 \cdot 3 \cdot 5 \cdots (2n-1) = \frac{(2n)!}{2^n \cdot n!}
+\]
+
+\textbf{Why?} Because $(2n)! = 1 \cdot 2 \cdot 3 \cdots (2n) = [1 \cdot 3 \cdot 5 \cdots (2n-1)] \cdot [2 \cdot 4 \cdot 6 \cdots (2n)]$ and $2 \cdot 4 \cdots (2n) = 2^n \cdot n!$.
+
+Therefore:
+\[
+\binom{-1/2}{n} = \frac{(-1)^n}{2^n} \cdot \frac{(2n)!}{2^n \cdot n! \cdot n!} = \frac{(-1)^n (2n)!}{2^{2n} (n!)^2}
+\]
+
+\textbf{Using Gamma function notation:}
+\[
+\binom{-1/2}{n} = \frac{(-1)^n}{\sqrt{\pi}} \cdot \frac{\Gamma(n+1/2)}{n!}
+\]
+
+\textbf{Why Gamma functions?} The identity $\Gamma(n+1/2) = \frac{(2n)!\sqrt{\pi}}{2^{2n} n!}$ (from lecture notes example 2.6.2) simplifies our coefficients.
+
+\subsection*{Step 5: Apply Watson's Lemma}
+
+\textbf{What we have:}
+\[
+f(s) = \frac{1}{2}\sum_{n=0}^\infty \frac{(-1)^n}{\sqrt{\pi}} \cdot \frac{\Gamma(n+1/2)}{n!} s^n
+\]
+
+\textbf{Identifying Watson's lemma parameters:}
+\begin{itemize}
+\item $\alpha = 0$ (no leading power of $s$)
+\item $\beta = 1$ (integer powers)
+\item $a_n = \frac{1}{2} \cdot \frac{(-1)^n}{\sqrt{\pi}} \cdot \frac{\Gamma(n+1/2)}{n!}$
+\end{itemize}
+
+\textbf{Why these values?} Watson's lemma (Eq. 177 in notes) assumes $f(t) \sim t^\alpha \sum_{n=0}^\infty a_n t^{n\beta}$. Our expansion has no leading power ($\alpha=0$) and integer increments ($\beta=1$).
+
+\textbf{Applying Watson's lemma formula (Eq. 177):}
+\[
+\int_0^b f(s) e^{-Xs} ds \sim \sum_{n=0}^\infty a_n \frac{\Gamma(\alpha + n\beta + 1)}{X^{\alpha + n\beta + 1}}
+\]
+
+With our values ($\alpha=0$, $\beta=1$):
+\[
+\int_0^\infty f(s) e^{-Xs} ds \sim \sum_{n=0}^\infty a_n \frac{\Gamma(n+1)}{X^{n+1}} = \sum_{n=0}^\infty a_n \frac{n!}{X^{n+1}}
+\]
+
+\textbf{Why $\Gamma(n+1) = n!$?} This is a fundamental property of the Gamma function (Eq. 69 in notes).
+
+\subsection*{Step 6: Substitute Coefficients}
+
+\textbf{What we do:}
+\[
+\int_0^\infty f(s) e^{-Xs} ds \sim \sum_{n=0}^\infty \frac{1}{2\sqrt{\pi}} \cdot \frac{(-1)^n \Gamma(n+1/2)}{n!} \cdot \frac{n!}{X^{n+1}}
+\]
+
+\textbf{Simplifying:}
+\[
+= \frac{1}{2\sqrt{\pi}} \sum_{n=0}^\infty \frac{(-1)^n \Gamma(n+1/2)}{X^{n+1}}
+\]
+
+\textbf{Why does $n!$ cancel?} The $n!$ in the denominator of $a_n$ cancels with the $n! = \Gamma(n+1)$ from Watson's lemma formula.
+
+\subsection*{Step 7: Final Result}
+
+\textbf{Recalling the full expression:}
+\[
+I(X) = e^{-2X} \int_0^\infty f(s) e^{-Xs} ds
+\]
+
+\textbf{Therefore:}
+\[
+\boxed{I(X) \sim \frac{e^{-2X}}{2\sqrt{\pi}} \sum_{n=0}^\infty \frac{(-1)^n \Gamma(n+1/2)}{X^{n+1}} \quad \text{as } X \to \infty}
+\]
+
+\textbf{Alternative form with explicit first terms:}
+
+Computing $\Gamma(n+1/2)$ for first few terms:
+\begin{align*}
+\Gamma(1/2) &= \sqrt{\pi} \\
+\Gamma(3/2) &= \frac{1}{2}\sqrt{\pi} \\
+\Gamma(5/2) &= \frac{3}{4}\sqrt{\pi} \\
+\Gamma(7/2) &= \frac{15}{8}\sqrt{\pi}
+\end{align*}
+
+\textbf{Why these values?} Using $\Gamma(z+1) = z\Gamma(z)$ recursively: $\Gamma(3/2) = \frac{1}{2}\Gamma(1/2) = \frac{\sqrt{\pi}}{2}$, etc.
+
+\[
+\boxed{I(X) \sim \frac{e^{-2X}}{2\sqrt{\pi}} \left[ \frac{\sqrt{\pi}}{X} - \frac{\sqrt{\pi}/2}{X^2} + \frac{3\sqrt{\pi}/4}{X^3} - \frac{15\sqrt{\pi}/8}{X^4} + \cdots \right]}
+\]
+
+\[
+\boxed{I(X) \sim \frac{e^{-2X}}{2} \left[ \frac{1}{X} - \frac{1}{2X^2} + \frac{3}{4X^3} - \frac{15}{8X^4} + \cdots \right] \quad \text{as } X \to \infty}
+\]
+
+\subsection*{Verification of Conditions}
+
+\textbf{Why is Watson's lemma applicable?}
+
+\begin{enumerate}
+\item \textbf{Convergence at origin:} $f(s) = \frac{1}{2\sqrt{1+s}}$ behaves as $s^{-1/2} \cdot s^{1/2} = O(1)$ near $s=0$, so the integral converges (since $\alpha = 0 > -1$).
+
+\item \textbf{Convergence at infinity:} The integrand $e^{-Xs}/\sqrt{1+s}$ decays exponentially as $s \to \infty$ for $X > 0$, ensuring convergence.
+
+\item \textbf{Asymptotic sequence:} $\{X^{-(n+1)}\}$ is an asymptotic sequence as $X \to \infty$ since $X^{-(n+2)}/X^{-(n+1)} = 1/X \to 0$.
+\end{enumerate}
+
+\end{document}

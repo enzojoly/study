@@ -1,0 +1,682 @@
+\documentclass[12pt,a4paper]{article}
+
+% Packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage[margin=1in]{geometry}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{mathtools}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta}
+
+% Custom environments
+\newtheorem{explanation}{Explanation}
+\theoremstyle{definition}
+\newtheorem{solution}{Solution}
+
+% Custom commands
+\newcommand{\stage}[1]{\textbf{\textcolor{blue}{#1}}}
+
+% Title information
+\title{Methods of Applied Mathematics - Part 1\\
+Exercise Sheet 2: Question 4\\
+Stability in 2D Systems}
+\author{Complete Solution with XYZ Methodology}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section*{Problem Statement}
+
+Find the equilibria of the system:
+\begin{align}
+\dot{x} &= y - x^2 \\
+\dot{y} &= x - y^2
+\end{align}
+and determine their stability.
+
+\section{Step 1: Find All Equilibria}
+
+\begin{solution}
+
+\subsection*{Step 1A: Define Equilibrium Conditions}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (What we need):} Equilibria are points $(x^*, y^*)$ where the system doesn't change with time, i.e., where both $\dot{x} = 0$ and $\dot{y} = 0$ simultaneously.
+
+\item \stage{STAGE Y (Why this method):} From Lecture Notes (Section 6, page 21), for a 2D system $\dot{\mathbf{x}} = \mathbf{f}(\mathbf{x})$, equilibria satisfy $\mathbf{f}(\mathbf{x}^*) = \mathbf{0}$. This gives us two algebraic equations to solve simultaneously.
+
+\item \stage{STAGE Z (Our approach):} Set both equations to zero, solve the resulting algebraic system, and verify all solutions.
+\end{itemize}
+
+\subsection*{Step 1B: Set Up the System of Equations}
+
+At equilibrium:
+\begin{align}
+\dot{x} = 0 &\quad \Rightarrow \quad y - x^2 = 0 \label{eq:eq1} \\
+\dot{y} = 0 &\quad \Rightarrow \quad x - y^2 = 0 \label{eq:eq2}
+\end{align}
+
+From equation \eqref{eq:eq1}:
+\begin{equation}
+y = x^2 \label{eq:y_from_x}
+\end{equation}
+
+\subsection*{Step 1C: Solve for Equilibria}
+
+Substitute equation \eqref{eq:y_from_x} into equation \eqref{eq:eq2}:
+\begin{align}
+x - y^2 &= 0 \\
+x - (x^2)^2 &= 0 \\
+x - x^4 &= 0 \\
+x(1 - x^3) &= 0
+\end{align}
+
+This gives us two cases:
+\begin{align}
+\text{Case 1: } & x = 0 \\
+\text{Case 2: } & 1 - x^3 = 0 \quad \Rightarrow \quad x^3 = 1 \quad \Rightarrow \quad x = 1
+\end{align}
+
+\begin{explanation}[Why Only Real Solutions]
+The equation $x^3 = 1$ has three solutions in $\mathbb{C}$:
+\begin{equation}
+x = 1, \quad x = e^{2\pi i/3}, \quad x = e^{4\pi i/3}
+\end{equation}
+However, since we're working with real dynamical systems (real-valued $x$ and $y$), we only consider the real solution $x = 1$.
+\end{explanation}
+
+\subsection*{Step 1D: Find Corresponding $y$-Values}
+
+Using $y = x^2$:
+
+\textbf{For $x = 0$:}
+\begin{equation}
+y = 0^2 = 0 \quad \Rightarrow \quad \text{Equilibrium at } (0, 0)
+\end{equation}
+
+\textbf{For $x = 1$:}
+\begin{equation}
+y = 1^2 = 1 \quad \Rightarrow \quad \text{Equilibrium at } (1, 1)
+\end{equation}
+
+\subsection*{Step 1E: Verify the Solutions (ESSENTIAL)}
+
+\textbf{Check $(0, 0)$:}
+\begin{align}
+\dot{x}\big|_{(0,0)} &= 0 - 0^2 = 0 \quad \checkmark \\
+\dot{y}\big|_{(0,0)} &= 0 - 0^2 = 0 \quad \checkmark
+\end{align}
+
+\textbf{Check $(1, 1)$:}
+\begin{align}
+\dot{x}\big|_{(1,1)} &= 1 - 1^2 = 0 \quad \checkmark \\
+\dot{y}\big|_{(1,1)} &= 1 - 1^2 = 0 \quad \checkmark
+\end{align}
+
+\subsection*{Final Answer for Equilibria}
+
+\begin{equation}
+\boxed{\text{The system has two equilibria: } (x^*_1, y^*_1) = (0, 0) \text{ and } (x^*_2, y^*_2) = (1, 1)}
+\end{equation}
+
+\end{solution}
+
+\vspace{10pt}
+\hrule
+\vspace{10pt}
+
+\section{Step 2: Linearization and Jacobian Matrix}
+
+\begin{solution}
+
+\subsection*{Step 2A: Theory of Linearization in 2D}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (What we need):} To determine stability, we must linearize the system around each equilibrium. From Lecture Notes (Section 9, pages 32-33), the linearization is given by the Jacobian matrix.
+
+\item \stage{STAGE Y (Why the Jacobian):} Near an equilibrium $\mathbf{x}^*$, the system behaves like:
+\begin{equation}
+\dot{\mathbf{x}} \approx \mathbf{J}(\mathbf{x}^*) \cdot (\mathbf{x} - \mathbf{x}^*)
+\end{equation}
+where $\mathbf{J}$ is the Jacobian matrix of partial derivatives. The eigenvalues of $\mathbf{J}$ determine the stability and type of equilibrium.
+
+\item \stage{STAGE Z (What we'll compute):} Calculate the Jacobian matrix, evaluate it at each equilibrium, find eigenvalues, and classify stability.
+\end{itemize}
+
+\subsection*{Step 2B: Compute the Jacobian Matrix}
+
+For the system:
+\begin{align}
+f(x, y) &= y - x^2 \\
+g(x, y) &= x - y^2
+\end{align}
+
+The Jacobian matrix is (Lecture Notes, equation 9.3):
+\begin{equation}
+\mathbf{J} = \begin{pmatrix}
+\frac{\partial f}{\partial x} & \frac{\partial f}{\partial y} \\[5pt]
+\frac{\partial g}{\partial x} & \frac{\partial g}{\partial y}
+\end{pmatrix}
+\end{equation}
+
+\textbf{Compute Each Partial Derivative:}
+
+\begin{align}
+\frac{\partial f}{\partial x} &= \frac{\partial}{\partial x}(y - x^2) = -2x \\[5pt]
+\frac{\partial f}{\partial y} &= \frac{\partial}{\partial y}(y - x^2) = 1 \\[5pt]
+\frac{\partial g}{\partial x} &= \frac{\partial}{\partial x}(x - y^2) = 1 \\[5pt]
+\frac{\partial g}{\partial y} &= \frac{\partial}{\partial y}(x - y^2) = -2y
+\end{align}
+
+Therefore:
+\begin{equation}
+\mathbf{J}(x, y) = \begin{pmatrix}
+-2x & 1 \\
+1 & -2y
+\end{pmatrix}
+\end{equation}
+
+\begin{explanation}[Understanding the Jacobian]
+The Jacobian encodes how the vector field changes near a point:
+\begin{itemize}
+\item The diagonal elements $(-2x, -2y)$ represent how each variable affects its own rate of change
+\item The off-diagonal elements $(1, 1)$ represent coupling: how $y$ affects $\dot{x}$ and how $x$ affects $\dot{y}$
+\item This coupling creates the interesting dynamics in this system
+\end{itemize}
+\end{explanation}
+
+\end{solution}
+
+\vspace{10pt}
+\hrule
+\vspace{10pt}
+
+\section{Step 3: Stability Analysis of Equilibrium $(0, 0)$}
+
+\begin{solution}
+
+\subsection*{Step 3A: Evaluate Jacobian at $(0, 0)$}
+
+\begin{equation}
+\mathbf{J}(0, 0) = \begin{pmatrix}
+-2(0) & 1 \\
+1 & -2(0)
+\end{pmatrix} = \begin{pmatrix}
+0 & 1 \\
+1 & 0
+\end{pmatrix}
+\end{equation}
+
+\subsection*{Step 3B: Find Eigenvalues}
+
+The eigenvalues $\lambda$ satisfy the characteristic equation:
+\begin{equation}
+\det(\mathbf{J} - \lambda \mathbf{I}) = 0
+\end{equation}
+
+Compute the determinant:
+\begin{align}
+\det\begin{pmatrix}
+0 - \lambda & 1 \\
+1 & 0 - \lambda
+\end{pmatrix} &= 0 \\
+\det\begin{pmatrix}
+-\lambda & 1 \\
+1 & -\lambda
+\end{pmatrix} &= 0 \\
+(-\lambda)(-\lambda) - (1)(1) &= 0 \\
+\lambda^2 - 1 &= 0 \\
+(\lambda - 1)(\lambda + 1) &= 0
+\end{align}
+
+Therefore:
+\begin{equation}
+\boxed{\lambda_1 = +1, \quad \lambda_2 = -1}
+\end{equation}
+
+\subsection*{Step 3C: Classify the Equilibrium}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (What we have):} Two real eigenvalues with opposite signs: one positive ($\lambda_1 = +1$) and one negative ($\lambda_2 = -1$).
+
+\item \stage{STAGE Y (Why this determines type):} From Lecture Notes (Section 8, pages 29-31):
+\begin{itemize}
+\item \textbf{Node}: Both eigenvalues real with same sign
+\item \textbf{Saddle}: Both eigenvalues real with opposite signs
+\item \textbf{Focus}: Complex conjugate eigenvalues
+\item \textbf{Center}: Pure imaginary eigenvalues
+\end{itemize}
+Since we have real eigenvalues with opposite signs, this is a \textbf{saddle point}.
+
+\item \stage{STAGE Z (What this means physically):} The equilibrium is unstable. There exist stable and unstable manifolds - trajectories approach along one direction (stable manifold) and repel along another (unstable manifold).
+\end{itemize}
+
+\subsection*{Step 3D: Find Eigenvectors for Geometric Understanding}
+
+\textbf{For $\lambda_1 = +1$ (unstable direction):}
+
+Solve $(\mathbf{J} - \lambda_1 \mathbf{I})\mathbf{v}_1 = \mathbf{0}$:
+\begin{equation}
+\begin{pmatrix}
+-1 & 1 \\
+1 & -1
+\end{pmatrix}\begin{pmatrix}
+v_x \\
+v_y
+\end{pmatrix} = \begin{pmatrix}
+0 \\
+0
+\end{pmatrix}
+\end{equation}
+
+From the first row: $-v_x + v_y = 0 \Rightarrow v_y = v_x$
+
+Eigenvector: $\mathbf{v}_1 = \begin{pmatrix} 1 \\ 1 \end{pmatrix}$ (unstable manifold direction)
+
+\textbf{For $\lambda_2 = -1$ (stable direction):}
+
+Solve $(\mathbf{J} - \lambda_2 \mathbf{I})\mathbf{v}_2 = \mathbf{0}$:
+\begin{equation}
+\begin{pmatrix}
+1 & 1 \\
+1 & 1
+\end{pmatrix}\begin{pmatrix}
+v_x \\
+v_y
+\end{pmatrix} = \begin{pmatrix}
+0 \\
+0
+\end{pmatrix}
+\end{equation}
+
+From the first row: $v_x + v_y = 0 \Rightarrow v_y = -v_x$
+
+Eigenvector: $\mathbf{v}_2 = \begin{pmatrix} 1 \\ -1 \end{pmatrix}$ (stable manifold direction)
+
+\subsection*{Step 3E: Geometric Picture}
+
+\begin{explanation}[Phase Portrait Near $(0,0)$]
+The linearized dynamics near $(0,0)$ are:
+\begin{equation}
+\begin{pmatrix} x(t) \\ y(t) \end{pmatrix} \approx c_1 e^{t} \begin{pmatrix} 1 \\ 1 \end{pmatrix} + c_2 e^{-t} \begin{pmatrix} 1 \\ -1 \end{pmatrix}
+\end{equation}
+
+\textbf{Stable manifold} (along $(1, -1)$): Trajectories approach the origin as $t \to +\infty$, exponentially with rate $|\lambda_2| = 1$.
+
+\textbf{Unstable manifold} (along $(1, 1)$): Trajectories repel from the origin as $t \to +\infty$, exponentially with rate $\lambda_1 = 1$.
+
+Most trajectories near the origin are initially attracted along the stable manifold but eventually repelled along the unstable manifold.
+\end{explanation}
+
+\subsection*{Final Answer for Equilibrium $(0, 0)$}
+
+\begin{equation}
+\boxed{
+\begin{aligned}
+&\text{Equilibrium: } (0, 0) \\
+&\text{Eigenvalues: } \lambda_1 = +1, \quad \lambda_2 = -1 \\
+&\text{Type: } \textbf{SADDLE POINT (Unstable)} \\
+&\text{Stable manifold: direction } (1, -1) \\
+&\text{Unstable manifold: direction } (1, 1)
+\end{aligned}
+}
+\end{equation}
+
+\end{solution}
+
+\vspace{10pt}
+\hrule
+\vspace{10pt}
+
+\section{Step 4: Stability Analysis of Equilibrium $(1, 1)$}
+
+\begin{solution}
+
+\subsection*{Step 4A: Evaluate Jacobian at $(1, 1)$}
+
+\begin{equation}
+\mathbf{J}(1, 1) = \begin{pmatrix}
+-2(1) & 1 \\
+1 & -2(1)
+\end{pmatrix} = \begin{pmatrix}
+-2 & 1 \\
+1 & -2
+\end{pmatrix}
+\end{equation}
+
+\subsection*{Step 4B: Find Eigenvalues}
+
+The characteristic equation is:
+\begin{equation}
+\det(\mathbf{J} - \lambda \mathbf{I}) = 0
+\end{equation}
+
+Compute:
+\begin{align}
+\det\begin{pmatrix}
+-2 - \lambda & 1 \\
+1 & -2 - \lambda
+\end{pmatrix} &= 0 \\
+(-2 - \lambda)(-2 - \lambda) - (1)(1) &= 0 \\
+(-2 - \lambda)^2 - 1 &= 0 \\
+4 + 4\lambda + \lambda^2 - 1 &= 0 \\
+\lambda^2 + 4\lambda + 3 &= 0
+\end{align}
+
+\textbf{Solve Using Quadratic Formula:}
+\begin{align}
+\lambda &= \frac{-4 \pm \sqrt{16 - 12}}{2} \\
+&= \frac{-4 \pm \sqrt{4}}{2} \\
+&= \frac{-4 \pm 2}{2}
+\end{align}
+
+Therefore:
+\begin{align}
+\lambda_1 &= \frac{-4 + 2}{2} = \frac{-2}{2} = -1 \\
+\lambda_2 &= \frac{-4 - 2}{2} = \frac{-6}{2} = -3
+\end{align}
+
+\begin{equation}
+\boxed{\lambda_1 = -1, \quad \lambda_2 = -3}
+\end{equation}
+
+\subsection*{Step 4C: Classify the Equilibrium}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (What we have):} Two real eigenvalues, both negative: $\lambda_1 = -1$ and $\lambda_2 = -3$.
+
+\item \stage{STAGE Y (Why this determines type):} From Lecture Notes (Section 8, page 29):
+\begin{itemize}
+\item Both eigenvalues are \textbf{real}
+\item Both eigenvalues have the \textbf{same sign} (both negative)
+\item This defines a \textbf{node}
+\item Since both are negative, it's a \textbf{stable node} (attractor)
+\end{itemize}
+
+\item \stage{STAGE Z (What this means):} All trajectories starting near $(1, 1)$ will converge to $(1, 1)$ as $t \to \infty$. The approach is exponential, without oscillations.
+\end{itemize}
+
+\subsection*{Step 4D: Determine Strong and Weak Eigendirections}
+
+For a node, we characterize the approach by identifying:
+\begin{itemize}
+\item \textbf{Weak eigendirection}: Corresponding to $\lambda_1 = -1$ (smaller $|\lambda|$, slower decay)
+\item \textbf{Strong eigendirection}: Corresponding to $\lambda_2 = -3$ (larger $|\lambda|$, faster decay)
+\end{itemize}
+
+\textbf{For $\lambda_1 = -1$ (weak, slower):}
+
+Solve $(\mathbf{J} - \lambda_1 \mathbf{I})\mathbf{v}_1 = \mathbf{0}$:
+\begin{equation}
+\begin{pmatrix}
+-2 - (-1) & 1 \\
+1 & -2 - (-1)
+\end{pmatrix}\begin{pmatrix}
+v_x \\
+v_y
+\end{pmatrix} = \begin{pmatrix}
+-1 & 1 \\
+1 & -1
+\end{pmatrix}\begin{pmatrix}
+v_x \\
+v_y
+\end{pmatrix} = \begin{pmatrix}
+0 \\
+0
+\end{pmatrix}
+\end{equation}
+
+From the first row: $-v_x + v_y = 0 \Rightarrow v_y = v_x$
+
+Eigenvector: $\mathbf{v}_1 = \begin{pmatrix} 1 \\ 1 \end{pmatrix}$ (weak eigendirection)
+
+\textbf{For $\lambda_2 = -3$ (strong, faster):}
+
+Solve $(\mathbf{J} - \lambda_2 \mathbf{I})\mathbf{v}_2 = \mathbf{0}$:
+\begin{equation}
+\begin{pmatrix}
+-2 - (-3) & 1 \\
+1 & -2 - (-3)
+\end{pmatrix}\begin{pmatrix}
+v_x \\
+v_y
+\end{pmatrix} = \begin{pmatrix}
+1 & 1 \\
+1 & 1
+\end{pmatrix}\begin{pmatrix}
+v_x \\
+v_y
+\end{pmatrix} = \begin{pmatrix}
+0 \\
+0
+\end{pmatrix}
+\end{equation}
+
+From the first row: $v_x + v_y = 0 \Rightarrow v_y = -v_x$
+
+Eigenvector: $\mathbf{v}_2 = \begin{pmatrix} 1 \\ -1 \end{pmatrix}$ (strong eigendirection)
+
+\subsection*{Step 4E: Dynamics Near $(1, 1)$}
+
+\begin{explanation}[Trajectory Behavior]
+The linearized solution near $(1, 1)$ is:
+\begin{equation}
+\begin{pmatrix} x(t) - 1 \\ y(t) - 1 \end{pmatrix} \approx c_1 e^{-t} \begin{pmatrix} 1 \\ 1 \end{pmatrix} + c_2 e^{-3t} \begin{pmatrix} 1 \\ -1 \end{pmatrix}
+\end{equation}
+
+\textbf{Short-term behavior} ($t$ small):
+\begin{itemize}
+\item Both exponential terms present
+\item The $e^{-3t}$ term (strong direction) decays 3 times faster
+\item Trajectories quickly align with the weak eigendirection $(1, 1)$
+\end{itemize}
+
+\textbf{Long-term behavior} ($t$ large):
+\begin{itemize}
+\item The $e^{-3t}$ term becomes negligible
+\item Only the $e^{-t}$ term remains significant
+\item Trajectories approach $(1, 1)$ along the direction $(1, 1)$ (weak eigendirection)
+\end{itemize}
+
+\textbf{Graphical interpretation:}
+\begin{itemize}
+\item Near $(1,1)$, trajectories initially move quickly toward the line through $(1,1)$ with direction $(1,1)$
+\item Once near this line, they approach $(1,1)$ more slowly along this line
+\item The approach is \textbf{monotonic} (no spiraling) because eigenvalues are real
+\end{itemize}
+\end{explanation}
+
+\subsection*{Step 4F: Check for Hyperbolicity}
+
+\begin{explanation}[Hyperbolicity and Hartman-Grobman Theorem]
+From Lecture Notes (Section 11, page 38), an equilibrium is \textbf{hyperbolic} if none of its eigenvalues have zero real part.
+
+For $(1, 1)$:
+\begin{itemize}
+\item $\text{Re}(\lambda_1) = -1 \neq 0$ \checkmark
+\item $\text{Re}(\lambda_2) = -3 \neq 0$ \checkmark
+\end{itemize}
+
+Therefore $(1, 1)$ is hyperbolic. By the \textbf{Hartman-Grobman Theorem}, the nonlinear system near $(1, 1)$ is topologically equivalent to its linearization. Our stability analysis based on the linearization is \textbf{guaranteed to be correct} for the full nonlinear system.
+\end{explanation}
+
+\subsection*{Final Answer for Equilibrium $(1, 1)$}
+
+\begin{equation}
+\boxed{
+\begin{aligned}
+&\text{Equilibrium: } (1, 1) \\
+&\text{Eigenvalues: } \lambda_1 = -1, \quad \lambda_2 = -3 \\
+&\text{Type: } \textbf{STABLE NODE (Attractor)} \\
+&\text{Weak eigendirection (slow decay): } (1, 1) \\
+&\text{Strong eigendirection (fast decay): } (1, -1) \\
+&\text{Behavior: Monotonic approach along weak eigendirection}
+\end{aligned}
+}
+\end{equation}
+
+\end{solution}
+
+\vspace{10pt}
+\hrule
+\vspace{10pt}
+
+\section{Step 5: Global Phase Portrait and Summary}
+
+\begin{solution}
+
+\subsection*{Step 5A: Trace-Determinant Analysis}
+
+For additional insight, we can use the trace-determinant classification (Lecture Notes, Section 8).
+
+\textbf{For $(0, 0)$:}
+\begin{align}
+\text{tr}(\mathbf{J}) &= 0 + 0 = 0 \\
+\det(\mathbf{J}) &= (0)(0) - (1)(1) = -1 < 0
+\end{align}
+
+Since $\det < 0$: \textbf{Saddle} \checkmark
+
+\textbf{For $(1, 1)$:}
+\begin{align}
+\text{tr}(\mathbf{J}) &= -2 + (-2) = -4 < 0 \\
+\det(\mathbf{J}) &= (-2)(-2) - (1)(1) = 4 - 1 = 3 > 0
+\end{align}
+
+Since $\det > 0$ and $\text{tr} < 0$: \textbf{Stable node} \checkmark
+
+\begin{explanation}[Trace-Determinant Diagram]
+The classification can be visualized in the $(\text{tr}, \det)$ plane:
+\begin{itemize}
+\item $\det < 0$: Saddle (one positive, one negative eigenvalue)
+\item $\det > 0$ and $\text{tr}^2 > 4\det$: Node (real eigenvalues, same sign)
+\item $\det > 0$ and $\text{tr}^2 < 4\det$: Focus (complex eigenvalues)
+\item $\text{tr} < 0$: Stable (negative real parts)
+\item $\text{tr} > 0$: Unstable (positive real parts)
+\end{itemize}
+
+For $(1,1)$: $\text{tr}^2 = 16$ and $4\det = 12$, so $\text{tr}^2 > 4\det$ confirming it's a node (not a focus).
+\end{explanation}
+
+\subsection*{Step 5B: System Symmetry}
+
+\begin{explanation}[Symmetry Analysis]
+The system has a special symmetry: if we swap $x \leftrightarrow y$:
+\begin{align}
+\dot{y} &= x - y^2 \\
+\dot{x} &= y - x^2
+\end{align}
+
+This is identical to the original system! The system is symmetric under reflection across the line $y = x$.
+
+\textbf{Consequences:}
+\begin{itemize}
+\item Both equilibria lie on the line $y = x$ (indeed, $(0,0)$ and $(1,1)$ satisfy $y = x$)
+\item Phase portraits are symmetric about the line $y = x$
+\item If $(x(t), y(t))$ is a solution, so is $(y(t), x(t))$
+\end{itemize}
+\end{explanation}
+
+\subsection*{Step 5C: Global Behavior}
+
+\begin{explanation}[Complete Phase Portrait Description]
+\textbf{Key features:}
+
+\begin{enumerate}
+\item \textbf{Stable attractor at $(1, 1)$}: This is the "destination" for most trajectories in the positive quadrant.
+
+\item \textbf{Saddle at $(0, 0)$}: Acts as a "gateway" with:
+\begin{itemize}
+\item Stable manifold along $(1, -1)$: Trajectories in this direction approach origin
+\item Unstable manifold along $(1, 1)$: Trajectories in this direction repel from origin
+\end{itemize}
+
+\item \textbf{Basin of attraction}: The stable manifolds of the saddle at $(0, 0)$ likely form boundaries (separatrices) between different behavior regions.
+
+\item \textbf{Symmetry}: Everything is symmetric across $y = x$.
+
+\item \textbf{Bounded vs. unbounded trajectories}:
+\begin{itemize}
+\item Near $(1, 1)$: Trajectories converge (bounded)
+\item Far from equilibria: Need to analyze nullclines to determine if trajectories escape to infinity or return
+\end{itemize}
+\end{enumerate}
+
+\textbf{Nullclines provide additional structure:}
+\begin{itemize}
+\item $\dot{x} = 0$: parabola $y = x^2$ (vertical motion on this curve)
+\item $\dot{y} = 0$: parabola $x = y^2$ (horizontal motion on this curve)
+\item These intersect at our equilibria $(0, 0)$ and $(1, 1)$
+\end{itemize}
+\end{explanation}
+
+\subsection*{Final Summary}
+
+\begin{equation}
+\boxed{
+\begin{array}{|c|c|c|c|}
+\hline
+\text{Equilibrium} & \text{Eigenvalues} & \text{Type} & \text{Stability} \\
+\hline
+(0, 0) & \lambda = +1, -1 & \text{Saddle} & \text{Unstable} \\
+(1, 1) & \lambda = -1, -3 & \text{Stable Node} & \text{Stable} \\
+\hline
+\end{array}
+}
+\end{equation}
+
+\vspace{5pt}
+
+\textbf{Physical Interpretation:}
+\begin{itemize}
+\item The system has one stable equilibrium at $(1, 1)$ that attracts nearby trajectories
+\item The saddle at $(0, 0)$ is unstable with mixed stability properties
+\item The system exhibits rich dynamics with symmetry about the line $y = x$
+\item Most trajectories in the first quadrant eventually converge to $(1, 1)$
+\end{itemize}
+
+\end{solution}
+
+\vspace{10pt}
+\hrule
+\vspace{10pt}
+
+\section*{Key Concepts from Lecture Notes}
+
+\subsection*{Methodology Applied}
+
+\begin{enumerate}[leftmargin=*]
+\item \textbf{Finding equilibria} (Section 6): Set $\dot{\mathbf{x}} = \mathbf{0}$ and solve algebraically
+
+\item \textbf{Linearization} (Section 9): Compute Jacobian matrix $\mathbf{J} = \frac{\partial \mathbf{f}}{\partial \mathbf{x}}$ at each equilibrium
+
+\item \textbf{Eigenvalue analysis} (Section 7-8): Find eigenvalues from characteristic equation $\det(\mathbf{J} - \lambda \mathbf{I}) = 0$
+
+\item \textbf{Classification} (Section 8, page 29-31):
+\begin{itemize}
+\item Real eigenvalues, same sign → Node
+\item Real eigenvalues, opposite signs → Saddle
+\item Complex eigenvalues → Focus
+\item Sign of real parts determines stability
+\end{itemize}
+
+\item \textbf{Hartman-Grobman} (Section 11, page 38): For hyperbolic equilibria, linearization captures true behavior
+
+\item \textbf{Eigenvectors} (Section 7): Provide geometric understanding of flow directions
+\end{enumerate}
+
+\subsection*{Critical Insights}
+
+\begin{itemize}
+\item A 2D system can have multiple equilibria with different stability types
+\item Hyperbolicity ($\text{Re}(\lambda) \neq 0$) ensures linearization is reliable
+\item Saddle points create separatrices that organize the global phase portrait
+\item Symmetries simplify analysis and provide consistency checks
+\end{itemize}
+
+\end{document}

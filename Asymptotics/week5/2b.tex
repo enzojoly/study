@@ -1,0 +1,143 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{geometry}
+\geometry{a4paper, margin=0.7in}
+\usepackage{enumitem}
+
+\title{Asymptotics Problem 2(b)}
+\author{Solution using Method of Steepest Descent}
+\date{}
+
+\begin{document}
+\maketitle
+
+\section*{Problem Statement}
+Use the method of steepest descent to find the leading asymptotic behaviour as $X \to \infty$ of:
+$$I(X) = \int_{-\infty}^{\infty} \frac{t e^{iX(t^5/5+t)}}{1+t^2}\, dt$$
+
+\section*{Solution}
+
+\subsection*{Step 1: Identify the integral structure}
+We have a complex integral of the form (Eq.~239 from notes):
+$$I(X) = \int_C f(z)\, e^{X\phi(z)}\, dz$$
+where:
+\begin{itemize}
+\item $f(t) = \dfrac{t}{1+t^2}$
+\item $\phi(t) = i\left(\dfrac{t^5}{5} + t\right)$
+\item Original contour $C$: the real axis from $-\infty$ to $\infty$
+\end{itemize}
+
+\subsection*{Step 2: Find saddle points}
+Saddle points occur where $\phi'(t) = 0$.
+
+Computing the derivative:
+$$\phi'(t) = i(t^4 + 1)$$
+
+Setting $\phi'(t) = 0$:
+$$i(t^4 + 1) = 0 \implies t^4 = -1 = e^{i\pi}$$
+
+The four saddle points are:
+$$t_k = e^{i\pi(2k+1)/4}, \quad k = 0, 1, 2, 3$$
+
+Explicitly:
+\begin{align*}
+t_0 &= e^{i\pi/4} = \frac{1+i}{\sqrt{2}} \\
+t_1 &= e^{i3\pi/4} = \frac{-1+i}{\sqrt{2}} \\
+t_2 &= e^{i5\pi/4} = \frac{-1-i}{\sqrt{2}} \\
+t_3 &= e^{i7\pi/4} = \frac{1-i}{\sqrt{2}}
+\end{align*}
+
+\subsection*{Step 3: Evaluate $\phi(t)$ at saddle points}
+For any saddle point where $t^4 = -1$:
+$$\phi(t) = i\left(\frac{t^5}{5} + t\right) = i\left(\frac{t \cdot t^4}{5} + t\right) = i\left(\frac{-t}{5} + t\right) = i\cdot\frac{4t}{5}$$
+
+Therefore:
+\begin{align*}
+\phi(t_0) &= i\cdot\frac{4e^{i\pi/4}}{5} = \frac{4i}{\sqrt{2}}e^{i\pi/4} = \frac{2\sqrt{2}i}{5}(1+i) = \frac{2\sqrt{2}}{5}(i-1) \\
+\phi(t_1) &= i\cdot\frac{4e^{i3\pi/4}}{5} = \frac{2\sqrt{2}}{5}(i+1) \\
+\phi(t_2) &= i\cdot\frac{4e^{i5\pi/4}}{5} = \frac{2\sqrt{2}}{5}(-i+1) \\
+\phi(t_3) &= i\cdot\frac{4e^{i7\pi/4}}{5} = \frac{2\sqrt{2}}{5}(-i-1)
+\end{align*}
+
+Computing the real parts:
+\begin{align*}
+\text{Re}[\phi(t_0)] &= -\frac{2\sqrt{2}}{5} \\
+\text{Re}[\phi(t_1)] &= +\frac{2\sqrt{2}}{5} \\
+\text{Re}[\phi(t_2)] &= +\frac{2\sqrt{2}}{5} \\
+\text{Re}[\phi(t_3)] &= -\frac{2\sqrt{2}}{5}
+\end{align*}
+
+\subsection*{Step 4: Determine relevant saddle point}
+For steepest descent, we seek saddle points with **maximum** real part of $\phi(t)$ (since the integrand contains $e^{X\phi(t)}$).
+
+The saddle points $t_1$ and $t_2$ both have $\text{Re}[\phi] = +\frac{2\sqrt{2}}{5}$, which is the maximum.
+
+\subsection*{Step 5: Check contour deformation}
+The original contour is the real axis. We need to determine which saddle point(s) the real axis can be deformed through using Cauchy's theorem.
+
+By examining the geometry and applying Cauchy's theorem (Section 4.4), the real axis can be deformed to pass through saddle points in the lower half-plane as $t \to -\infty$ and upper half-plane as $t \to +\infty$.
+
+Given the symmetry of the problem and the location of saddle points:
+\begin{itemize}
+\item $t_1 = \frac{-1+i}{\sqrt{2}}$ (upper left quadrant)
+\item $t_2 = \frac{-1-i}{\sqrt{2}}$ (lower left quadrant)
+\end{itemize}
+
+However, we must check which gives a steepest **descent** path compatible with the original contour.
+
+\subsection*{Step 6: Analyze steepest descent paths}
+For a saddle point where $\phi''(t_c) = ae^{i\alpha}$, steepest descent directions are (from notes, Section 4.4.2):
+$$\theta_{\text{descent}} = -\frac{\alpha}{2} + \frac{(2p+1)\pi}{2}, \quad p = 0, 1$$
+
+Computing $\phi''(t) = 4it^3$:
+
+At $t_1 = e^{i3\pi/4}$:
+$$\phi''(t_1) = 4i \cdot e^{i9\pi/4} = 4i \cdot e^{i\pi/4} = 4e^{i3\pi/4}$$
+
+So $\alpha = 3\pi/4$, giving descent directions:
+\begin{align*}
+p=0: \quad \theta &= -\frac{3\pi/4}{2} + \frac{\pi}{2} = -\frac{3\pi}{8} + \frac{\pi}{2} = \frac{\pi}{8} \\
+p=1: \quad \theta &= -\frac{3\pi}{8} + \frac{3\pi}{2} = \frac{9\pi}{8}
+\end{align*}
+
+The contour can be deformed through $t_1$ along steepest descent paths.
+
+\subsection*{Step 7: Evaluate contribution from $t_1$}
+Near the saddle point $t_1$, we use the expansion (Laplace's method, Eq.~205):
+$$\phi(t) \approx \phi(t_1) + \frac{1}{2}\phi''(t_1)(t-t_1)^2$$
+
+The leading asymptotic contribution is (from Eq.~207 for $n=2$):
+$$I(X) \sim \sqrt{\frac{2\pi i}{X\phi''(t_1)}}\, f(t_1)\, e^{X\phi(t_1)}$$
+
+\subsection*{Step 8: Compute the leading term}
+First, evaluate $f(t_1)$:
+$$f(t_1) = \frac{t_1}{1+t_1^2} = \frac{e^{i3\pi/4}}{1+e^{i3\pi/2}} = \frac{e^{i3\pi/4}}{1-i}$$
+
+Simplifying:
+$$f(t_1) = \frac{e^{i3\pi/4}}{1-i} \cdot \frac{1+i}{1+i} = \frac{e^{i3\pi/4}(1+i)}{2} = \frac{e^{i3\pi/4} \cdot \sqrt{2}e^{i\pi/4}}{2} = \frac{\sqrt{2}e^{i\pi}}{2} = -\frac{\sqrt{2}}{2}$$
+
+Now evaluate the coefficient:
+$$\phi''(t_1) = 4e^{i3\pi/4}$$
+
+Therefore:
+$$\sqrt{\frac{2\pi i}{X\phi''(t_1)}} = \sqrt{\frac{2\pi i}{4X e^{i3\pi/4}}} = \sqrt{\frac{\pi i}{2X}} \cdot e^{-i3\pi/8}$$
+
+Note: $\sqrt{i} = e^{i\pi/4}$, so:
+$$\sqrt{\frac{\pi i}{2X}} = \sqrt{\frac{\pi}{2X}} \cdot e^{i\pi/4}$$
+
+Thus:
+$$\sqrt{\frac{2\pi i}{X\phi''(t_1)}} = \sqrt{\frac{\pi}{2X}} \cdot e^{i\pi/4} \cdot e^{-i3\pi/8} = \sqrt{\frac{\pi}{2X}} \cdot e^{-i\pi/8}$$
+
+\subsection*{Step 9: Final answer}
+Combining all terms:
+$$I(X) \sim -\frac{\sqrt{2}}{2} \cdot \sqrt{\frac{\pi}{2X}} \cdot e^{-i\pi/8} \cdot \exp\left(\frac{2\sqrt{2}X}{5}(i+1)\right)$$
+
+Simplifying:
+$$\boxed{I(X) \sim -\frac{1}{2}\sqrt{\frac{\pi}{X}} \cdot e^{-i\pi/8} \cdot e^{2\sqrt{2}X/5} \cdot e^{i2\sqrt{2}X/5} \quad \text{as } X \to \infty}$$
+
+Or more compactly:
+$$\boxed{I(X) \sim -\frac{1}{2}\sqrt{\frac{\pi}{X}} \cdot \exp\left[\frac{2\sqrt{2}X}{5}(1+i) - \frac{i\pi}{8}\right] \quad \text{as } X \to \infty}$$
+
+The leading order behaviour is dominated by $e^{2\sqrt{2}X/5} \cdot X^{-1/2}$.
+
+\end{document}

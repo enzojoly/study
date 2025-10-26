@@ -1,0 +1,276 @@
+\documentclass[11pt,a4paper]{article}
+
+% Packages
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[margin=1in]{geometry}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{mathtools}
+
+% Theorem environments
+\theoremstyle{definition}
+\newtheorem*{problem}{Problem}
+\newtheorem*{solution}{Solution}
+
+% Custom commands
+\newcommand{\dd}{\mathrm{d}}
+\newcommand{\Order}{\mathcal{O}}
+
+% Title information
+\title{Asymptotics Problem Sheet 3\\
+\large Question 5: Asymptotic Expansion via Watson's Lemma}
+\author{Solution with XYZ Methodology}
+\date{Academic Year 2025--2026}
+
+\begin{document}
+
+\maketitle
+
+\begin{problem}
+Show that
+\[
+\int_0^\infty \left(1 + \frac{u}{X}\right)^{-X} e^{-u} \dd u
+\sim \frac{1}{2} + \frac{1}{8X} - \frac{1}{32X^2}
+\quad \text{as } X \to \infty.
+\]
+\end{problem}
+
+\begin{solution}
+We seek an asymptotic expansion of the integral
+\[
+I(X) = \int_0^\infty \left(1 + \frac{u}{X}\right)^{-X} e^{-u} \dd u
+\]
+as $X \to \infty$.
+
+\subsection*{Step 1: Recognition of Integral Type}
+
+\textbf{What we observe:} The integral contains the factor $\left(1 + \frac{u}{X}\right)^{-X}$ multiplied by $e^{-u}$, integrated from $0$ to $\infty$.
+
+\textbf{Why this matters:} This is a Laplace-type integral where the large parameter $X$ appears in an exponent. The presence of $X \to \infty$ as the asymptotic limit suggests we should use techniques from Section 4.2 of the lecture notes.
+
+\textbf{What we recognize:} The factor $\left(1 + \frac{u}{X}\right)^{-X}$ can be rewritten using the exponential-logarithm identity:
+\[
+\left(1 + \frac{u}{X}\right)^{-X} = \exp\left(-X \log\left(1 + \frac{u}{X}\right)\right).
+\]
+
+\textbf{Why we do this:} By expressing the factor as an exponential, we can combine it with $e^{-u}$ to obtain a single exponential factor, which is the standard form for Laplace-type integrals.
+
+\subsection*{Step 2: Combining Exponential Factors}
+
+\textbf{What we have:} Using the exponential form from Step 1:
+\[
+I(X) = \int_0^\infty \exp\left(-X \log\left(1 + \frac{u}{X}\right)\right) e^{-u} \dd u
+= \int_0^\infty \exp\left(-X \log\left(1 + \frac{u}{X}\right) - u\right) \dd u.
+\]
+
+\textbf{Why this form is useful:} We now have a single exponential with argument
+\[
+-X \log\left(1 + \frac{u}{X}\right) - u.
+\]
+This allows us to analyze the behavior of the integrand as $X \to \infty$.
+
+\subsection*{Step 3: Taylor Expansion of the Logarithm}
+
+\textbf{What we need:} To understand the behavior as $X \to \infty$, we expand $\log\left(1 + \frac{u}{X}\right)$ for large $X$ (equivalently, small $\frac{u}{X}$).
+
+\textbf{Why we need this:} The logarithm is multiplied by $X$, so even though $\frac{u}{X}$ is small, the product $X \log\left(1 + \frac{u}{X}\right)$ may have a non-trivial limit. We must expand carefully to capture all relevant orders.
+
+\textbf{What we know:} The Taylor series for $\log(1 + z)$ around $z = 0$ is (from standard calculus):
+\[
+\log(1 + z) = z - \frac{z^2}{2} + \frac{z^3}{3} - \frac{z^4}{4} + \Order(z^5).
+\]
+
+\textbf{Why this applies:} Setting $z = \frac{u}{X}$, we have:
+\[
+\log\left(1 + \frac{u}{X}\right) = \frac{u}{X} - \frac{u^2}{2X^2} + \frac{u^3}{3X^3} - \frac{u^4}{4X^4} + \Order(X^{-5}).
+\]
+
+\textbf{What this means:} This expansion is valid when $\left|\frac{u}{X}\right| < 1$, which holds for fixed $u$ as $X \to \infty$.
+
+\subsection*{Step 4: Multiplying by $-X$}
+
+\textbf{What we compute:} Multiply the expansion from Step 3 by $-X$:
+\begin{align*}
+-X \log\left(1 + \frac{u}{X}\right)
+&= -X\left[\frac{u}{X} - \frac{u^2}{2X^2} + \frac{u^3}{3X^3} - \frac{u^4}{4X^4} + \Order(X^{-5})\right]\\
+&= -u + \frac{u^2}{2X} - \frac{u^3}{3X^2} + \frac{u^4}{4X^3} + \Order(X^{-4}).
+\end{align*}
+
+\textbf{Why each term appears:}
+\begin{itemize}[leftmargin=*]
+\item The $-u$ term: $-X \cdot \frac{u}{X} = -u$ is of order $\Order(1)$ (independent of $X$).
+\item The $\frac{u^2}{2X}$ term: $-X \cdot \left(-\frac{u^2}{2X^2}\right) = \frac{u^2}{2X}$ is of order $\Order(X^{-1})$.
+\item The $-\frac{u^3}{3X^2}$ term: $-X \cdot \frac{u^3}{3X^3} = -\frac{u^3}{3X^2}$ is of order $\Order(X^{-2})$.
+\item The $\frac{u^4}{4X^3}$ term: $-X \cdot \left(-\frac{u^4}{4X^4}\right) = \frac{u^4}{4X^3}$ is of order $\Order(X^{-3})$.
+\end{itemize}
+
+\textbf{What we observe:} Each successive term is smaller by a factor of $\Order(X^{-1})$.
+
+\subsection*{Step 5: Substituting into the Exponent}
+
+\textbf{What we substitute:} The full exponent in our integral is:
+\begin{align*}
+-X \log\left(1 + \frac{u}{X}\right) - u
+&= \left(-u + \frac{u^2}{2X} - \frac{u^3}{3X^2} + \Order(X^{-3})\right) - u\\
+&= -2u + \frac{u^2}{2X} - \frac{u^3}{3X^2} + \Order(X^{-3}).
+\end{align*}
+
+\textbf{Why we group terms this way:} The dominant term (independent of $X$) is $-2u$. This will determine the basic structure of the integral. The remaining terms are corrections of increasing order in $X^{-1}$.
+
+\textbf{What our integral becomes:}
+\[
+I(X) = \int_0^\infty \exp\left(-2u + \frac{u^2}{2X} - \frac{u^3}{3X^2} + \Order(X^{-3})\right) \dd u.
+\]
+
+\subsection*{Step 6: Factoring the Leading Exponential}
+
+\textbf{What we do:} Factor out the dominant exponential $e^{-2u}$:
+\[
+I(X) = \int_0^\infty e^{-2u} \exp\left(\frac{u^2}{2X} - \frac{u^3}{3X^2} + \Order(X^{-3})\right) \dd u.
+\]
+
+\textbf{Why this factorization is useful:} The factor $e^{-2u}$ provides exponential decay as $u \to \infty$, ensuring all integrals converge. The remaining exponential contains only small terms (of order $X^{-1}$ and higher), which we can expand.
+
+\subsection*{Step 7: Expanding the Correction Exponential}
+
+\textbf{What we need to expand:} The exponential
+\[
+\exp\left(\frac{u^2}{2X} - \frac{u^3}{3X^2}\right).
+\]
+
+\textbf{Why we can expand:} For large $X$ and fixed $u$, the argument $\frac{u^2}{2X} - \frac{u^3}{3X^2}$ is small, so we can use the Taylor series:
+\[
+e^z = 1 + z + \frac{z^2}{2} + \frac{z^3}{6} + \cdots
+\]
+
+\textbf{What we compute:} Let $z = \frac{u^2}{2X} - \frac{u^3}{3X^2}$. Then:
+\begin{align*}
+e^z &= 1 + z + \frac{z^2}{2} + \Order(z^3)\\
+&= 1 + \left(\frac{u^2}{2X} - \frac{u^3}{3X^2}\right) + \frac{1}{2}\left(\frac{u^2}{2X}\right)^2 + \Order(X^{-3})\\
+&= 1 + \frac{u^2}{2X} - \frac{u^3}{3X^2} + \frac{u^4}{8X^2} + \Order(X^{-3}).
+\end{align*}
+
+\textbf{Why we keep only these terms:}
+\begin{itemize}[leftmargin=*]
+\item The term $\left(\frac{u^2}{2X}\right)^2 = \frac{u^4}{4X^2}$ contributes at order $\Order(X^{-2})$.
+\item The cross term $2 \cdot \frac{u^2}{2X} \cdot \left(-\frac{u^3}{3X^2}\right) = -\frac{u^5}{3X^3}$ is of order $\Order(X^{-3})$ and can be neglected.
+\item Higher order terms from $\frac{z^2}{2}, \frac{z^3}{6}, \ldots$ are all $\Order(X^{-3})$ or smaller.
+\end{itemize}
+
+\textbf{What we collect:} Grouping by powers of $X^{-1}$:
+\[
+e^z = 1 + \frac{u^2}{2X} + \frac{1}{X^2}\left(\frac{u^4}{8} - \frac{u^3}{3}\right) + \Order(X^{-3}).
+\]
+
+\subsection*{Step 8: Substituting the Expansion into the Integral}
+
+\textbf{What we substitute:} Using the expansion from Step 7:
+\begin{align*}
+I(X) &= \int_0^\infty e^{-2u} \left[1 + \frac{u^2}{2X} + \frac{1}{X^2}\left(\frac{u^4}{8} - \frac{u^3}{3}\right)\right] \dd u + \Order(X^{-3})\\
+&= \int_0^\infty e^{-2u} \dd u
++ \frac{1}{2X} \int_0^\infty u^2 e^{-2u} \dd u\\
+&\quad + \frac{1}{X^2}\left[\frac{1}{8}\int_0^\infty u^4 e^{-2u} \dd u - \frac{1}{3}\int_0^\infty u^3 e^{-2u} \dd u\right] + \Order(X^{-3}).
+\end{align*}
+
+\textbf{Why we can separate the integrals:} Each integral converges absolutely due to the exponential decay factor $e^{-2u}$, so we can distribute the integration over the sum.
+
+\subsection*{Step 9: Evaluating the Standard Integrals}
+
+\textbf{What we need:} We must evaluate integrals of the form
+\[
+\int_0^\infty u^n e^{-2u} \dd u.
+\]
+
+\textbf{Why we know the formula:} These are standard Gamma function integrals. From the lecture notes (Section 2.6.1, Equation 68), the Gamma function is:
+\[
+\Gamma(z) = \int_0^\infty t^{z-1} e^{-t} \dd t.
+\]
+
+\textbf{How to apply this:} Substituting $t = 2u$ (so $u = t/2$, $\dd u = \dd t/2$):
+\begin{align*}
+\int_0^\infty u^n e^{-2u} \dd u
+&= \int_0^\infty \left(\frac{t}{2}\right)^n e^{-t} \frac{\dd t}{2}\\
+&= \frac{1}{2^{n+1}} \int_0^\infty t^n e^{-t} \dd t\\
+&= \frac{1}{2^{n+1}} \Gamma(n+1)\\
+&= \frac{n!}{2^{n+1}}.
+\end{align*}
+
+\textbf{Why this formula works:} We used $\Gamma(n+1) = n!$ for non-negative integers $n$ (a standard property of the Gamma function).
+
+\subsection*{Step 10: Computing Each Required Integral}
+
+\textbf{What we compute:} Using the formula from Step 9 with different values of $n$:
+
+\paragraph{For $n = 0$:}
+\[
+\int_0^\infty e^{-2u} \dd u = \frac{0!}{2^{0+1}} = \frac{1}{2}.
+\]
+\textbf{Why:} $0! = 1$ and $2^1 = 2$.
+
+\paragraph{For $n = 2$:}
+\[
+\int_0^\infty u^2 e^{-2u} \dd u = \frac{2!}{2^{2+1}} = \frac{2}{8} = \frac{1}{4}.
+\]
+\textbf{Why:} $2! = 2$ and $2^3 = 8$.
+
+\paragraph{For $n = 3$:}
+\[
+\int_0^\infty u^3 e^{-2u} \dd u = \frac{3!}{2^{3+1}} = \frac{6}{16} = \frac{3}{8}.
+\]
+\textbf{Why:} $3! = 6$ and $2^4 = 16$, and simplifying: $\frac{6}{16} = \frac{3}{8}$.
+
+\paragraph{For $n = 4$:}
+\[
+\int_0^\infty u^4 e^{-2u} \dd u = \frac{4!}{2^{4+1}} = \frac{24}{32} = \frac{3}{4}.
+\]
+\textbf{Why:} $4! = 24$ and $2^5 = 32$, and simplifying: $\frac{24}{32} = \frac{3}{4}$.
+
+\subsection*{Step 11: Assembling the Asymptotic Expansion}
+
+\textbf{What we substitute:} Using the computed integrals from Step 10 in the expression from Step 8:
+\begin{align*}
+I(X) &= \frac{1}{2} + \frac{1}{2X} \cdot \frac{1}{4} + \frac{1}{X^2}\left[\frac{1}{8} \cdot \frac{3}{4} - \frac{1}{3} \cdot \frac{3}{8}\right] + \Order(X^{-3}).
+\end{align*}
+
+\textbf{Computing the $\Order(X^{-1})$ term:}
+\[
+\frac{1}{2X} \cdot \frac{1}{4} = \frac{1}{8X}.
+\]
+
+\textbf{Computing the $\Order(X^{-2})$ term:}
+\begin{align*}
+\frac{1}{X^2}\left[\frac{1}{8} \cdot \frac{3}{4} - \frac{1}{3} \cdot \frac{3}{8}\right]
+&= \frac{1}{X^2}\left[\frac{3}{32} - \frac{3}{24}\right]\\
+&= \frac{1}{X^2}\left[\frac{3}{32} - \frac{1}{8}\right].
+\end{align*}
+
+\textbf{Why we simplify $\frac{3}{24}$:}
+\[
+\frac{3}{24} = \frac{1}{8}.
+\]
+
+\textbf{Finding a common denominator:}
+\[
+\frac{3}{32} - \frac{1}{8} = \frac{3}{32} - \frac{4}{32} = -\frac{1}{32}.
+\]
+
+\textbf{Why:} We write $\frac{1}{8} = \frac{4}{32}$ to combine with $\frac{3}{32}$.
+
+\subsection*{Step 12: Final Result}
+
+\textbf{What we have established:} Combining all terms:
+\[
+I(X) = \frac{1}{2} + \frac{1}{8X} - \frac{1}{32X^2} + \Order(X^{-3}).
+\]
+
+\textbf{Why this is the answer:} This matches the required asymptotic expansion. The expansion is valid as $X \to \infty$ and captures the behavior to order $\Order(X^{-2})$.
+
+\textbf{What we conclude:} Therefore,
+\[
+\boxed{\int_0^\infty \left(1 + \frac{u}{X}\right)^{-X} e^{-u} \dd u
+\sim \frac{1}{2} + \frac{1}{8X} - \frac{1}{32X^2} \quad \text{as } X \to \infty.}
+\]
+
+\end{solution}
+
+\end{document}

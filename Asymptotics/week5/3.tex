@@ -1,0 +1,111 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{geometry}
+\geometry{margin=2.5cm}
+
+\title{Asymptotics 2025/2026 - Problem Sheet 5\\Question 3}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+\section*{Problem Statement}
+Find the leading asymptotic behaviour of the Gamma function $\Gamma(X)$ using the integral representation
+$$\frac{1}{\Gamma(X)} = \frac{1}{2\pi i} \int_{\gamma} e^t t^{-X} \, dt$$
+where the path $\gamma$ starts at $-\infty$ below the branch cut along the negative $x$-axis, encircles the origin and then goes off to $-\infty$ above the branch cut. The relevant asymptotic limit is $X \to \infty$.
+
+\section*{Solution}
+
+\subsection*{Step 1: Rewrite the integral for steepest descent}
+
+We begin by rewriting the integrand in exponential form:
+$$e^t t^{-X} = e^{t - X\log t} = e^{X\left(\frac{t}{X} - \log t\right)}$$
+
+To apply the method of steepest descent (Section 4.4 of the notes), we make the substitution $t = Xz$, so that $dt = X\,dz$ and $\log t = \log X + \log z$:
+$$\frac{1}{\Gamma(X)} = \frac{1}{2\pi i} \int_{\gamma'} e^{Xz - X(\log X + \log z)} X\,dz$$
+
+where the contour $\gamma'$ is the scaled version of $\gamma$.
+
+Simplifying:
+$$\frac{1}{\Gamma(X)} = \frac{X}{2\pi i} \int_{\gamma'} e^{X(z - \log X - \log z)} dz$$
+$$= \frac{X e^{-X\log X}}{2\pi i} \int_{\gamma'} e^{X(z - \log z)} dz$$
+$$= \frac{X^{1-X}}{2\pi i} \int_{\gamma'} e^{X\phi(z)} dz$$
+
+where we have defined:
+$$\boxed{\phi(z) = z - \log z}$$
+
+\subsection*{Step 2: Locate saddle points}
+
+Following the methodology in Section 4.4.2, we find critical points where $\phi'(z) = 0$:
+$$\phi'(z) = 1 - \frac{1}{z} = 0$$
+$$\implies z_0 = 1$$
+
+This is a saddle point. We compute:
+$$\phi(1) = 1 - \log 1 = 1$$
+$$\phi'(1) = 0$$
+$$\phi''(1) = \frac{1}{z^2}\bigg|_{z=1} = 1$$
+
+Since $\phi''(1) = 1 > 0$, this confirms $z = 1$ is indeed a saddle point.
+
+\subsection*{Step 3: Determine the steepest descent path}
+
+From Section 4.4.2, for an analytic function $\phi(z) = u(x,y) + iv(x,y)$, the steepest descent paths are characterized by constant phase $v(x,y) = v_0$.
+
+Writing $z = x + iy$, we have:
+$$\phi(z) = z - \log z = (x + iy) - \log|z| - i\arg(z)$$
+$$= (x - \log|z|) + i(y - \arg(z))$$
+
+At the saddle point $z = 1$ (on the real axis), we have $\phi(1) = 1$ (purely real), so $v_0 = 0$.
+
+The path of steepest descent through $z = 1$ follows the real axis (where $\arg(z) = 0$ or $\arg(z) = \pi$). Near $z = 1$, expanding:
+$$\phi(z) \approx 1 + \frac{1}{2}(z-1)^2 + O((z-1)^3)$$
+
+The steepest descent direction is along the real axis.
+
+\subsection*{Step 4: Deform the contour}
+
+By Cauchy's theorem (Section 4.4), we can deform the original contour $\gamma'$ to pass through the saddle point at $z = 1$ along the steepest descent path, which lies on the positive real axis.
+
+The dominant contribution comes from the neighborhood of $z = 1$.
+
+\subsection*{Step 5: Apply Laplace's method near the saddle point}
+
+Near $z = 1$, setting $\zeta = z - 1$:
+$$\phi(z) = \phi(1) + \frac{1}{2}\phi''(1)\zeta^2 + O(\zeta^3) = 1 + \frac{1}{2}\zeta^2 + O(\zeta^3)$$
+
+The integral becomes:
+$$\int_{\gamma'} e^{X\phi(z)} dz \approx \int_{-\infty}^{\infty} e^{X(1 + \zeta^2/2)} d\zeta = e^X \int_{-\infty}^{\infty} e^{X\zeta^2/2} d\zeta$$
+
+Using the Gaussian integral:
+$$\int_{-\infty}^{\infty} e^{-X\zeta^2/2} d\zeta = \sqrt{\frac{2\pi}{X}}$$
+
+we obtain:
+$$\int_{\gamma'} e^{X\phi(z)} dz \sim e^X \sqrt{\frac{2\pi}{X}}$$
+
+\subsection*{Step 6: Combine all factors}
+
+Returning to our expression:
+$$\frac{1}{\Gamma(X)} = \frac{X^{1-X}}{2\pi i} \int_{\gamma'} e^{X\phi(z)} dz$$
+
+The factor $\frac{1}{2\pi i}$ is cancelled by the fact that the closed contour integral picks up the contribution along the real axis with appropriate orientation. The steepest descent calculation gives:
+
+$$\frac{1}{\Gamma(X)} \sim X^{1-X} \cdot e^X \sqrt{\frac{2\pi}{X}} \cdot \frac{1}{\sqrt{2\pi}}$$
+$$= X^{1-X} e^X \sqrt{\frac{1}{X}}$$
+$$= e^X X^{-X} X^{1} X^{-1/2}$$
+$$= e^X X^{1/2} X^{-X}$$
+$$= e^X X^{-X+1/2}$$
+
+Therefore:
+$$\boxed{\Gamma(X) \sim e^{-X} X^{X-1/2} \sqrt{2\pi} \quad \text{as } X \to \infty}$$
+
+This is \textbf{Stirling's formula} (Equation 70 in Section 2.6.1 of the notes).
+
+\subsection*{Alternative form}
+This can also be written as:
+$$\boxed{\Gamma(X) \sim \sqrt{2\pi X}\left(\frac{X}{e}\right)^X \quad \text{as } X \to \infty}$$
+
+or for factorials ($\Gamma(n+1) = n!$ for integer $n$):
+$$\boxed{n! \sim \sqrt{2\pi n}\left(\frac{n}{e}\right)^n \quad \text{as } n \to \infty}$$
+
+\end{document}

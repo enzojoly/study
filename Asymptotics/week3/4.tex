@@ -1,0 +1,393 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{mathtools}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{enumitem}
+\usepackage{microtype}
+\usepackage{xcolor}
+
+% Theorem environments
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{strategy}[theorem]{Strategy}
+
+% Custom commands
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\N}{\mathbb{N}}
+\DeclareMathOperator{\sgn}{sgn}
+\newcommand{\dd}{\mathrm{d}}
+
+\title{\textbf{Asymptotics 2025/2026}\\
+Problem Sheet 3, Question 4\\
+Watson's Lemma Application}
+\author{Solution}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section{Problem Statement}
+
+\noindent \textbf{Question 4:} Use Watson's lemma to find an infinite asymptotic expansion of
+\begin{equation}
+I(X) = \int_0^\pi e^{-Xt} t^{-1/3} \cos t \, \dd t.
+\end{equation}
+
+\section{Preliminary Analysis: Understanding the Problem Structure}
+
+\subsection{What Do We Have?}
+
+We are given an integral of the form
+\begin{equation}
+I(X) = \int_0^\pi e^{-Xt} t^{-1/3} \cos t \, \dd t,
+\end{equation}
+and we seek its asymptotic expansion as $X \to \infty$.
+
+\noindent \textbf{WHY is this the correct starting point?} Because the problem explicitly states we must find the asymptotic behavior as $X \to \infty$, and we are given a specific integral form to analyze.
+
+\subsection{What Form Is This Integral?}
+
+This integral has the structure
+\begin{equation}
+I(X) = \int_0^b f(t) e^{-Xt} \dd t
+\end{equation}
+where $b = \pi$ and $f(t) = t^{-1/3} \cos t$.
+
+\noindent \textbf{WHY do we identify this structure?} Because Watson's lemma (from Section 4.2.2 of the lecture notes) applies specifically to integrals of the form $\int_0^b f(t) e^{-Xt} \dd t$ where the exponential has argument $-Xt$.
+
+\subsection{Why Watson's Lemma?}
+
+\noindent \textbf{WHY use Watson's lemma?} The problem explicitly instructs us to use Watson's lemma. Moreover, from the lecture notes, we know Watson's lemma is the appropriate tool when:
+\begin{enumerate}
+\item We have a Laplace-type integral $\int_0^b f(t) e^{-Xt} \dd t$
+\item The function $f(t)$ may not have a Taylor expansion at $t = 0$ (due to singularities)
+\item We need an asymptotic expansion as $X \to \infty$
+\end{enumerate}
+
+\noindent Here, $f(t) = t^{-1/3} \cos t$ has a singularity at $t = 0$ (specifically, $t^{-1/3} \to \infty$ as $t \to 0^+$), so standard integration by parts would fail. Watson's lemma is designed precisely for this scenario.
+
+\section{Watson's Lemma: Statement from Lecture Notes}
+
+\begin{theorem}[Watson's Lemma, Section 4.2.2]
+Given an asymptotic sequence $\{\phi_n(t)\}$ where $\phi_n(t) = t^{\alpha + n\beta}$ with $\alpha > -1$ and $\beta > 0$, if $f(t)$ admits the asymptotic expansion
+\begin{equation}
+f(t) \sim t^\alpha \sum_{n=0}^\infty a_n t^{n\beta} \quad \text{as } t \to 0^+,
+\end{equation}
+then for the integral
+\begin{equation}
+I(X) = \int_0^b f(t) e^{-Xt} \dd t, \quad b > 0,
+\end{equation}
+we have the asymptotic expansion
+\begin{equation}
+I(X) \sim \sum_{n=0}^\infty a_n \frac{\Gamma(\alpha + n\beta + 1)}{X^{\alpha + n\beta + 1}} \quad \text{as } X \to \infty.
+\end{equation}
+\end{theorem}
+
+\noindent \textbf{WHY this theorem?} This is the exact statement from our lecture notes (equation 177), which provides the formula for converting a series expansion of $f(t)$ near $t = 0$ into an asymptotic expansion of the integral as $X \to \infty$.
+
+\section{Strategy: Applying Watson's Lemma}
+
+\begin{strategy}
+To apply Watson's lemma to our integral, we must:
+\begin{enumerate}
+\item \textbf{Expand $f(t)$} in the form $t^\alpha \sum_{n=0}^\infty a_n t^{n\beta}$ near $t = 0$
+\item \textbf{Identify parameters} $\alpha$, $\beta$, and coefficients $\{a_n\}$
+\item \textbf{Verify conditions} $\alpha > -1$ and $\beta > 0$
+\item \textbf{Apply the formula} to obtain the asymptotic expansion
+\item \textbf{Simplify} the resulting expression
+\end{enumerate}
+\end{strategy}
+
+\noindent \textbf{WHY this strategy?} This systematic approach ensures we correctly identify all components needed for Watson's lemma and apply the theorem in the proper sequence.
+
+\section{Step 1: Expanding $f(t) = t^{-1/3} \cos t$}
+
+\subsection{What Is $f(t)$?}
+
+We have
+\begin{equation}
+f(t) = t^{-1/3} \cos t.
+\end{equation}
+
+\noindent \textbf{WHY start here?} Watson's lemma requires us to express $f(t)$ as a series in powers of $t$ near $t = 0$. We must first understand the behavior of each component.
+
+\subsection{Expanding $\cos t$}
+
+The cosine function has the Taylor series (valid for all $t \in \R$):
+\begin{equation}
+\cos t = \sum_{n=0}^\infty \frac{(-1)^n t^{2n}}{(2n)!} = 1 - \frac{t^2}{2!} + \frac{t^4}{4!} - \frac{t^6}{6!} + \cdots
+\end{equation}
+
+\noindent \textbf{WHY use the Taylor series?} Because:
+\begin{enumerate}
+\item The Taylor series of $\cos t$ is an exact representation (infinite radius of convergence)
+\item This series expresses $\cos t$ in powers of $t$, which is the form required by Watson's lemma
+\item Near $t = 0$, this series converges rapidly
+\end{enumerate}
+
+\noindent \textbf{WHY only even powers?} The cosine function is even, so $\cos(-t) = \cos(t)$, which means only even powers of $t$ appear in its Taylor expansion.
+
+\subsection{Multiplying by $t^{-1/3}$}
+
+Now we multiply the Taylor series by $t^{-1/3}$:
+\begin{equation}
+f(t) = t^{-1/3} \cos t = t^{-1/3} \sum_{n=0}^\infty \frac{(-1)^n t^{2n}}{(2n)!}.
+\end{equation}
+
+\noindent \textbf{WHY multiply?} Because $f(t) = t^{-1/3} \cos t$ is the product of these two factors, and we need the expansion of the entire function $f(t)$.
+
+\subsection{Combining the Powers}
+
+Distributing $t^{-1/3}$ into the sum:
+\begin{equation}
+f(t) = \sum_{n=0}^\infty \frac{(-1)^n}{(2n)!} t^{2n - 1/3}.
+\end{equation}
+
+\noindent \textbf{WHY combine powers?} Because when we multiply $t^{-1/3}$ by $t^{2n}$, we use the law of exponents: $t^{-1/3} \cdot t^{2n} = t^{-1/3 + 2n} = t^{2n - 1/3}$.
+
+\subsection{Explicit First Terms}
+
+Let us write out the first few terms explicitly to verify our expansion:
+\begin{align}
+f(t) &= \frac{(-1)^0}{0!} t^{-1/3} + \frac{(-1)^1}{2!} t^{2 - 1/3} + \frac{(-1)^2}{4!} t^{4 - 1/3} + \frac{(-1)^3}{6!} t^{6 - 1/3} + \cdots \\
+&= t^{-1/3} - \frac{1}{2} t^{5/3} + \frac{1}{24} t^{11/3} - \frac{1}{720} t^{17/3} + \cdots
+\end{align}
+
+\noindent \textbf{WHY write explicit terms?} To verify:
+\begin{enumerate}
+\item The pattern is correct
+\item The algebraic manipulations are accurate
+\item The series has the required form for Watson's lemma
+\end{enumerate}
+
+\section{Step 2: Identifying Watson's Lemma Parameters}
+
+\subsection{Matching to Standard Form}
+
+Watson's lemma requires the form
+\begin{equation}
+f(t) \sim t^\alpha \sum_{n=0}^\infty a_n t^{n\beta}.
+\end{equation}
+
+Our expansion is
+\begin{equation}
+f(t) = \sum_{n=0}^\infty \frac{(-1)^n}{(2n)!} t^{2n - 1/3}.
+\end{equation}
+
+We can rewrite this as
+\begin{equation}
+f(t) = t^{-1/3} \sum_{n=0}^\infty \frac{(-1)^n}{(2n)!} t^{2n}.
+\end{equation}
+
+\noindent \textbf{WHY rewrite in this form?} To clearly separate the leading power $t^\alpha$ from the sum, making the comparison with Watson's lemma formula explicit.
+
+\subsection{Parameter Identification}
+
+By comparing
+\begin{equation}
+t^{-1/3} \sum_{n=0}^\infty \frac{(-1)^n}{(2n)!} t^{2n} \quad \text{with} \quad t^\alpha \sum_{n=0}^\infty a_n t^{n\beta},
+\end{equation}
+we identify:
+\begin{align}
+\alpha &= -\frac{1}{3}, \\
+\beta &= 2, \\
+a_n &= \frac{(-1)^n}{(2n)!}.
+\end{align}
+
+\noindent \textbf{WHY these values?}
+\begin{itemize}
+\item $\alpha = -1/3$: This is the leading power of $t$ when we factor out the smallest power
+\item $\beta = 2$: Each successive term in the sum increases the power by 2 (we have $t^{2n}$, so the increment is 2)
+\item $a_n = (-1)^n/(2n)!$: These are the coefficients in front of $t^{2n}$ in our expansion
+\end{itemize}
+
+\section{Step 3: Verifying Watson's Lemma Conditions}
+
+\subsection{Condition 1: $\alpha > -1$}
+
+We have $\alpha = -1/3$.
+
+\noindent Is $-1/3 > -1$? Yes, since $-1/3 \approx -0.333 > -1$.
+
+\noindent \textbf{WHY must $\alpha > -1$?} From the lecture notes, this condition ensures that $\int_0^b t^\alpha e^{-Xt} \dd t$ converges at $t = 0$. Specifically, near $t = 0$, we have $t^\alpha \sim t^{-1/3}$, and
+\begin{equation}
+\int_0^\epsilon t^{-1/3} \dd t = \left[ \frac{3}{2} t^{2/3} \right]_0^\epsilon = \frac{3}{2} \epsilon^{2/3} < \infty.
+\end{equation}
+If $\alpha \le -1$, the integral would diverge at the lower limit.
+
+\subsection{Condition 2: $\beta > 0$}
+
+We have $\beta = 2 > 0$. ✓
+
+\noindent \textbf{WHY must $\beta > 0$?} The condition $\beta > 0$ ensures that the sequence $\{t^{\alpha + n\beta}\}$ forms an asymptotic sequence, meaning each term is asymptotically smaller than the previous as $t \to 0$. With $\beta = 2 > 0$, we have
+\begin{equation}
+t^{\alpha + (n+1)\beta} = t^{\alpha + n\beta + 2} = t^{\alpha + n\beta} \cdot t^2 = o(t^{\alpha + n\beta}) \quad \text{as } t \to 0^+.
+\end{equation}
+
+\subsection{Condition 3: Convergence of the Integral}
+
+Watson's lemma also implicitly requires that $I(X)$ converges. For large $t$, we need $f(t) = o(e^{ct})$ for some $c > 0$.
+
+\noindent We have $|f(t)| = |t^{-1/3} \cos t| \le t^{-1/3}$ for $t > 0$.
+
+\noindent \textbf{WHY check this?} To ensure the integral converges at the upper limit $t = \pi$. Since $t^{-1/3}$ is bounded on $[0, \pi]$ (except near 0, which we've already handled), and the exponential $e^{-Xt}$ decays rapidly for large $X$, the integral converges.
+
+\section{Step 4: Applying Watson's Lemma Formula}
+
+\subsection{The Formula}
+
+Watson's lemma states:
+\begin{equation}
+I(X) \sim \sum_{n=0}^\infty a_n \frac{\Gamma(\alpha + n\beta + 1)}{X^{\alpha + n\beta + 1}} \quad \text{as } X \to \infty.
+\end{equation}
+
+\noindent \textbf{WHY this formula?} This is equation (177) from Section 4.2.2 of the lecture notes, derived by:
+\begin{enumerate}
+\item Substituting $f(t) \sim t^\alpha \sum a_n t^{n\beta}$ into the integral
+\item Interchanging sum and integral (justified for asymptotic series)
+\item Recognizing $\int_0^\infty t^{\alpha + n\beta} e^{-Xt} \dd t = \Gamma(\alpha + n\beta + 1) / X^{\alpha + n\beta + 1}$
+\end{enumerate}
+
+\subsection{Substituting Our Parameters}
+
+With $\alpha = -1/3$, $\beta = 2$, and $a_n = (-1)^n / (2n)!$, we substitute:
+\begin{equation}
+I(X) \sim \sum_{n=0}^\infty \frac{(-1)^n}{(2n)!} \frac{\Gamma(-1/3 + 2n + 1)}{X^{-1/3 + 2n + 1}}.
+\end{equation}
+
+\noindent \textbf{WHY substitute?} To apply the general formula to our specific problem, replacing abstract parameters with concrete values.
+
+\subsection{Simplifying the Argument}
+
+Simplifying the argument:
+\begin{align}
+\alpha + n\beta + 1 &= -\frac{1}{3} + 2n + 1 \\
+&= 2n + 1 - \frac{1}{3} \\
+&= 2n + \frac{3 - 1}{3} \\
+&= 2n + \frac{2}{3}.
+\end{align}
+
+\noindent \textbf{WHY simplify?} To express the formula in its cleanest form, making the pattern clear and the result easier to interpret.
+
+\subsection{Final Asymptotic Expansion}
+
+Therefore:
+\begin{equation}
+\boxed{
+I(X) \sim \sum_{n=0}^\infty \frac{(-1)^n}{(2n)!} \frac{\Gamma(2n + 2/3)}{X^{2n + 2/3}} \quad \text{as } X \to \infty.
+}
+\end{equation}
+
+\noindent \textbf{WHY is this the answer?} This is the direct result of applying Watson's lemma with our identified parameters. Each term represents the contribution from the $n$-th term in the Taylor expansion of $\cos t$ multiplied by $t^{-1/3}$.
+
+\section{Step 5: Explicit First Terms}
+
+\subsection{Computing Initial Terms}
+
+Let us compute the first few terms explicitly:
+
+\subsubsection{Term $n = 0$}
+\begin{equation}
+\frac{(-1)^0}{(0)!} \frac{\Gamma(2/3)}{X^{2/3}} = \frac{\Gamma(2/3)}{X^{2/3}}.
+\end{equation}
+
+\noindent \textbf{WHY start with $n=0$?} This is the leading-order term, which dominates the asymptotic behavior as $X \to \infty$.
+
+\subsubsection{Term $n = 1$}
+\begin{equation}
+\frac{(-1)^1}{(2)!} \frac{\Gamma(2 + 2/3)}{X^{2 + 2/3}} = -\frac{1}{2} \frac{\Gamma(8/3)}{X^{8/3}}.
+\end{equation}
+
+\subsubsection{Term $n = 2$}
+\begin{equation}
+\frac{(-1)^2}{(4)!} \frac{\Gamma(4 + 2/3)}{X^{4 + 2/3}} = \frac{1}{24} \frac{\Gamma(14/3)}{X^{14/3}}.
+\end{equation}
+
+\subsubsection{Term $n = 3$}
+\begin{equation}
+\frac{(-1)^3}{(6)!} \frac{\Gamma(6 + 2/3)}{X^{6 + 2/3}} = -\frac{1}{720} \frac{\Gamma(20/3)}{X^{20/3}}.
+\end{equation}
+
+\subsection{Expanded Form}
+
+The asymptotic expansion is:
+\begin{equation}
+I(X) \sim \frac{\Gamma(2/3)}{X^{2/3}} - \frac{\Gamma(8/3)}{2 X^{8/3}} + \frac{\Gamma(14/3)}{24 X^{14/3}} - \frac{\Gamma(20/3)}{720 X^{20/3}} + \cdots
+\end{equation}
+
+\noindent \textbf{WHY write explicit terms?} To:
+\begin{enumerate}
+\item Show the pattern clearly
+\item Verify the formula is producing sensible results
+\item Demonstrate the alternating sign structure
+\item Show how rapidly the powers of $X$ increase in the denominator
+\end{enumerate}
+
+\section{Verification and Interpretation}
+
+\subsection{Structure of the Expansion}
+
+\noindent \textbf{Observation 1:} The powers of $X$ in the denominator are $2/3, 8/3, 14/3, 20/3, \ldots$, which increase by 2 each time.
+
+\noindent \textbf{WHY this pattern?} Because $\beta = 2$, so consecutive terms differ by $\beta = 2$ in the exponent.
+
+\noindent \textbf{Observation 2:} The signs alternate due to $(-1)^n$.
+
+\noindent \textbf{WHY alternating signs?} This comes from the Taylor series of $\cos t = \sum (-1)^n t^{2n}/(2n)!$, which has alternating signs.
+
+\noindent \textbf{Observation 3:} As $X \to \infty$, each term is much smaller than the previous.
+
+\noindent \textbf{WHY asymptotic?} For large $X$:
+\begin{equation}
+\frac{\text{Term}_{n+1}}{\text{Term}_n} \sim \frac{X^{2n+2/3}}{X^{2n+8/3}} = \frac{1}{X^2} \to 0.
+\end{equation}
+
+\subsection{Gamma Function Values}
+
+The Gamma function values can be computed using the recurrence $\Gamma(z+1) = z\Gamma(z)$:
+\begin{align}
+\Gamma(2/3) &\approx 1.35412, \\
+\Gamma(8/3) &= \frac{5}{3} \cdot \frac{2}{3} \cdot \Gamma(2/3) \approx 1.50407, \\
+\Gamma(14/3) &= \frac{11}{3} \cdot \frac{8}{3} \cdot \frac{5}{3} \cdot \frac{2}{3} \cdot \Gamma(2/3) \approx 5.50533.
+\end{align}
+
+\noindent \textbf{WHY include numerical values?} To demonstrate that the coefficients are finite and well-defined, confirming our asymptotic expansion is meaningful.
+
+\section{Final Answer}
+
+The infinite asymptotic expansion of
+\begin{equation}
+I(X) = \int_0^\pi e^{-Xt} t^{-1/3} \cos t \, \dd t
+\end{equation}
+as $X \to \infty$ is given by Watson's lemma as:
+
+\begin{equation}
+\boxed{
+I(X) \sim \sum_{n=0}^\infty \frac{(-1)^n}{(2n)!} \frac{\Gamma\left(2n + \frac{2}{3}\right)}{X^{2n + 2/3}} \quad \text{as } X \to \infty,
+}
+\end{equation}
+which can also be written explicitly as:
+\begin{equation}
+\boxed{
+I(X) \sim \frac{\Gamma(2/3)}{X^{2/3}} - \frac{\Gamma(8/3)}{2 X^{8/3}} + \frac{\Gamma(14/3)}{24 X^{14/3}} - \frac{\Gamma(20/3)}{720 X^{20/3}} + \cdots
+}
+\end{equation}
+
+\noindent \textbf{WHY is this the complete answer?} This satisfies all requirements:
+\begin{enumerate}
+\item We used Watson's lemma as instructed
+\item We obtained an \emph{infinite} asymptotic expansion (not just leading order)
+\item The expansion is valid as $X \to \infty$
+\item Every step followed rigorously from the course material
+\end{enumerate}
+
+\end{document}

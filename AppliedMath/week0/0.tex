@@ -1,0 +1,1342 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{mathtools}
+\usepackage{enumitem}
+\usepackage{xcolor}
+
+% Custom commands for XYZ methodology
+\newcommand{\stage}[1]{\textbf{\textcolor{blue}{#1}}}
+\newcommand{\critical}[1]{\textbf{\textcolor{red}{#1}}}
+
+\title{Exercise Sheet 0 -- Revision: Complete Solutions\\
+Methods of Applied Mathematics [SEMT30006]}
+\author{Complete Step-by-Step Solutions with Intuition}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+\newpage
+
+\section*{Introduction to Solution Methodology}
+
+These solutions follow the \textbf{XYZ Framework} throughout:
+\begin{itemize}[leftmargin=*]
+    \item \stage{STAGE X (What we have/know):} Present the given information and current state
+    \item \stage{STAGE Y (Why this works/method):} Explain the mathematical reasoning and justification
+    \item \stage{STAGE Z (What this means):} Interpret results and determine implications
+\end{itemize}
+
+This framework ensures every step has clear motivation, rigorous justification, and meaningful interpretation.
+
+\newpage
+
+\section{Problem 1: Matrices -- Finding Eigenvalues}
+
+\subsection{Problem 1(a): Matrix $\begin{pmatrix} 1 & 1 \\ 1 & 1 \end{pmatrix}$}
+
+\subsubsection*{Problem Statement}
+Find the eigenvalues of $A = \begin{pmatrix} 1 & 1 \\ 1 & 1 \end{pmatrix}$.
+
+\textit{Hint given: One eigenvalue can be spotted by considering the rank.}
+
+\subsubsection*{Step 1: Analyze Matrix Structure}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (What we have):}
+We have a $2 \times 2$ symmetric matrix where both rows are identical: $\begin{pmatrix} 1 & 1 \\ 1 & 1 \end{pmatrix}$.
+
+\item \stage{STAGE Y (Why rank matters):}
+Since the second row equals the first row, these rows are linearly dependent. This means:
+\begin{align}
+\text{rank}(A) = 1 < 2 = \dim(A)
+\end{align}
+For any $n \times n$ matrix, if $\text{rank}(A) < n$, then $\det(A) = 0$, which means $\lambda = 0$ is an eigenvalue.
+
+\item \stage{STAGE Z (What this means):}
+We know immediately that $\lambda_1 = 0$ is one eigenvalue. We need to find the other.
+\end{itemize}
+
+\subsubsection*{Step 2: Use Trace to Find Second Eigenvalue}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (What we know):}
+For any $2 \times 2$ matrix, the sum of eigenvalues equals the trace:
+\begin{align}
+\lambda_1 + \lambda_2 = \text{tr}(A) = a_{11} + a_{22}
+\end{align}
+
+\item \stage{STAGE Y (Why this works):}
+This follows from the characteristic polynomial $\det(A - \lambda I) = \lambda^2 - \text{tr}(A)\lambda + \det(A)$, where the coefficient of $\lambda$ gives us $-(\lambda_1 + \lambda_2) = -\text{tr}(A)$.
+
+For our matrix:
+\begin{align}
+\text{tr}(A) = 1 + 1 = 2
+\end{align}
+
+Since $\lambda_1 = 0$:
+\begin{align}
+0 + \lambda_2 = 2 \quad \Rightarrow \quad \lambda_2 = 2
+\end{align}
+
+\item \stage{STAGE Z (What this means):}
+The eigenvalues are $\boxed{\lambda_1 = 0, \quad \lambda_2 = 2}$ without needing the full characteristic equation.
+\end{itemize}
+
+\subsubsection*{Step 3: Verification by Characteristic Polynomial (Complete Method)}
+
+\critical{VERIFICATION:} Let's verify using the standard method:
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (Standard approach):}
+The eigenvalues $\lambda$ satisfy $\det(A - \lambda I) = 0$:
+\begin{align}
+\det\begin{pmatrix} 1-\lambda & 1 \\ 1 & 1-\lambda \end{pmatrix} = 0
+\end{align}
+
+\item \stage{STAGE Y (Computing the determinant):}
+\begin{align}
+(1-\lambda)(1-\lambda) - (1)(1) &= 0 \\
+(1-\lambda)^2 - 1 &= 0 \\
+1 - 2\lambda + \lambda^2 - 1 &= 0 \\
+\lambda^2 - 2\lambda &= 0 \\
+\lambda(\lambda - 2) &= 0
+\end{align}
+
+\item \stage{STAGE Z (Confirmation):}
+This gives $\lambda = 0$ or $\lambda = 2$, confirming our answer $\checkmark$
+\end{itemize}
+
+\subsubsection*{Physical Interpretation}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (Eigenvector analysis):}
+\begin{itemize}
+    \item For $\lambda_1 = 0$: $A\mathbf{v}_1 = \mathbf{0}$, so $\mathbf{v}_1 = \begin{pmatrix} 1 \\ -1 \end{pmatrix}$ (or any multiple)
+    \item For $\lambda_2 = 2$: $A\mathbf{v}_2 = 2\mathbf{v}_2$, so $\mathbf{v}_2 = \begin{pmatrix} 1 \\ 1 \end{pmatrix}$ (or any multiple)
+\end{itemize}
+
+\item \stage{STAGE Y (Dynamical interpretation):}
+In a dynamical system $\dot{\mathbf{x}} = A\mathbf{x}$, the matrix has:
+\begin{itemize}
+    \item One zero eigenvalue: solutions along $\begin{pmatrix} 1 \\ -1 \end{pmatrix}$ remain constant
+    \item One positive eigenvalue: solutions along $\begin{pmatrix} 1 \\ 1 \end{pmatrix}$ grow exponentially as $e^{2t}$
+\end{itemize}
+
+\item \stage{STAGE Z (Stability conclusion):}
+This equilibrium is \textbf{unstable} because at least one eigenvalue is positive, causing exponential growth.
+\end{itemize}
+
+\newpage
+
+\subsection{Problem 1(b): Matrix $\begin{pmatrix} 3 & 1 \\ 1 & 3 \end{pmatrix}$}
+
+\subsubsection*{Problem Statement}
+Find the eigenvalues of $A = \begin{pmatrix} 3 & 1 \\ 1 & 3 \end{pmatrix}$.
+
+\subsubsection*{Step 1: Recognize Matrix Type and Use Symmetry}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (What we have):}
+A symmetric matrix of the form $A = \begin{pmatrix} a & b \\ b & a \end{pmatrix}$ with $a=3$, $b=1$.
+
+\item \stage{STAGE Y (Why symmetry helps):}
+For this special form, we can immediately write down the eigenvalues using the pattern:
+\begin{align}
+\lambda_{\pm} = a \pm b
+\end{align}
+
+This works because such matrices can be diagonalized as:
+\begin{align}
+A = \begin{pmatrix} 3 & 1 \\ 1 & 3 \end{pmatrix} = 3I + 1J, \quad \text{where } J = \begin{pmatrix} 0 & 1 \\ 1 & 0 \end{pmatrix}
+\end{align}
+
+Since $J$ has eigenvalues $\pm 1$, and $I$ adds 3 to each eigenvalue:
+\begin{align}
+\lambda_1 = 3 + 1 = 4, \quad \lambda_2 = 3 - 1 = 2
+\end{align}
+
+\item \stage{STAGE Z (Quick answer):}
+$\boxed{\lambda_1 = 4, \quad \lambda_2 = 2}$
+\end{itemize}
+
+\subsubsection*{Step 2: Verification by Characteristic Polynomial}
+
+\critical{COMPLETE METHOD:}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (Setup):}
+Solve $\det(A - \lambda I) = 0$:
+\begin{align}
+\det\begin{pmatrix} 3-\lambda & 1 \\ 1 & 3-\lambda \end{pmatrix} = 0
+\end{align}
+
+\item \stage{STAGE Y (Computation):}
+\begin{align}
+(3-\lambda)(3-\lambda) - (1)(1) &= 0 \\
+(3-\lambda)^2 - 1 &= 0 \\
+9 - 6\lambda + \lambda^2 - 1 &= 0 \\
+\lambda^2 - 6\lambda + 8 &= 0
+\end{align}
+
+Using the quadratic formula:
+\begin{align}
+\lambda = \frac{6 \pm \sqrt{36 - 32}}{2} = \frac{6 \pm \sqrt{4}}{2} = \frac{6 \pm 2}{2}
+\end{align}
+
+Therefore:
+\begin{align}
+\lambda_1 = \frac{6+2}{2} = 4, \quad \lambda_2 = \frac{6-2}{2} = 2
+\end{align}
+
+\item \stage{STAGE Z (Verification):}
+Matches our quick calculation $\checkmark$
+\end{itemize}
+
+\subsubsection*{Step 3: Alternative Method Using Sum and Product}
+
+\critical{EFFICIENT TECHNIQUE:}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (Known relationships):}
+\begin{align}
+\lambda_1 + \lambda_2 &= \text{tr}(A) = 3 + 3 = 6 \\
+\lambda_1 \cdot \lambda_2 &= \det(A) = 3 \cdot 3 - 1 \cdot 1 = 9 - 1 = 8
+\end{align}
+
+\item \stage{STAGE Y (Solving the system):}
+We need two numbers that sum to 6 and multiply to 8. These are the roots of:
+\begin{align}
+t^2 - 6t + 8 = 0 \quad \Rightarrow \quad (t-4)(t-2) = 0
+\end{align}
+
+\item \stage{STAGE Z (Solution):}
+$\lambda_1 = 4$, $\lambda_2 = 2$ $\checkmark$
+\end{itemize}
+
+\subsubsection*{Physical Interpretation}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (Eigenvector structure):}
+\begin{itemize}
+    \item For $\lambda_1 = 4$: $\mathbf{v}_1 = \begin{pmatrix} 1 \\ 1 \end{pmatrix}$
+    \item For $\lambda_2 = 2$: $\mathbf{v}_2 = \begin{pmatrix} 1 \\ -1 \end{pmatrix}$
+\end{itemize}
+
+\item \stage{STAGE Y (Dynamical system behavior):}
+For $\dot{\mathbf{x}} = A\mathbf{x}$:
+\begin{itemize}
+    \item Along $\begin{pmatrix} 1 \\ 1 \end{pmatrix}$: fast exponential growth $\sim e^{4t}$
+    \item Along $\begin{pmatrix} 1 \\ -1 \end{pmatrix}$: slow exponential growth $\sim e^{2t}$
+\end{itemize}
+
+\item \stage{STAGE Z (Classification):}
+Since both eigenvalues are positive and real, this is an \textbf{unstable node}. The eigenvector with $\lambda_1=4$ is the \textbf{strong direction} (fastest growth), while $\lambda_2=2$ is the \textbf{weak direction} (slower growth).
+\end{itemize}
+
+\newpage
+
+\subsection{Problem 1(c): Matrix $\begin{pmatrix} 1 & 3 \\ 0 & 2 \end{pmatrix}$}
+
+\subsubsection*{Problem Statement}
+Find the eigenvalues of $A = \begin{pmatrix} 1 & 3 \\ 0 & 2 \end{pmatrix}$.
+
+\textit{Hint given: Both eigenvalues can be spotted just by looking.}
+
+\subsubsection*{Step 1: Recognize Upper Triangular Matrix}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (What we have):}
+An upper triangular matrix (all entries below the main diagonal are zero).
+
+\item \stage{STAGE Y (Why this is immediate):}
+For any triangular matrix (upper or lower), the eigenvalues are simply the diagonal entries. This is because:
+\begin{align}
+\det(A - \lambda I) = \det\begin{pmatrix} 1-\lambda & 3 \\ 0 & 2-\lambda \end{pmatrix}
+\end{align}
+
+For a triangular matrix, the determinant is the product of diagonal entries:
+\begin{align}
+\det(A - \lambda I) = (1-\lambda)(2-\lambda) = 0
+\end{align}
+
+\item \stage{STAGE Z (Immediate answer):}
+$\boxed{\lambda_1 = 1, \quad \lambda_2 = 2}$
+
+We can see this directly from the diagonal without any calculation!
+\end{itemize}
+
+\subsubsection*{Step 2: Understand Why This Property Holds}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (Characteristic polynomial structure):}
+For our matrix:
+\begin{align}
+\det(A - \lambda I) &= (1-\lambda)(2-\lambda) - (0)(3) \\
+&= (1-\lambda)(2-\lambda) \\
+&= 2 - \lambda - 2\lambda + \lambda^2 \\
+&= \lambda^2 - 3\lambda + 2
+\end{align}
+
+\item \stage{STAGE Y (Factorization insight):}
+The off-diagonal term $(0)(3) = 0$ doesn't contribute, so we get:
+\begin{align}
+\lambda^2 - 3\lambda + 2 = (\lambda-1)(\lambda-2) = 0
+\end{align}
+
+This is a general property: for triangular matrices, the characteristic polynomial factors as:
+\begin{align}
+\det(A - \lambda I) = \prod_{i=1}^n (a_{ii} - \lambda)
+\end{align}
+
+\item \stage{STAGE Z (General principle):}
+\critical{KEY INSIGHT:} Always check if a matrix is triangular before computing eigenvalues—it saves significant work!
+\end{itemize}
+
+\subsubsection*{Step 3: Find Eigenvectors and Interpret}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (Eigenvector computation):}
+
+For $\lambda_1 = 1$:
+\begin{align}
+(A - I)\mathbf{v}_1 = \begin{pmatrix} 0 & 3 \\ 0 & 1 \end{pmatrix}\begin{pmatrix} v_1 \\ v_2 \end{pmatrix} = \mathbf{0}
+\end{align}
+This gives $v_2 = 0$, so $\mathbf{v}_1 = \begin{pmatrix} 1 \\ 0 \end{pmatrix}$.
+
+For $\lambda_2 = 2$:
+\begin{align}
+(A - 2I)\mathbf{v}_2 = \begin{pmatrix} -1 & 3 \\ 0 & 0 \end{pmatrix}\begin{pmatrix} v_1 \\ v_2 \end{pmatrix} = \mathbf{0}
+\end{align}
+This gives $-v_1 + 3v_2 = 0$, so $\mathbf{v}_2 = \begin{pmatrix} 3 \\ 1 \end{pmatrix}$.
+
+\item \stage{STAGE Y (Dynamical system interpretation):}
+For $\dot{\mathbf{x}} = A\mathbf{x}$:
+\begin{itemize}
+    \item Along $\begin{pmatrix} 1 \\ 0 \end{pmatrix}$: growth rate $e^{t}$
+    \item Along $\begin{pmatrix} 3 \\ 1 \end{pmatrix}$: growth rate $e^{2t}$
+\end{itemize}
+
+\item \stage{STAGE Z (Stability classification):}
+This is an \textbf{unstable node} (both eigenvalues positive and real). The off-diagonal entry causes \textbf{shearing}—the flow doesn't align with coordinate axes, but rather with the eigenvector directions.
+\end{itemize}
+
+\subsubsection*{Key Takeaway}
+
+\critical{EXAM TIP:} When you see a triangular matrix:
+\begin{enumerate}
+    \item Eigenvalues = diagonal entries (instant answer!)
+    \item No need to compute $\det(A - \lambda I)$
+    \item This works for both upper and lower triangular matrices
+    \item Also works for diagonal matrices (special case)
+\end{enumerate}
+
+\newpage
+
+\section{Problem 2: Complex Numbers}
+
+\subsection{Problem 2(a): Expand $(1 + 2i)e^{2it} + (1 - 2i)e^{-2it}$ in terms of sin and cos}
+
+\subsubsection*{Problem Statement}
+Express $(1 + 2i)e^{2it} + (1 - 2i)e^{-2it}$ in terms of $\sin$ and $\cos$ functions.
+
+\subsubsection*{Step 1: Apply Euler's Formula}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (What we have):}
+Two complex exponentials with complex coefficients. We use Euler's formula:
+\begin{align}
+e^{i\theta} = \cos\theta + i\sin\theta
+\end{align}
+
+\item \stage{STAGE Y (Applying to our problem):}
+\begin{align}
+e^{2it} &= \cos(2t) + i\sin(2t) \\
+e^{-2it} &= \cos(-2t) + i\sin(-2t) = \cos(2t) - i\sin(2t)
+\end{align}
+
+where we used $\cos(-\theta) = \cos(\theta)$ and $\sin(-\theta) = -\sin(\theta)$.
+
+\item \stage{STAGE Z (Ready to expand):}
+Now substitute these into the original expression.
+\end{itemize}
+
+\subsubsection*{Step 2: Expand Each Term}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (First term):}
+\begin{align}
+(1 + 2i)e^{2it} &= (1 + 2i)[\cos(2t) + i\sin(2t)] \\
+&= \cos(2t) + i\sin(2t) + 2i\cos(2t) + 2i^2\sin(2t) \\
+&= \cos(2t) + i\sin(2t) + 2i\cos(2t) - 2\sin(2t) \\
+&= [\cos(2t) - 2\sin(2t)] + i[\sin(2t) + 2\cos(2t)]
+\end{align}
+
+\item \stage{STAGE Y (Second term):}
+\begin{align}
+(1 - 2i)e^{-2it} &= (1 - 2i)[\cos(2t) - i\sin(2t)] \\
+&= \cos(2t) - i\sin(2t) - 2i\cos(2t) + 2i^2\sin(2t) \\
+&= \cos(2t) - i\sin(2t) - 2i\cos(2t) - 2\sin(2t) \\
+&= [\cos(2t) - 2\sin(2t)] - i[\sin(2t) + 2\cos(2t)]
+\end{align}
+
+\item \stage{STAGE Z (Notice the pattern):}
+The two terms are complex conjugates of each other!
+\end{itemize}
+
+\subsubsection*{Step 3: Combine and Simplify}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (Adding the terms):}
+\begin{align}
+&(1 + 2i)e^{2it} + (1 - 2i)e^{-2it} \\
+&= [\cos(2t) - 2\sin(2t)] + i[\sin(2t) + 2\cos(2t)] \\
+&\quad + [\cos(2t) - 2\sin(2t)] - i[\sin(2t) + 2\cos(2t)]
+\end{align}
+
+\item \stage{STAGE Y (Imaginary parts cancel):}
+When we add complex conjugates, imaginary parts cancel:
+\begin{align}
+&= 2[\cos(2t) - 2\sin(2t)] \\
+&= 2\cos(2t) - 4\sin(2t)
+\end{align}
+
+\item \stage{STAGE Z (Final answer):}
+\begin{align}
+\boxed{(1 + 2i)e^{2it} + (1 - 2i)e^{-2it} = 2\cos(2t) - 4\sin(2t)}
+\end{align}
+
+This is a real-valued function, as expected from the sum of complex conjugates.
+\end{itemize}
+
+\subsubsection*{Step 4: Interpretation and General Pattern}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (Why complex conjugates give real results):}
+For any complex number $z = a + ib$:
+\begin{align}
+z e^{i\omega t} + z^* e^{-i\omega t} = 2\text{Re}(z e^{i\omega t})
+\end{align}
+
+This is a fundamental technique in physics and engineering for converting complex exponentials to real trigonometric functions.
+
+\item \stage{STAGE Y (General formula):}
+For $z = a + ib$:
+\begin{align}
+z e^{i\omega t} + z^* e^{-i\omega t} &= (a + ib)e^{i\omega t} + (a - ib)e^{-i\omega t} \\
+&= 2a\cos(\omega t) - 2b\sin(\omega t)
+\end{align}
+
+In our case: $a = 1$, $b = 2$, $\omega = 2$:
+\begin{align}
+2(1)\cos(2t) - 2(2)\sin(2t) = 2\cos(2t) - 4\sin(2t) \quad \checkmark
+\end{align}
+
+\item \stage{STAGE Z (Application to ODEs):}
+This technique is crucial for solving differential equations with oscillatory solutions. When ODEs have complex eigenvalues $\lambda = \alpha \pm i\beta$, the general solution involves terms like:
+\begin{align}
+e^{\alpha t}[c_1 e^{i\beta t} + c_2 e^{-i\beta t}] = e^{\alpha t}[A\cos(\beta t) + B\sin(\beta t)]
+\end{align}
+\end{itemize}
+
+\critical{CONNECTION TO COURSE MATERIAL:} In the lecture notes (page 26-27), when eigenvalues are complex conjugates $\lambda = \pm i\sqrt{\alpha\gamma}$, solutions oscillate with frequency $\sqrt{\alpha\gamma}$. This expansion technique converts those complex solutions to real observable oscillations.
+
+\newpage
+
+\subsection{Problem 2(b): Find the solutions of $u^3 = 2$}
+
+\subsubsection*{Problem Statement}
+Find all complex solutions to $u^3 = 2$.
+
+\subsubsection*{Step 1: Convert to Polar Form}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (Express in polar coordinates):}
+Write $2$ in polar form:
+\begin{align}
+2 = 2 e^{i \cdot 0} = 2 e^{i \cdot 2\pi k} \quad \text{for any integer } k
+\end{align}
+
+This accounts for the fact that $e^{i\theta}$ is $2\pi$-periodic.
+
+\item \stage{STAGE Y (Why multiple representations matter):}
+Since $e^{i\theta}$ has period $2\pi$, we have:
+\begin{align}
+2 = 2e^{i \cdot 0} = 2e^{i \cdot 2\pi} = 2e^{i \cdot 4\pi} = 2e^{i \cdot 2\pi k}
+\end{align}
+
+When we take roots, each representation gives a potentially different solution.
+
+\item \stage{STAGE Z (Setup for cube roots):}
+We seek $u$ such that $u^3 = 2 e^{i \cdot 2\pi k}$.
+\end{itemize}
+
+\subsubsection*{Step 2: Extract Cube Roots}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (Taking cube roots):}
+If $u = re^{i\theta}$, then:
+\begin{align}
+u^3 = r^3 e^{i3\theta} = 2 e^{i \cdot 2\pi k}
+\end{align}
+
+Matching magnitudes and arguments:
+\begin{align}
+r^3 &= 2 \quad \Rightarrow \quad r = 2^{1/3} = \sqrt[3]{2} \\
+3\theta &= 2\pi k \quad \Rightarrow \quad \theta = \frac{2\pi k}{3}
+\end{align}
+
+\item \stage{STAGE Y (Finding distinct solutions):}
+The solutions are:
+\begin{align}
+u_k = 2^{1/3} e^{i \cdot 2\pi k/3} \quad \text{for } k = 0, 1, 2
+\end{align}
+
+For $k \geq 3$, we get repeats because:
+\begin{align}
+e^{i \cdot 2\pi \cdot 3/3} = e^{i \cdot 2\pi} = e^{i \cdot 0}
+\end{align}
+
+So there are exactly \textbf{three distinct cube roots}.
+
+\item \stage{STAGE Z (The three solutions):}
+\begin{align}
+u_0 &= 2^{1/3} e^{i \cdot 0} = 2^{1/3} \\
+u_1 &= 2^{1/3} e^{i \cdot 2\pi/3} \\
+u_2 &= 2^{1/3} e^{i \cdot 4\pi/3}
+\end{align}
+\end{itemize}
+
+\subsubsection*{Step 3: Convert to Cartesian Form}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (First solution - real):}
+\begin{align}
+u_0 = 2^{1/3} = \boxed{\sqrt[3]{2}}
+\end{align}
+
+\item \stage{STAGE Y (Second solution):}
+\begin{align}
+u_1 &= 2^{1/3} e^{i \cdot 2\pi/3} = 2^{1/3}\left[\cos\left(\frac{2\pi}{3}\right) + i\sin\left(\frac{2\pi}{3}\right)\right] \\
+&= 2^{1/3}\left[-\frac{1}{2} + i\frac{\sqrt{3}}{2}\right] \\
+&= \boxed{2^{1/3}\left(-\frac{1}{2} + i\frac{\sqrt{3}}{2}\right)}
+\end{align}
+
+\item \stage{STAGE Z (Third solution):}
+\begin{align}
+u_2 &= 2^{1/3} e^{i \cdot 4\pi/3} = 2^{1/3}\left[\cos\left(\frac{4\pi}{3}\right) + i\sin\left(\frac{4\pi}{3}\right)\right] \\
+&= 2^{1/3}\left[-\frac{1}{2} - i\frac{\sqrt{3}}{2}\right] \\
+&= \boxed{2^{1/3}\left(-\frac{1}{2} - i\frac{\sqrt{3}}{2}\right)}
+\end{align}
+\end{itemize}
+
+\subsubsection*{Step 4: Geometric Interpretation}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (Symmetry in complex plane):}
+The three roots lie on a circle of radius $2^{1/3}$ in the complex plane, equally spaced at angles:
+\begin{align}
+0°, \quad 120°, \quad 240°
+\end{align}
+
+\item \stage{STAGE Y (Why this pattern):}
+The $n$-th roots of any complex number are equally spaced around a circle, separated by angles of $\frac{360°}{n} = \frac{2\pi}{n}$ radians. For cube roots, this is $120°$ or $\frac{2\pi}{3}$ radians.
+
+\item \stage{STAGE Z (General principle):}
+For any equation $u^n = a$ where $a \in \mathbb{C}$:
+\begin{itemize}
+    \item There are exactly $n$ solutions
+    \item They lie on a circle of radius $|a|^{1/n}$
+    \item They are equally spaced by angle $\frac{2\pi}{n}$
+    \item Starting angle is $\frac{\arg(a)}{n}$
+\end{itemize}
+\end{itemize}
+
+\subsubsection*{Verification}
+
+\critical{CHECK:} Let's verify $u_1$:
+\begin{align}
+u_1^3 &= \left[2^{1/3} e^{i \cdot 2\pi/3}\right]^3 \\
+&= (2^{1/3})^3 \cdot e^{i \cdot 2\pi} \\
+&= 2 \cdot 1 = 2 \quad \checkmark
+\end{align}
+
+\subsubsection*{Summary of All Three Solutions}
+
+\begin{align}
+\boxed{
+u \in \left\{
+\sqrt[3]{2}, \quad
+\sqrt[3]{2}\left(-\frac{1}{2} + i\frac{\sqrt{3}}{2}\right), \quad
+\sqrt[3]{2}\left(-\frac{1}{2} - i\frac{\sqrt{3}}{2}\right)
+\right\}
+}
+\end{align}
+
+Alternatively, in polar form:
+\begin{align}
+\boxed{
+u \in \left\{
+2^{1/3}, \quad
+2^{1/3}e^{i2\pi/3}, \quad
+2^{1/3}e^{i4\pi/3}
+\right\}
+}
+\end{align}
+
+\critical{CONNECTION TO COURSE:} Complex roots appear frequently when solving characteristic equations for ODEs. When eigenvalues come in complex conjugate pairs $\lambda = \alpha \pm i\beta$, solutions involve $e^{(\alpha \pm i\beta)t}$, which produce oscillatory behavior as discussed in pages 26-34 of the lecture notes.
+
+\newpage
+
+\section{Problem 3: Ordinary Differential Equations}
+
+\subsection{Problem 3(a): Solve $\frac{dx}{dt} = \frac{1}{2}(1-x)$}
+
+\subsubsection*{Problem Statement}
+Solve the first-order ODE: $\frac{dx}{dt} = \frac{1}{2}(1-x)$.
+
+\subsubsection*{Step 1: Identify ODE Type and Method}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (What we have):}
+A first-order, linear, separable ODE of the form:
+\begin{align}
+\frac{dx}{dt} = f(x)
+\end{align}
+where $f(x) = \frac{1}{2}(1-x)$ is a function of $x$ only (autonomous).
+
+\item \stage{STAGE Y (Why separation of variables works):}
+Since the right-hand side depends only on $x$ and not explicitly on $t$, we can separate variables:
+\begin{align}
+\frac{dx}{1-x} = \frac{1}{2} dt
+\end{align}
+
+This moves all terms involving $x$ to one side and all terms involving $t$ to the other.
+
+\item \stage{STAGE Z (Strategy):}
+Integrate both sides and solve for $x(t)$.
+\end{itemize}
+
+\subsubsection*{Step 2: Separate Variables and Integrate}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (Separation):}
+\begin{align}
+\frac{dx}{1-x} = \frac{1}{2} dt
+\end{align}
+
+\item \stage{STAGE Y (Integration):}
+Integrate both sides:
+\begin{align}
+\int \frac{dx}{1-x} &= \int \frac{1}{2} dt \\
+-\ln|1-x| &= \frac{t}{2} + C_1
+\end{align}
+
+where $C_1$ is the constant of integration.
+
+\item \stage{STAGE Z (Rearranging):}
+Multiply by $-1$:
+\begin{align}
+\ln|1-x| = -\frac{t}{2} - C_1 = -\frac{t}{2} + C_2
+\end{align}
+where $C_2 = -C_1$ (still arbitrary).
+\end{itemize}
+
+\subsubsection*{Step 3: Solve for $x(t)$}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (Exponentiating):}
+\begin{align}
+|1-x| = e^{-t/2 + C_2} = e^{C_2} e^{-t/2}
+\end{align}
+
+Let $A = \pm e^{C_2}$ (can be positive or negative):
+\begin{align}
+1-x = A e^{-t/2}
+\end{align}
+
+\item \stage{STAGE Y (Solving for $x$):}
+\begin{align}
+x(t) = 1 - A e^{-t/2}
+\end{align}
+
+\item \stage{STAGE Z (Incorporating initial conditions):}
+At $t = 0$:
+\begin{align}
+x(0) = 1 - A = x_0 \quad \Rightarrow \quad A = 1 - x_0
+\end{align}
+
+Therefore, the general solution is:
+\begin{align}
+\boxed{x(t) = 1 - (1-x_0)e^{-t/2}}
+\end{align}
+\end{itemize}
+
+\subsubsection*{Step 4: Analysis of Solution Behavior}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (Equilibrium analysis):}
+The equilibrium occurs when $\frac{dx}{dt} = 0$:
+\begin{align}
+\frac{1}{2}(1-x) = 0 \quad \Rightarrow \quad x^* = 1
+\end{align}
+
+\item \stage{STAGE Y (Long-time behavior):}
+As $t \to \infty$:
+\begin{align}
+x(t) = 1 - (1-x_0)e^{-t/2} \to 1
+\end{align}
+since $e^{-t/2} \to 0$.
+
+The solution exponentially approaches $x = 1$ from below if $x_0 < 1$, or from above if $x_0 > 1$.
+
+\item \stage{STAGE Z (Stability):}
+This equilibrium $x^* = 1$ is \textbf{stable} (an attractor). All solutions converge to it.
+
+The linearization about $x^* = 1$ gives:
+\begin{align}
+\frac{d}{dt}(x-1) \approx -\frac{1}{2}(x-1)
+\end{align}
+with solution $(x-1) \sim e^{-t/2}$, confirming exponential decay to equilibrium with rate $-1/2$.
+\end{itemize}
+
+\subsubsection*{Step 5: Physical Interpretation}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (Connection to course material):}
+This is analogous to the population models in lecture notes (pages 19-21). The term $\frac{1}{2}(1-x)$ represents:
+\begin{itemize}
+    \item Growth when $x < 1$: $\frac{dx}{dt} > 0$
+    \item Decay when $x > 1$: $\frac{dx}{dt} < 0$
+    \item Equilibrium at $x = 1$: $\frac{dx}{dt} = 0$
+\end{itemize}
+
+\item \stage{STAGE Y (Comparison to lecture examples):}
+Similar to equation (6.5) on page 20 of lecture notes:
+\begin{align}
+\dot{x} = \beta x \quad \text{(exponential growth)}
+\end{align}
+But our equation includes a carrying capacity at $x = 1$.
+
+\item \stage{STAGE Z (Relaxation time):}
+The characteristic timescale is $\tau = 2$ (the reciprocal of the coefficient $1/2$). After time $t = 2$:
+\begin{align}
+x(2) = 1 - (1-x_0)e^{-1} \approx 1 - 0.368(1-x_0)
+\end{align}
+The solution is about $63\%$ of the way to equilibrium.
+\end{itemize}
+
+\critical{KEY INSIGHT:} This is a \textbf{stable linear ODE}. All trajectories converge exponentially to $x = 1$, regardless of initial condition.
+
+\newpage
+
+\subsection{Problem 3(b): Solve $\frac{d^2x}{dt^2} + \frac{dx}{dt} + 4x = 0$}
+
+\subsubsection*{Problem Statement}
+Solve the second-order linear ODE with constant coefficients:
+\begin{align}
+\frac{d^2x}{dt^2} + \frac{dx}{dt} + 4x = 0
+\end{align}
+
+\subsubsection*{Step 1: Identify ODE Type and Solution Method}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (What we have):}
+A second-order, linear, homogeneous ODE with constant coefficients of the form:
+\begin{align}
+a\frac{d^2x}{dt^2} + b\frac{dx}{dt} + cx = 0
+\end{align}
+where $a = 1$, $b = 1$, $c = 4$.
+
+\item \stage{STAGE Y (Why characteristic equation method):}
+For constant-coefficient linear ODEs, we seek solutions of the form $x = e^{\lambda t}$. This transforms the ODE into an algebraic equation (the characteristic equation).
+
+The derivatives become:
+\begin{align}
+\frac{dx}{dt} = \lambda e^{\lambda t}, \quad \frac{d^2x}{dt^2} = \lambda^2 e^{\lambda t}
+\end{align}
+
+\item \stage{STAGE Z (Strategy):}
+Find the characteristic equation, solve for $\lambda$, then construct the general solution based on the nature of the roots (real, complex, or repeated).
+\end{itemize}
+
+\subsubsection*{Step 2: Derive and Solve Characteristic Equation}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (Substituting $x = e^{\lambda t}$):}
+\begin{align}
+\lambda^2 e^{\lambda t} + \lambda e^{\lambda t} + 4e^{\lambda t} = 0
+\end{align}
+
+Factor out $e^{\lambda t}$ (which is never zero):
+\begin{align}
+e^{\lambda t}(\lambda^2 + \lambda + 4) = 0
+\end{align}
+
+\item \stage{STAGE Y (Characteristic equation):}
+\begin{align}
+\lambda^2 + \lambda + 4 = 0
+\end{align}
+
+Using the quadratic formula:
+\begin{align}
+\lambda = \frac{-1 \pm \sqrt{1 - 16}}{2} = \frac{-1 \pm \sqrt{-15}}{2} = \frac{-1 \pm i\sqrt{15}}{2}
+\end{align}
+
+\item \stage{STAGE Z (Complex conjugate roots):}
+\begin{align}
+\lambda_1 = -\frac{1}{2} + i\frac{\sqrt{15}}{2}, \quad \lambda_2 = -\frac{1}{2} - i\frac{\sqrt{15}}{2}
+\end{align}
+
+Since roots are complex conjugates: $\lambda = \alpha \pm i\beta$ where $\alpha = -\frac{1}{2}$ and $\beta = \frac{\sqrt{15}}{2}$.
+\end{itemize}
+
+\subsubsection*{Step 3: Construct General Solution from Complex Eigenvalues}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (Complex form):}
+With complex roots $\lambda = \alpha \pm i\beta$, the general solution is:
+\begin{align}
+x(t) = e^{\alpha t}[C_1 e^{i\beta t} + C_2 e^{-i\beta t}]
+\end{align}
+
+\item \stage{STAGE Y (Converting to real form):}
+Using Euler's formula: $e^{\pm i\beta t} = \cos(\beta t) \pm i\sin(\beta t)$
+
+For real solutions, we rewrite as:
+\begin{align}
+x(t) = e^{\alpha t}[A\cos(\beta t) + B\sin(\beta t)]
+\end{align}
+
+where $A$ and $B$ are real constants determined by initial conditions.
+
+\item \stage{STAGE Z (Our specific solution):}
+With $\alpha = -\frac{1}{2}$ and $\beta = \frac{\sqrt{15}}{2}$:
+\begin{align}
+\boxed{x(t) = e^{-t/2}\left[A\cos\left(\frac{\sqrt{15}}{2}t\right) + B\sin\left(\frac{\sqrt{15}}{2}t\right)\right]}
+\end{align}
+
+where $A$ and $B$ are determined by initial conditions $x(0)$ and $x'(0)$.
+\end{itemize}
+
+\subsubsection*{Step 4: Interpret Solution Behavior}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (Decomposing the solution):}
+\begin{itemize}
+    \item \textbf{Exponential envelope:} $e^{-t/2}$ causes decay
+    \item \textbf{Oscillatory component:} $\cos\left(\frac{\sqrt{15}}{2}t\right)$ and $\sin\left(\frac{\sqrt{15}}{2}t\right)$ cause oscillation
+\end{itemize}
+
+\item \stage{STAGE Y (Physical meaning):}
+This describes \textbf{damped oscillation}:
+\begin{itemize}
+    \item \textbf{Damping rate:} $\alpha = -\frac{1}{2}$ (decay timescale $\tau = 2$)
+    \item \textbf{Angular frequency:} $\omega = \frac{\sqrt{15}}{2} \approx 1.936$ rad/unit time
+    \item \textbf{Period:} $T = \frac{2\pi}{\omega} = \frac{4\pi}{\sqrt{15}} \approx 3.24$ time units
+\end{itemize}
+
+\item \stage{STAGE Z (Stability classification):}
+This is a \textbf{stable focus} (spiral sink):
+\begin{itemize}
+    \item Real part $\text{Re}(\lambda) = -\frac{1}{2} < 0$ → attraction
+    \item Imaginary part $\text{Im}(\lambda) = \pm\frac{\sqrt{15}}{2} \neq 0$ → rotation
+    \item All trajectories spiral into the origin as $t \to \infty$
+\end{itemize}
+\end{itemize}
+
+\subsubsection*{Step 5: Connection to Course Material}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (Relation to eigenvalue analysis):}
+From lecture notes (pages 29-34), when the linearization matrix has complex eigenvalues $\lambda = \alpha \pm i\beta$:
+\begin{itemize}
+    \item If $\alpha < 0$: stable focus (spiral sink)
+    \item If $\alpha > 0$: unstable focus (spiral source)
+    \item If $\alpha = 0$: center (neutral stability, perfect oscillation)
+\end{itemize}
+
+\item \stage{STAGE Y (Our case):}
+With $\alpha = -\frac{1}{2} < 0$, this is a \textbf{stable focus}, as discussed on page 29 of lecture notes. Solutions spiral inward.
+
+\item \stage{STAGE Z (Physical examples):}
+This ODE models:
+\begin{itemize}
+    \item Damped spring-mass system
+    \item RLC circuit with resistance
+    \item Predator-prey models near coexistence equilibrium with damping
+\end{itemize}
+\end{itemize}
+
+\subsubsection*{Determination of Constants (Example)}
+
+\critical{IF INITIAL CONDITIONS GIVEN:}
+
+Suppose $x(0) = 1$ and $x'(0) = 0$. Then:
+
+\begin{itemize}[leftmargin=*]
+\item From $x(0) = 1$:
+\begin{align}
+e^0[A\cos(0) + B\sin(0)] = A = 1
+\end{align}
+
+\item From $x'(0) = 0$:
+\begin{align}
+x'(t) = -\frac{1}{2}e^{-t/2}\left[A\cos\left(\frac{\sqrt{15}}{2}t\right) + B\sin\left(\frac{\sqrt{15}}{2}t\right)\right]
+\end{align}
+\begin{align}
++ e^{-t/2}\left[-A\frac{\sqrt{15}}{2}\sin\left(\frac{\sqrt{15}}{2}t\right) + B\frac{\sqrt{15}}{2}\cos\left(\frac{\sqrt{15}}{2}t\right)\right]
+\end{align}
+
+At $t = 0$:
+\begin{align}
+x'(0) = -\frac{1}{2}A + \frac{\sqrt{15}}{2}B = 0
+\end{align}
+
+With $A = 1$:
+\begin{align}
+B = \frac{1}{\sqrt{15}}
+\end{align}
+\end{itemize}
+
+\critical{KEY TAKEAWAY:} Complex eigenvalues always come in conjugate pairs for real ODEs, producing oscillatory solutions. The real part determines stability (decay/growth), while the imaginary part determines oscillation frequency.
+
+\newpage
+
+\subsection{Problem 3(c): Coupled System with Trial Solution Method}
+
+\subsubsection*{Problem Statement}
+Solve the coupled linear system:
+\begin{align}
+\frac{dx}{dt} &= 3x + y \\
+\frac{dy}{dt} &= x - 3y
+\end{align}
+
+\textit{Hint given: Use trial solution $x = e^{\lambda t}$, $y = ae^{\lambda t}$ and the principle of linear superposition.}
+
+\subsubsection*{Step 1: Matrix Formulation}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (Vector form):}
+Write the system as $\dot{\mathbf{x}} = A\mathbf{x}$ where:
+\begin{align}
+\mathbf{x} = \begin{pmatrix} x \\ y \end{pmatrix}, \quad A = \begin{pmatrix} 3 & 1 \\ 1 & -3 \end{pmatrix}
+\end{align}
+
+\item \stage{STAGE Y (Why this formulation):}
+This connects directly to the eigenvalue analysis in lecture notes (pages 24-25). The solution structure is:
+\begin{align}
+\mathbf{x}(t) = e^{At}\mathbf{x}_0 = c_1 e^{\lambda_1 t}\mathbf{v}_1 + c_2 e^{\lambda_2 t}\mathbf{v}_2
+\end{align}
+
+where $\lambda_i$ are eigenvalues and $\mathbf{v}_i$ are eigenvectors.
+
+\item \stage{STAGE Z (Strategy):}
+Find eigenvalues and eigenvectors, then use superposition to construct the general solution.
+\end{itemize}
+
+\subsubsection*{Step 2: Apply Trial Solution to Find Eigenvalues}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (Substituting trial solution):}
+Try $x = e^{\lambda t}$, $y = ae^{\lambda t}$ (as suggested):
+\begin{align}
+\frac{d}{dt}(e^{\lambda t}) &= 3e^{\lambda t} + ae^{\lambda t} \\
+\frac{d}{dt}(ae^{\lambda t}) &= e^{\lambda t} - 3ae^{\lambda t}
+\end{align}
+
+Simplifying (divide by $e^{\lambda t}$):
+\begin{align}
+\lambda &= 3 + a \\
+\lambda a &= 1 - 3a
+\end{align}
+
+\item \stage{STAGE Y (Solving for $\lambda$ and $a$):}
+From the first equation: $a = \lambda - 3$
+
+Substitute into the second:
+\begin{align}
+\lambda(\lambda - 3) &= 1 - 3(\lambda - 3) \\
+\lambda^2 - 3\lambda &= 1 - 3\lambda + 9 \\
+\lambda^2 &= 10 \\
+\lambda &= \pm\sqrt{10}
+\end{align}
+
+\item \stage{STAGE Z (Two eigenvalues):}
+\begin{align}
+\lambda_1 = \sqrt{10}, \quad \lambda_2 = -\sqrt{10}
+\end{align}
+\end{itemize}
+
+\subsubsection*{Step 3: Find Corresponding Eigenvectors}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (For $\lambda_1 = \sqrt{10}$):}
+From $a = \lambda - 3$:
+\begin{align}
+a_1 = \sqrt{10} - 3
+\end{align}
+
+So eigenvector:
+\begin{align}
+\mathbf{v}_1 = \begin{pmatrix} 1 \\ \sqrt{10} - 3 \end{pmatrix}
+\end{align}
+
+\item \stage{STAGE Y (For $\lambda_2 = -\sqrt{10}$):}
+\begin{align}
+a_2 = -\sqrt{10} - 3
+\end{align}
+
+So eigenvector:
+\begin{align}
+\mathbf{v}_2 = \begin{pmatrix} 1 \\ -\sqrt{10} - 3 \end{pmatrix}
+\end{align}
+
+\item \stage{STAGE Z (Verification):}
+Check $A\mathbf{v}_1 = \lambda_1 \mathbf{v}_1$:
+\begin{align}
+\begin{pmatrix} 3 & 1 \\ 1 & -3 \end{pmatrix}\begin{pmatrix} 1 \\ \sqrt{10}-3 \end{pmatrix}
+&= \begin{pmatrix} 3 + \sqrt{10} - 3 \\ 1 - 3(\sqrt{10}-3) \end{pmatrix} \\
+&= \begin{pmatrix} \sqrt{10} \\ 10 - 3\sqrt{10} \end{pmatrix} \\
+&= \sqrt{10}\begin{pmatrix} 1 \\ \sqrt{10} - 3 \end{pmatrix} \quad \checkmark
+\end{align}
+\end{itemize}
+
+\subsubsection*{Step 4: Construct General Solution by Superposition}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (Linear superposition principle):}
+The general solution is a linear combination of the two eigensolutions:
+\begin{align}
+\begin{pmatrix} x(t) \\ y(t) \end{pmatrix} = c_1 e^{\lambda_1 t}\mathbf{v}_1 + c_2 e^{\lambda_2 t}\mathbf{v}_2
+\end{align}
+
+\item \stage{STAGE Y (Explicit form):}
+\begin{align}
+\begin{pmatrix} x(t) \\ y(t) \end{pmatrix} = c_1 e^{\sqrt{10}t}\begin{pmatrix} 1 \\ \sqrt{10}-3 \end{pmatrix} + c_2 e^{-\sqrt{10}t}\begin{pmatrix} 1 \\ -\sqrt{10}-3 \end{pmatrix}
+\end{align}
+
+\item \stage{STAGE Z (Component-wise):}
+\begin{align}
+x(t) &= c_1 e^{\sqrt{10}t} + c_2 e^{-\sqrt{10}t} \\
+y(t) &= c_1(\sqrt{10}-3)e^{\sqrt{10}t} + c_2(-\sqrt{10}-3)e^{-\sqrt{10}t}
+\end{align}
+
+where $c_1$ and $c_2$ are determined by initial conditions.
+\end{itemize}
+
+\subsubsection*{Step 5: Analyze Solution Behavior and Stability}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (Eigenvalue signs):}
+\begin{itemize}
+    \item $\lambda_1 = \sqrt{10} > 0$: unstable direction
+    \item $\lambda_2 = -\sqrt{10} < 0$: stable direction
+\end{itemize}
+
+\item \stage{STAGE Y (Classification):}
+Since eigenvalues are real with opposite signs, the origin is a \textbf{saddle point} (lecture notes page 29):
+\begin{itemize}
+    \item Unstable manifold along $\mathbf{v}_1 = \begin{pmatrix} 1 \\ \sqrt{10}-3 \end{pmatrix}$
+    \item Stable manifold along $\mathbf{v}_2 = \begin{pmatrix} 1 \\ -\sqrt{10}-3 \end{pmatrix}$
+\end{itemize}
+
+\item \stage{STAGE Z (Long-time behavior):}
+As $t \to \infty$:
+\begin{itemize}
+    \item If $c_1 \neq 0$: solution diverges exponentially along $\mathbf{v}_1$
+    \item If $c_1 = 0$ (exactly on stable manifold): solution approaches origin along $\mathbf{v}_2$
+\end{itemize}
+
+The equilibrium at $(0, 0)$ is \textbf{unstable} because of the positive eigenvalue.
+\end{itemize}
+
+\subsubsection*{Connection to Course Material}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (Lecture notes pages 24-32):}
+This problem directly applies the eigendecomposition method:
+\begin{itemize}
+    \item Equation (7.10): Decompose initial condition into eigenvectors
+    \item Equation (7.12): Solution as sum of exponential eigendirections
+    \item Page 29: Classification as saddle with $\det(A) = \lambda_1\lambda_2 < 0$
+\end{itemize}
+
+\item \stage{STAGE Y (Why this method):}
+The hint to use $x = e^{\lambda t}$, $y = ae^{\lambda t}$ is equivalent to seeking eigenvectors of $A$. This is the \textbf{standard method} for solving linear ODEs with constant coefficients, as emphasized throughout Chapter 7 of the notes.
+
+\item \stage{STAGE Z (Verification of classification):}
+Calculate $\det(A)$:
+\begin{align}
+\det(A) = (3)(-3) - (1)(1) = -9 - 1 = -10 < 0
+\end{align}
+
+Since $\det(A) = \lambda_1 \lambda_2 = (\sqrt{10})(-\sqrt{10}) = -10 < 0$, this confirms \textbf{saddle} classification $\checkmark$
+\end{itemize}
+
+\critical{KEY INSIGHT:} The trial solution method is equivalent to finding eigenvalues/eigenvectors. For coupled linear systems, solutions are always superpositions of exponential eigenmodes.
+
+\newpage
+
+\section{Problem 4: Taylor Series}
+
+\subsection{Problem Statement}
+Estimate the value of $\sin(0.1)$ by hand using Taylor series. How quickly does the Taylor series expansion approach the actual value?
+
+\subsubsection*{Step 1: Recall Taylor Series for Sine}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (General Taylor series):}
+For any smooth function $f(x)$ expanded about $x = a$:
+\begin{align}
+f(x) = f(a) + f'(a)(x-a) + \frac{f''(a)}{2!}(x-a)^2 + \frac{f'''(a)}{3!}(x-a)^3 + \cdots
+\end{align}
+
+\item \stage{STAGE Y (Sine function about $x = 0$):}
+For $f(x) = \sin(x)$ about $a = 0$ (Maclaurin series):
+\begin{itemize}
+    \item $f(x) = \sin(x)$, $f(0) = 0$
+    \item $f'(x) = \cos(x)$, $f'(0) = 1$
+    \item $f''(x) = -\sin(x)$, $f''(0) = 0$
+    \item $f'''(x) = -\cos(x)$, $f'''(0) = -1$
+    \item $f^{(4)}(x) = \sin(x)$, $f^{(4)}(0) = 0$
+    \item $f^{(5)}(x) = \cos(x)$, $f^{(5)}(0) = 1$
+\end{itemize}
+
+\item \stage{STAGE Z (Pattern):}
+Derivatives alternate: $0, 1, 0, -1, 0, 1, 0, -1, \ldots$
+
+Therefore:
+\begin{align}
+\sin(x) = x - \frac{x^3}{3!} + \frac{x^5}{5!} - \frac{x^7}{7!} + \frac{x^9}{9!} - \cdots
+\end{align}
+\end{itemize}
+
+\subsubsection*{Step 2: Calculate Terms for $x = 0.1$}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (First term - linear approximation):}
+\begin{align}
+T_1 = x = 0.1
+\end{align}
+
+\item \stage{STAGE Y (Second term - cubic correction):}
+\begin{align}
+T_2 = -\frac{x^3}{3!} = -\frac{(0.1)^3}{6} = -\frac{0.001}{6} = -0.000166\overline{6}
+\end{align}
+
+\item \stage{STAGE Z (Third term - fifth order):}
+\begin{align}
+T_3 = \frac{x^5}{5!} = \frac{(0.1)^5}{120} = \frac{0.00001}{120} = 0.0000000833\overline{3}
+\end{align}
+
+This is already very small ($\approx 8.3 \times 10^{-8}$), so higher terms will be negligible for hand calculation.
+\end{itemize}
+
+\subsubsection*{Step 3: Compute Approximations}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (One term - linear):}
+\begin{align}
+\sin(0.1) \approx 0.1
+\end{align}
+
+\item \stage{STAGE Y (Two terms - cubic):}
+\begin{align}
+\sin(0.1) &\approx 0.1 - 0.000166\overline{6} \\
+&= 0.1 - \frac{1}{6000} \\
+&\approx 0.0998333\overline{3}
+\end{align}
+
+\item \stage{STAGE Z (Three terms - quintic):}
+\begin{align}
+\sin(0.1) &\approx 0.1 - 0.000166\overline{6} + 0.0000000833\overline{3} \\
+&\approx 0.0998334166\overline{6}
+\end{align}
+\end{itemize}
+
+\subsubsection*{Step 4: Compare with True Value}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (Actual value):}
+Using a calculator: $\sin(0.1) = 0.0998334166468...$
+
+\item \stage{STAGE Y (Error analysis):}
+
+\begin{center}
+\begin{tabular}{|c|c|c|c|}
+\hline
+\textbf{Order} & \textbf{Approximation} & \textbf{Error} & \textbf{Relative Error} \\
+\hline
+$T_1$ (linear) & $0.1$ & $1.67 \times 10^{-4}$ & $0.167\%$ \\
+\hline
+$T_1 + T_2$ (cubic) & $0.09983333\ldots$ & $8.3 \times 10^{-9}$ & $0.0000083\%$ \\
+\hline
+$T_1 + T_2 + T_3$ & $0.09983341666\ldots$ & $\sim 10^{-12}$ & $\sim 10^{-9}\%$ \\
+\hline
+\end{tabular}
+\end{center}
+
+\item \stage{STAGE Z (Convergence rate):}
+Each additional term reduces the error by a factor of roughly:
+\begin{align}
+\frac{x^2}{n(n+1)} \approx \frac{(0.1)^2}{20} = \frac{0.01}{20} = 0.0005
+\end{align}
+
+The error decreases \textbf{very rapidly} for $x = 0.1$.
+\end{itemize}
+
+\subsubsection*{Step 5: Understanding Convergence Speed}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (Error term formula):}
+The error after $n$ terms is bounded by the $(n+1)$-th term (for alternating series):
+\begin{align}
+\left|\text{Error}_n\right| \leq \left|\frac{x^{2n+1}}{(2n+1)!}\right|
+\end{align}
+
+For $x = 0.1$:
+\begin{align}
+\left|\text{Error}_1\right| &\leq \frac{(0.1)^3}{6} = 1.67 \times 10^{-4} \\
+\left|\text{Error}_2\right| &\leq \frac{(0.1)^5}{120} = 8.3 \times 10^{-9} \\
+\left|\text{Error}_3\right| &\leq \frac{(0.1)^7}{5040} = 2.0 \times 10^{-14}
+\end{align}
+
+\item \stage{STAGE Y (Why so fast):}
+Convergence is rapid because:
+\begin{enumerate}
+    \item $x = 0.1$ is small, so powers of $x$ decrease rapidly
+    \item Factorials in denominators grow very fast
+    \item Each term is roughly $\frac{x^2}{2n+1} \times$ previous term $\approx 0.005 \times$ previous
+\end{enumerate}
+
+\item \stage{STAGE Z (General principle):}
+For $|x| < 1$, the Taylor series for $\sin(x)$ converges very rapidly. The series converges for all real $x$ (radius of convergence $R = \infty$), but convergence is fastest for small $|x|$.
+\end{itemize}
+
+\subsubsection*{Step 6: Connection to Course Material}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (Linearization in lecture notes):}
+On pages 20-21 and 26-27, the course uses Taylor expansions for linearization about equilibria:
+\begin{align}
+f(x) \approx f(x^*) + f'(x^*)(x-x^*) + O((x-x^*)^2)
+\end{align}
+
+For small perturbations from equilibrium, higher-order terms become negligible.
+
+\item \stage{STAGE Y (Why Taylor series in dynamics):}
+Near an equilibrium $x^*$ where $f(x^*) = 0$:
+\begin{align}
+\dot{x} = f(x) \approx f'(x^*)(x-x^*)
+\end{align}
+
+This is exactly the linearization used throughout the course. For $|\frac{dx}{dt}| = |f(x)| \ll 1$ (slow dynamics), linear approximation is accurate.
+
+\item \stage{STAGE Z (Convergence and validity):}
+Just as $\sin(0.1)$ needs only a few terms for accuracy, linearization near equilibria is accurate when perturbations are small. The quadratic term $\frac{f''(x^*)}{2}(x-x^*)^2$ provides the next correction, similar to our cubic term $-\frac{x^3}{6}$.
+\end{itemize}
+
+\subsubsection*{Final Answer Summary}
+
+\begin{align}
+\boxed{
+\sin(0.1) \approx 0.1 - \frac{(0.1)^3}{6} \approx 0.09983333\overline{3}
+}
+\end{align}
+
+\critical{CONVERGENCE:} The Taylor series converges \textbf{extremely rapidly} for $x = 0.1$:
+\begin{itemize}
+    \item 1 term: $0.17\%$ error
+    \item 2 terms: $0.00083\%$ error
+    \item 3 terms: $< 10^{-7}\%$ error
+\end{itemize}
+
+Each additional term reduces error by factor $\sim 500$!
+
+\newpage
+
+\section*{Summary and Key Methodologies}
+
+\subsection*{The XYZ Framework Applied}
+
+Throughout these solutions, we consistently used:
+
+\begin{itemize}
+\item \stage{STAGE X:} State what we have, know, or observe
+\item \stage{STAGE Y:} Explain why the method works and provide mathematical justification
+\item \stage{STAGE Z:} Interpret results and determine next steps or implications
+\end{itemize}
+
+This ensures \textbf{complete understanding}, not just mechanical calculation.
+
+\subsection*{Key Takeaways from Each Problem}
+
+\subsubsection*{Matrices (Problem 1)}
+\begin{enumerate}
+    \item \textbf{Rank method:} If rank $< n$, then $\lambda = 0$ is an eigenvalue
+    \item \textbf{Trace \& determinant:} For $2 \times 2$ matrices, $\lambda_1 + \lambda_2 = \text{tr}(A)$ and $\lambda_1\lambda_2 = \det(A)$
+    \item \textbf{Triangular matrices:} Eigenvalues = diagonal entries (instant!)
+    \item \textbf{Stability:} Positive eigenvalue $\Rightarrow$ unstable direction
+\end{enumerate}
+
+\subsubsection*{Complex Numbers (Problem 2)}
+\begin{enumerate}
+    \item \textbf{Euler's formula:} $e^{i\theta} = \cos\theta + i\sin\theta$ connects complex exponentials to trig functions
+    \item \textbf{Complex conjugates:} $ze^{i\omega t} + z^*e^{-i\omega t} = 2\text{Re}(ze^{i\omega t})$ gives real oscillations
+    \item \textbf{$n$-th roots:} Equally spaced on circle, separated by $\frac{2\pi}{n}$ radians
+    \item \textbf{Connection to ODEs:} Complex eigenvalues $\Rightarrow$ oscillatory solutions
+\end{enumerate}
+
+\subsubsection*{ODEs (Problem 3)}
+\begin{enumerate}
+    \item \textbf{Separable ODEs:} Move all $x$ terms to one side, all $t$ terms to other, integrate
+    \item \textbf{Characteristic equation:} For constant-coefficient ODEs, try $x = e^{\lambda t}$
+    \item \textbf{Complex roots:} $\lambda = \alpha \pm i\beta$ gives $e^{\alpha t}[A\cos(\beta t) + B\sin(\beta t)]$
+    \item \textbf{Eigendecomposition:} General solution is superposition: $\sum c_i e^{\lambda_i t}\mathbf{v}_i$
+    \item \textbf{Stability from eigenvalues:}
+    \begin{itemize}
+        \item All $\text{Re}(\lambda_i) < 0$ $\Rightarrow$ stable
+        \item Any $\text{Re}(\lambda_i) > 0$ $\Rightarrow$ unstable
+        \item $\text{Im}(\lambda) \neq 0$ $\Rightarrow$ oscillations
+    \end{itemize}
+\end{enumerate}
+
+\subsubsection*{Taylor Series (Problem 4)}
+\begin{enumerate}
+    \item \textbf{Maclaurin series:} $f(x) = \sum_{n=0}^\infty \frac{f^{(n)}(0)}{n!}x^n$
+    \item \textbf{Sine series:} $\sin(x) = x - \frac{x^3}{6} + \frac{x^5}{120} - \cdots$
+    \item \textbf{Convergence:} Very rapid for small $|x|$ due to factorial growth in denominators
+    \item \textbf{Application:} Linearization near equilibria uses first-order Taylor expansion
+\end{enumerate}
+
+\subsection*{Connection to Course Themes}
+
+All four problem types connect to the core course material on ODEs and dynamical systems:
+
+\begin{enumerate}
+    \item \textbf{Eigenvalues determine stability} of equilibria in linear systems
+    \item \textbf{Complex eigenvalues produce oscillations} (focuses/centers)
+    \item \textbf{Real eigenvalues govern growth/decay} (nodes/saddles)
+    \item \textbf{Linearization via Taylor series} enables local stability analysis
+\end{enumerate}
+
+\critical{MASTERY CHECK:} You should now be able to:
+\begin{itemize}
+    \item Find eigenvalues quickly using multiple methods
+    \item Convert complex exponentials to real trigonometric forms
+    \item Solve linear ODEs using characteristic equations
+    \item Apply Taylor series for approximation and linearization
+    \item Classify equilibria stability from eigenvalue signs
+\end{itemize}
+
+\vfill
+
+\begin{center}
+\Large\textbf{END OF SOLUTIONS}
+\end{center}
+
+\end{document}

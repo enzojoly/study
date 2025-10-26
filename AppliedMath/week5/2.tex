@@ -1,0 +1,483 @@
+\documentclass[12pt,a4paper]{article}
+
+% Packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage[margin=1in]{geometry}
+\usepackage{enumitem}
+
+% Custom environments
+\newtheorem{explanation}{Explanation}
+\theoremstyle{definition}
+\newtheorem{solution}{Solution}
+
+% Title information
+\title{Exercise 5, Question 2: Sawtooth Map\\
+Periodic Orbits and Chaotic Dynamics}
+\author{}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section*{Problem Statement}
+
+Sketch or graph the sawtooth map
+$$x_{n+1} = \begin{cases}
+2x_n & \text{for } 0 \leq x_n < 1/2 \\
+2x_n - 1 & \text{for } 1/2 < x_n \leq 1
+\end{cases}$$
+
+Either by hand or computer, investigate its dynamics with cobweb diagrams.
+
+\textbf{(a)} Show there is a period two orbit with an iterate at $x = 1/3$, and find the other iterate.
+
+\textbf{(b)} Show there is a period three orbit with an iterate at $x = 1/7$, and find the other iterates.
+
+\textbf{(c)} Show that the orbits from (a)-(b) are unstable.
+
+\textbf{(d)} Argue why this map cannot have any stable periodic orbits, and conjecture what kind of dynamics you will see from a typical initial point.
+
+\vspace{10pt}
+\hrule
+\vspace{10pt}
+
+\section{Understanding the Sawtooth Map}
+
+\begin{solution}
+
+\subsection*{Step 1: Recognize the Map Structure}
+
+The sawtooth map is a piecewise linear map on the interval $[0, 1]$.
+
+\begin{explanation}[What is a piecewise map?]
+The map has different formulas depending on which region $x_n$ lies in. We need to track which piece applies at each iteration.
+\end{explanation}
+
+\subsection*{Step 2: Analyze the First Piece ($0 \leq x_n < 1/2$)}
+
+For $x_n$ in $[0, 1/2)$:
+$$x_{n+1} = 2x_n$$
+
+This doubles the value. Since $x_n < 1/2$, we have $x_{n+1} = 2x_n < 2(1/2) = 1$.
+
+Also, $x_{n+1} \geq 2(0) = 0$.
+
+So if $x_n \in [0, 1/2)$, then $x_{n+1} \in [0, 1)$.
+
+\subsection*{Step 3: Analyze the Second Piece ($1/2 < x_n \leq 1$)}
+
+For $x_n$ in $(1/2, 1]$:
+$$x_{n+1} = 2x_n - 1$$
+
+This doubles and then subtracts 1.
+
+If $x_n = 1/2$: $x_{n+1} = 2(1/2) - 1 = 0$.
+
+If $x_n = 1$: $x_{n+1} = 2(1) - 1 = 1$.
+
+So if $x_n \in (1/2, 1]$, then $x_{n+1} \in (0, 1]$.
+
+\begin{explanation}[Geometric picture]
+The map "unfolds" the interval $[0,1]$. It stretches each half by a factor of 2. The left half $[0, 1/2)$ maps to $[0, 1)$, and the right half $(1/2, 1]$ also maps to $(0, 1]$. This is why it's called a "sawtooth" - the graph has two rising linear pieces.
+\end{explanation}
+
+\subsection*{Step 4: Write a Compact Notation}
+
+We can write:
+$$f(x) = \begin{cases}
+2x & \text{if } x < 1/2 \\
+2x - 1 & \text{if } x \geq 1/2
+\end{cases}$$
+
+This can also be written as:
+$$f(x) = 2x \mod 1$$
+
+where "$\mod 1$" means take the fractional part (subtract the integer part).
+
+\end{solution}
+
+\vspace{10pt}
+\hrule
+\vspace{10pt}
+
+\section{Part (a): Period Two Orbit with Iterate at $x = 1/3$}
+
+\begin{solution}
+
+\subsection*{Step 1: Understand What a Period Two Orbit Means}
+
+A period two orbit consists of two points $\{x_1, x_2\}$ such that:
+$$f(x_1) = x_2 \quad \text{and} \quad f(x_2) = x_1$$
+
+This means $f(f(x_1)) = x_1$, i.e., $f^2(x_1) = x_1$.
+
+\begin{explanation}[Why period two?]
+From lecture notes Section 22, page 80: A period $m$ orbit satisfies $x = f^m(x)$. For $m=2$, the orbit has two distinct points that map to each other.
+\end{explanation}
+
+\subsection*{Step 2: Apply the Map to $x_1 = 1/3$}
+
+We have $x_1 = 1/3$. Check which piece of the map applies:
+
+Since $1/3 < 1/2$, we use $f(x) = 2x$:
+$$x_2 = f(1/3) = 2 \cdot \frac{1}{3} = \frac{2}{3}$$
+
+\subsection*{Step 3: Apply the Map to $x_2 = 2/3$}
+
+Now check $x_2 = 2/3$. Which piece applies?
+
+Since $2/3 > 1/2$, we use $f(x) = 2x - 1$:
+$$f(2/3) = 2 \cdot \frac{2}{3} - 1 = \frac{4}{3} - 1 = \frac{4 - 3}{3} = \frac{1}{3}$$
+
+So $f(x_2) = f(2/3) = 1/3 = x_1$.
+
+\subsection*{Step 4: Verify the Period Two Orbit}
+
+We have:
+$$f(1/3) = 2/3 \quad \text{and} \quad f(2/3) = 1/3$$
+
+This confirms a period two orbit: $1/3 \to 2/3 \to 1/3 \to \cdots$
+
+\subsection*{Step 5: Verify Using $f^2$}
+
+Check that $f^2(1/3) = 1/3$:
+$$f^2(1/3) = f(f(1/3)) = f(2/3) = 1/3 \quad \checkmark$$
+
+Also check $f^2(2/3) = 2/3$:
+$$f^2(2/3) = f(f(2/3)) = f(1/3) = 2/3 \quad \checkmark$$
+
+\textbf{Answer:}
+$$\boxed{\text{Period 2 orbit: } \{1/3, 2/3\}}$$
+
+The other iterate is $x_2 = 2/3$.
+
+\end{solution}
+
+\vspace{10pt}
+\hrule
+\vspace{10pt}
+
+\section{Part (b): Period Three Orbit with Iterate at $x = 1/7$}
+
+\begin{solution}
+
+\subsection*{Step 1: Understand What a Period Three Orbit Means}
+
+A period three orbit consists of three points $\{x_1, x_2, x_3\}$ such that:
+$$f(x_1) = x_2, \quad f(x_2) = x_3, \quad f(x_3) = x_1$$
+
+This means $f^3(x_1) = x_1$.
+
+\subsection*{Step 2: Apply the Map to $x_1 = 1/7$}
+
+We have $x_1 = 1/7$. Check which piece applies:
+
+Since $1/7 \approx 0.143 < 1/2$, we use $f(x) = 2x$:
+$$x_2 = f(1/7) = 2 \cdot \frac{1}{7} = \frac{2}{7}$$
+
+\subsection*{Step 3: Apply the Map to $x_2 = 2/7$}
+
+Check $x_2 = 2/7$. Which piece applies?
+
+Since $2/7 \approx 0.286 < 1/2$, we use $f(x) = 2x$:
+$$x_3 = f(2/7) = 2 \cdot \frac{2}{7} = \frac{4}{7}$$
+
+\subsection*{Step 4: Apply the Map to $x_3 = 4/7$}
+
+Check $x_3 = 4/7$. Which piece applies?
+
+Since $4/7 \approx 0.571 > 1/2$, we use $f(x) = 2x - 1$:
+$$f(4/7) = 2 \cdot \frac{4}{7} - 1 = \frac{8}{7} - 1 = \frac{8 - 7}{7} = \frac{1}{7}$$
+
+So $f(x_3) = 1/7 = x_1$.
+
+\subsection*{Step 5: Verify the Period Three Orbit}
+
+We have:
+$$f(1/7) = 2/7, \quad f(2/7) = 4/7, \quad f(4/7) = 1/7$$
+
+This confirms a period three orbit: $1/7 \to 2/7 \to 4/7 \to 1/7 \to \cdots$
+
+\subsection*{Step 6: Verify Using $f^3$}
+
+Check that $f^3(1/7) = 1/7$:
+$$f^3(1/7) = f(f(f(1/7))) = f(f(2/7)) = f(4/7) = 1/7 \quad \checkmark$$
+
+\textbf{Answer:}
+$$\boxed{\text{Period 3 orbit: } \{1/7, 2/7, 4/7\}}$$
+
+The other iterates are $x_2 = 2/7$ and $x_3 = 4/7$.
+
+\begin{explanation}[Pattern observation]
+Notice the pattern: starting from $1/7$, each iterate doubles the numerator:
+$$\frac{1}{7} \to \frac{2}{7} \to \frac{4}{7} \to \frac{8}{7} = \frac{1}{7} + 1 \equiv \frac{1}{7} \pmod{1}$$
+
+This reflects the structure $f(x) = 2x \mod 1$.
+\end{explanation}
+
+\end{solution}
+
+\vspace{10pt}
+\hrule
+\vspace{10pt}
+
+\section{Part (c): Stability of Periodic Orbits}
+
+\begin{solution}
+
+\subsection*{Overview of Stability for Periodic Orbits}
+
+From lecture notes Section 22, page 82: For a period $p$ orbit, stability is determined by the product of derivatives at each point in the orbit:
+$$\frac{dx_{n+p}}{dx_n} = f'(x_{n+p-1}) \cdots f'(x_{n+1}) f'(x_n)$$
+
+The orbit is stable if this product has absolute value less than 1.
+
+\subsection*{Step 1: Compute the Derivative of $f$}
+
+For the sawtooth map:
+$$f(x) = \begin{cases}
+2x & \text{if } x < 1/2 \\
+2x - 1 & \text{if } x \geq 1/2
+\end{cases}$$
+
+The derivative is:
+$$f'(x) = \begin{cases}
+2 & \text{if } x < 1/2 \\
+2 & \text{if } x > 1/2
+\end{cases}$$
+
+\begin{explanation}[Key observation]
+The derivative is constant and equals 2 everywhere (except at $x = 1/2$ where the map is not differentiable, but we won't evaluate it there).
+\end{explanation}
+
+\subsection*{Step 2: Apply Chain Rule for Period Two Orbit}
+
+For the period two orbit $\{1/3, 2/3\}$, the stability is:
+$$\frac{dx_{n+2}}{dx_n}\bigg|_{x=1/3} = f'(2/3) \cdot f'(1/3)$$
+
+\subsection*{Step 3: Evaluate Derivatives at Orbit Points}
+
+At $x = 1/3 < 1/2$: $f'(1/3) = 2$
+
+At $x = 2/3 > 1/2$: $f'(2/3) = 2$
+
+Therefore:
+$$\frac{dx_{n+2}}{dx_n}\bigg|_{x=1/3} = 2 \cdot 2 = 4$$
+
+\subsection*{Step 4: Determine Stability of Period Two Orbit}
+
+Since $|4| = 4 > 1$, the period two orbit is \textbf{unstable}.
+
+\begin{explanation}[Why unstable?]
+A small perturbation away from the orbit grows by a factor of 4 after two iterations. The orbit repels nearby trajectories.
+\end{explanation}
+
+$$\boxed{\text{Period 2 orbit is unstable: } \left|\frac{dx_{n+2}}{dx_n}\right| = 4 > 1}$$
+
+\subsection*{Step 5: Apply Chain Rule for Period Three Orbit}
+
+For the period three orbit $\{1/7, 2/7, 4/7\}$, the stability is:
+$$\frac{dx_{n+3}}{dx_n}\bigg|_{x=1/7} = f'(4/7) \cdot f'(2/7) \cdot f'(1/7)$$
+
+\subsection*{Step 6: Evaluate Derivatives at Orbit Points}
+
+At $x = 1/7 < 1/2$: $f'(1/7) = 2$
+
+At $x = 2/7 < 1/2$: $f'(2/7) = 2$
+
+At $x = 4/7 > 1/2$: $f'(4/7) = 2$
+
+Therefore:
+$$\frac{dx_{n+3}}{dx_n}\bigg|_{x=1/7} = 2 \cdot 2 \cdot 2 = 8$$
+
+\subsection*{Step 7: Determine Stability of Period Three Orbit}
+
+Since $|8| = 8 > 1$, the period three orbit is \textbf{unstable}.
+
+$$\boxed{\text{Period 3 orbit is unstable: } \left|\frac{dx_{n+3}}{dx_n}\right| = 8 > 1}$$
+
+\begin{explanation}[General pattern]
+For any period $p$ orbit, the stability multiplier is:
+$$\prod_{i=1}^{p} f'(x_i) = 2^p$$
+
+Since $2^p > 1$ for all $p \geq 1$, all periodic orbits are unstable.
+\end{explanation}
+
+\end{solution}
+
+\vspace{10pt}
+\hrule
+\vspace{10pt}
+
+\section{Part (d): No Stable Periodic Orbits and Chaotic Dynamics}
+
+\begin{solution}
+
+\subsection*{Step 1: Generalize the Stability Argument}
+
+Consider any period $p$ orbit with points $\{x_1, x_2, \ldots, x_p\}$.
+
+The stability is determined by:
+$$\left|\frac{dx_{n+p}}{dx_n}\right| = |f'(x_p) \cdot f'(x_{p-1}) \cdots f'(x_1)|$$
+
+\subsection*{Step 2: Evaluate the Product of Derivatives}
+
+Since $f'(x) = 2$ for all $x \neq 1/2$ (and periodic orbits generically avoid the non-differentiable point):
+$$|f'(x_p) \cdot f'(x_{p-1}) \cdots f'(x_1)| = |2 \cdot 2 \cdots 2| = 2^p$$
+
+\subsection*{Step 3: Check Stability Condition}
+
+For stability, we need $2^p < 1$.
+
+But $2^p \geq 2^1 = 2 > 1$ for all $p \geq 1$.
+
+Therefore, $2^p > 1$ for all positive integers $p$.
+
+\subsection*{Step 4: Conclude About Periodic Orbits}
+
+Since every periodic orbit has stability multiplier $2^p > 1$, there are \textbf{no stable periodic orbits}.
+
+\begin{explanation}[Why this happens]
+The sawtooth map stretches by a factor of 2 everywhere. Any small perturbation gets amplified, so no orbit can be attracting. This is a key property of expanding maps.
+\end{explanation}
+
+$$\boxed{\text{The sawtooth map has no stable periodic orbits.}}$$
+
+\subsection*{Step 5: Connect to Lyapunov Exponents}
+
+From lecture notes Section 23, page 85-86, the Lyapunov exponent is:
+$$\lambda = \lim_{n \to \infty} \frac{1}{n} \sum_{i=0}^{n-1} \ln|f'(x_i)|$$
+
+For the sawtooth map, $f'(x) = 2$ almost everywhere, so:
+$$\lambda = \lim_{n \to \infty} \frac{1}{n} \sum_{i=0}^{n-1} \ln(2) = \ln(2) > 0$$
+
+\begin{explanation}[Positive Lyapunov exponent]
+A positive Lyapunov exponent indicates \textbf{chaos}. Nearby trajectories diverge exponentially at rate $e^{\lambda} = e^{\ln 2} = 2$ per iteration.
+\end{explanation}
+
+\subsection*{Step 6: Identify Chaotic Properties}
+
+From lecture notes Section 23, page 86, chaotic systems have:
+\begin{enumerate}
+\item \textbf{Sensitive dependence on initial conditions}: Small changes in $x_0$ lead to exponentially different trajectories
+\item \textbf{Topological transitivity}: The orbit can visit any region of $[0,1]$
+\item \textbf{Dense periodic orbits}: Every point is arbitrarily close to a periodic orbit
+\end{enumerate}
+
+The sawtooth map satisfies all three properties.
+
+\subsection*{Step 7: Analyze the Binary Representation}
+
+The sawtooth map has a beautiful interpretation in binary:
+
+Any $x \in [0,1]$ can be written in binary as:
+$$x = 0.b_1b_2b_3b_4\ldots \quad \text{(binary)}$$
+
+where $b_i \in \{0, 1\}$.
+
+Applying $f$ (which is $2x \mod 1$) shifts the binary digits left:
+$$f(x) = 0.b_2b_3b_4b_5\ldots$$
+
+\begin{explanation}[Shift map interpretation]
+The sawtooth map is equivalent to a left shift on binary sequences. This is the Bernoulli shift map, a canonical example of chaos.
+\end{explanation}
+
+\subsection*{Step 8: Describe Typical Orbit Behavior}
+
+For a typical initial point $x_0$:
+
+\begin{itemize}
+\item The orbit $\{x_0, f(x_0), f^2(x_0), \ldots\}$ will \textbf{never settle} to a fixed point or periodic orbit
+
+\item The orbit will appear to \textbf{randomly} visit different parts of $[0,1]$
+
+\item The orbit will \textbf{eventually come arbitrarily close} to any given point in $[0,1]$ (ergodicity)
+
+\item Two orbits starting very close together will \textbf{diverge exponentially} and become uncorrelated after a few iterations
+\end{itemize}
+
+\subsection*{Step 9: Connect to Sharkovskii's Theorem}
+
+From lecture notes Section 22, page 84: The existence of a period 3 orbit implies the existence of periodic orbits of all periods (Sharkovskii's theorem).
+
+We found a period 3 orbit in part (b), which means:
+$$\boxed{\text{The sawtooth map has periodic orbits of every period.}}$$
+
+But from Li-Yorke's theorem (page 84): "period three implies chaos."
+
+\subsection*{Step 10: Final Characterization}
+
+\textbf{Answer to part (d):}
+
+\begin{enumerate}
+\item \textbf{Why no stable periodic orbits:}
+
+The map has constant derivative $f'(x) = 2 > 1$ everywhere. Any periodic orbit of period $p$ has stability multiplier $2^p > 1$, making it unstable. There is no contracting region, only expansion.
+
+\item \textbf{Typical dynamics:}
+
+From a typical initial point, the orbit exhibits \textbf{deterministic chaos}:
+\begin{itemize}
+\item The orbit never repeats
+\item It densely fills the interval $[0,1]$
+\item It has sensitive dependence on initial conditions
+\item The Lyapunov exponent is $\lambda = \ln(2) > 0$
+\item The dynamics appear random despite being deterministic
+\end{itemize}
+\end{enumerate}
+
+$$\boxed{\text{The sawtooth map is chaotic with Lyapunov exponent } \lambda = \ln(2)}$$
+
+\begin{explanation}[Physical meaning]
+The sawtooth map is a simple example of deterministic chaos. Despite having a simple, explicit formula, its long-term behavior is unpredictable. This map models situations where a system repeatedly stretches and folds, like kneading dough or mixing fluids.
+
+The map serves as a prototype for understanding chaos in more complicated systems. Its analysis demonstrates that:
+\begin{itemize}
+\item Chaos can arise in very simple systems
+\item Expansion (derivative $> 1$) prevents stable orbits
+\item Dense periodic orbits coexist with chaotic trajectories
+\item Predictability breaks down due to sensitivity to initial conditions
+\end{itemize}
+
+This connects to the broader theory of chaos covered in Section 23 of the lecture notes, including the period-doubling route to chaos and strange attractors.
+\end{explanation}
+
+\end{solution}
+
+\vspace{10pt}
+\hrule
+\vspace{10pt}
+
+\section{Summary}
+
+\subsection*{Complete Results}
+
+\textbf{Part (a):} Period 2 orbit: $\boxed{\{1/3, 2/3\}}$
+
+\textbf{Part (b):} Period 3 orbit: $\boxed{\{1/7, 2/7, 4/7\}}$
+
+\textbf{Part (c):} Both orbits are unstable:
+\begin{itemize}
+\item Period 2: $\left|\frac{dx_{n+2}}{dx_n}\right| = 4 > 1$
+\item Period 3: $\left|\frac{dx_{n+3}}{dx_n}\right| = 8 > 1$
+\end{itemize}
+
+\textbf{Part (d):} No stable periodic orbits exist because $f'(x) = 2$ everywhere implies all stability multipliers satisfy $2^p > 1$.
+
+Typical dynamics: \textbf{Deterministic chaos} with Lyapunov exponent $\lambda = \ln(2) > 0$.
+
+\subsection*{Connection to Course Material}
+
+This problem illustrates key concepts from Sections 22-23:
+\begin{itemize}
+\item Finding periodic orbits by iteration (Section 22)
+\item Using the chain rule for stability (Section 22, page 82)
+\item Identifying chaos through Lyapunov exponents (Section 23, page 85-86)
+\item Sharkovskii ordering and "period three implies chaos" (Section 22, page 84)
+\item Sensitive dependence on initial conditions (Section 23, page 85)
+\end{itemize}
+
+\end{document}

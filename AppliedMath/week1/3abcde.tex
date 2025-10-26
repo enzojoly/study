@@ -1,0 +1,728 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{mathtools}
+\usepackage{enumitem}
+\usepackage{xcolor}
+
+% Custom commands for XYZ methodology
+\newcommand{\stage}[1]{\textbf{\textcolor{blue}{#1}}}
+\newcommand{\critical}[1]{\textbf{\textcolor{red}{#1}}}
+
+\title{Exercise Sheet 1, Question 3: Autonomy (Time-Independence)\\
+Complete Solution with XYZ Methodology\\
+Methods of Applied Mathematics [SEMT30006]}
+\author{}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section*{Problem Statement}
+
+We've seen systems that either depend on time or don't. A system that does not depend explicitly on its independent variable is called \textbf{autonomous}. Which of the following is autonomous? What is the independent variable?
+
+\begin{enumerate}[label=(\alph*)]
+    \item The ODE $\ddot{u} = u + \sin(t)$
+    \item The ODE $y'' - y - \sin(x) = 0$
+    \item The ODE $\ddot{\theta} + a\dot{\theta} + b = 0$
+    \item The map $x_{n+1} = ax_n + x_n^2$
+    \item The map $x_{n+1} = nx_n + b$
+\end{enumerate}
+
+\section{Foundational Concepts}
+
+\subsection*{What is Autonomy?}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (Definition):}
+A dynamical system is \textbf{autonomous} if it does not depend explicitly on the independent variable.
+
+For ODEs: The right-hand side depends only on the state variables, not on time $t$ explicitly.
+\begin{align}
+\text{Autonomous:} \quad & \dot{x} = f(x) \\
+\text{Non-autonomous:} \quad & \dot{x} = f(x, t)
+\end{align}
+
+For maps: The map depends only on the current state $x_n$, not on the index $n$ explicitly.
+\begin{align}
+\text{Autonomous:} \quad & x_{n+1} = f(x_n) \\
+\text{Non-autonomous:} \quad & x_{n+1} = f(x_n, n)
+\end{align}
+
+\item \stage{STAGE Y (Why this matters):}
+Autonomous systems have special properties:
+\begin{enumerate}
+    \item \textbf{Time-translation invariance:} If $x(t)$ is a solution, then $x(t + t_0)$ is also a solution for any constant $t_0$. The system "looks the same" at all times.
+    \item \textbf{Phase space structure:} Trajectories in phase space never cross (uniqueness). The flow is time-independent.
+    \item \textbf{Equilibria are stationary:} Fixed points don't move with time.
+    \item \textbf{Simpler analysis:} We can study the system in phase space without tracking time explicitly.
+\end{enumerate}
+
+Non-autonomous systems can have time-varying equilibria, crossing trajectories (at different times), and more complex behavior.
+
+\item \stage{STAGE Z (How to identify):}
+\begin{enumerate}
+    \item Identify the independent variable (usually $t$ for ODEs, $n$ for maps)
+    \item Check if this variable appears explicitly on the right-hand side
+    \item If it appears explicitly $\Rightarrow$ non-autonomous
+    \item If it doesn't appear $\Rightarrow$ autonomous
+\end{enumerate}
+\end{itemize}
+
+\critical{KEY DISTINCTION:} The independent variable appearing in derivatives (like $\frac{d}{dt}$) doesn't count—it must appear explicitly in the function itself.
+
+\newpage
+
+\section{Part (a): The ODE $\ddot{u} = u + \sin(t)$}
+
+\subsection*{Step 1: Identify the Independent Variable}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (What we have):}
+The equation is:
+\begin{align}
+\ddot{u} = u + \sin(t)
+\end{align}
+
+where $\ddot{u} = \frac{d^2u}{dt^2}$.
+
+\item \stage{STAGE Y (Finding the independent variable):}
+The notation $\ddot{u}$ means differentiation with respect to time $t$. Therefore, the independent variable is:
+\begin{align}
+\boxed{\text{Independent variable: } t \text{ (time)}}
+\end{align}
+
+The dependent (state) variable is $u$.
+
+\item \stage{STAGE Z (Clear identification):}
+This is an ODE where we evolve the state $u$ as the independent variable $t$ changes.
+\end{itemize}
+
+\subsection*{Step 2: Check for Explicit Dependence on Independent Variable}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (Rewrite in standard form):}
+Write as a first-order system. Let $u_1 = u$ and $u_2 = \dot{u}$:
+\begin{align}
+\dot{u}_1 &= u_2 \\
+\dot{u}_2 &= u_1 + \sin(t)
+\end{align}
+
+Or in vector form with $\mathbf{u} = \begin{pmatrix} u_1 \\ u_2 \end{pmatrix}$:
+\begin{align}
+\dot{\mathbf{u}} = \begin{pmatrix} u_2 \\ u_1 + \sin(t) \end{pmatrix} = f(\mathbf{u}, t)
+\end{align}
+
+\item \stage{STAGE Y (Does $t$ appear explicitly?):}
+YES! The term $\sin(t)$ contains $t$ explicitly on the right-hand side. The function $f$ depends on both $\mathbf{u}$ and $t$:
+\begin{align}
+f(\mathbf{u}, t) = \begin{pmatrix} u_2 \\ u_1 + \sin(t) \end{pmatrix}
+\end{align}
+
+We cannot write this as $f(\mathbf{u})$ alone—the time $t$ must be included.
+
+\item \stage{STAGE Z (Conclusion):}
+\begin{align}
+\boxed{\text{NOT AUTONOMOUS}}
+\end{align}
+
+The system is \textbf{non-autonomous} because of the explicit $\sin(t)$ term.
+\end{itemize}
+
+\subsection*{Step 3: Physical Interpretation}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (What this equation represents):}
+This could model a forced oscillator:
+\begin{align}
+\ddot{u} - u = \sin(t)
+\end{align}
+
+The $\sin(t)$ term is an external periodic forcing that varies with time.
+
+\item \stage{STAGE Y (Why non-autonomy matters):}
+Because the forcing varies with time:
+\begin{enumerate}
+    \item The "rules" of the system change with $t$
+    \item Different solutions starting at the same state $u$ but different times $t$ will evolve differently
+    \item Phase portraits change with time
+    \item Equilibria (if any) may move with time
+\end{enumerate}
+
+\item \stage{STAGE Z (Example):}
+If we evaluate at $t = 0$: $\ddot{u} = u + \sin(0) = u$
+
+If we evaluate at $t = \pi/2$: $\ddot{u} = u + \sin(\pi/2) = u + 1$
+
+The system dynamics differ at different times, confirming non-autonomy.
+\end{itemize}
+
+\critical{KEY INSIGHT:} The presence of an explicit time-dependent forcing term $\sin(t)$ makes the system non-autonomous. This is common in physics with external driving forces.
+
+\newpage
+
+\section{Part (b): The ODE $y'' - y - \sin(x) = 0$}
+
+\subsection*{Step 1: Identify the Independent Variable}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (What we have):}
+The equation is:
+\begin{align}
+y'' - y - \sin(x) = 0
+\end{align}
+
+or equivalently:
+\begin{align}
+y'' = y + \sin(x)
+\end{align}
+
+\item \stage{STAGE Y (Interpreting the notation):}
+The prime notation $y''$ means:
+\begin{align}
+y'' = \frac{d^2y}{dx^2}
+\end{align}
+
+We are differentiating $y$ with respect to $x$. Therefore:
+\begin{align}
+\boxed{\text{Independent variable: } x}
+\end{align}
+
+The dependent (state) variable is $y$.
+
+\item \stage{STAGE Z (Important distinction):}
+Here, $x$ is the independent variable (like time), not the state variable! The state variable is $y$, which depends on $x$.
+\end{itemize}
+
+\subsection*{Step 2: Check for Explicit Dependence on Independent Variable}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (Rewrite as first-order system):}
+Let $y_1 = y$ and $y_2 = y'$ where primes denote derivatives with respect to $x$:
+\begin{align}
+y_1' &= y_2 \\
+y_2' &= y_1 + \sin(x)
+\end{align}
+
+In vector form with $\mathbf{y} = \begin{pmatrix} y_1 \\ y_2 \end{pmatrix}$:
+\begin{align}
+\mathbf{y}' = \begin{pmatrix} y_2 \\ y_1 + \sin(x) \end{pmatrix} = f(\mathbf{y}, x)
+\end{align}
+
+\item \stage{STAGE Y (Does $x$ appear explicitly?):}
+YES! The term $\sin(x)$ contains the independent variable $x$ explicitly on the right-hand side. The function depends on both $\mathbf{y}$ and $x$:
+\begin{align}
+f(\mathbf{y}, x) = \begin{pmatrix} y_2 \\ y_1 + \sin(x) \end{pmatrix}
+\end{align}
+
+We cannot write this purely as a function of $\mathbf{y}$.
+
+\item \stage{STAGE Z (Conclusion):}
+\begin{align}
+\boxed{\text{NOT AUTONOMOUS}}
+\end{align}
+
+The system is \textbf{non-autonomous} because the independent variable $x$ appears explicitly in $\sin(x)$.
+\end{itemize}
+
+\subsection*{Step 3: Comparison with Part (a)}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (Structural similarity):}
+Compare parts (a) and (b):
+\begin{align}
+\text{Part (a):} \quad & \ddot{u} = u + \sin(t) \quad \text{(independent var: } t\text{)} \\
+\text{Part (b):} \quad & y'' = y + \sin(x) \quad \text{(independent var: } x\text{)}
+\end{align}
+
+These have \textbf{identical mathematical structure}!
+
+\item \stage{STAGE Y (Why both are non-autonomous):}
+In both cases:
+\begin{enumerate}
+    \item The independent variable appears explicitly in a $\sin(\cdot)$ term
+    \item The "forcing" changes as we move along the independent variable
+    \item Different starting positions along the independent variable lead to different dynamics
+\end{enumerate}
+
+\item \stage{STAGE Z (The confusion):}
+Students often think (b) might be different because $x$ "looks like" a state variable. But:
+\begin{itemize}
+    \item In part (a): $t$ is independent, $u$ is dependent (state)
+    \item In part (b): $x$ is independent, $y$ is dependent (state)
+\end{itemize}
+
+Both have the same non-autonomous structure: independent variable appears explicitly in $\sin(\text{independent var})$.
+\end{itemize}
+
+\critical{COMMON MISTAKE:} Don't assume $x$ is always a state variable! Here, $x$ is the independent variable (like time), and $y$ is evolving along $x$.
+
+\newpage
+
+\section{Part (c): The ODE $\ddot{\theta} + a\dot{\theta} + b = 0$}
+
+\subsection*{Step 1: Identify the Independent Variable}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (What we have):}
+The equation is:
+\begin{align}
+\ddot{\theta} + a\dot{\theta} + b = 0
+\end{align}
+
+\item \stage{STAGE Y (Interpreting the notation):}
+The dot notation means differentiation with respect to time:
+\begin{align}
+\dot{\theta} = \frac{d\theta}{dt}, \quad \ddot{\theta} = \frac{d^2\theta}{dt^2}
+\end{align}
+
+Therefore:
+\begin{align}
+\boxed{\text{Independent variable: } t \text{ (time)}}
+\end{align}
+
+The dependent (state) variable is $\theta$.
+
+\item \stage{STAGE Z (Parameters):}
+Note that $a$ and $b$ are constants (parameters), not variables.
+\end{itemize}
+
+\subsection*{Step 2: Rewrite as First-Order System}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (Standard form):}
+Rewrite the equation:
+\begin{align}
+\ddot{\theta} = -a\dot{\theta} - b
+\end{align}
+
+Let $\theta_1 = \theta$ and $\theta_2 = \dot{\theta}$:
+\begin{align}
+\dot{\theta}_1 &= \theta_2 \\
+\dot{\theta}_2 &= -a\theta_2 - b
+\end{align}
+
+\item \stage{STAGE Y (Vector form):}
+With $\boldsymbol{\theta} = \begin{pmatrix} \theta_1 \\ \theta_2 \end{pmatrix}$:
+\begin{align}
+\dot{\boldsymbol{\theta}} = \begin{pmatrix} \theta_2 \\ -a\theta_2 - b \end{pmatrix} = f(\boldsymbol{\theta})
+\end{align}
+
+\item \stage{STAGE Z (Key observation):}
+The right-hand side depends only on $\boldsymbol{\theta}$ (the state variables $\theta_1$ and $\theta_2$), not on $t$ explicitly.
+\end{itemize}
+
+\subsection*{Step 3: Check for Explicit Time Dependence}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (Examining the right-hand side):}
+The function is:
+\begin{align}
+f(\boldsymbol{\theta}) = \begin{pmatrix} \theta_2 \\ -a\theta_2 - b \end{pmatrix}
+\end{align}
+
+\item \stage{STAGE Y (Does $t$ appear?):}
+NO! The independent variable $t$ does not appear anywhere on the right-hand side:
+\begin{itemize}
+    \item $\theta_2$ is a state variable (not $t$)
+    \item $a$ and $b$ are constants (not $t$)
+    \item No terms like $\sin(t)$, $e^t$, $t^2$, etc.
+\end{itemize}
+
+The function depends only on the state $\boldsymbol{\theta}$, not on $t$.
+
+\item \stage{STAGE Z (Conclusion):}
+\begin{align}
+\boxed{\text{AUTONOMOUS}}
+\end{align}
+
+The system is \textbf{autonomous}.
+\end{itemize}
+
+\subsection*{Step 4: Physical Interpretation}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (What this equation models):}
+This is a damped system with constant forcing:
+\begin{align}
+\ddot{\theta} + a\dot{\theta} = -b
+\end{align}
+
+Example: A pendulum with friction (damping coefficient $a$) and a constant external torque ($-b$).
+
+\item \stage{STAGE Y (Why it's autonomous):}
+The damping coefficient $a$ and forcing $b$ are constant—they don't change with time. The system follows the same rules at all times $t$.
+
+Key properties:
+\begin{enumerate}
+    \item Time-translation invariant: shifting a solution in time gives another solution
+    \item Phase portrait is time-independent
+    \item Equilibria are stationary (don't move with $t$)
+\end{enumerate}
+
+\item \stage{STAGE Z (Finding equilibrium):}
+At equilibrium: $\dot{\theta}_1 = 0$ and $\dot{\theta}_2 = 0$
+
+From the first equation: $\theta_2 = 0$
+
+From the second: $0 = -a(0) - b = -b$
+
+If $b \neq 0$, there's no equilibrium in this system! This represents constant acceleration (if $b \neq 0$).
+
+If $b = 0$: equilibrium at $(\theta_1, \theta_2) = (\theta^*, 0)$ for any $\theta^*$ (line of equilibria).
+\end{itemize}
+
+\critical{KEY INSIGHT:} Constant parameters (like $a$ and $b$) don't make a system non-autonomous. Only explicit dependence on the independent variable matters.
+
+\newpage
+
+\section{Part (d): The map $x_{n+1} = ax_n + x_n^2$}
+
+\subsection*{Step 1: Understand Discrete Maps}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (What is a map?):}
+A discrete dynamical system (or map) evolves in discrete steps rather than continuously:
+\begin{align}
+x_{n+1} = f(x_n, n)
+\end{align}
+
+where:
+\begin{itemize}
+    \item $n$ is the discrete "time" index ($n = 0, 1, 2, 3, \ldots$)
+    \item $x_n$ is the state at step $n$
+    \item $x_{n+1}$ is the state at step $n+1$
+\end{itemize}
+
+\item \stage{STAGE Y (Independent variable for maps):}
+For discrete maps, the independent variable is $n$ (the iteration index), analogous to time $t$ in ODEs.
+
+\item \stage{STAGE Z (Autonomy for maps):}
+A map is autonomous if $f$ depends only on $x_n$, not on $n$ explicitly:
+\begin{align}
+\text{Autonomous:} \quad & x_{n+1} = f(x_n) \\
+\text{Non-autonomous:} \quad & x_{n+1} = f(x_n, n)
+\end{align}
+\end{itemize}
+
+\subsection*{Step 2: Identify the Independent Variable}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (Our map):}
+\begin{align}
+x_{n+1} = ax_n + x_n^2
+\end{align}
+
+\item \stage{STAGE Y (Independent variable):}
+The subscript $n$ indicates the iteration number. We iterate forward: $n \to n+1$.
+
+\begin{align}
+\boxed{\text{Independent variable: } n \text{ (iteration index)}}
+\end{align}
+
+\item \stage{STAGE Z (State variable):}
+The state variable is $x$ (which takes value $x_n$ at iteration $n$).
+\end{itemize}
+
+\subsection*{Step 3: Check for Explicit Dependence on $n$}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (Examine the right-hand side):}
+\begin{align}
+x_{n+1} = ax_n + x_n^2
+\end{align}
+
+The right-hand side contains:
+\begin{itemize}
+    \item $a$: a constant parameter
+    \item $x_n$: the state at iteration $n$
+    \item $x_n^2$: a function of the state
+\end{itemize}
+
+\item \stage{STAGE Y (Does $n$ appear explicitly?):}
+NO! The iteration index $n$ only appears as a subscript to indicate "which iteration," not as an explicit variable in the function.
+
+The function is:
+\begin{align}
+f(x_n) = ax_n + x_n^2
+\end{align}
+
+This depends only on the current state $x_n$, not on $n$ itself.
+
+\item \stage{STAGE Z (Conclusion):}
+\begin{align}
+\boxed{\text{AUTONOMOUS}}
+\end{align}
+
+The map is \textbf{autonomous}.
+\end{itemize}
+
+\subsection*{Step 4: Understanding Map Dynamics}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (Iterative evolution):}
+Starting from $x_0$:
+\begin{align}
+x_1 &= ax_0 + x_0^2 \\
+x_2 &= ax_1 + x_1^2 = a(ax_0 + x_0^2) + (ax_0 + x_0^2)^2 \\
+x_3 &= ax_2 + x_2^2 \\
+&\vdots
+\end{align}
+
+\item \stage{STAGE Y (Why it's autonomous):}
+The rule for computing $x_{n+1}$ from $x_n$ is the same at every iteration:
+\begin{itemize}
+    \item The map at $n=0$: $x_1 = ax_0 + x_0^2$
+    \item The map at $n=5$: $x_6 = ax_5 + x_5^2$
+    \item The map at $n=100$: $x_{101} = ax_{100} + x_{100}^2$
+\end{itemize}
+
+All use the same rule! The iteration number $n$ doesn't affect the dynamics.
+
+\item \stage{STAGE Z (Fixed points):}
+Fixed points satisfy $x^* = ax^* + (x^*)^2$:
+\begin{align}
+(x^*)^2 + (a-1)x^* &= 0 \\
+x^*(x^* + a - 1) &= 0
+\end{align}
+
+Fixed points: $x^* = 0$ and $x^* = 1 - a$.
+
+These don't change with $n$ (time-independent), confirming autonomy.
+\end{itemize}
+
+\critical{COMMON CONFUSION:} The subscript $n$ in $x_n$ is just notation for "value at iteration $n$." It doesn't make the system non-autonomous unless $n$ appears explicitly in the function (like $nx_n$ or $\sin(n)$).
+
+\newpage
+
+\section{Part (e): The map $x_{n+1} = nx_n + b$}
+
+\subsection*{Step 1: Identify the Independent Variable}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (Our map):}
+\begin{align}
+x_{n+1} = nx_n + b
+\end{align}
+
+\item \stage{STAGE Y (Independent variable):}
+As with part (d), the iteration index $n$ is the independent variable:
+
+\begin{align}
+\boxed{\text{Independent variable: } n \text{ (iteration index)}}
+\end{align}
+
+The state variable is $x$.
+
+\item \stage{STAGE Z (Parameters):}
+$b$ is a constant parameter.
+\end{itemize}
+
+\subsection*{Step 2: Check for Explicit Dependence on $n$}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (Examine the right-hand side):}
+\begin{align}
+x_{n+1} = nx_n + b
+\end{align}
+
+The right-hand side contains:
+\begin{itemize}
+    \item $n$: the iteration index (independent variable!)
+    \item $x_n$: the state at iteration $n$
+    \item $b$: a constant
+\end{itemize}
+
+\item \stage{STAGE Y (Does $n$ appear explicitly?):}
+YES! The iteration number $n$ appears explicitly as a coefficient multiplying $x_n$.
+
+The function is:
+\begin{align}
+f(x_n, n) = nx_n + b
+\end{align}
+
+This depends on \textbf{both} the current state $x_n$ \textbf{and} the iteration number $n$.
+
+\item \stage{STAGE Z (Conclusion):}
+\begin{align}
+\boxed{\text{NOT AUTONOMOUS}}
+\end{align}
+
+The map is \textbf{non-autonomous}.
+\end{itemize}
+
+\subsection*{Step 3: Understanding the Non-Autonomous Dynamics}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (How the map changes):}
+Starting from $x_0$:
+\begin{align}
+x_1 &= 0 \cdot x_0 + b = b \\
+x_2 &= 1 \cdot x_1 + b = 1 \cdot b + b = 2b \\
+x_3 &= 2 \cdot x_2 + b = 2(2b) + b = 5b \\
+x_4 &= 3 \cdot x_3 + b = 3(5b) + b = 16b \\
+&\vdots
+\end{align}
+
+\item \stage{STAGE Y (Why it's non-autonomous):}
+The "rule" changes at each iteration:
+\begin{itemize}
+    \item At $n=0$: multiply by $0$ and add $b$
+    \item At $n=1$: multiply by $1$ and add $b$
+    \item At $n=2$: multiply by $2$ and add $b$
+    \item At $n=10$: multiply by $10$ and add $b$
+\end{itemize}
+
+The dynamics are \textbf{different at each iteration} because the coefficient $n$ changes. This is the hallmark of non-autonomy.
+
+\item \stage{STAGE Z (Growth behavior):}
+As $n$ increases, the coefficient grows, causing increasingly rapid changes in $x_n$. The system "accelerates" over iterations.
+
+For $b > 0$ and typical initial conditions, this map exhibits explosive growth as $n \to \infty$.
+\end{itemize}
+
+\subsection*{Step 4: Comparison with Part (d)}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (Side-by-side comparison):}
+\begin{align}
+\text{Part (d):} \quad & x_{n+1} = ax_n + x_n^2 \quad \text{(autonomous)} \\
+\text{Part (e):} \quad & x_{n+1} = nx_n + b \quad \text{(non-autonomous)}
+\end{align}
+
+\item \stage{STAGE Y (The crucial difference):}
+\begin{itemize}
+    \item In (d): $a$ is a \textbf{constant}—same at all iterations
+    \item In (e): $n$ is the \textbf{iteration index}—changes with each step
+\end{itemize}
+
+Part (d) uses a constant parameter $a$, while part (e) uses the variable $n$ that increases with each iteration.
+
+\item \stage{STAGE Z (Physical analogy):}
+\begin{itemize}
+    \item Part (d): Like a system with constant friction coefficient
+    \item Part (e): Like a system where friction increases with each time step
+\end{itemize}
+
+The changing "rules" in (e) make it non-autonomous.
+\end{itemize}
+
+\critical{KEY DISTINCTION:}
+\begin{itemize}
+    \item $x_{n+1} = ax_n + b$ with constant $a$ $\Rightarrow$ AUTONOMOUS
+    \item $x_{n+1} = nx_n + b$ with variable $n$ $\Rightarrow$ NON-AUTONOMOUS
+\end{itemize}
+
+The explicit appearance of $n$ (not just as a subscript) makes all the difference!
+
+\newpage
+
+\section{Summary Table and Final Comparison}
+
+\subsection*{Complete Results}
+
+\begin{center}
+\begin{tabular}{|c|l|c|c|c|}
+\hline
+\textbf{Part} & \textbf{System} & \textbf{Independent Var} & \textbf{Autonomous?} & \textbf{Reason} \\
+\hline
+(a) & $\ddot{u} = u + \sin(t)$ & $t$ & NO & $t$ in $\sin(t)$ \\
+\hline
+(b) & $y'' - y - \sin(x) = 0$ & $x$ & NO & $x$ in $\sin(x)$ \\
+\hline
+(c) & $\ddot{\theta} + a\dot{\theta} + b = 0$ & $t$ & YES & No explicit $t$ \\
+\hline
+(d) & $x_{n+1} = ax_n + x_n^2$ & $n$ & YES & No explicit $n$ \\
+\hline
+(e) & $x_{n+1} = nx_n + b$ & $n$ & NO & $n$ multiplies $x_n$ \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsection*{Pattern Recognition}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (Common patterns for NON-autonomous):}
+\begin{enumerate}
+    \item Time-varying forcing: $f(x, t) = \text{function}(x) + g(t)$
+
+    Examples: $\sin(t)$, $e^t$, $t^2$, etc.
+
+    \item Time-varying coefficients: $f(x, t) = h(t) \cdot x$
+
+    Examples: $tx$, $\sin(t) \cdot x$, etc.
+
+    \item For maps: Iteration-dependent terms
+
+    Examples: $nx_n$, $\sin(n)$, $n^2$, etc.
+\end{enumerate}
+
+\item \stage{STAGE Y (Common patterns for AUTONOMOUS):}
+\begin{enumerate}
+    \item Constant coefficients: $f(x) = ax + bx^2 + c$
+    \item State-dependent only: $f(x) = \sin(x)$, $x^3$, $e^x$, etc.
+    \item No explicit time/iteration dependence
+\end{enumerate}
+
+\item \stage{STAGE Z (How to avoid confusion):}
+\begin{enumerate}
+    \item First, identify the independent variable clearly
+    \item Then scan the right-hand side for explicit occurrences
+    \item Remember: subscripts are just notation, not explicit dependence
+    \item Constants/parameters don't count as variables
+\end{enumerate}
+\end{itemize}
+
+\subsection*{Connection to Course Material}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (Lecture notes context):}
+The lecture notes primarily focus on \textbf{autonomous systems} because:
+\begin{enumerate}
+    \item They are simpler to analyze
+    \item Phase portraits are time-independent
+    \item Equilibrium analysis is straightforward
+    \item They capture essential dynamics of many physical systems
+\end{enumerate}
+
+\item \stage{STAGE Y (When non-autonomy arises):}
+Non-autonomous systems appear when:
+\begin{enumerate}
+    \item External forcing varies with time (e.g., seasonal effects, periodic driving)
+    \item Parameters change with time (e.g., aging, growth)
+    \item Boundary conditions move (e.g., moving walls)
+    \item Control inputs are time-dependent
+\end{enumerate}
+
+\item \stage{STAGE Z (Converting non-autonomous to autonomous):}
+A non-autonomous ODE can sometimes be made autonomous by introducing time as a state variable:
+\begin{align}
+\dot{x} &= f(x, t) \quad \text{(non-autonomous)}
+\end{align}
+
+Introduce $y = t$ with $\dot{y} = 1$:
+\begin{align}
+\dot{x} &= f(x, y) \\
+\dot{y} &= 1 \quad \text{(autonomous in } (x,y) \text{ space!)}
+\end{align}
+
+This trick increases the dimension but makes the system autonomous.
+\end{itemize}
+
+\critical{EXAM STRATEGY:}
+\begin{enumerate}
+    \item Always identify the independent variable first
+    \item Look for explicit appearances in the function
+    \item Constants and parameters don't make systems non-autonomous
+    \item Subscripts in maps ($x_n$) are just notation
+\end{enumerate}
+
+\vfill
+
+\begin{center}
+\Large\textbf{END OF QUESTION 3}
+\end{center}
+
+\end{document}

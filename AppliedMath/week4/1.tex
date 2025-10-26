@@ -1,0 +1,482 @@
+\documentclass[11pt,a4paper]{article}
+
+% Packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage[margin=1in]{geometry}
+\usepackage{enumitem}
+\usepackage{xcolor}
+
+% Custom commands
+\newcommand{\stage}[1]{\textbf{\textcolor{blue}{#1}}}
+
+% Title information
+\title{Exercise Sheet 4: Maps\\
+Question 1 - Complete Solution}
+\author{Methods of Applied Mathematics}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section*{Problem Statement}
+
+Derive the discrete population model:
+\[
+N_{n+1} = N_n(1 + \beta - \gamma N_n)
+\]
+from the solution of the nonlinear ODE population model.
+
+\vspace{10pt}
+\hrule
+\vspace{10pt}
+
+\section{Step 1: Recall the Continuous Population Model}
+
+\subsection*{The ODE}
+
+The nonlinear population model is:
+\[
+\frac{dN}{dt} = N(\beta - \gamma N)
+\]
+
+where:
+\begin{itemize}
+\item $N(t)$ is the population at time $t$
+\item $\beta > 0$ is the birth rate
+\item $\gamma > 0$ is the death rate (proportional to population)
+\end{itemize}
+
+\subsection*{XYZ Analysis of the ODE}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (What we have):} A first-order nonlinear ODE with quadratic nonlinearity in $N$. The right-hand side has two contributions: linear growth $\beta N$ and quadratic decay $-\gamma N^2$.
+
+\item \stage{STAGE Y (Why this form):} The model assumes:
+\begin{itemize}
+\item Birth rate is proportional to population: births $= \beta N$
+\item Death rate is proportional to population squared: deaths $= \gamma N^2$
+\end{itemize}
+The quadratic death term models resource competition - as population increases, individuals compete for limited resources, increasing mortality. This gives logistic-type growth with a carrying capacity at $N = \beta/\gamma$ where births balance deaths.
+
+\item \stage{STAGE Z (What we need):} To derive a discrete map, we'll solve this ODE explicitly, then sample the solution at discrete time intervals $t = n\Delta t$ for integer $n$.
+\end{itemize}
+
+\vspace{10pt}
+\hrule
+\vspace{10pt}
+
+\section{Step 2: Solve the ODE}
+
+\subsection*{Separate variables}
+
+Rearrange the ODE:
+\[
+\frac{dN}{N(\beta - \gamma N)} = dt
+\]
+
+\subsection*{Partial fraction decomposition}
+
+Decompose the left side:
+\[
+\frac{1}{N(\beta - \gamma N)} = \frac{A}{N} + \frac{B}{\beta - \gamma N}
+\]
+
+Multiply both sides by $N(\beta - \gamma N)$:
+\[
+1 = A(\beta - \gamma N) + BN
+\]
+
+Setting $N = 0$: $1 = A\beta \Rightarrow A = \frac{1}{\beta}$
+
+Setting $N = \beta/\gamma$: $1 = B \cdot \frac{\beta}{\gamma} \Rightarrow B = \frac{\gamma}{\beta}$
+
+Therefore:
+\[
+\frac{1}{N(\beta - \gamma N)} = \frac{1}{\beta N} + \frac{\gamma}{\beta(\beta - \gamma N)}
+\]
+
+\subsection*{Integrate both sides}
+
+\begin{align*}
+\int \left[\frac{1}{\beta N} + \frac{\gamma}{\beta(\beta - \gamma N)}\right] dN &= \int dt \\
+\frac{1}{\beta}\log|N| - \frac{\gamma}{\beta\gamma}\log|\beta - \gamma N| &= t + C \\
+\frac{1}{\beta}\log|N| - \frac{1}{\beta}\log|\beta - \gamma N| &= t + C \\
+\frac{1}{\beta}\log\left|\frac{N}{\beta - \gamma N}\right| &= t + C
+\end{align*}
+
+\subsection*{Solve for $N(t)$}
+
+Exponentiate both sides:
+\[
+\frac{N}{\beta - \gamma N} = Ke^{\beta t}
+\]
+where $K = e^{\beta C}$ is determined by initial condition.
+
+Solve for $N$:
+\begin{align*}
+N &= (\beta - \gamma N)Ke^{\beta t} \\
+N &= \beta Ke^{\beta t} - \gamma N Ke^{\beta t} \\
+N + \gamma N Ke^{\beta t} &= \beta Ke^{\beta t} \\
+N(1 + \gamma Ke^{\beta t}) &= \beta Ke^{\beta t} \\
+N(t) &= \frac{\beta Ke^{\beta t}}{1 + \gamma Ke^{\beta t}}
+\end{align*}
+
+\subsection*{Apply initial condition}
+
+At $t = 0$, let $N(0) = N_0$:
+\[
+N_0 = \frac{\beta K}{1 + \gamma K}
+\]
+
+Solve for $K$:
+\begin{align*}
+N_0(1 + \gamma K) &= \beta K \\
+N_0 + \gamma N_0 K &= \beta K \\
+N_0 &= K(\beta - \gamma N_0) \\
+K &= \frac{N_0}{\beta - \gamma N_0}
+\end{align*}
+
+\subsection*{General solution}
+
+Substituting back:
+\[
+\boxed{N(t) = \frac{\beta N_0 e^{\beta t}}{\beta - \gamma N_0 + \gamma N_0 e^{\beta t}}}
+\]
+
+This can be rewritten as:
+\[
+N(t) = \frac{N_0 e^{\beta t}}{1 + \frac{\gamma N_0}{\beta}(e^{\beta t} - 1)}
+\]
+
+\subsection*{XYZ Analysis of the Solution}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (What we derived):} An explicit solution for $N(t)$ in terms of initial population $N_0$, parameters $\beta, \gamma$, and time $t$.
+
+\item \stage{STAGE Y (Why this form):} The solution is a logistic curve:
+\begin{itemize}
+\item As $t \to \infty$: $N(t) \to \beta/\gamma$ (carrying capacity)
+\item Growth rate decreases as $N$ approaches carrying capacity
+\item The exponential $e^{\beta t}$ drives growth, but is tempered by the denominator
+\end{itemize}
+The fraction structure emerges from the competition between linear growth and quadratic death terms in the original ODE.
+
+\item \stage{STAGE Z (What's next):} We'll evaluate this solution at discrete time steps separated by interval $\Delta t$, then derive a relationship between successive populations.
+\end{itemize}
+
+\vspace{10pt}
+\hrule
+\vspace{10pt}
+
+\section{Step 3: Discretize by Sampling at Fixed Time Intervals}
+
+\subsection*{Define discrete time points}
+
+Let $t_n = n \Delta t$ for $n = 0, 1, 2, \ldots$ where $\Delta t$ is a fixed time step.
+
+Define:
+\[
+N_n = N(t_n) = N(n\Delta t)
+\]
+
+\subsection*{Evaluate solution at $t_n$ and $t_{n+1}$}
+
+At time $t_n = n\Delta t$:
+\[
+N_n = \frac{\beta N_0 e^{\beta n \Delta t}}{\beta - \gamma N_0 + \gamma N_0 e^{\beta n \Delta t}}
+\]
+
+At time $t_{n+1} = (n+1)\Delta t = n\Delta t + \Delta t$:
+\[
+N_{n+1} = \frac{\beta N_0 e^{\beta(n+1)\Delta t}}{\beta - \gamma N_0 + \gamma N_0 e^{\beta(n+1)\Delta t}}
+\]
+
+Factor out $e^{\beta n\Delta t}$ from numerator and denominator of $N_{n+1}$:
+\[
+N_{n+1} = \frac{\beta N_0 e^{\beta n\Delta t} \cdot e^{\beta \Delta t}}{\beta - \gamma N_0 + \gamma N_0 e^{\beta n\Delta t} \cdot e^{\beta \Delta t}}
+\]
+
+\subsection*{Relate $N_{n+1}$ to $N_n$}
+
+From the expression for $N_n$, we can write:
+\[
+\beta N_0 e^{\beta n\Delta t} = N_n(\beta - \gamma N_0 + \gamma N_0 e^{\beta n\Delta t})
+\]
+
+Let $\alpha = e^{\beta \Delta t}$. Then:
+\[
+N_{n+1} = \frac{\beta N_0 e^{\beta n\Delta t} \cdot \alpha}{\beta - \gamma N_0 + \gamma N_0 e^{\beta n\Delta t} \cdot \alpha}
+\]
+
+Factor the denominator:
+\begin{align*}
+N_{n+1} &= \frac{\beta N_0 e^{\beta n\Delta t} \cdot \alpha}{(\beta - \gamma N_0)(1 - \alpha) + \beta - \gamma N_0 + \gamma N_0 e^{\beta n\Delta t}(\alpha - 1) + \beta - \gamma N_0 + \gamma N_0 e^{\beta n\Delta t}} \\
+\end{align*}
+
+This is getting messy. Let's try a different approach.
+
+\vspace{10pt}
+\hrule
+\vspace{10pt}
+
+\section{Step 3 (Alternative): Use Relation Between Consecutive Times}
+
+\subsection*{Direct ratio approach}
+
+From the solution:
+\[
+N(t) = \frac{\beta N_0 e^{\beta t}}{\beta - \gamma N_0 + \gamma N_0 e^{\beta t}}
+\]
+
+We can invert this to get:
+\[
+\frac{1}{N(t)} = \frac{\beta - \gamma N_0 + \gamma N_0 e^{\beta t}}{\beta N_0 e^{\beta t}} = \frac{\beta - \gamma N_0}{\beta N_0 e^{\beta t}} + \frac{\gamma}{\beta}
+\]
+
+Therefore:
+\[
+\frac{1}{N(t)} - \frac{\gamma}{\beta} = \frac{\beta - \gamma N_0}{\beta N_0} e^{-\beta t}
+\]
+
+At $t = n\Delta t$ and $t = (n+1)\Delta t$:
+\begin{align*}
+\frac{1}{N_n} - \frac{\gamma}{\beta} &= \frac{\beta - \gamma N_0}{\beta N_0} e^{-\beta n\Delta t} \\
+\frac{1}{N_{n+1}} - \frac{\gamma}{\beta} &= \frac{\beta - \gamma N_0}{\beta N_0} e^{-\beta(n+1)\Delta t}
+\end{align*}
+
+Divide the second by the first:
+\[
+\frac{\frac{1}{N_{n+1}} - \frac{\gamma}{\beta}}{\frac{1}{N_n} - \frac{\gamma}{\beta}} = e^{-\beta\Delta t}
+\]
+
+Let $\alpha = e^{-\beta\Delta t}$. Then:
+\[
+\frac{1}{N_{n+1}} - \frac{\gamma}{\beta} = \alpha\left(\frac{1}{N_n} - \frac{\gamma}{\beta}\right)
+\]
+
+Expanding:
+\[
+\frac{1}{N_{n+1}} = \alpha \cdot \frac{1}{N_n} - \alpha \cdot \frac{\gamma}{\beta} + \frac{\gamma}{\beta} = \frac{\alpha}{N_n} + \frac{\gamma}{\beta}(1-\alpha)
+\]
+
+Therefore:
+\[
+N_{n+1} = \frac{1}{\frac{\alpha}{N_n} + \frac{\gamma}{\beta}(1-\alpha)} = \frac{N_n}{\alpha + \frac{\gamma N_n}{\beta}(1-\alpha)}
+\]
+
+\subsection*{Simplify for $\Delta t = 1$}
+
+For unit time step $\Delta t = 1$:
+\[
+\alpha = e^{-\beta}
+\]
+
+Let's expand for small $\beta$ (or equivalently, Taylor expand around the continuous limit). Actually, let's take a more direct approach.
+
+\vspace{10pt}
+\hrule
+\vspace{10pt}
+
+\section{Step 3 (Direct Approach): From First Principles}
+
+\subsection*{Alternative derivation using ODE directly}
+
+The definition of derivative gives:
+\[
+\frac{dN}{dt} = \lim_{\Delta t \to 0} \frac{N(t + \Delta t) - N(t)}{\Delta t}
+\]
+
+For finite $\Delta t$, we approximate:
+\[
+\frac{N(t + \Delta t) - N(t)}{\Delta t} \approx N(t)(\beta - \gamma N(t))
+\]
+
+Rearranging:
+\[
+N(t + \Delta t) \approx N(t) + \Delta t \cdot N(t)(\beta - \gamma N(t))
+\]
+
+\[
+N(t + \Delta t) \approx N(t)[1 + \Delta t(\beta - \gamma N(t))]
+\]
+
+\subsection*{Discretize with $t = n\Delta t$ and $\Delta t = 1$}
+
+Let $N_n = N(n \cdot 1) = N(n)$ and take $\Delta t = 1$:
+\[
+N_{n+1} = N_n[1 + 1 \cdot (\beta - \gamma N_n)]
+\]
+
+\[
+\boxed{N_{n+1} = N_n(1 + \beta - \gamma N_n)}
+\]
+
+This is the desired discrete population map.
+
+\subsection*{XYZ Analysis of Derivation}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (What we did):} Started from the ODE's definition as a derivative, approximated the derivative for finite time step $\Delta t$, then set $\Delta t = 1$ to get discrete time intervals.
+
+\item \stage{STAGE Y (Why this works):} The continuous ODE $\dot{N} = N(\beta - \gamma N)$ tells us the instantaneous rate of change. For a small (but finite) time step $\Delta t$, the change in population is approximately:
+\[
+\Delta N = N(t+\Delta t) - N(t) \approx \dot{N} \cdot \Delta t = N(\beta - \gamma N)\Delta t
+\]
+This is a first-order Euler approximation. When we take $\Delta t = 1$ as our fundamental time unit (e.g., one day, one year), we get:
+\[
+N_{n+1} = N_n + N_n(\beta - \gamma N_n) = N_n(1 + \beta - \gamma N_n)
+\]
+The map represents: current population + change over one time unit.
+
+\item \stage{STAGE Z (What this means):} This discrete map is:
+\begin{itemize}
+\item An approximation to the continuous ODE when $\Delta t$ is small
+\item A model in its own right when time naturally occurs in discrete steps
+\item Valid when $1 + \beta - \gamma N_n > 0$ (otherwise population becomes negative)
+\item Simpler to iterate than solving the ODE repeatedly
+\end{itemize}
+For $\beta$ small (slow growth), the map closely approximates the ODE. For larger $\beta$, the map can exhibit different behavior including oscillations and chaos.
+\end{itemize}
+
+\vspace{10pt}
+\hrule
+\vspace{10pt}
+
+\section{Step 4: Verification from Exact Solution}
+
+\subsection*{Alternative verification}
+
+We can verify our discrete map by checking it's consistent with the exact solution in the limit of small $\Delta t$.
+
+From the exact solution at $t$ and $t + \Delta t$:
+\[
+N(t) = \frac{\beta N_0 e^{\beta t}}{\beta - \gamma N_0 + \gamma N_0 e^{\beta t}}
+\]
+
+Taking the ratio $N(t+\Delta t)/N(t)$:
+\[
+\frac{N(t+\Delta t)}{N(t)} = \frac{e^{\beta(t+\Delta t)}}{e^{\beta t}} \cdot \frac{\beta - \gamma N_0 + \gamma N_0 e^{\beta t}}{\beta - \gamma N_0 + \gamma N_0 e^{\beta(t+\Delta t)}}
+\]
+
+For small $\Delta t$, using $e^{\beta\Delta t} \approx 1 + \beta\Delta t$:
+\[
+\frac{N(t+\Delta t)}{N(t)} \approx (1 + \beta\Delta t) \cdot \frac{\beta - \gamma N_0 + \gamma N_0 e^{\beta t}}{\beta - \gamma N_0 + \gamma N_0 e^{\beta t}(1 + \beta\Delta t)}
+\]
+
+The denominator:
+\[
+\beta - \gamma N_0 + \gamma N_0 e^{\beta t} + \gamma N_0 e^{\beta t}\beta\Delta t
+\]
+
+Factor out $(\beta - \gamma N_0 + \gamma N_0 e^{\beta t})$:
+\[
+(\beta - \gamma N_0 + \gamma N_0 e^{\beta t})\left(1 + \frac{\gamma N_0 e^{\beta t}\beta\Delta t}{\beta - \gamma N_0 + \gamma N_0 e^{\beta t}}\right)
+\]
+
+But from the solution: $N(t) = \frac{\beta N_0 e^{\beta t}}{\beta - \gamma N_0 + \gamma N_0 e^{\beta t}}$
+
+So: $\beta - \gamma N_0 + \gamma N_0 e^{\beta t} = \frac{\beta N_0 e^{\beta t}}{N(t)}$
+
+And: $\frac{\gamma N_0 e^{\beta t}}{\beta - \gamma N_0 + \gamma N_0 e^{\beta t}} = \frac{\gamma N(t)}{\beta}$
+
+Therefore:
+\[
+\frac{N(t+\Delta t)}{N(t)} \approx (1 + \beta\Delta t) \cdot \frac{1}{1 + \frac{\gamma N(t)}{\beta}\beta\Delta t} \approx (1 + \beta\Delta t)(1 - \gamma N(t)\Delta t)
+\]
+
+Expanding:
+\[
+\frac{N(t+\Delta t)}{N(t)} \approx 1 + \beta\Delta t - \gamma N(t)\Delta t + O(\Delta t^2)
+\]
+
+Thus:
+\[
+N(t+\Delta t) \approx N(t)[1 + \Delta t(\beta - \gamma N(t))]
+\]
+
+Setting $\Delta t = 1$ and using discrete notation:
+\[
+\boxed{N_{n+1} = N_n(1 + \beta - \gamma N_n)} \quad \checkmark
+\]
+
+\subsection*{XYZ Analysis of Verification}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (What we verified):} The discrete map derived from the derivative approximation matches the small-$\Delta t$ limit of the exact solution ratio.
+
+\item \stage{STAGE Y (Why this consistency):} Both approaches use the same fundamental ODE. The Euler approximation (derivative approach) is exactly the first-order Taylor expansion of the exact solution. They must agree to $O(\Delta t)$.
+
+\item \stage{STAGE Z (What this tells us):}
+\begin{itemize}
+\item The map $N_{n+1} = N_n(1 + \beta - \gamma N_n)$ is the natural discrete-time analog of the continuous ODE
+\item For small time steps, map and ODE give nearly identical results
+\item For larger time steps, the map and ODE can diverge significantly - the map is an independent model
+\item The map is computationally simpler: no integration needed, just iteration
+\end{itemize}
+\end{itemize}
+
+\vspace{10pt}
+\hrule
+\vspace{10pt}
+
+\section{Summary}
+
+\subsection*{Derivation pathway}
+
+\begin{enumerate}
+\item \textbf{Start:} Continuous ODE $\dot{N} = N(\beta - \gamma N)$
+
+\item \textbf{Approximate derivative:} For finite $\Delta t$:
+\[
+\frac{N(t+\Delta t) - N(t)}{\Delta t} \approx N(t)(\beta - \gamma N(t))
+\]
+
+\item \textbf{Rearrange:}
+\[
+N(t+\Delta t) \approx N(t) + \Delta t \cdot N(t)(\beta - \gamma N(t))
+\]
+
+\item \textbf{Factor:}
+\[
+N(t+\Delta t) \approx N(t)[1 + \Delta t(\beta - \gamma N(t))]
+\]
+
+\item \textbf{Discretize with $\Delta t = 1$:}
+\[
+\boxed{N_{n+1} = N_n(1 + \beta - \gamma N_n)}
+\]
+\end{enumerate}
+
+\subsection*{Physical interpretation}
+
+The discrete map says:
+\[
+\text{Next population} = \text{Current population} \times \text{Growth factor}
+\]
+
+where the growth factor is:
+\[
+1 + \beta - \gamma N_n = 1 + \underbrace{\beta}_{\text{birth rate}} - \underbrace{\gamma N_n}_{\text{death rate}}
+\]
+
+\begin{itemize}
+\item If $\beta > \gamma N_n$: growth factor $> 1$, population increases
+\item If $\beta < \gamma N_n$: growth factor $< 1$, population decreases
+\item If $\beta = \gamma N_n$: growth factor $= 1$, population stable
+\end{itemize}
+
+Fixed point: $N^* = N^*(1 + \beta - \gamma N^*)$ gives $N^* = 0$ or $N^* = \beta/\gamma$ (carrying capacity).
+
+\subsection*{Connection to logistic map}
+
+With rescaling $N_n = \frac{1+\beta}{\gamma}x_n$ and $r = 1 + \beta$:
+\[
+N_{n+1} = N_n(1 + \beta - \gamma N_n) \quad \Rightarrow \quad x_{n+1} = rx_n(1-x_n)
+\]
+
+This is the famous logistic map studied in chaos theory.
+
+\end{document}

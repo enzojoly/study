@@ -1,0 +1,130 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{mathtools}
+\usepackage{enumitem}
+
+\newcommand{\dd}{\mathrm{d}}
+
+\title{Asymptotics 2025/2026 \\ Solution to Problem Sheet 5, Question 1(a)}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+\section*{Question 1(a)}
+Use the method of stationary phase to obtain the leading asymptotic behaviour of
+\[
+I(X) = \int_0^1 \tan(t) \, e^{iXt^4} \dd t \quad \text{as } X \to \infty.
+\]
+
+\section*{Solution}
+
+We have a Fourier-type integral of the form
+\[
+I(X) = \int_0^1 f(t) \, e^{iX\phi(t)} \dd t
+\]
+where $f(t) = \tan(t)$ and $\phi(t) = t^4$.
+
+\subsection*{Step 1: Identify and classify stationary points}
+
+Following the method of stationary phase (Section 4.3 of the lecture notes), we first identify points where $\phi'(t) = 0$.
+
+We have
+\[
+\phi'(t) = 4t^3.
+\]
+
+Setting $\phi'(t) = 0$ gives
+\[
+4t^3 = 0 \implies t = 0.
+\]
+
+The only stationary point is at $t = 0$, which lies at the boundary of the integration interval $[0,1]$.
+
+\subsection*{Step 2: Determine the order of the stationary point}
+
+At $t = 0$, we compute the derivatives of $\phi(t)$:
+\begin{align*}
+\phi'(0) &= 0, \\
+\phi''(0) &= 12t^2 \big|_{t=0} = 0, \\
+\phi'''(0) &= 24t \big|_{t=0} = 0, \\
+\phi^{(4)}(0) &= 24 \neq 0.
+\end{align*}
+
+The first non-vanishing derivative is the fourth derivative, so this is a stationary point of order $n = 4$.
+
+\subsection*{Step 3: Handle the vanishing amplitude}
+
+A crucial observation is that
+\[
+f(0) = \tan(0) = 0.
+\]
+
+Since the amplitude function vanishes at the stationary point, the standard stationary phase formula (Equation 236 from the notes) does not directly apply. We must expand $f(t)$ near $t = 0$.
+
+Using the Taylor series of $\tan(t)$ as $t \to 0$:
+\[
+\tan(t) = t + \frac{t^3}{3} + O(t^5).
+\]
+
+Therefore, the integral becomes
+\[
+I(X) = \int_0^1 \left( t + \frac{t^3}{3} + O(t^5) \right) e^{iXt^4} \dd t.
+\]
+
+The leading contribution comes from the first term:
+\[
+I(X) \sim I_1(X) = \int_0^1 t \, e^{iXt^4} \dd t \quad \text{as } X \to \infty.
+\]
+
+\subsection*{Step 4: Evaluate the leading order integral}
+
+We perform a change of variables. Let $u = Xt^4$, so that
+\[
+t = \left(\frac{u}{X}\right)^{1/4} \quad \text{and} \quad \dd t = \frac{1}{4} \left(\frac{u}{X}\right)^{-3/4} \frac{1}{X} \dd u = \frac{1}{4X} u^{-3/4} X^{3/4} \dd u.
+\]
+
+Substituting into $I_1(X)$:
+\begin{align*}
+I_1(X) &= \int_0^{X} \left(\frac{u}{X}\right)^{1/4} e^{iu} \cdot \frac{1}{4X} u^{-3/4} X^{3/4} \dd u \\
+&= \int_0^{X} \frac{u^{1/4}}{X^{1/4}} e^{iu} \cdot \frac{X^{3/4}}{4X} u^{-3/4} \dd u \\
+&= \frac{1}{4X^{1/2}} \int_0^{X} u^{-1/2} e^{iu} \dd u.
+\end{align*}
+
+\subsection*{Step 5: Apply the asymptotic limit}
+
+As $X \to \infty$, the upper limit of integration tends to infinity. The integral
+\[
+\int_0^{\infty} u^{-1/2} e^{iu} \dd u
+\]
+is a standard Fourier integral. Using the formula for oscillatory integrals with power-law singularities (which can be derived from contour integration or known special functions):
+\[
+\int_0^{\infty} t^{\alpha} e^{it} \dd t = \Gamma(\alpha + 1) e^{i\pi(\alpha+1)/2}, \quad -1 < \alpha < 0.
+\]
+
+With $\alpha = -1/2$:
+\[
+\int_0^{\infty} u^{-1/2} e^{iu} \dd u = \Gamma\left(\frac{1}{2}\right) e^{i\pi/4} = \sqrt{\pi} \, e^{i\pi/4}.
+\]
+
+Therefore, the leading asymptotic behaviour is
+\[
+I_1(X) \sim \frac{1}{4X^{1/2}} \cdot \sqrt{\pi} \, e^{i\pi/4} = \frac{\sqrt{\pi}}{4} X^{-1/2} e^{i\pi/4} \quad \text{as } X \to \infty.
+\]
+
+\subsection*{Final Answer}
+
+\[
+\boxed{I(X) \sim \frac{\sqrt{\pi}}{4X^{1/2}} \, e^{i\pi/4} \quad \text{as } X \to \infty}
+\]
+
+Alternatively, this can be written as
+\[
+I(X) \sim \frac{1}{4}\sqrt{\frac{\pi}{X}} \left(\frac{1}{\sqrt{2}} + \frac{i}{\sqrt{2}}\right) = \frac{1}{4\sqrt{2}}\sqrt{\frac{\pi}{X}}(1 + i) \quad \text{as } X \to \infty.
+\]
+
+The asymptotic order is $O(X^{-1/2})$.
+
+\end{document}

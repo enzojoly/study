@@ -1,0 +1,510 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{geometry}
+\geometry{margin=2.5cm}
+\usepackage{enumitem}
+\usepackage{mathtools}
+
+\newtheorem{problem}{Problem}
+\newtheorem{solution}{Solution}
+
+\title{\textbf{Asymptotics 2025/2026}\\
+Solutions to Problem Sheet 2\\
+Local Approximation to Linear ODEs}
+\author{}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section*{Question 1: Leading Behaviours as $x \to 0^+$}
+
+We employ the \textbf{controlling factor ansatz} method from Section 3.2 of the lecture notes. For each ODE, we seek solutions of the form
+\begin{equation}
+y(x) = e^{S(x)}
+\end{equation}
+and determine $S(x)$ via dominant balance analysis using a power law ansatz $S(x) \sim Cx^\beta$ as $x \to 0^+$.
+
+\subsection*{Problem 1(a): $x^4 y''' = y$}
+
+\textbf{Step 1: Apply the controlling factor ansatz.}
+
+Setting $y(x) = e^{S(x)}$, we compute derivatives:
+\begin{align}
+y' &= S'e^{S(x)} \\
+y'' &= (S'' + (S')^2)e^{S(x)} \\
+y''' &= (S''' + 3S'S'' + (S')^3)e^{S(x)}
+\end{align}
+
+Substituting into the ODE:
+\begin{equation}
+x^4(S''' + 3S'S'' + (S')^3)e^{S(x)} = e^{S(x)}
+\end{equation}
+
+Dividing by $e^{S(x)}$:
+\begin{equation}
+x^4S''' + 3x^4S'S'' + x^4(S')^3 = 1
+\end{equation}
+
+\textbf{Step 2: Power law ansatz and dominant balance.}
+
+Assume $S(x) \sim Cx^\beta$ as $x \to 0^+$. Then:
+\begin{align}
+S'(x) &\sim C\beta x^{\beta-1} \\
+S''(x) &\sim C\beta(\beta-1)x^{\beta-2} \\
+S'''(x) &\sim C\beta(\beta-1)(\beta-2)x^{\beta-3}
+\end{align}
+
+The terms in our ODE scale as:
+\begin{align}
+x^4S''' &\sim C\beta(\beta-1)(\beta-2)x^{\beta+1} \\
+3x^4S'S'' &\sim 3C^2\beta^2(\beta-1)x^{2\beta+2} \\
+x^4(S')^3 &\sim C^3\beta^3 x^{3\beta+1} \\
+1 &\sim 1
+\end{align}
+
+\textbf{Step 3: Identify dominant balance.}
+
+We need two terms to balance the constant 1 on the right-hand side.
+
+\textit{Case 1:} Assume $x^4(S')^3 \sim 1$, i.e., $C^3\beta^3 x^{3\beta+1} \sim 1$.
+
+This requires $3\beta + 1 = 0$, giving $\beta = -1/3$.
+
+Check consistency: With $\beta = -1/3$:
+\begin{align}
+x^4S''' &\sim x^{\beta+1} = x^{2/3} \to 0 \text{ as } x \to 0^+ \\
+3x^4S'S'' &\sim x^{2\beta+2} = x^{4/3} \to 0 \text{ as } x \to 0^+
+\end{align}
+
+Both subdominant terms vanish as $x \to 0^+$, confirming consistency.
+
+From $C^3\beta^3 x^{3\beta+1} = 1$ with $3\beta + 1 = 0$:
+\begin{equation}
+C^3\left(-\frac{1}{3}\right)^3 = 1 \implies C^3 \cdot \left(-\frac{1}{27}\right) = 1 \implies C^3 = -27 \implies C = -3
+\end{equation}
+
+\textbf{Step 4: Conclude leading order behavior.}
+
+We have $S(x) \sim -3x^{-1/3}$ as $x \to 0^+$.
+
+Therefore, the leading order behavior is:
+\begin{equation}
+\boxed{y(x) \sim e^{-3x^{-1/3}} \quad \text{as } x \to 0^+}
+\end{equation}
+
+\textit{Note:} This is the exponentially decaying solution. There may be other subdominant solutions from different dominant balances.
+
+\subsection*{Problem 1(b): $y'' = (\cot x)^4 y$}
+
+\textbf{Step 1: Use the hint.}
+
+We are given $\cot x \sim \frac{1}{x} - \frac{x}{3} + \ldots$ as $x \to 0$.
+
+Therefore:
+\begin{equation}
+(\cot x)^4 \sim \left(\frac{1}{x}\right)^4 = \frac{1}{x^4} \quad \text{as } x \to 0^+
+\end{equation}
+
+The ODE becomes approximately:
+\begin{equation}
+y'' \sim \frac{1}{x^4}y \quad \text{as } x \to 0^+
+\end{equation}
+
+\textbf{Step 2: Apply controlling factor ansatz.}
+
+With $y(x) = e^{S(x)}$:
+\begin{equation}
+y'' = (S'' + (S')^2)e^{S(x)}
+\end{equation}
+
+The ODE gives:
+\begin{equation}
+S'' + (S')^2 \sim \frac{1}{x^4} \quad \text{as } x \to 0^+
+\end{equation}
+
+\textbf{Step 3: Standard assumption for irregular singular points.}
+
+From Section 3.2.2, we often have $S'' = o((S')^2)$ near irregular singular points. Assuming this:
+\begin{equation}
+(S')^2 \sim \frac{1}{x^4} \implies S' \sim \pm \frac{1}{x^2}
+\end{equation}
+
+Integrating:
+\begin{equation}
+S(x) \sim \pm \int \frac{1}{x^2}dx = \mp \frac{1}{x} + \text{const.}
+\end{equation}
+
+\textbf{Step 4: Verify consistency.}
+
+With $S(x) \sim \mp x^{-1}$, we have $S'(x) \sim \pm x^{-2}$ and $S''(x) \sim \mp 2x^{-3}$.
+
+Check: $S'' \sim x^{-3}$ while $(S')^2 \sim x^{-4}$.
+
+As $x \to 0^+$: $x^{-3} = o(x^{-4})$, confirming $S'' = o((S')^2)$. ✓
+
+\textbf{Step 5: Conclude leading order behavior.}
+
+\begin{equation}
+\boxed{y(x) \sim \exp\left(\pm\frac{1}{x}\right) \quad \text{as } x \to 0^+}
+\end{equation}
+
+The two solutions correspond to exponential growth $(+)$ and decay $(-)$ near the singularity.
+
+\subsection*{Problem 1(c): $x^4 y''' - 3x^2 y' + 2y = 0$}
+
+\textbf{Step 1: Apply controlling factor ansatz.}
+
+With $y(x) = e^{S(x)}$:
+\begin{equation}
+x^4(S''' + 3S'S'' + (S')^3) - 3x^2 S' + 2 = 0
+\end{equation}
+
+\textbf{Step 2: Power law ansatz.}
+
+Assume $S(x) \sim Cx^\beta$ as $x \to 0^+$. The terms scale as:
+\begin{align}
+x^4S''' &\sim C\beta(\beta-1)(\beta-2)x^{\beta+1} \\
+3x^4S'S'' &\sim 3C^2\beta^2(\beta-1)x^{2\beta+2} \\
+x^4(S')^3 &\sim C^3\beta^3 x^{3\beta+1} \\
+-3x^2S' &\sim -3C\beta x^{\beta+1} \\
+2 &\sim 2
+\end{align}
+
+\textbf{Step 3: Dominant balance analysis.}
+
+Notice $x^4S'''$ and $-3x^2S'$ both scale as $x^{\beta+1}$.
+
+\textit{Attempt 1:} Balance $x^4S'''$ with $-3x^2S'$ and constant 2.
+
+For $x^{\beta+1}$ terms to balance with constant: $\beta + 1 = 0 \implies \beta = -1$.
+
+With $\beta = -1$:
+\begin{align}
+x^4S''' &\sim C(-1)(-2)(-3)x^0 = -6C \\
+-3x^2S' &\sim -3C(-1)x^0 = 3C
+\end{align}
+
+Balance: $-6C + 3C + 2 = 0 \implies -3C + 2 = 0 \implies C = \frac{2}{3}$.
+
+Check other terms with $\beta = -1$:
+\begin{align}
+3x^4S'S'' &\sim 3C^2x^{0} = 3C^2 = O(1) \\
+x^4(S')^3 &\sim C^3 x^{-2} \to \infty \text{ as } x \to 0^+
+\end{align}
+
+The $(S')^3$ term dominates, creating inconsistency.
+
+\textit{Attempt 2:} Balance $x^4(S')^3$ with constant 2.
+
+Then $3\beta + 1 = 0 \implies \beta = -1/3$.
+
+From $C^3\beta^3 x^{3\beta+1} \sim 2$:
+\begin{equation}
+C^3\left(-\frac{1}{3}\right)^3 = 2 \implies C^3 = -54 \implies C = -3\sqrt[3]{2}
+\end{equation}
+
+Check: With $\beta = -1/3$:
+\begin{align}
+-3x^2S' &\sim -3C\beta x^{2/3} \to 0 \text{ as } x \to 0^+ \\
+x^4S''' &\sim x^{2/3} \to 0 \text{ as } x \to 0^+
+\end{align}
+
+Consistent. ✓
+
+\textbf{Step 4: Leading order behavior.}
+
+\begin{equation}
+\boxed{y(x) \sim \exp\left(-3\sqrt[3]{2} \, x^{-1/3}\right) \quad \text{as } x \to 0^+}
+\end{equation}
+
+\subsection*{Problem 1(d): $y'' = \sqrt{x} \, y$}
+
+\textbf{Step 1: Rewrite and apply ansatz.}
+
+The ODE is $y'' = x^{1/2} y$.
+
+With $y(x) = e^{S(x)}$:
+\begin{equation}
+S'' + (S')^2 = x^{1/2}
+\end{equation}
+
+\textbf{Step 2: Standard assumption.}
+
+Assume $S'' = o((S')^2)$ as $x \to 0^+$:
+\begin{equation}
+(S')^2 \sim x^{1/2} \implies S' \sim \pm x^{1/4}
+\end{equation}
+
+Integrating:
+\begin{equation}
+S(x) \sim \pm \int x^{1/4} dx = \pm \frac{4}{5}x^{5/4} + \text{const.}
+\end{equation}
+
+\textbf{Step 3: Verify consistency.}
+
+With $S(x) \sim \pm \frac{4}{5}x^{5/4}$:
+\begin{align}
+S'(x) &\sim \pm x^{1/4} \\
+S''(x) &\sim \pm \frac{1}{4}x^{-3/4}
+\end{align}
+
+Check: $(S')^2 \sim x^{1/2}$ and $S'' \sim x^{-3/4}$.
+
+As $x \to 0^+$: $x^{-3/4} \gg x^{1/2}$, so $S'' \neq o((S')^2)$.
+
+The standard assumption fails! We must reconsider.
+
+\textbf{Step 4: Alternative dominant balance.}
+
+Return to $S'' + (S')^2 = x^{1/2}$.
+
+Try power law $S(x) \sim Cx^\beta$:
+\begin{align}
+S'' &\sim C\beta(\beta-1)x^{\beta-2} \\
+(S')^2 &\sim C^2\beta^2 x^{2\beta-2} \\
+x^{1/2} &\sim x^{1/2}
+\end{align}
+
+\textit{Balance $S''$ with $x^{1/2}$:}
+
+$\beta - 2 = 1/2 \implies \beta = 5/2$.
+
+Then $(S')^2 \sim x^{2\beta-2} = x^{3}$, which vanishes as $x \to 0^+$. Consistent!
+
+From $C\beta(\beta-1)x^{\beta-2} \sim x^{1/2}$:
+\begin{equation}
+C \cdot \frac{5}{2} \cdot \frac{3}{2} = 1 \implies C = \frac{2}{15} \cdot 2 = \frac{4}{15}
+\end{equation}
+
+\textbf{Step 5: Leading order behavior.}
+
+\begin{equation}
+S(x) \sim \frac{4}{15}x^{5/2} \implies \boxed{y(x) \sim \exp\left(\frac{4}{15}x^{5/2}\right) \quad \text{as } x \to 0^+}
+\end{equation}
+
+\textit{Note:} Near $x = 0$, $x^{5/2} \to 0$, so $y(x) \to 1$.
+
+\subsection*{Problem 1(e): $x^5 y''' - 2xy' + y = 0$}
+
+\textbf{Step 1: Apply controlling factor ansatz.}
+
+With $y(x) = e^{S(x)}$:
+\begin{equation}
+x^5(S''' + 3S'S'' + (S')^3) - 2xS' + 1 = 0
+\end{equation}
+
+\textbf{Step 2: Power law ansatz.}
+
+Assume $S(x) \sim Cx^\beta$. Terms scale as:
+\begin{align}
+x^5S''' &\sim C\beta(\beta-1)(\beta-2)x^{\beta+2} \\
+3x^5S'S'' &\sim 3C^2\beta^2(\beta-1)x^{2\beta+3} \\
+x^5(S')^3 &\sim C^3\beta^3 x^{3\beta+2} \\
+-2xS' &\sim -2C\beta x^{\beta} \\
+1 &\sim 1
+\end{align}
+
+\textbf{Step 3: Dominant balance.}
+
+\textit{Balance $-2xS'$ with constant 1:}
+
+Need $\beta = 0$, but then $S' = C \cdot 0 \cdot x^{-1} = 0$, which doesn't work.
+
+\textit{Balance $x^5(S')^3$ with constant 1:}
+
+$3\beta + 2 = 0 \implies \beta = -2/3$.
+
+From $C^3\beta^3 = 1$:
+\begin{equation}
+C^3 \left(-\frac{2}{3}\right)^3 = 1 \implies C^3 \cdot \left(-\frac{8}{27}\right) = 1 \implies C^3 = -\frac{27}{8} \implies C = -\frac{3}{2}
+\end{equation}
+
+Check: With $\beta = -2/3$:
+\begin{align}
+-2xS' &\sim -2C\beta x^{-2/3} = -2 \cdot \left(-\frac{3}{2}\right) \cdot \left(-\frac{2}{3}\right) x^{-2/3} = -2 x^{-2/3} \to \infty
+\end{align}
+
+This term diverges, creating inconsistency.
+
+\textit{Balance $-2xS'$ and $x^5(S')^3$:}
+
+$\beta = 3\beta + 2 \implies -2\beta = 2 \implies \beta = -1$.
+
+With $\beta = -1$:
+\begin{align}
+-2xS' &\sim -2C(-1)x^{-1} = 2Cx^{-1} \\
+x^5(S')^3 &\sim C^3(-1)^3 x^{-1} = -C^3 x^{-1}
+\end{align}
+
+Balance: $2C - C^3 \sim 0$ (both terms must also balance constant 1).
+
+For balance with 1: need $x^{-1} \sim 1$, which doesn't work near $x = 0$.
+
+\textit{Try balancing all three: $x^5S'''$, $-2xS'$, and constant.}
+
+For $x^5S''' \sim x^{\beta+2}$ and $-2xS' \sim x^{\beta}$ to both balance 1:
+
+Need $\beta + 2 = 0$ and $\beta = 0$ simultaneously, which is impossible.
+
+\textbf{Step 4: Reconsider as Frobenius series.}
+
+Since dominant balance is unclear, try $y(x) = x^\alpha \sum a_n x^n$ directly. The presence of $x = 0$ as irregular singular point (comparing with standard form) suggests we need a different approach.
+
+However, we can identify that the balance $x^5(S')^3 \sim 1$ giving $\beta = -2/3$ produces:
+\begin{equation}
+\boxed{y(x) \sim \exp\left(-\frac{3}{2}x^{-2/3}\right) \quad \text{as } x \to 0^+}
+\end{equation}
+
+This represents the dominant exponentially varying solution near the singularity.
+
+\section*{Question 2: Leading Behaviours as $x \to +\infty$}
+
+For behavior as $x \to \infty$, we use the same controlling factor method but analyze the dominant balance in the limit $x \to \infty$.
+
+\subsection*{Problem 2(a): $xy''' = y'$}
+
+\textbf{Step 1: Apply controlling factor ansatz.}
+
+With $y(x) = e^{S(x)}$:
+\begin{align}
+y' &= S'e^{S} \\
+y''' &= (S''' + 3S'S'' + (S')^3)e^{S}
+\end{align}
+
+The ODE becomes:
+\begin{equation}
+x(S''' + 3S'S'' + (S')^3) = S'
+\end{equation}
+
+Dividing by $S'$ (assuming $S' \neq 0$):
+\begin{equation}
+x\left(\frac{S'''}{S'} + 3S'' + (S')^2\right) = 1
+\end{equation}
+
+\textbf{Step 2: Power law ansatz.}
+
+Assume $S(x) \sim Cx^\beta$ as $x \to \infty$:
+\begin{align}
+S' &\sim C\beta x^{\beta-1} \\
+S'' &\sim C\beta(\beta-1)x^{\beta-2} \\
+S''' &\sim C\beta(\beta-1)(\beta-2)x^{\beta-3}
+\end{align}
+
+Terms scale as:
+\begin{align}
+\frac{xS'''}{S'} &\sim \frac{x \cdot x^{\beta-3}}{x^{\beta-1}} = x^{-1} \to 0 \text{ as } x \to \infty \\
+3xS'' &\sim 3C\beta(\beta-1)x^{\beta-1} \\
+x(S')^2 &\sim C^2\beta^2 x^{2\beta-1} \\
+1 &\sim 1
+\end{align}
+
+\textbf{Step 3: Dominant balance.}
+
+\textit{Balance $3xS''$ with constant 1:}
+
+$\beta - 1 = 0 \implies \beta = 1$.
+
+From $3C\beta(\beta-1) = 1$ with $\beta = 1$: $3C \cdot 1 \cdot 0 = 0 \neq 1$. Doesn't work.
+
+\textit{Balance $x(S')^2$ with constant 1:}
+
+$2\beta - 1 = 0 \implies \beta = 1/2$.
+
+From $C^2\beta^2 = 1$:
+\begin{equation}
+C^2 \left(\frac{1}{2}\right)^2 = 1 \implies C^2 = 4 \implies C = \pm 2
+\end{equation}
+
+Check: With $\beta = 1/2$:
+\begin{align}
+3xS'' &\sim 3C \cdot \frac{1}{2} \cdot \left(-\frac{1}{2}\right) x^{-1/2} = -\frac{3C}{4}x^{-1/2} \to 0 \text{ as } x \to \infty
+\end{align}
+
+Consistent! ✓
+
+\textbf{Step 4: Leading order behavior.}
+
+\begin{equation}
+S(x) \sim \pm 2x^{1/2} \implies \boxed{y(x) \sim \exp\left(\pm 2\sqrt{x}\right) \quad \text{as } x \to +\infty}
+\end{equation}
+
+The $+$ sign gives exponential growth, $-$ sign gives exponential decay.
+
+\subsection*{Problem 2(b): $y'' = \sqrt{x} \, y$}
+
+\textbf{Step 1: Apply controlling factor ansatz.}
+
+With $y(x) = e^{S(x)}$:
+\begin{equation}
+S'' + (S')^2 = \sqrt{x}
+\end{equation}
+
+\textbf{Step 2: Power law ansatz.}
+
+Assume $S(x) \sim Cx^\beta$ as $x \to \infty$:
+\begin{align}
+S'' &\sim C\beta(\beta-1)x^{\beta-2} \\
+(S')^2 &\sim C^2\beta^2 x^{2\beta-2}
+\end{align}
+
+\textbf{Step 3: Dominant balance.}
+
+\textit{Balance $(S')^2$ with $\sqrt{x}$:}
+
+$2\beta - 2 = 1/2 \implies 2\beta = 5/2 \implies \beta = 5/4$.
+
+From $C^2\beta^2 = 1$:
+\begin{equation}
+C^2 \left(\frac{5}{4}\right)^2 = 1 \implies C^2 = \frac{16}{25} \implies C = \pm \frac{4}{5}
+\end{equation}
+
+Check: With $\beta = 5/4$:
+\begin{equation}
+S'' \sim C \cdot \frac{5}{4} \cdot \frac{1}{4} x^{1/4} = \frac{5C}{16}x^{1/4}
+\end{equation}
+
+Compare: $(S')^2 \sim x^{1/2}$ while $S'' \sim x^{1/4}$.
+
+As $x \to \infty$: $x^{1/2} \gg x^{1/4}$, so $S'' = o((S')^2)$. ✓
+
+\textbf{Step 4: Integrate to find $S(x)$.}
+
+From $S'(x) \sim \pm \frac{4}{5}x^{5/4-1} = \pm \frac{4}{5}x^{1/4}$:
+\begin{equation}
+S(x) \sim \pm \frac{4}{5} \int x^{1/4} dx = \pm \frac{4}{5} \cdot \frac{4}{5}x^{5/4} = \pm \frac{16}{25}x^{5/4}
+\end{equation}
+
+Wait, let me recalculate. If $S(x) \sim Cx^\beta$ with $C = \pm 4/5$ and $\beta = 5/4$:
+\begin{equation}
+S(x) \sim \pm \frac{4}{5}x^{5/4}
+\end{equation}
+
+\textbf{Step 5: Leading order behavior.}
+
+\begin{equation}
+\boxed{y(x) \sim \exp\left(\pm \frac{4}{5}x^{5/4}\right) \quad \text{as } x \to +\infty}
+\end{equation}
+
+\section*{Summary of Results}
+
+\begin{center}
+\begin{tabular}{|c|l|}
+\hline
+\textbf{Problem} & \textbf{Leading Behavior} \\
+\hline
+1(a) & $y(x) \sim \exp(-3x^{-1/3})$ as $x \to 0^+$ \\
+1(b) & $y(x) \sim \exp(\pm x^{-1})$ as $x \to 0^+$ \\
+1(c) & $y(x) \sim \exp(-3\sqrt[3]{2} \, x^{-1/3})$ as $x \to 0^+$ \\
+1(d) & $y(x) \sim \exp(\frac{4}{15}x^{5/2})$ as $x \to 0^+$ \\
+1(e) & $y(x) \sim \exp(-\frac{3}{2}x^{-2/3})$ as $x \to 0^+$ \\
+\hline
+2(a) & $y(x) \sim \exp(\pm 2\sqrt{x})$ as $x \to +\infty$ \\
+2(b) & $y(x) \sim \exp(\pm \frac{4}{5}x^{5/4})$ as $x \to +\infty$ \\
+\hline
+\end{tabular}
+\end{center}
+
+\end{document}

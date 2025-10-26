@@ -1,0 +1,127 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{mathtools}
+\usepackage{enumitem}
+
+\newcommand{\dd}{\mathrm{d}}
+
+\title{Asymptotics 2025/2026 \\ Solution to Problem Sheet 5, Question 1(b)}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+\section*{Question 1(b)}
+Use the method of stationary phase to obtain the leading asymptotic behaviour of
+\[
+I(X) = \int_{1/2}^{2} (1+t) \, e^{iX(-t+t^3/3)} \dd t \quad \text{as } X \to \infty.
+\]
+
+\section*{Solution}
+
+We have a Fourier-type integral of the form
+\[
+I(X) = \int_a^b f(t) \, e^{iX\phi(t)} \dd t
+\]
+where $f(t) = 1 + t$, $\phi(t) = -t + \frac{t^3}{3}$, and the integration interval is $[a,b] = [1/2, 2]$.
+
+\subsection*{Step 1: Identify stationary points}
+
+Following the method of stationary phase (Section 4.3 of the lecture notes), we look for points where $\phi'(t) = 0$ within the integration interval.
+
+Compute the derivative:
+\[
+\phi'(t) = -1 + t^2.
+\]
+
+Setting $\phi'(t) = 0$:
+\[
+-1 + t^2 = 0 \implies t^2 = 1 \implies t = \pm 1.
+\]
+
+Since the integration interval is $[1/2, 2]$, we have:
+\begin{itemize}
+\item $t = 1$ lies in $[1/2, 2]$ $\checkmark$
+\item $t = -1$ lies outside $[1/2, 2]$ $\times$
+\end{itemize}
+
+Therefore, there is exactly one stationary point at $t = 1$ inside the integration interval.
+
+\subsection*{Step 2: Classify the stationary point}
+
+Compute the second derivative:
+\[
+\phi''(t) = 2t.
+\]
+
+At $t = 1$:
+\[
+\phi''(1) = 2 \neq 0.
+\]
+
+Since $\phi''(1) \neq 0$, this is a non-degenerate stationary point (i.e., $n = 2$ in the terminology of the notes).
+
+\subsection*{Step 3: Evaluate required quantities at the stationary point}
+
+At $t = 1$:
+\begin{align*}
+f(1) &= 1 + 1 = 2, \\
+\phi(1) &= -1 + \frac{1^3}{3} = -1 + \frac{1}{3} = -\frac{2}{3}, \\
+\phi''(1) &= 2.
+\end{align*}
+
+\subsection*{Step 4: Check contributions from endpoints}
+
+According to the notes (Section 4.3.1), contributions from endpoints are algebraically smaller than contributions from interior stationary points. Specifically, endpoint contributions are $O(X^{-1})$ while stationary point contributions are $O(X^{-1/2})$.
+
+Since $X^{-1} = o(X^{-1/2})$ as $X \to \infty$, the endpoint contributions are subdominant and can be neglected in the leading order asymptotic expansion.
+
+\subsection*{Step 5: Apply the method of stationary phase formula}
+
+From the lecture notes, Equation (235), the asymptotic expansion for a Fourier-type integral with a non-degenerate stationary point at $t = c$ is:
+\[
+I(X) \sim \sqrt{\frac{2\pi i}{X\phi''(c)}} f(c) e^{iX\phi(c)} \quad \text{as } X \to \infty.
+\]
+
+We need to evaluate $\sqrt{\frac{2\pi i}{X\phi''(c)}}$. Since $\phi''(1) = 2 > 0$, we use the relation:
+\[
+\sqrt{i} = e^{i\pi/4} = \frac{1}{\sqrt{2}} + \frac{i}{\sqrt{2}}.
+\]
+
+Therefore:
+\begin{align*}
+\sqrt{\frac{2\pi i}{X\phi''(1)}} &= \sqrt{\frac{2\pi i}{2X}} \\
+&= \sqrt{\frac{\pi i}{X}} \\
+&= \sqrt{\frac{\pi}{X}} \cdot \sqrt{i} \\
+&= \sqrt{\frac{\pi}{X}} \cdot e^{i\pi/4}.
+\end{align*}
+
+\subsection*{Step 6: Compute the leading asymptotic behaviour}
+
+Substituting all values into the formula:
+\begin{align*}
+I(X) &\sim \sqrt{\frac{\pi}{X}} e^{i\pi/4} \cdot 2 \cdot e^{iX(-2/3)} \\
+&= 2\sqrt{\frac{\pi}{X}} e^{i\pi/4} e^{-2iX/3} \\
+&= 2\sqrt{\frac{\pi}{X}} \exp\left(i\left(\frac{\pi}{4} - \frac{2X}{3}\right)\right).
+\end{align*}
+
+\subsection*{Final Answer}
+
+\[
+\boxed{I(X) \sim 2\sqrt{\frac{\pi}{X}} \exp\left(i\left(\frac{\pi}{4} - \frac{2X}{3}\right)\right) \quad \text{as } X \to \infty}
+\]
+
+Alternatively, this can be written as:
+\[
+I(X) \sim 2\sqrt{\frac{\pi}{X}} e^{i\pi/4} e^{-2iX/3} \quad \text{as } X \to \infty,
+\]
+or in terms of trigonometric functions:
+\[
+I(X) \sim 2\sqrt{\frac{\pi}{X}} \left[\cos\left(\frac{\pi}{4} - \frac{2X}{3}\right) + i\sin\left(\frac{\pi}{4} - \frac{2X}{3}\right)\right] \quad \text{as } X \to \infty.
+\]
+
+The asymptotic order is $O(X^{-1/2})$.
+
+\end{document}

@@ -1,0 +1,302 @@
+\documentclass[11pt,a4paper]{article}
+
+% Packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage[margin=1in]{geometry}
+\usepackage{enumitem}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usepackage{xcolor}
+\pgfplotsset{compat=1.18}
+
+% Custom commands
+\newcommand{\stage}[1]{\textbf{\textcolor{blue}{#1}}}
+
+% Title information
+\title{Exercise Sheet 4: Maps\\
+Question 3 - Complete Solution}
+\author{Methods of Applied Mathematics}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section*{Problem Statement}
+
+The logistic map is given by:
+\[
+x_{n+1} = rx_n(1-x_n)
+\]
+
+with fixed points at:
+\[
+x_1^* = 0 \quad \text{and} \quad x_2^* = \frac{r-1}{r}
+\]
+
+\textbf{Tasks:}
+\begin{itemize}
+\item Derive the linearization of the map about each fixed point
+\item Show that $x_1^*$ is unstable for $r > 1$
+\item Show that $x_2^*$ is stable for $r > 1$
+\end{itemize}
+
+\vspace{10pt}
+\hrule
+\vspace{10pt}
+
+\section{Step 1: Verify Fixed Points}
+
+\subsection*{Definition of fixed point}
+
+A fixed point $x^*$ of map $x_{n+1} = f(x_n)$ satisfies:
+\[
+x^* = f(x^*)
+\]
+
+For the logistic map, $f(x) = rx(1-x)$.
+
+\subsection*{Check $x_1^* = 0$}
+
+\begin{align*}
+f(0) &= r \cdot 0 \cdot (1-0) \\
+&= 0 \quad \checkmark
+\end{align*}
+
+\subsection*{Check $x_2^* = (r-1)/r$}
+
+\begin{align*}
+f\left(\frac{r-1}{r}\right) &= r \cdot \frac{r-1}{r} \cdot \left(1 - \frac{r-1}{r}\right) \\
+&= (r-1) \cdot \left(\frac{r - (r-1)}{r}\right) \\
+&= (r-1) \cdot \frac{1}{r} \\
+&= \frac{r-1}{r} \quad \checkmark
+\end{align*}
+
+\subsection*{XYZ Analysis of Fixed Points}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (What we have):} Two fixed points: $x_1^* = 0$ (always exists) and $x_2^* = (r-1)/r$ (exists for all $r$, coincides with $x_1^*$ at $r=1$).
+
+\item \stage{STAGE Y (Why these are the only fixed points):} Solving $x = rx(1-x)$:
+\begin{align*}
+x &= rx - rx^2 \\
+0 &= x(r(1-x) - 1)
+\end{align*}
+This gives $x=0$ or $r(1-x) = 1 \Rightarrow x = (r-1)/r$.
+
+\item \stage{STAGE Z (What this means):} $x_1^* = 0$ represents extinction. $x_2^*$ represents steady-state population. For $r>1$, we have $x_2^* > 0$ (positive equilibrium exists). Stability determines which state the system reaches.
+\end{itemize}
+
+\vspace{10pt}
+\hrule
+\vspace{10pt}
+
+\section{Step 2: Compute Derivative}
+
+\subsection*{Linearization formula}
+
+For map $x_{n+1} = f(x_n)$, Taylor expansion near $x^*$:
+\[
+f(x^* + \epsilon) = f(x^*) + f'(x^*) \epsilon + O(\epsilon^2)
+\]
+
+Since $f(x^*) = x^*$:
+\[
+\boxed{x_{n+1} - x^* \approx f'(x^*)(x_n - x^*)}
+\]
+
+\subsection*{Compute $f'(x)$}
+
+For $f(x) = rx(1-x) = rx - rx^2$:
+\[
+f'(x) = r - 2rx = r(1 - 2x)
+\]
+
+Therefore:
+\[
+\boxed{f'(x) = r(1-2x)}
+\]
+
+\subsection*{XYZ Analysis}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (What we computed):} Derivative $f'(x) = r(1-2x)$ is linear in $x$, depends on parameter $r$.
+
+\item \stage{STAGE Y (Why this form):} The logistic map is a parabola with:
+\begin{itemize}
+\item Maximum at $x = 1/2$ where $f'(1/2) = 0$
+\item $f'(0) = r$ (slope at origin)
+\item $f'(1) = -r$ (slope at boundary)
+\end{itemize}
+The derivative measures local stretching/contraction - key for stability.
+
+\item \stage{STAGE Z (What this means):} If $|f'(x^*)| < 1$: nearby points contract toward $x^*$ (stable). If $|f'(x^*)| > 1$: nearby points stretch away from $x^*$ (unstable).
+\end{itemize}
+
+\vspace{10pt}
+\hrule
+\vspace{10pt}
+
+\section{Step 3: Stability of $x_1^* = 0$}
+
+\subsection*{Evaluate derivative}
+
+\[
+\lambda_1 = f'(0) = r(1 - 0) = r
+\]
+
+\subsection*{Linearized map}
+
+Let $\epsilon_n = x_n - 0 = x_n$:
+\[
+\epsilon_{n+1} = r \epsilon_n
+\]
+
+Solution by iteration:
+\[
+\epsilon_n = r^n \epsilon_0 \quad \Rightarrow \quad x_n = r^n x_0
+\]
+
+\subsection*{Stability criterion}
+
+Fixed point stable if $|\lambda| < 1$, unstable if $|\lambda| > 1$.
+
+For $x_1^*$: $|\lambda_1| = r$ (assuming $r > 0$)
+
+\begin{align*}
+r < 1: \quad & |\lambda_1| < 1 \quad \Rightarrow \quad \text{STABLE} \\
+r = 1: \quad & |\lambda_1| = 1 \quad \Rightarrow \quad \text{NEUTRAL} \\
+r > 1: \quad & |\lambda_1| > 1 \quad \Rightarrow \quad \boxed{\text{UNSTABLE}}
+\end{align*}
+
+\subsection*{Conclusion}
+
+\[
+\boxed{\text{For } r > 1: \quad x_1^* = 0 \text{ is UNSTABLE}}
+\]
+
+\subsection*{XYZ Analysis}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (What we found):} Eigenvalue $\lambda_1 = r$. For $r>1$: $|\lambda_1| > 1 \Rightarrow$ unstable.
+
+\item \stage{STAGE Y (Why instability):} Solution $x_n = r^n x_0$ shows exponential growth. Each iteration multiplies by $r$. For $r>1$, births exceed deaths, so any nonzero population grows away from extinction. Geometrically, parabola slope at origin ($f'(0) = r$) exceeds diagonal slope (1), pushing trajectories away.
+
+\item \stage{STAGE Z (Biological meaning):} For $r>1$, extinction is unstable - any small population grows. Makes sense: reproduction rate exceeds replacement, so population cannot stay at zero. System escapes toward $x_2^*$.
+\end{itemize}
+
+\vspace{10pt}
+\hrule
+\vspace{10pt}
+
+\section{Step 4: Stability of $x_2^* = (r-1)/r$}
+
+\subsection*{Evaluate derivative}
+
+\begin{align*}
+\lambda_2 &= f'\left(\frac{r-1}{r}\right) = r\left(1 - 2 \cdot \frac{r-1}{r}\right) \\
+&= r\left(\frac{r - 2(r-1)}{r}\right) = r \cdot \frac{2-r}{r} = 2 - r
+\end{align*}
+
+\[
+\boxed{\lambda_2 = 2 - r}
+\]
+
+\subsection*{Linearized map}
+
+Let $\epsilon_n = x_n - x_2^*$:
+\[
+\epsilon_{n+1} = (2-r) \epsilon_n
+\]
+
+Solution:
+\[
+\epsilon_n = (2-r)^n \epsilon_0
+\]
+
+\subsection*{Stability analysis}
+
+Need $|\lambda_2| = |2-r| < 1$.
+
+\textbf{For $1 < r < 2$:} $\lambda_2 = 2-r \in (0,1)$
+\[
+|\lambda_2| < 1 \quad \Rightarrow \quad \text{STABLE (monotonic)}
+\]
+
+\textbf{For $r = 2$:} $\lambda_2 = 0$
+\[
+|\lambda_2| = 0 \quad \Rightarrow \quad \text{SUPERSTABLE}
+\]
+
+\textbf{For $2 < r < 3$:} $\lambda_2 = 2-r \in (-1,0)$
+\[
+|\lambda_2| < 1 \quad \Rightarrow \quad \text{STABLE (oscillatory)}
+\]
+
+\textbf{For $r = 3$:} $\lambda_2 = -1$
+\[
+|\lambda_2| = 1 \quad \Rightarrow \quad \text{BIFURCATION}
+\]
+
+\textbf{For $r > 3$:} $\lambda_2 < -1$
+\[
+|\lambda_2| > 1 \quad \Rightarrow \quad \text{UNSTABLE}
+\]
+
+\subsection*{Conclusion}
+
+\[
+\boxed{\text{For } 1 < r < 3: \quad x_2^* = \frac{r-1}{r} \text{ is STABLE}}
+\]
+
+\subsection*{XYZ Analysis}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (What we found):} Eigenvalue $\lambda_2 = 2-r$. For $1 < r < 3$: $|\lambda_2| < 1 \Rightarrow$ stable.
+
+\item \stage{STAGE Y (Why stability):} Solution $\epsilon_n = (2-r)^n \epsilon_0$ shows exponential decay toward $x_2^*$:
+\begin{itemize}
+\item For $1 < r < 2$: $\lambda_2 \in (0,1)$ positive. Monotonic convergence (no oscillation).
+\item For $2 < r < 3$: $\lambda_2 \in (-1,0)$ negative. Oscillatory convergence (alternates above/below).
+\item At $r=2$: $\lambda_2 = 0$. Instantaneous convergence (superstable).
+\end{itemize}
+
+\item \stage{STAGE Z (Dynamic meaning):} For $1 < r < 3$, population converges to equilibrium $x_2^* = 1 - 1/r$. Bifurcations occur at:
+\begin{itemize}
+\item $r=1$: Transcritical bifurcation (extinction destabilizes, $x_2^*$ born)
+\item $r=3$: Flip bifurcation ($x_2^*$ destabilizes, period-2 orbit created)
+\end{itemize}
+\end{itemize}
+
+\vspace{10pt}
+\hrule
+\vspace{10pt}
+
+\section{Summary}
+
+\subsection*{Main Results}
+
+For logistic map $x_{n+1} = rx_n(1-x_n)$:
+
+\textbf{Linearization:} $f'(x) = r(1-2x)$
+
+\textbf{Eigenvalues:}
+\begin{align*}
+\lambda_1 &= r \\
+\lambda_2 &= 2 - r
+\end{align*}
+
+\textbf{Stability for $r > 1$:}
+
+\begin{center}
+\begin{tabular}{ccc}
+\textbf{Fixed Point} & \textbf{Eigenvalue} & \textbf{Stability} \\
+\hline
+$x_1^* = 0$ & $\lambda_1 = r > 1$ & Unstable \\[5pt]
+$x_2^* = \dfrac{r-1}{r}$ & $\lambda_2 = 2-r$ & Stable ($1 < r < 3$)
+\end{tabular}
+\end{center}
+
+\end{document}

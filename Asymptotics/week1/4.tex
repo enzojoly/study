@@ -1,0 +1,280 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{geometry}
+\geometry{margin=1in}
+\usepackage{enumitem}
+\usepackage{xcolor}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{definition}[theorem]{Definition}
+
+\newcommand{\why}[1]{\textcolor{blue}{\textbf{Why:} #1}}
+\newcommand{\what}[1]{\textcolor{red}{\textbf{What we see:} #1}}
+\newcommand{\how}[1]{\textcolor{purple}{\textbf{How we know:} #1}}
+
+\title{Asymptotics 2025/2026 Sheet 1\\Problem 4: Detailed Solution}
+\author{}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section*{Problem 4}
+
+\textbf{Problem Statement:} Explain why the sequence $\{\phi_n(x) = x^{-n}\cos(nx)\}$, $n = 0, 1, \ldots$, is \textbf{not} an asymptotic sequence as $x \to \infty$.
+
+\section{Stage 1: Understanding What We Need to Prove}
+
+\subsection{What is the Question Asking?}
+
+\what{We are given a sequence of functions:}
+\begin{align}
+\phi_0(x) &= x^0 \cos(0 \cdot x) = 1 \cdot 1 = 1\\
+\phi_1(x) &= x^{-1} \cos(x) = \frac{\cos(x)}{x}\\
+\phi_2(x) &= x^{-2} \cos(2x) = \frac{\cos(2x)}{x^2}\\
+\phi_3(x) &= x^{-3} \cos(3x) = \frac{\cos(3x)}{x^3}\\
+&\vdots \nonumber
+\end{align}
+
+\why{We list these explicitly because we need to see the \emph{pattern} of how the sequence behaves. Each successive term has:
+\begin{enumerate}
+\item An \textbf{algebraic part}: $x^{-n}$ that gets smaller as $n$ increases (for fixed large $x$)
+\item An \textbf{oscillatory part}: $\cos(nx)$ that oscillates with increasing frequency as $n$ increases
+\end{enumerate}
+The question is asking us to determine whether this sequence satisfies the formal definition of an ``asymptotic sequence.''}
+
+\subsection{Recalling the Definition from the Lecture Notes}
+
+\begin{definition}[Asymptotic Sequence]
+From Lecture Notes Section 2.5, page 9: A sequence of functions $\{\phi_n(x)\}$, $n = 0, 1, 2, \ldots$ is an \textbf{asymptotic sequence} as $x \to x_0$ if, for all $n$,
+\begin{equation}
+\phi_{n+1}(x) = o(\phi_n(x)) \quad \text{as } x \to x_0.
+\end{equation}
+\end{definition}
+
+\why{This definition is the \emph{precise mathematical criterion} we must check. The notation $\phi_{n+1}(x) = o(\phi_n(x))$ means that each successive function in the sequence is ``asymptotically smaller'' than the previous one.}
+
+\subsection{Understanding the ``Little-oh'' Notation}
+
+\begin{definition}[Little-oh, from Lecture Notes Section 2.4.1, page 6]
+We write $f(x) = o(g(x))$ as $x \to x_0$ if
+\begin{equation}
+\lim_{x \to x_0} \frac{f(x)}{g(x)} = 0.
+\end{equation}
+Alternatively, we write $f(x) \ll g(x)$ as $x \to x_0$.
+\end{definition}
+
+\why{The little-oh notation captures the idea that $f$ is ``negligible compared to $g$'' near $x_0$. When we take the ratio and it goes to zero, it means $f$ decays \emph{faster} than $g$ (or grows slower than $g$).}
+
+\how{We translate the asymptotic sequence condition into a concrete limit we can evaluate:
+\begin{equation}
+\text{For } \{\phi_n(x)\} \text{ to be asymptotic, we need: } \lim_{x \to \infty} \frac{\phi_{n+1}(x)}{\phi_n(x)} = 0 \text{ for every } n.
+\end{equation}}
+
+\section{Stage 2: Setting Up the Test}
+
+\subsection{What We Must Verify}
+
+\what{To determine if $\{\phi_n(x) = x^{-n}\cos(nx)\}$ is an asymptotic sequence as $x \to \infty$, we must check whether:}
+\begin{equation}
+\lim_{x \to \infty} \frac{\phi_{n+1}(x)}{\phi_n(x)} = 0 \quad \text{for every } n = 0, 1, 2, \ldots
+\end{equation}
+
+\why{If this limit equals zero for \emph{all} $n$, then the sequence is asymptotic. If we can find even \emph{one} value of $n$ for which this limit either:
+\begin{enumerate}
+\item Does not exist, or
+\item Exists but does not equal zero,
+\end{enumerate}
+then the sequence \textbf{fails} to be asymptotic.}
+
+\subsection{Computing the Ratio}
+
+\what{Let us compute the ratio explicitly:}
+\begin{align}
+\frac{\phi_{n+1}(x)}{\phi_n(x)} &= \frac{x^{-(n+1)} \cos((n+1)x)}{x^{-n} \cos(nx)}\\
+&= \frac{x^{-n-1}}{x^{-n}} \cdot \frac{\cos((n+1)x)}{\cos(nx)}\\
+&= x^{-n-1-(-n)} \cdot \frac{\cos((n+1)x)}{\cos(nx)}\\
+&= x^{-1} \cdot \frac{\cos((n+1)x)}{\cos(nx)}\\
+&= \frac{\cos((n+1)x)}{x \cos(nx)}.
+\end{align}
+
+\why{We separate the ratio into two parts:
+\begin{enumerate}
+\item \textbf{The algebraic part}: $x^{-1} = \frac{1}{x}$, which \emph{does} go to zero as $x \to \infty$
+\item \textbf{The trigonometric part}: $\frac{\cos((n+1)x)}{\cos(nx)}$, which we must analyze carefully
+\end{enumerate}
+The key question is: does the product of these two parts have a well-defined limit as $x \to \infty$?}
+
+\section{Stage 3: Analyzing the Limit}
+
+\subsection{The Behavior of the Trigonometric Ratio}
+
+\what{We need to understand:}
+\begin{equation}
+\lim_{x \to \infty} \frac{\cos((n+1)x)}{x \cos(nx)} = \lim_{x \to \infty} \frac{1}{x} \cdot \frac{\cos((n+1)x)}{\cos(nx)}.
+\end{equation}
+
+\why{The factor $\frac{1}{x} \to 0$ as $x \to \infty$, which is \emph{good} for our purposes (we want the limit to be zero). However, the behavior of $\frac{\cos((n+1)x)}{\cos(nx)}$ as $x \to \infty$ is \textbf{problematic}.}
+
+\subsection{Why the Trigonometric Ratio is Problematic}
+
+\subsubsection{Observation 1: Oscillatory Behavior}
+
+\what{Both $\cos((n+1)x)$ and $\cos(nx)$ are \textbf{periodic functions} that oscillate between $-1$ and $+1$ as $x$ increases.}
+
+\begin{itemize}
+\item $\cos(nx)$ oscillates with period $T_n = \frac{2\pi}{n}$
+\item $\cos((n+1)x)$ oscillates with period $T_{n+1} = \frac{2\pi}{n+1}$
+\end{itemize}
+
+\why{As $x \to \infty$, both functions continue to oscillate \emph{indefinitely}. They do not settle down to any particular value. This means:}
+\begin{equation}
+\lim_{x \to \infty} \cos(nx) \text{ \textbf{does not exist}}, \quad \lim_{x \to \infty} \cos((n+1)x) \text{ \textbf{does not exist}}.
+\end{equation}
+
+\how{We know this from basic analysis: a function that oscillates between two values indefinitely cannot have a limit. For example, $\lim_{x \to \infty} \sin(x)$ does not exist because $\sin(x)$ takes all values in $[-1, 1]$ infinitely often as $x \to \infty$.}
+
+\subsubsection{Observation 2: The Denominator Can Vanish}
+
+\what{The denominator $\cos(nx)$ equals zero whenever:}
+\begin{equation}
+nx = \frac{\pi}{2} + k\pi \quad \text{for } k \in \mathbb{Z},
+\end{equation}
+which occurs at:
+\begin{equation}
+x = \frac{\pi(2k+1)}{2n} \quad \text{for } k = 0, 1, 2, \ldots
+\end{equation}
+
+\why{This is a \textbf{critical issue}. As $x \to \infty$, there are \emph{infinitely many} values of $x$ where $\cos(nx) = 0$. At these points:
+\begin{equation}
+\frac{\cos((n+1)x)}{\cos(nx)} = \frac{\cos((n+1)x)}{0},
+\end{equation}
+which is \textbf{undefined} (if $\cos((n+1)x) \neq 0$) or an indeterminate form $\frac{0}{0}$ (if both vanish simultaneously).}
+
+\how{We can verify this by substituting. For example, take $n = 1$ and $x = \frac{\pi}{2}$:
+\begin{align}
+\cos(x) &= \cos\left(\frac{\pi}{2}\right) = 0\\
+\cos(2x) &= \cos(\pi) = -1\\
+\frac{\cos(2x)}{\cos(x)} &= \frac{-1}{0} = \text{undefined}.
+\end{align}}
+
+\subsection{Constructing a Sequence to Show Non-Existence}
+
+\what{Let us construct a specific sequence of $x$-values to demonstrate that the limit does not exist.}
+
+\subsubsection{Case 1: When $\cos(nx)$ is Near Zero}
+
+\textbf{Choose:} $x_k = \frac{\pi(2k+1)}{2n}$ for large integers $k$.
+
+\why{At these values, $\cos(nx_k) = 0$ exactly.}
+
+\what{Then:}
+\begin{equation}
+\frac{\cos((n+1)x_k)}{x_k \cos(nx_k)} = \frac{\cos\left((n+1) \cdot \frac{\pi(2k+1)}{2n}\right)}{x_k \cdot 0}.
+\end{equation}
+
+\why{If $\cos((n+1)x_k) \neq 0$, this ratio is \textbf{unbounded} (either $+\infty$ or $-\infty$).}
+
+\how{We can verify that $\cos((n+1)x_k) \neq 0$ for \emph{most} values of $k$ (in general, the numerator and denominator zeros do not coincide). Therefore, along this sequence $\{x_k\}$:}
+\begin{equation}
+\left|\frac{\cos((n+1)x_k)}{x_k \cos(nx_k)}\right| \to \infty.
+\end{equation}
+
+\subsubsection{Case 2: When Both Functions Are Non-Zero}
+
+\textbf{Choose:} $x_j = \frac{2\pi j}{n}$ for large integers $j$.
+
+\why{At these values, $\cos(nx_j) = \cos(2\pi j) = 1$.}
+
+\what{Then:}
+\begin{align}
+\frac{\cos((n+1)x_j)}{x_j \cos(nx_j)} &= \frac{\cos\left((n+1) \cdot \frac{2\pi j}{n}\right)}{x_j \cdot 1}\\
+&= \frac{\cos\left(2\pi j + \frac{2\pi j}{n}\right)}{x_j}\\
+&= \frac{\cos\left(\frac{2\pi j}{n}\right)}{x_j}.
+\end{align}
+
+\why{Using the periodicity of cosine: $\cos(2\pi j + \theta) = \cos(\theta)$.}
+
+\what{Now, as $j \to \infty$ (and hence $x_j \to \infty$):}
+\begin{equation}
+\frac{\cos\left(\frac{2\pi j}{n}\right)}{x_j} = \frac{\cos\left(\frac{2\pi j}{n}\right)}{\frac{2\pi j}{n}} \to 0 \text{ as } j \to \infty,
+\end{equation}
+\textbf{provided} $\cos\left(\frac{2\pi j}{n}\right)$ remains bounded (which it does, oscillating between $-1$ and $1$).
+
+\why{Along \emph{this} sequence, the ratio does approach zero because the denominator grows like $x_j$ while the numerator is bounded.}
+
+\subsection{The Contradiction: Limit Does Not Exist}
+
+\what{We have shown that:}
+\begin{enumerate}
+\item Along the sequence $x_k = \frac{\pi(2k+1)}{2n}$, the ratio $\to \infty$ (unbounded)
+\item Along the sequence $x_j = \frac{2\pi j}{n}$, the ratio $\to 0$
+\end{enumerate}
+
+\why{For a limit $\lim_{x \to \infty} f(x)$ to exist, $f(x)$ must approach the \textbf{same value} along \emph{every} sequence $\{x_n\}$ with $x_n \to \infty$.}
+
+\how{This is the \textbf{sequential criterion for limits}:
+\begin{equation}
+\lim_{x \to x_0} f(x) = L \iff \lim_{n \to \infty} f(x_n) = L \text{ for every sequence } x_n \to x_0.
+\end{equation}
+Since we have found two sequences giving different limiting behaviors (one unbounded, one zero), the limit:}
+\begin{equation}
+\lim_{x \to \infty} \frac{\cos((n+1)x)}{x\cos(nx)} \quad \textbf{does not exist}.
+\end{equation}
+
+\section{Stage 4: Conclusion}
+
+\subsection{Applying the Definition}
+
+\what{We needed to verify:}
+\begin{equation}
+\lim_{x \to \infty} \frac{\phi_{n+1}(x)}{\phi_n(x)} = 0 \quad \text{for all } n.
+\end{equation}
+
+\what{We have shown that for \textbf{any} $n \geq 1$:}
+\begin{equation}
+\lim_{x \to \infty} \frac{\phi_{n+1}(x)}{\phi_n(x)} = \lim_{x \to \infty} \frac{\cos((n+1)x)}{x\cos(nx)} \quad \textbf{does not exist}.
+\end{equation}
+
+\why{Since the limit does not exist, we cannot have $\phi_{n+1}(x) = o(\phi_n(x))$.}
+
+\how{By the definition of an asymptotic sequence from the lecture notes (Section 2.5), if even \emph{one} of the ratios fails the little-oh condition, the entire sequence is \textbf{not} asymptotic.}
+
+\subsection{The Fundamental Reason}
+
+\begin{center}
+\fbox{\begin{minipage}{0.9\textwidth}
+\textbf{Why the sequence fails:} The \textbf{oscillatory factors} $\cos(nx)$ and $\cos((n+1)x)$ do not decay as $x \to \infty$. Instead, they oscillate indefinitely. When we form the ratio $\frac{\cos((n+1)x)}{\cos(nx)}$, the denominator passes through zero infinitely often, causing the ratio to become unbounded along certain subsequences. This prevents the overall limit from existing, violating the requirement that $\phi_{n+1} = o(\phi_n)$.
+\end{minipage}}
+\end{center}
+
+\subsection{Contrasting with a True Asymptotic Sequence}
+
+\what{Compare with the standard asymptotic sequence $\{x^{-n}\}$ (without the cosine factors):}
+\begin{equation}
+\lim_{x \to \infty} \frac{x^{-(n+1)}}{x^{-n}} = \lim_{x \to \infty} \frac{1}{x} = 0 \quad \checkmark
+\end{equation}
+
+\why{Here, there are \textbf{no oscillatory factors}, just pure decay. The ratio has a well-defined limit of zero, so $\{x^{-n}\}$ \textbf{is} an asymptotic sequence as $x \to \infty$.}
+
+\section{Final Answer}
+
+\begin{center}
+\fbox{\begin{minipage}{0.9\textwidth}
+The sequence $\{\phi_n(x) = x^{-n}\cos(nx)\}$ is \textbf{not} an asymptotic sequence as $x \to \infty$ because:
+
+\begin{enumerate}
+\item The ratio $\frac{\phi_{n+1}(x)}{\phi_n(x)} = \frac{\cos((n+1)x)}{x\cos(nx)}$ does not have a well-defined limit as $x \to \infty$.
+
+\item The denominator $\cos(nx)$ vanishes at infinitely many points as $x \to \infty$, causing the ratio to become unbounded along certain sequences.
+
+\item Along other sequences where $\cos(nx) \neq 0$, the ratio may approach zero, but the limit must be the same along \emph{all} sequences for the limit to exist.
+
+\item Since the limit does not exist, we cannot have $\phi_{n+1}(x) = o(\phi_n(x))$, violating the definition of an asymptotic sequence (Lecture Notes, Section 2.5).
+\end{enumerate}
+\end{minipage}}
+\end{center}
+
+\end{document}

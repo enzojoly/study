@@ -1,0 +1,397 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{mathtools}
+\usepackage{enumitem}
+\usepackage{xcolor}
+
+\newcommand{\stage}[1]{\textbf{\textcolor{blue}{#1}}}
+
+\title{Question 3: Irregular Singular Points and Asymptotic Solutions\\
+Complete Analysis with Controlling Factor Method}
+\author{Asymptotics Course — Sheet 4}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section*{Problem Statement}
+
+Consider the differential equation:
+\[
+\frac{d^2y}{dx^2} - \left(1 + \frac{1}{x}\right)y = 0
+\]
+
+\textbf{(a)} Show that it has an irregular singular point at $x = \infty$.
+
+\textbf{(b)} Compute the two linearly independent solutions at leading order as $x \to \infty$.
+
+\section{Part (a): Verify Irregular Singular Point at $x = \infty$}
+
+\subsection{Step 1: Strategy for Analyzing Point at Infinity}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (What we need):} To analyze whether $x = \infty$ is a singular point, we must transform it to a finite point and apply the classification from Section 3.1.
+
+\item \stage{STAGE Y (Why this approach):} The standard classification (regular vs. irregular singular point) is defined for finite points. We use the transformation $x = 1/t$ to map $x = \infty$ to $t = 0$.
+
+\item \stage{STAGE Z (What this means):} If $t = 0$ is an irregular singular point after transformation, then $x = \infty$ is an irregular singular point.
+\end{itemize}
+
+\subsection{Step 2: Transform the ODE}
+
+\subsubsection*{Change of Variable}
+
+Set:
+\[
+x = \frac{1}{t} \quad \Rightarrow \quad t = \frac{1}{x}
+\]
+
+As $x \to \infty$, we have $t \to 0$.
+
+\subsubsection*{Transform Derivatives (ESSENTIAL)}
+
+Using the chain rule:
+\[
+\frac{d}{dx} = \frac{dt}{dx} \cdot \frac{d}{dt} = -t^2 \frac{d}{dt}
+\]
+
+For the second derivative:
+\begin{align*}
+\frac{d^2}{dx^2} &= \frac{d}{dx}\left(\frac{d}{dx}\right) = \frac{d}{dx}\left(-t^2 \frac{d}{dt}\right) \\
+&= -\frac{d(t^2)}{dx} \cdot \frac{d}{dt} - t^2 \frac{d}{dx}\left(\frac{d}{dt}\right) \\
+&= -(-2t^3) \frac{d}{dt} - t^2 \left(-t^2 \frac{d^2}{dt^2}\right) \\
+&= 2t^3 \frac{d}{dt} + t^4 \frac{d^2}{dt^2}
+\end{align*}
+
+Therefore:
+\[
+\frac{d^2y}{dx^2} = t^4 \frac{d^2y}{dt^2} + 2t^3 \frac{dy}{dt}
+\]
+
+\subsubsection*{Transform the Coefficient}
+
+\[
+1 + \frac{1}{x} = 1 + t
+\]
+
+\subsection{Step 3: Write the Transformed ODE}
+
+Substituting into the original equation:
+\[
+t^4 \frac{d^2y}{dt^2} + 2t^3 \frac{dy}{dt} - (1 + t)y = 0
+\]
+
+Divide through by $t^4$ to obtain standard form:
+\[
+\frac{d^2y}{dt^2} + \frac{2}{t} \frac{dy}{dt} - \frac{1 + t}{t^4} y = 0
+\]
+
+\subsection{Step 4: Apply Classification Criteria}
+
+\subsubsection*{Standard Form Comparison (Section 3.1)}
+
+The general second-order linear ODE is:
+\[
+\frac{d^2y}{dt^2} + p(t)\frac{dy}{dt} + q(t)y = 0
+\]
+
+In our transformed equation:
+\[
+p(t) = \frac{2}{t}, \qquad q(t) = -\frac{1 + t}{t^4}
+\]
+
+\subsubsection*{Classification Criteria for Regular Singular Point}
+
+\textit{From Section 3.1 of lecture notes:}
+
+A point $t_0$ is a \textbf{regular singular point} if:
+\begin{enumerate}
+\item $(t - t_0)p(t)$ is analytic at $t_0$
+\item $(t - t_0)^2 q(t)$ is analytic at $t_0$
+\end{enumerate}
+
+For our case with $t_0 = 0$:
+
+\textbf{Check Condition 1:}
+\[
+t \cdot p(t) = t \cdot \frac{2}{t} = 2
+\]
+
+This is analytic at $t = 0$ (it's a constant). $\checkmark$
+
+\textbf{Check Condition 2:}
+\[
+t^2 \cdot q(t) = t^2 \cdot \left(-\frac{1 + t}{t^4}\right) = -\frac{1 + t}{t^2} = -\frac{1}{t^2} - \frac{1}{t}
+\]
+
+This is \textbf{NOT analytic} at $t = 0$ because it has terms $-1/t^2$ and $-1/t$ that diverge as $t \to 0$. $\times$
+
+\subsection{Step 5: Conclusion}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (What we found):} Condition 1 is satisfied, but Condition 2 fails.
+
+\item \stage{STAGE Y (Why this matters):} Since $(t-0)^2 q(t)$ is not analytic at $t = 0$, the point $t = 0$ is NOT a regular singular point. Therefore, it must be an irregular singular point.
+
+\item \stage{STAGE Z (Final conclusion):} Since $t = 0$ (corresponding to $x = \infty$ in the original coordinates) is an irregular singular point, we have proven:
+\end{itemize}
+
+\begin{center}
+\fbox{%
+\parbox{0.85\textwidth}{%
+\textbf{Answer to Part (a):}
+
+The differential equation $y'' - (1 + 1/x)y = 0$ has an \textbf{irregular singular point at $x = \infty$} because:
+\begin{enumerate}
+\item The transformation $x = 1/t$ maps $x = \infty$ to $t = 0$
+\item The transformed ODE has $t^2 q(t) = -(1+t)/t^2$, which is not analytic at $t = 0$
+\item Therefore $t = 0$ is an irregular singular point, making $x = \infty$ an irregular singular point
+\end{enumerate}
+}}
+\end{center}
+
+\section{Part (b): Compute Leading Order Solutions as $x \to \infty$}
+
+\subsection{Step 1: Strategy — Controlling Factor Method}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (What we have):} An ODE with irregular singular point at $x = \infty$, which means standard Frobenius series fails.
+
+\item \stage{STAGE Y (Why controlling factor):} For irregular singular points, we use the \textbf{controlling factor method} (Section 3.2) which seeks solutions of the form $y = e^{S(x)}$.
+
+\item \stage{STAGE Z (What this means):} We'll find $S(x)$ by successive approximation, starting with dominant balance.
+\end{itemize}
+
+\subsection{Step 2: Set Up the Controlling Factor Ansatz}
+
+\subsubsection*{Ansatz (Section 3.2.1)}
+
+Set:
+\[
+y(x) = e^{S(x)}
+\]
+
+Then:
+\begin{align*}
+y'(x) &= S'(x) e^{S(x)} = S'(x) y(x) \\
+y''(x) &= \left[S''(x) + \left(S'(x)\right)^2\right] e^{S(x)} = \left[S''(x) + \left(S'(x)\right)^2\right] y(x)
+\end{align*}
+
+\subsubsection*{Substitute into ODE}
+
+The original ODE is:
+\[
+y'' - \left(1 + \frac{1}{x}\right)y = 0
+\]
+
+Substituting:
+\[
+\left[S'' + (S')^2\right]y - \left(1 + \frac{1}{x}\right)y = 0
+\]
+
+Since $y = e^{S(x)} \neq 0$, divide by $y$:
+\[
+S'' + (S')^2 - 1 - \frac{1}{x} = 0
+\]
+
+Rearrange:
+\[
+S'' + (S')^2 = 1 + \frac{1}{x}
+\]
+
+\subsection{Step 3: Leading Order — Dominant Balance}
+
+\subsubsection*{Standard Assumption (Equation 121)}
+
+\textit{From Section 3.2.1:} Near irregular singular points, we typically assume:
+\[
+S'' = o\left((S')^2\right) \quad \text{as } x \to \infty
+\]
+
+\subsubsection*{Apply Dominant Balance}
+
+If $S'' \ll (S')^2$, then to leading order:
+\[
+(S')^2 \approx 1 + \frac{1}{x} \quad \text{as } x \to \infty
+\]
+
+For large $x$, $1/x \to 0$, so:
+\[
+(S')^2 \approx 1 \quad \Rightarrow \quad S' \approx \pm 1
+\]
+
+Integrating:
+\[
+S_0(x) = \pm x + \text{const}
+\]
+
+We can absorb the constant into the overall multiplicative constant of the solution, so:
+\[
+\boxed{S_0(x) = \pm x}
+\]
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (What we found):} Two leading order solutions: $S_0(x) = x$ and $S_0(x) = -x$.
+
+\item \stage{STAGE Y (Verify assumption):} With $S_0' = \pm 1$, we have $S_0'' = 0$, so indeed $S_0'' = o((S_0')^2)$ ✓
+
+\item \stage{STAGE Z (Next step):} Find the next correction to determine the complete leading order behavior including prefactors.
+\end{itemize}
+
+\subsection{Step 4: Next Order Correction}
+
+\subsubsection*{Refinement (Section 3.2.3)}
+
+Set:
+\[
+S(x) = \pm x + C(x)
+\]
+where $C(x) = o(x)$ as $x \to \infty$ (i.e., $C(x)$ grows slower than linearly).
+
+\subsubsection*{Compute Derivatives}
+
+\begin{align*}
+S'(x) &= \pm 1 + C'(x) \\
+S''(x) &= C''(x)
+\end{align*}
+
+\subsubsection*{Substitute Back into ODE Equation}
+
+\[
+C'' + (\pm 1 + C')^2 = 1 + \frac{1}{x}
+\]
+
+Expand:
+\[
+C'' + 1 \pm 2C' + (C')^2 = 1 + \frac{1}{x}
+\]
+
+Simplify:
+\[
+C'' \pm 2C' + (C')^2 = \frac{1}{x}
+\]
+
+\subsubsection*{Apply Dominant Balance for $C(x)$}
+
+Since $C(x) = o(x)$, we have:
+\begin{itemize}
+\item $C'(x) = o(1)$ as $x \to \infty$
+\item $C''(x) = o(1/x)$ as $x \to \infty$
+\item $(C')^2 = o(1)$ as $x \to \infty$
+\end{itemize}
+
+Therefore, to leading order in the equation for $C$:
+\[
+\pm 2C' \approx \frac{1}{x}
+\]
+
+This gives:
+\[
+C'(x) \approx \pm \frac{1}{2x}
+\]
+
+Integrating:
+\[
+C(x) = \pm \frac{1}{2}\log x + \text{const}
+\]
+
+Again, absorbing the constant:
+\[
+\boxed{C(x) = \pm \frac{1}{2}\log x}
+\]
+
+\subsection{Step 5: Combine Leading and Next Order}
+
+\subsubsection*{Complete Expression for $S(x)$}
+
+\[
+S(x) = \pm x \pm \frac{1}{2}\log x + o(\log x) \quad \text{as } x \to \infty
+\]
+
+Note: The two $\pm$ signs are independent. For the two linearly independent solutions, we take:
+\[
+S_+(x) = x + \frac{1}{2}\log x \quad \text{and} \quad S_-(x) = -x - \frac{1}{2}\log x
+\]
+
+\subsubsection*{Solutions}
+
+\begin{align*}
+y_+(x) &= e^{S_+(x)} = e^{x + \frac{1}{2}\log x} = e^x \cdot e^{\log x^{1/2}} = e^x \sqrt{x} \\
+y_-(x) &= e^{S_-(x)} = e^{-x - \frac{1}{2}\log x} = e^{-x} \cdot e^{-\log x^{1/2}} = \frac{e^{-x}}{\sqrt{x}}
+\end{align*}
+
+\subsection{Step 6: State Final Answer}
+
+\begin{center}
+\fbox{%
+\parbox{0.85\textwidth}{%
+\textbf{Answer to Part (b):}
+
+The two linearly independent solutions at leading order as $x \to \infty$ are:
+\[
+y_1(x) \sim \sqrt{x} \, e^x \quad \text{as } x \to \infty
+\]
+\[
+y_2(x) \sim \frac{e^{-x}}{\sqrt{x}} \quad \text{as } x \to \infty
+\]
+
+Or equivalently:
+\[
+y_1(x) \sim A x^{1/2} e^x, \qquad y_2(x) \sim B x^{-1/2} e^{-x} \quad \text{as } x \to \infty
+\]
+where $A$ and $B$ are arbitrary constants.
+}}
+\end{center}
+
+\subsection{Step 7: Verification}
+
+\subsubsection*{Check Linear Independence}
+
+The Wronskian:
+\[
+W = y_1 y_2' - y_1' y_2
+\]
+
+For $y_1 \sim \sqrt{x}e^x$ and $y_2 \sim \frac{e^{-x}}{\sqrt{x}}$:
+\begin{align*}
+W &\sim \left(\sqrt{x}e^x\right) \cdot \left(-\frac{e^{-x}}{\sqrt{x}} - \frac{e^{-x}}{2x^{3/2}}\right) - \left(\sqrt{x}e^x + \frac{e^x}{2\sqrt{x}}\right) \cdot \frac{e^{-x}}{\sqrt{x}} \\
+&\sim -1 - \frac{1}{2x} - 1 - \frac{1}{2x} = -2 + O(1/x) \neq 0 \quad \checkmark
+\end{align*}
+
+The solutions are linearly independent.
+
+\subsubsection*{Verify Dominant Balance Consistency}
+
+For $y_1 \sim \sqrt{x}e^x$:
+\begin{align*}
+y_1' &\sim \sqrt{x}e^x + \frac{e^x}{2\sqrt{x}} \sim \sqrt{x}e^x \quad (\text{leading order}) \\
+y_1'' &\sim \sqrt{x}e^x \quad (\text{leading order})
+\end{align*}
+
+Substitute into ODE:
+\[
+y_1'' - (1 + 1/x)y_1 \sim \sqrt{x}e^x - (1 + 1/x)\sqrt{x}e^x \sim \sqrt{x}e^x(1 - 1 - 1/x)
+\]
+
+The leading terms cancel, leaving $O(x^{-1/2}e^x) = o(\sqrt{x}e^x)$ $\checkmark$
+
+\section{Verification Checklist}
+
+\begin{enumerate}[leftmargin=*]
+\item[$\checkmark$] \textbf{Part (a) — Transformation:} $x = 1/t$ correctly transforms derivatives
+\item[$\checkmark$] \textbf{Part (a) — Classification:} Checked both conditions for regular singular point
+\item[$\checkmark$] \textbf{Part (a) — Conclusion:} $t^2 q(t)$ not analytic $\Rightarrow$ irregular singular point
+\item[$\checkmark$] \textbf{Part (b) — Method:} Used controlling factor ansatz $y = e^{S(x)}$
+\item[$\checkmark$] \textbf{Part (b) — Leading order:} Found $S_0' \approx \pm 1$ via dominant balance
+\item[$\checkmark$] \textbf{Part (b) — Next order:} Found $C(x) \approx \pm \frac{1}{2}\log x$
+\item[$\checkmark$] \textbf{Part (b) — Solutions:} Combined to get $y_1 \sim \sqrt{x}e^x$ and $y_2 \sim e^{-x}/\sqrt{x}$
+\item[$\checkmark$] \textbf{Verification:} Checked linear independence via Wronskian
+\item[$\checkmark$] \textbf{Consistency:} Verified dominant balance assumption holds
+\end{enumerate}
+
+\vspace{1em}
+\textit{This solution follows the methodology of Section 3.1 (classification of singular points) and Section 3.2 (controlling factor method for irregular singular points) from the lecture notes.}
+
+\end{document}

@@ -1,0 +1,801 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{geometry}
+\geometry{margin=0.4in}
+\usepackage{enumitem}
+\usepackage{xcolor}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+
+\title{Asymptotics 2025/2026 Sheet 1\\Problem 3: Verification of Order Relations\\Complete Methodological Analysis}
+\author{}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section*{Preamble: Understanding What We Are Being Asked}
+
+Before we begin solving Problem 3, we must understand \textbf{why} we are being asked to verify these statements and \textbf{what} mathematical framework governs our approach.
+
+\subsection*{The Purpose of Order Symbols}
+
+In asymptotic analysis, we study how functions behave as their arguments approach specific values (often 0 or $\infty$). The lecture notes (Section 2.4.1) introduce order symbols as a \textbf{precise language} for describing these behaviors.
+
+\textbf{Why do we need this language?} Because vague statements like ``$f$ is small compared to $g$'' are insufficient for rigorous mathematics. Order symbols provide:
+\begin{itemize}
+\item \textbf{Precision:} Exact conditions for when one function dominates another
+\item \textbf{Hierarchy:} A way to rank functions by their asymptotic behavior
+\item \textbf{Computational power:} Rules for manipulating asymptotic expressions
+\end{itemize}
+
+\subsection*{The Three Key Concepts from Lecture Notes}
+
+From Section 2.4.1 of the lecture notes, we have three fundamental definitions:
+
+\begin{definition}[Little-oh, Equation (22)]
+$f(x) = o(g(x))$ as $x \to x_0$ if
+\[
+\lim_{x \to x_0} \frac{f(x)}{g(x)} = 0.
+\]
+\textbf{Interpretation:} $f$ is \emph{asymptotically smaller} than $g$.
+\end{definition}
+
+\begin{definition}[Big-Oh, Equation (23)]
+$f(x) = O(g(x))$ as $x \to x_0$ if
+\[
+\lim_{x \to x_0} \frac{|f(x)|}{|g(x)|} = C, \quad \text{where } 0 \le C < \infty.
+\]
+\textbf{Interpretation:} $f$ is \emph{at most of the same order} as $g$.
+\end{definition}
+
+\begin{definition}[Asymptotic equivalence, Equation (24)]
+$f(x) \sim g(x)$ as $x \to x_0$ if
+\[
+\lim_{x \to x_0} \frac{f(x)}{g(x)} = 1.
+\]
+\textbf{Interpretation:} $f$ and $g$ have \emph{identical asymptotic behavior}.
+\end{definition}
+
+\textbf{Why these three definitions?} They form a hierarchy:
+\[
+f \sim g \implies f = O(g) \implies \text{(but not necessarily)} \implies f = o(g)
+\]
+
+\textbf{Critical observation from lecture notes:} ``$f(x) = o(g(x))$ as $x \to x_0$ by definition implies $f(x) = O(g(x))$ as $x \to x_0$, but not vice versa.''
+
+\section*{Problem 3(a): Verify $\sin(x^{1/3}) = O(x^{1/3})$ as $x \to 0^+$}
+
+\subsection*{Step 1: Identify What We Must Prove}
+
+\textbf{What are we asked?} To verify that $\sin(x^{1/3}) = O(x^{1/3})$ as $x \to 0^+$.
+
+\textbf{Why this form?} The problem asks us to verify, not derive. This means:
+\begin{enumerate}
+\item The statement is already claimed to be true
+\item Our job is to demonstrate its truth using the definition
+\item We must show the limit condition holds
+\end{enumerate}
+
+\textbf{What does verification require?} By Definition 2 above, we must show:
+\[
+\lim_{x \to 0^+} \frac{|\sin(x^{1/3})|}{|x^{1/3}|} = C < \infty.
+\]
+
+\textbf{Why the absolute values?} The big-Oh definition (Equation 23 in lecture notes) uses absolute values to handle functions that may change sign. However, since $x^{1/3} > 0$ for $x > 0$, and we're approaching from $x \to 0^+$, we can work without absolute values in this case.
+
+\subsection*{Step 2: Set Up the Limit}
+
+\textbf{What we do:} Form the ratio
+\[
+\frac{\sin(x^{1/3})}{x^{1/3}}.
+\]
+
+\textbf{Why this ratio?} This is \emph{precisely} the ratio that appears in the definition of $O(\cdot)$. We are not choosing this arbitrarily; it is \textbf{mandated} by Definition 2.
+
+\textbf{What we must evaluate:}
+\[
+L = \lim_{x \to 0^+} \frac{\sin(x^{1/3})}{x^{1/3}}.
+\]
+
+\textbf{Why must we evaluate this limit?} Because:
+\begin{itemize}
+\item If $L$ exists and $0 \le L < \infty$, then $\sin(x^{1/3}) = O(x^{1/3})$ ✓
+\item If $L = \infty$, then $\sin(x^{1/3}) \ne O(x^{1/3})$ ✗
+\item If $L$ does not exist, then $\sin(x^{1/3}) \ne O(x^{1/3})$ ✗
+\end{itemize}
+
+\subsection*{Step 3: Recognize the Limit Form}
+
+\textbf{What we observe:} The limit has the form
+\[
+\lim_{x \to 0^+} \frac{\sin(x^{1/3})}{x^{1/3}}.
+\]
+
+\textbf{Why is this form significant?} This resembles the fundamental trigonometric limit:
+\[
+\lim_{u \to 0} \frac{\sin u}{u} = 1,
+\]
+which is one of the most important limits in calculus.
+
+\textbf{How do we know this fundamental limit?} It can be proven using:
+\begin{enumerate}
+\item The squeeze theorem with geometric arguments
+\item L'Hôpital's rule: $\lim_{u \to 0} \frac{\sin u}{u} = \lim_{u \to 0} \frac{\cos u}{1} = 1$
+\item Taylor series: $\sin u = u - \frac{u^3}{6} + O(u^5)$, so $\frac{\sin u}{u} = 1 - \frac{u^2}{6} + O(u^4) \to 1$
+\end{enumerate}
+
+\textbf{Why can we use this limit?} Because our expression involves $\sin(x^{1/3})$ divided by $x^{1/3}$, which is exactly the pattern of $\sin(u)/u$ if we set $u = x^{1/3}$.
+
+\subsection*{Step 4: Change of Variables}
+
+\textbf{What we do:} Let $u = x^{1/3}$.
+
+\textbf{Why this substitution?} Because:
+\begin{enumerate}
+\item It transforms our unfamiliar limit into the standard form $\frac{\sin u}{u}$
+\item It simplifies the notation
+\item It makes the connection to the fundamental limit explicit
+\end{enumerate}
+
+\textbf{What happens to the limit as we change variables?}
+
+Since $u = x^{1/3}$:
+\begin{itemize}
+\item When $x \to 0^+$, we have $u = x^{1/3} \to 0^+$ (since the cube root of a small positive number is a small positive number)
+\item The limit becomes:
+\[
+L = \lim_{x \to 0^+} \frac{\sin(x^{1/3})}{x^{1/3}} = \lim_{u \to 0^+} \frac{\sin u}{u}.
+\]
+\end{itemize}
+
+\textbf{Why is this transformation valid?} By the continuity of composition of continuous functions. More precisely, if $\phi: x \mapsto u$ is continuous at $x_0$ with $\phi(x_0) = u_0$, and if $\lim_{u \to u_0} g(u) = L$, then:
+\[
+\lim_{x \to x_0} g(\phi(x)) = L.
+\]
+
+In our case:
+\begin{itemize}
+\item $\phi(x) = x^{1/3}$ is continuous at $x = 0$
+\item $\lim_{u \to 0} \frac{\sin u}{u} = 1$ exists
+\item Therefore $\lim_{x \to 0^+} \frac{\sin(x^{1/3})}{x^{1/3}} = 1$
+\end{itemize}
+
+\subsection*{Step 5: Apply the Fundamental Limit}
+
+\textbf{What we conclude:}
+\[
+\lim_{u \to 0^+} \frac{\sin u}{u} = 1.
+\]
+
+\textbf{Why can we state this?} This is a \textbf{standard result} from calculus, proven rigorously and universally accepted.
+
+\textbf{What does this tell us about $C$?} In our verification, we have $C = 1$.
+
+\subsection*{Step 6: Apply the Definition to Conclude}
+
+\textbf{What we have shown:}
+\[
+\lim_{x \to 0^+} \frac{\sin(x^{1/3})}{x^{1/3}} = 1.
+\]
+
+\textbf{Why does this verify the claim?} Because:
+\begin{enumerate}
+\item The limit exists ✓
+\item The limit equals $C = 1$ ✓
+\item We have $0 \le C < \infty$ (specifically, $C = 1$) ✓
+\item Therefore, by Definition 2, $\sin(x^{1/3}) = O(x^{1/3})$ as $x \to 0^+$ ✓
+\end{enumerate}
+
+\textbf{Interpretation:} The function $\sin(x^{1/3})$ and the function $x^{1/3}$ have the \emph{same asymptotic order} as $x \to 0^+$. Neither dominates the other; they are comparable in size.
+
+\subsection*{Additional Insight: Could We Have $\sin(x^{1/3}) \sim x^{1/3}$?}
+
+\textbf{Observation:} Since the limit equals exactly 1, we actually have the stronger result:
+\[
+\sin(x^{1/3}) \sim x^{1/3} \quad \text{as } x \to 0^+.
+\]
+
+\textbf{Why is this stronger?} Because:
+\[
+\sin(x^{1/3}) \sim x^{1/3} \implies \sin(x^{1/3}) = O(x^{1/3}),
+\]
+but the converse is not necessarily true.
+
+\textbf{Why does the problem only ask for $O(\cdot)$?} Perhaps to test whether we understand that big-Oh is a weaker condition than asymptotic equivalence, or simply because that's the level of precision needed.
+
+\begin{center}
+\fbox{\parbox{0.9\textwidth}{
+\textbf{Verification Complete:}
+\[
+\boxed{\sin(x^{1/3}) = O(x^{1/3}) \text{ as } x \to 0^+} \quad \checkmark
+\]
+\textbf{Reason:} $\lim_{x \to 0^+} \frac{\sin(x^{1/3})}{x^{1/3}} = 1$, which is finite, satisfying the definition of big-Oh.
+}}
+\end{center}
+
+\section*{Problem 3(b): Verify $\cos(x) = O(1)$ as $x \to \infty$}
+
+\subsection*{Step 1: Understand What $O(1)$ Means}
+
+\textbf{What is $O(1)$?} The notation $O(1)$ means ``of order 1'' or ``bounded.''
+
+\textbf{Why do we write it this way?} In the big-Oh definition, we write $f(x) = O(g(x))$ where $g(x)$ is the \textbf{gauge function}. Here, the gauge function is $g(x) = 1$ (the constant function).
+
+\textbf{What must we verify?} By Definition 2:
+\[
+\lim_{x \to \infty} \frac{|\cos(x)|}{|1|} = \lim_{x \to \infty} |\cos(x)| = C < \infty.
+\]
+
+\textbf{Why is this different from previous parts?} Here we need the limit of the function itself (not a ratio of two functions with the same asymptotic behavior), because we're comparing to the constant function 1.
+
+\subsection*{Step 2: Recall Properties of Cosine}
+
+\textbf{What do we know about $\cos(x)$?} From basic trigonometry:
+\[
+-1 \le \cos(x) \le 1 \quad \text{for all } x \in \mathbb{R}.
+\]
+
+\textbf{Why is this property important?} Because it immediately tells us that $|\cos(x)| \le 1$ for all $x$.
+
+\textbf{Where does this property come from?}
+\begin{itemize}
+\item Geometrically: Cosine is the $x$-coordinate of a point on the unit circle
+\item Analytically: From the Taylor series $\cos(x) = \sum_{n=0}^{\infty} \frac{(-1)^n x^{2n}}{(2n)!}$
+\item From the differential equation: $\cos''(x) = -\cos(x)$ with $\cos(0) = 1$
+\end{itemize}
+
+\subsection*{Step 3: Analyze the Limit}
+
+\textbf{What we need:}
+\[
+\lim_{x \to \infty} |\cos(x)|.
+\]
+
+\textbf{Does this limit exist?} No, in the classical sense. Here's why:
+\begin{itemize}
+\item $\cos(x)$ oscillates between $-1$ and $+1$ as $x \to \infty$
+\item At $x = 2\pi k$ (where $k \in \mathbb{Z}$), we have $\cos(x) = 1$
+\item At $x = \pi + 2\pi k$, we have $\cos(x) = -1$
+\item The function does not settle to a single value
+\end{itemize}
+
+\textbf{Why doesn't the limit existing matter?} Because the big-Oh definition requires:
+\[
+\lim_{x \to \infty} \frac{|\cos(x)|}{1} = C < \infty,
+\]
+where $C$ is a finite constant. The key word is ``finite,'' not ``exists as a unique value.''
+
+\subsection*{Step 4: Interpret the Definition Carefully}
+
+\textbf{Critical realization:} The definition from Equation (23) in the lecture notes states:
+\[
+f(x) = O(g(x)) \text{ if } \lim_{x \to x_0} \frac{|f(x)|}{|g(x)|} = C, \quad 0 \le C < \infty.
+\]
+
+\textbf{What does this mean for oscillating functions?} We must interpret this carefully. The standard interpretation in asymptotic analysis is:
+
+\textbf{Equivalent formulation:} $f(x) = O(g(x))$ means there exist constants $K > 0$ and $x_1$ such that:
+\[
+|f(x)| \le K|g(x)| \quad \text{for all } x > x_1.
+\]
+
+This is sometimes stated as: ``$|f(x)|/|g(x)|$ is bounded for large $x$.''
+
+\textbf{Why this interpretation?} Because:
+\begin{itemize}
+\item It captures the notion that $f$ doesn't grow faster than $g$
+\item It allows for oscillatory behavior
+\item It's equivalent to the limit definition when the limit exists
+\end{itemize}
+
+\subsection*{Step 5: Apply to Our Problem}
+
+\textbf{For $\cos(x)$ with gauge function $g(x) = 1$:}
+
+We need to show: There exists $K > 0$ such that
+\[
+|\cos(x)| \le K \cdot 1 \quad \text{for all large } x.
+\]
+
+\textbf{Is this true?} Yes! We can take $K = 1$, because:
+\[
+|\cos(x)| \le 1 \quad \text{for all } x \in \mathbb{R}.
+\]
+
+\textbf{What does this tell us?} The ratio $|\cos(x)|/1 = |\cos(x)|$ is bounded by 1 for all $x$, including as $x \to \infty$.
+
+\subsection*{Step 6: Connect to the Limit Definition}
+
+\textbf{In terms of limits:} While $\lim_{x \to \infty} \cos(x)$ does not exist as a single value, we can say:
+\[
+\limsup_{x \to \infty} |\cos(x)| = 1 < \infty.
+\]
+
+\textbf{What is $\limsup$?} The limit superior is:
+\[
+\limsup_{x \to \infty} f(x) = \lim_{x \to \infty} \sup_{y \ge x} f(y).
+\]
+
+It captures the ``largest value that $f$ approaches infinitely often.''
+
+\textbf{Why is $\limsup$ appropriate here?} For oscillating functions, $\limsup$ provides the bound we need for the big-Oh definition.
+
+\textbf{For $|\cos(x)|$:}
+\begin{itemize}
+\item The supremum of $|\cos(x)|$ over any interval is 1
+\item Therefore $\limsup_{x \to \infty} |\cos(x)| = 1$
+\item This is finite ✓
+\end{itemize}
+
+\subsection*{Step 7: Conclude the Verification}
+
+\textbf{What we have shown:}
+\[
+|\cos(x)| \le 1 \text{ for all } x, \quad \text{hence} \quad |\cos(x)| \text{ is bounded as } x \to \infty.
+\]
+
+\textbf{Why does this verify the claim?} Because:
+\begin{enumerate}
+\item The ratio $|\cos(x)|/1$ is bounded by a finite constant ($C = 1$) ✓
+\item This satisfies the big-Oh definition ✓
+\item Therefore $\cos(x) = O(1)$ as $x \to \infty$ ✓
+\end{enumerate}
+
+\textbf{Physical interpretation:} As $x$ grows, $\cos(x)$ oscillates but never escapes the interval $[-1, 1]$. It is ``controlled'' or ``bounded.''
+
+\begin{center}
+\fbox{\parbox{0.9\textwidth}{
+\textbf{Verification Complete:}
+\[
+\boxed{\cos(x) = O(1) \text{ as } x \to \infty} \quad \checkmark
+\]
+\textbf{Reason:} $|\cos(x)| \le 1$ for all $x$, hence the ratio $|\cos(x)|/1$ is bounded, satisfying the big-Oh definition with $C = 1$.
+}}
+\end{center}
+
+\section*{Problem 3(c): Verify $\sin x = O(x\cos x)$ as $x \to 0$}
+
+\subsection*{Step 1: Identify the Gauge Function}
+
+\textbf{What are we asked?} To verify $\sin x = O(x \cos x)$ as $x \to 0$.
+
+\textbf{What is the gauge function here?} The gauge function is $g(x) = x\cos x$.
+
+\textbf{Why is this more complex?} Unlike the previous problems where the gauge function was either a simple power or a constant, here we have a \textbf{product} of functions:
+\begin{itemize}
+\item $x$: a linear function that vanishes at $x = 0$
+\item $\cos x$: a function that equals 1 at $x = 0$
+\end{itemize}
+
+\subsection*{Step 2: Set Up the Verification}
+
+\textbf{By Definition 2, we must show:}
+\[
+\lim_{x \to 0} \frac{|\sin x|}{|x \cos x|} = C < \infty.
+\]
+
+\textbf{Why can we drop absolute values (for now)?} As $x \to 0$:
+\begin{itemize}
+\item For $x > 0$ (small): $\sin x > 0$, $x > 0$, $\cos x > 0$ (since $\cos 0 = 1 > 0$)
+\item For $x < 0$ (small): $\sin x < 0$, $x < 0$, $\cos x > 0$
+\item So $\frac{\sin x}{x\cos x}$ has the same sign as $\frac{\sin x}{x}$, which is positive for small $|x|$
+\end{itemize}
+
+For simplicity, we can work with:
+\[
+\lim_{x \to 0} \frac{\sin x}{x \cos x}.
+\]
+
+\subsection*{Step 3: Algebraic Manipulation}
+
+\textbf{What we do:} Rewrite the ratio as:
+\[
+\frac{\sin x}{x \cos x} = \frac{\sin x}{x} \cdot \frac{1}{\cos x}.
+\]
+
+\textbf{Why this factorization?} Because:
+\begin{enumerate}
+\item It separates the ratio into two \textbf{recognizable pieces}
+\item $\frac{\sin x}{x}$ is a fundamental limit we know
+\item $\frac{1}{\cos x}$ is a simple function we can evaluate
+\end{enumerate}
+
+\textbf{Mathematical justification:} For $x$ in a neighborhood of 0 where $\cos x \ne 0$:
+\[
+\frac{a}{bc} = \frac{a}{b} \cdot \frac{1}{c} \quad \text{(basic algebra)}.
+\]
+
+\subsection*{Step 4: Evaluate the Limit as a Product}
+
+\textbf{What we need:}
+\[
+\lim_{x \to 0} \left(\frac{\sin x}{x} \cdot \frac{1}{\cos x}\right).
+\]
+
+\textbf{Can we split this limit?} Yes, by the limit laws. If $\lim_{x \to x_0} f(x) = L$ and $\lim_{x \to x_0} g(x) = M$ both exist, then:
+\[
+\lim_{x \to x_0} [f(x) \cdot g(x)] = L \cdot M.
+\]
+
+\textbf{Why are limit laws valid here?} Because:
+\begin{itemize}
+\item Both component limits exist (as we will verify)
+\item Neither limit is of the indeterminate form requiring additional care
+\end{itemize}
+
+\subsection*{Step 5: Evaluate Each Component}
+
+\textbf{First component:}
+\[
+\lim_{x \to 0} \frac{\sin x}{x} = 1.
+\]
+
+\textbf{Why?} This is the fundamental trigonometric limit we used in part (a).
+
+\textbf{How do we know it?}
+\begin{itemize}
+\item From the Taylor series: $\sin x = x - \frac{x^3}{6} + O(x^5)$, so $\frac{\sin x}{x} = 1 - \frac{x^2}{6} + O(x^4) \to 1$
+\item Geometrically: from squeeze theorem arguments
+\item By L'Hôpital's rule: $\lim_{x \to 0} \frac{\sin x}{x} = \lim_{x \to 0} \frac{\cos x}{1} = 1$
+\end{itemize}
+
+\textbf{Second component:}
+\[
+\lim_{x \to 0} \frac{1}{\cos x} = \frac{1}{\cos 0} = \frac{1}{1} = 1.
+\]
+
+\textbf{Why?} Because:
+\begin{itemize}
+\item $\cos x$ is continuous at $x = 0$
+\item $\cos 0 = 1$ (fundamental value)
+\item Therefore $\lim_{x \to 0} \cos x = 1$
+\item By continuity of $f(x) = 1/x$ (for $x \ne 0$): $\lim_{x \to 0} \frac{1}{\cos x} = \frac{1}{\lim_{x \to 0} \cos x} = \frac{1}{1} = 1$
+\end{itemize}
+
+\subsection*{Step 6: Combine the Results}
+
+\textbf{What we obtain:}
+\[
+\lim_{x \to 0} \frac{\sin x}{x \cos x} = \lim_{x \to 0} \frac{\sin x}{x} \cdot \lim_{x \to 0} \frac{1}{\cos x} = 1 \cdot 1 = 1.
+\]
+
+\textbf{Why can we multiply?} By the product rule for limits (mentioned in Step 4).
+
+\subsection*{Step 7: Conclude the Verification}
+
+\textbf{What we have shown:}
+\[
+\lim_{x \to 0} \frac{\sin x}{x \cos x} = 1.
+\]
+
+\textbf{Why does this verify the claim?} Because:
+\begin{enumerate}
+\item The limit exists ✓
+\item The limit equals $C = 1$, which is finite ✓
+\item We have $0 \le C < \infty$ ✓
+\item Therefore, by Definition 2, $\sin x = O(x \cos x)$ as $x \to 0$ ✓
+\end{enumerate}
+
+\subsection*{Additional Insight: Stronger Statement}
+
+\textbf{Observation:} Since the limit equals exactly 1, we actually have:
+\[
+\sin x \sim x \cos x \quad \text{as } x \to 0.
+\]
+
+\textbf{Why is this noteworthy?} It tells us that near $x = 0$:
+\begin{itemize}
+\item $\sin x$ behaves \emph{exactly} like $x \cos x$
+\item The two functions are asymptotically equivalent
+\item This is stronger than just saying one is $O$ of the other
+\end{itemize}
+
+\textbf{Intuitive understanding:} As $x \to 0$:
+\begin{itemize}
+\item $\sin x \approx x$ (first-order Taylor approximation)
+\item $\cos x \approx 1$ (zeroth-order approximation)
+\item Therefore $x \cos x \approx x \cdot 1 = x \approx \sin x$
+\end{itemize}
+
+\begin{center}
+\fbox{\parbox{0.9\textwidth}{
+\textbf{Verification Complete:}
+\[
+\boxed{\sin x = O(x\cos x) \text{ as } x \to 0} \quad \checkmark
+\]
+\textbf{Reason:} $\lim_{x \to 0} \frac{\sin x}{x\cos x} = \lim_{x \to 0} \frac{\sin x}{x} \cdot \frac{1}{\cos x} = 1 \cdot 1 = 1$, which is finite, satisfying the big-Oh definition.
+}}
+\end{center}
+
+\section*{Problem 3(d): Verify $\log(\log(1/x)) = o(\log(x))$ as $x \to 0^+$}
+
+\subsection*{Step 1: Understand the Little-oh Notation}
+
+\textbf{What is different here?} This problem asks us to verify a \textbf{little-oh} relation, not big-Oh.
+
+\textbf{Recall Definition 1:} $f(x) = o(g(x))$ as $x \to x_0$ if:
+\[
+\lim_{x \to x_0} \frac{f(x)}{g(x)} = 0.
+\]
+
+\textbf{Why is this stronger?} Because:
+\begin{itemize}
+\item Big-Oh: The limit can be any finite constant $C$ (including 0)
+\item Little-oh: The limit \emph{must} be exactly 0
+\end{itemize}
+
+\textbf{Interpretation:} $f(x) = o(g(x))$ means ``$f$ is \emph{asymptotically negligible} compared to $g$.''
+
+From the lecture notes: ``$f(x) \ll g(x)$ as $x \to x_0$'' is alternative notation.
+
+\subsection*{Step 2: Parse the Functions}
+
+\textbf{What are our functions?}
+\begin{itemize}
+\item $f(x) = \log(\log(1/x))$
+\item $g(x) = \log(x)$
+\item Limit: $x \to 0^+$
+\end{itemize}
+
+\textbf{Why is $\log(\log(1/x))$ even defined?} We need:
+\begin{enumerate}
+\item $1/x > 0$ (true for $x > 0$) ✓
+\item $\log(1/x)$ is defined (true for $x > 0$) ✓
+\item $\log(1/x) > 0$ for the outer log to be defined
+\end{enumerate}
+
+\textbf{When is $\log(1/x) > 0$?}
+\[
+\log(1/x) > 0 \iff 1/x > 1 \iff x < 1.
+\]
+
+So for $0 < x < 1$, all logarithms are well-defined.
+
+\subsection*{Step 3: Simplify Using Logarithm Properties}
+
+\textbf{What we do:} Use the identity $\log(1/x) = -\log(x)$.
+
+\textbf{Why this identity?} Because $\log(a/b) = \log(a) - \log(b)$, so:
+\[
+\log(1/x) = \log(1) - \log(x) = 0 - \log(x) = -\log(x).
+\]
+
+\textbf{Therefore:}
+\[
+f(x) = \log(\log(1/x)) = \log(-\log(x)).
+\]
+
+\textbf{Why is this simplification useful?} Because:
+\begin{itemize}
+\item It eliminates the fraction $1/x$
+\item It expresses everything in terms of $\log(x)$
+\item It makes the relationship between $f$ and $g$ more transparent
+\end{itemize}
+
+\subsection*{Step 4: Analyze Behavior as $x \to 0^+$}
+
+\textbf{What happens to $\log(x)$ as $x \to 0^+$?}
+\[
+\log(x) \to -\infty.
+\]
+
+\textbf{Why?} Because the natural logarithm:
+\begin{itemize}
+\item Is defined for $x > 0$
+\item Satisfies $\log(1) = 0$
+\item Is strictly increasing
+\item Satisfies $\lim_{x \to 0^+} \log(x) = -\infty$
+\end{itemize}
+
+\textbf{What happens to $-\log(x)$ as $x \to 0^+$?}
+\[
+-\log(x) \to +\infty.
+\]
+
+\textbf{What happens to $\log(-\log(x))$ as $x \to 0^+$?}
+\[
+\log(-\log(x)) \to +\infty.
+\]
+
+\textbf{Why?} Because if $u \to +\infty$, then $\log(u) \to +\infty$ as well.
+
+\textbf{Summary of behaviors:}
+\begin{align*}
+x \to 0^+ &\implies \log(x) \to -\infty \\
+&\implies -\log(x) \to +\infty \\
+&\implies \log(-\log(x)) \to +\infty.
+\end{align*}
+
+\subsection*{Step 5: Set Up the Limit}
+
+\textbf{What we must evaluate:}
+\[
+L = \lim_{x \to 0^+} \frac{\log(\log(1/x))}{\log(x)} = \lim_{x \to 0^+} \frac{\log(-\log(x))}{\log(x)}.
+\]
+
+\textbf{What form is this limit?} As $x \to 0^+$:
+\begin{itemize}
+\item Numerator: $\log(-\log(x)) \to +\infty$
+\item Denominator: $\log(x) \to -\infty$
+\end{itemize}
+
+This is an indeterminate form of type $\frac{\infty}{-\infty}$.
+
+\textbf{Why is this indeterminate?} Because:
+\begin{itemize}
+\item We cannot immediately conclude the ratio's behavior
+\item The relative rates of growth matter
+\item We need a more sophisticated technique
+\end{itemize}
+
+\subsection*{Step 6: Change of Variables}
+
+\textbf{What we do:} Let $u = -\log(x)$.
+
+\textbf{Why this substitution?} Because:
+\begin{enumerate}
+\item It simplifies $-\log(x)$ to just $u$
+\item As $x \to 0^+$, we have $u = -\log(x) \to +\infty$
+\item This converts our limit to a more standard form
+\end{enumerate}
+
+\textbf{How do we express $\log(x)$ in terms of $u$?}
+
+From $u = -\log(x)$:
+\[
+\log(x) = -u.
+\]
+
+\textbf{How do we express $\log(-\log(x))$ in terms of $u$?}
+\[
+\log(-\log(x)) = \log(u).
+\]
+
+\subsection*{Step 7: Rewrite the Limit}
+
+\textbf{The limit becomes:}
+\[
+L = \lim_{u \to +\infty} \frac{\log(u)}{-u} = -\lim_{u \to +\infty} \frac{\log(u)}{u}.
+\]
+
+\textbf{Why is this form better?} Because:
+\begin{itemize}
+\item It's a standard limit in calculus: $\lim_{u \to \infty} \frac{\log(u)}{u}$
+\item Both numerator and denominator go to $+\infty$
+\item This is a classic example of comparing growth rates
+\end{itemize}
+
+\subsection*{Step 8: Recall the Standard Result}
+
+\textbf{Fundamental fact from analysis:}
+\[
+\lim_{u \to +\infty} \frac{\log(u)}{u} = 0.
+\]
+
+\textbf{Why is this true?} There are several ways to prove this:
+
+\textbf{Method 1: L'Hôpital's Rule}
+
+Since both $\log(u) \to \infty$ and $u \to \infty$ as $u \to \infty$, we have a $\frac{\infty}{\infty}$ form:
+\[
+\lim_{u \to \infty} \frac{\log(u)}{u} \stackrel{\text{L'H}}{=} \lim_{u \to \infty} \frac{(\log u)'}{(u)'} = \lim_{u \to \infty} \frac{1/u}{1} = \lim_{u \to \infty} \frac{1}{u} = 0.
+\]
+
+\textbf{Method 2: Growth rate comparison}
+
+Logarithmic functions grow \emph{slower} than any positive power:
+\[
+\lim_{u \to \infty} \frac{\log(u)}{u^\alpha} = 0 \quad \text{for any } \alpha > 0.
+\]
+
+Taking $\alpha = 1$ gives our result.
+
+\textbf{Method 3: Series/Integral comparison}
+
+From the integral representation:
+\[
+\log(u) = \int_1^u \frac{1}{t} dt < \int_1^u 1 \, dt = u - 1 < u,
+\]
+so $0 < \frac{\log(u)}{u} < 1$ for $u > 1$, and more refined estimates show it tends to 0.
+
+\textbf{Why does this matter?} This is a \textbf{hierarchy of growth rates}:
+\[
+\log(u) \ll u \ll u^2 \ll e^u \quad \text{as } u \to \infty.
+\]
+
+\subsection*{Step 9: Conclude the Calculation}
+
+\textbf{We have:}
+\[
+L = -\lim_{u \to +\infty} \frac{\log(u)}{u} = -\cdot 0 = 0.
+\]
+
+\textbf{Why the negative sign disappears:} Because $-0 = 0$.
+
+\subsection*{Step 10: Apply the Definition}
+
+\textbf{What we have shown:}
+\[
+\lim_{x \to 0^+} \frac{\log(\log(1/x))}{\log(x)} = 0.
+\]
+
+\textbf{Why does this verify the claim?} Because:
+\begin{enumerate}
+\item The limit exists ✓
+\item The limit equals exactly 0 ✓
+\item This satisfies the definition of little-oh (Definition 1) ✓
+\item Therefore $\log(\log(1/x)) = o(\log(x))$ as $x \to 0^+$ ✓
+\end{enumerate}
+
+\subsection*{Interpretation and Intuition}
+
+\textbf{What does this result mean?}
+
+As $x \to 0^+$:
+\begin{itemize}
+\item $\log(x)$ becomes very negative (goes to $-\infty$)
+\item $\log(\log(1/x)) = \log(-\log(x))$ becomes very positive (goes to $+\infty$)
+\item BUT: $\log(-\log(x))$ grows \emph{much slower} than the rate at which $\log(x)$ decreases
+\end{itemize}
+
+\textbf{Hierarchy of infinities:} We have:
+\[
+|\log(\log(1/x))| \ll |\log(x)| \quad \text{as } x \to 0^+,
+\]
+meaning: ``The logarithm of a logarithm is negligible compared to the logarithm itself.''
+
+\textbf{Example with numbers:}
+\begin{align*}
+x = 10^{-10}: \quad &\log(x) \approx -23, \quad \log(-\log(x)) \approx 3.1 \\
+x = 10^{-100}: \quad &\log(x) \approx -230, \quad \log(-\log(x)) \approx 5.4 \\
+x = 10^{-1000}: \quad &\log(x) \approx -2303, \quad \log(-\log(x)) \approx 7.7
+\end{align*}
+
+The ratio $\frac{7.7}{2303} \approx 0.0033$ is getting smaller!
+
+\begin{center}
+\fbox{\parbox{0.9\textwidth}{
+\textbf{Verification Complete:}
+\[
+\boxed{\log(\log(1/x)) = o(\log(x)) \text{ as } x \to 0^+} \quad \checkmark
+\]
+\textbf{Reason:} By change of variables $u = -\log(x)$, the limit becomes
+\[
+\lim_{x \to 0^+} \frac{\log(-\log(x))}{\log(x)} = -\lim_{u \to \infty} \frac{\log(u)}{u} = 0,
+\]
+satisfying the little-oh definition. The iterated logarithm grows slower than the single logarithm.
+}}
+\end{center}
+
+\section*{Summary: Methodological Lessons}
+
+\subsection*{Key Takeaways from Problem 3}
+
+\begin{enumerate}
+\item \textbf{Always start with definitions:} Every verification in asymptotic analysis begins by stating the precise definition being used.
+
+\item \textbf{Recognize standard limits:} Many asymptotic verifications reduce to fundamental limits like:
+\begin{itemize}
+\item $\lim_{u \to 0} \frac{\sin u}{u} = 1$
+\item $\lim_{u \to \infty} \frac{\log u}{u} = 0$
+\item $\lim_{u \to \infty} \frac{u^n}{e^u} = 0$ for any $n$
+\end{itemize}
+
+\item \textbf{Use appropriate substitutions:} Change of variables can transform unfamiliar limits into standard forms.
+
+\item \textbf{Understand the hierarchy:} Functions have a natural ordering by growth rate:
+\[
+\log(\log(x)) \ll \log(x) \ll x^\alpha \ll e^x \ll x^x
+\]
+
+\item \textbf{Distinguish big-Oh from little-oh:} Big-Oh allows any finite limit; little-oh requires the limit to be zero.
+
+\item \textbf{Handle oscillatory functions carefully:} For functions like $\cos(x)$ that don't settle to a value, use boundedness arguments.
+\end{enumerate}
+
+\end{document}

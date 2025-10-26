@@ -1,0 +1,419 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{geometry}
+\geometry{margin=1in}
+\usepackage{enumitem}
+\usepackage{xcolor}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{definition}[theorem]{Definition}
+
+\title{Asymptotics 2025/2026 Sheet 1\\Problem 5: Detailed Solution}
+\author{}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section*{Problem 5}
+
+\textbf{Problem Statement:} Prove that $\displaystyle\sum_{n=1}^{\infty} \frac{1}{z^n}$ is an asymptotic expansion of $\displaystyle\frac{1}{z-1}$ as $z \to \infty$.
+
+\section{Understanding What We Must Prove}
+
+\subsection{What Do We Have?}
+
+We are given:
+\begin{itemize}
+\item A function: $f(z) = \displaystyle\frac{1}{z-1}$
+\item A formal infinite series: $\displaystyle\sum_{n=1}^{\infty} \frac{1}{z^n}$
+\item A limiting process: $z \to \infty$
+\end{itemize}
+
+\subsection{What Must We Show?}
+
+We must prove that this series is an \textbf{asymptotic expansion} of $f(z)$. But what does this mean precisely?
+
+\subsubsection{Why We Need the Formal Definition}
+
+The phrase ``asymptotic expansion'' has a precise mathematical meaning that we cannot prove without invoking. We must consult the lecture notes Section 2.5, which provides:
+
+\begin{definition}[Asymptotic Series Expansion, from Lecture Notes p.~9]
+Given an asymptotic sequence $\{\phi_n(x)\}$, the formal series $\sum_{n=0}^{\infty} a_n\phi_n(x)$ is an asymptotic expansion of $f(x)$ if, for every $N$,
+\begin{equation}
+\lim_{x \to x_0} \frac{f(x) - \sum_{n=0}^{N} a_n\phi_n(x)}{\phi_N(x)} = 0.
+\end{equation}
+\end{definition}
+
+\subsubsection{Why This Definition?}
+
+This definition captures the idea that:
+\begin{enumerate}
+\item The partial sums $\sum_{n=0}^{N} a_n\phi_n(x)$ approximate $f(x)$
+\item The error $f(x) - \sum_{n=0}^{N} a_n\phi_n(x)$ is ``small compared to the last term kept''
+\item ``Small compared to'' means the ratio goes to zero
+\item This must hold for \textit{every} $N$, not just one particular truncation
+\end{enumerate}
+
+The key insight is that the remainder $R_N = f(x) - \sum_{n=0}^{N} a_n\phi_n(x)$ must satisfy:
+\[
+R_N = o(\phi_N(x)) \quad \text{as } x \to x_0.
+\]
+
+This is equation (60) in the lecture notes.
+
+\section{Identifying the Components}
+
+\subsection{What is the Asymptotic Sequence?}
+
+From our series $\sum_{n=1}^{\infty} \frac{1}{z^n}$, we can identify:
+\[
+\phi_n(z) = \frac{1}{z^n} = z^{-n}, \quad n = 1, 2, 3, \ldots
+\]
+
+\subsubsection{Why Must We Verify This is an Asymptotic Sequence?}
+
+The definition of asymptotic expansion \textit{requires} that $\{\phi_n(z)\}$ be an asymptotic sequence. From the lecture notes (p.~9):
+
+\begin{definition}[Asymptotic Sequence]
+A sequence of functions $\{\phi_n(x)\}$, $n = 1, 2, \ldots$ is an asymptotic sequence as $x \to x_0$ if, for all $n$,
+\[
+\phi_{n+1}(x) = o(\phi_n(x)) \quad \text{as } x \to x_0,
+\]
+i.e., $\displaystyle\lim_{x \to x_0} \frac{\phi_{n+1}(x)}{\phi_n(x)} = 0$.
+\end{definition}
+
+\subsection{Verification That $\{z^{-n}\}$ is an Asymptotic Sequence}
+
+\textbf{What we must check:} For all $n$, does $\phi_{n+1}(z) = o(\phi_n(z))$ as $z \to \infty$?
+
+\textbf{Computation:}
+\[
+\frac{\phi_{n+1}(z)}{\phi_n(z)} = \frac{z^{-(n+1)}}{z^{-n}} = \frac{z^{-n-1}}{z^{-n}} = \frac{z^{-n} \cdot z^{-1}}{z^{-n}} = z^{-1} = \frac{1}{z}.
+\]
+
+\textbf{Why this computation?} We divided numerator by denominator using properties of exponents.
+
+\textbf{Taking the limit:}
+\[
+\lim_{z \to \infty} \frac{\phi_{n+1}(z)}{\phi_n(z)} = \lim_{z \to \infty} \frac{1}{z} = 0.
+\]
+
+\textbf{Why does this limit equal zero?} As $z$ grows without bound, $1/z$ shrinks toward zero. This is a fundamental limit.
+
+\textbf{Conclusion:} Since the limit is zero for all $n$, we have $\phi_{n+1}(z) = o(\phi_n(z))$ for all $n$, confirming that $\{z^{-n}\}$ is indeed an asymptotic sequence as $z \to \infty$. \checkmark
+
+\subsection{What are the Coefficients?}
+
+From the series $\sum_{n=1}^{\infty} \frac{1}{z^n}$, we have:
+\[
+a_n = 1 \quad \text{for all } n \geq 1.
+\]
+
+\textbf{Why?} Each term is simply $1 \cdot z^{-n}$, so the coefficient multiplying $\phi_n(z) = z^{-n}$ is $a_n = 1$.
+
+\section{Strategy for the Proof}
+
+\subsection{What Must We Prove According to the Definition?}
+
+We must show that for every positive integer $N$:
+\[
+\lim_{z \to \infty} \frac{f(z) - \sum_{n=1}^{N} a_n \phi_n(z)}{\phi_N(z)} = 0.
+\]
+
+Substituting our specific functions:
+\[
+\lim_{z \to \infty} \frac{\frac{1}{z-1} - \sum_{n=1}^{N} \frac{1}{z^n}}{\frac{1}{z^N}} = 0.
+\]
+
+\subsection{Why This Approach?}
+
+This is not merely \textit{one way} to prove the result—it is \textit{the definition} we must verify. We have no choice but to:
+\begin{enumerate}
+\item Compute the partial sum $\sum_{n=1}^{N} \frac{1}{z^n}$
+\item Compute the remainder $R_N = f(z) - \sum_{n=1}^{N} \frac{1}{z^n}$
+\item Show that $R_N/\phi_N(z) \to 0$ as $z \to \infty$
+\end{enumerate}
+
+\section{Computing the Partial Sum}
+
+\subsection{What is the Partial Sum?}
+
+We need to evaluate:
+\[
+S_N = \sum_{n=1}^{N} \frac{1}{z^n} = \frac{1}{z} + \frac{1}{z^2} + \frac{1}{z^3} + \cdots + \frac{1}{z^N}.
+\]
+
+\subsection{Why is This a Geometric Series?}
+
+\textbf{Observation:} Each term is obtained from the previous by multiplying by the common ratio $r = \frac{1}{z}$.
+
+Indeed:
+\[
+\frac{1}{z^{n+1}} = \frac{1}{z^n} \cdot \frac{1}{z}.
+\]
+
+This is the defining property of a geometric series.
+
+\subsection{Geometric Series Formula}
+
+From elementary calculus/analysis, a geometric series with first term $a$ and common ratio $r$ has partial sum:
+\[
+\sum_{k=0}^{N-1} ar^k = a \cdot \frac{1 - r^N}{1 - r}, \quad r \neq 1.
+\]
+
+\subsection{Applying the Formula}
+
+In our case:
+\begin{itemize}
+\item First term: $a = \frac{1}{z}$
+\item Common ratio: $r = \frac{1}{z}$
+\item Number of terms: $N$ (from $n=1$ to $n=N$)
+\end{itemize}
+
+\textbf{Therefore:}
+\[
+\sum_{n=1}^{N} \frac{1}{z^n} = \frac{1}{z} \cdot \frac{1 - \left(\frac{1}{z}\right)^N}{1 - \frac{1}{z}}.
+\]
+
+\subsection{Simplifying the Expression}
+
+\textbf{Simplify the numerator:}
+\[
+\frac{1}{z} \cdot \left(1 - \frac{1}{z^N}\right) = \frac{1}{z} - \frac{1}{z^{N+1}}.
+\]
+
+\textbf{Simplify the denominator:}
+\[
+1 - \frac{1}{z} = \frac{z - 1}{z}.
+\]
+
+\textbf{Why these simplifications?} We're expressing everything with a common denominator and combining fractions—standard algebraic manipulations.
+
+\textbf{Complete the division:}
+\[
+S_N = \frac{\frac{1}{z} - \frac{1}{z^{N+1}}}{\frac{z-1}{z}} = \frac{\frac{1}{z} - \frac{1}{z^{N+1}}}{\frac{z-1}{z}} = \left(\frac{1}{z} - \frac{1}{z^{N+1}}\right) \cdot \frac{z}{z-1}.
+\]
+
+\textbf{Distribute:}
+\[
+S_N = \frac{1}{z-1} - \frac{1}{z^N(z-1)}.
+\]
+
+\textbf{Alternative form:} Factor out from numerator:
+\[
+S_N = \frac{1}{z-1} \left(1 - \frac{1}{z^N}\right).
+\]
+
+\subsection{Why This Form is Useful}
+
+This form explicitly shows:
+\begin{itemize}
+\item The leading behavior: $\frac{1}{z-1}$ (which is our target function $f(z)$!)
+\item The correction term: $-\frac{1}{z^N(z-1)}$
+\end{itemize}
+
+This structure will make computing the remainder trivial.
+
+\section{Computing the Remainder}
+
+\subsection{Definition of Remainder}
+
+The remainder after $N$ terms is:
+\[
+R_N = f(z) - S_N = \frac{1}{z-1} - \sum_{n=1}^{N} \frac{1}{z^n}.
+\]
+
+\subsection{Substituting Our Result}
+
+We found $S_N = \frac{1}{z-1} - \frac{1}{z^N(z-1)}$, therefore:
+\[
+R_N = \frac{1}{z-1} - \left[\frac{1}{z-1} - \frac{1}{z^N(z-1)}\right].
+\]
+
+\subsection{Simplification}
+
+\textbf{Distribute the negative sign:}
+\[
+R_N = \frac{1}{z-1} - \frac{1}{z-1} + \frac{1}{z^N(z-1)}.
+\]
+
+\textbf{Cancel like terms:}
+\[
+R_N = \frac{1}{z^N(z-1)}.
+\]
+
+\textbf{Why does this make sense?} The partial sum $S_N$ was designed to approximate $f(z) = \frac{1}{z-1}$, and we explicitly computed it as $\frac{1}{z-1}$ minus a correction. The remainder is precisely that correction term.
+
+\subsection{Alternative Expression}
+
+We can also write:
+\[
+R_N = \frac{1}{z^N} \cdot \frac{1}{z-1}.
+\]
+
+\textbf{Why factor this way?} Because $\phi_N(z) = \frac{1}{z^N}$ appears explicitly, which will be essential for computing the ratio $R_N/\phi_N(z)$.
+
+\section{Verifying the Asymptotic Condition}
+
+\subsection{What Must We Show?}
+
+According to the definition, we must prove:
+\[
+\lim_{z \to \infty} \frac{R_N}{\phi_N(z)} = 0.
+\]
+
+\subsection{Computing the Ratio}
+
+\textbf{Substitute our expressions:}
+\[
+\frac{R_N}{\phi_N(z)} = \frac{\frac{1}{z^N(z-1)}}{\frac{1}{z^N}}.
+\]
+
+\textbf{Why this substitution?} We use $R_N = \frac{1}{z^N(z-1)}$ and $\phi_N(z) = \frac{1}{z^N}$ directly from our previous work.
+
+\subsection{Simplifying the Complex Fraction}
+
+\textbf{Method 1: Multiply numerator and denominator by $z^N$}
+
+Multiply both numerator and denominator by $z^N$:
+\[
+\frac{R_N}{\phi_N(z)} = \frac{\frac{1}{z^N(z-1)} \cdot z^N}{\frac{1}{z^N} \cdot z^N} = \frac{\frac{z^N}{z^N(z-1)}}{1} = \frac{1}{z-1}.
+\]
+
+\textbf{Why multiply by $z^N$?} This is the standard technique for simplifying complex fractions: multiply by the LCD of all denominators. Here, $z^N$ appears in denominators of both the numerator and denominator of our complex fraction.
+
+\textbf{Method 2: Division of fractions}
+
+Recall that $\frac{a/b}{c/d} = \frac{a}{b} \cdot \frac{d}{c}$:
+\[
+\frac{R_N}{\phi_N(z)} = \frac{1}{z^N(z-1)} \cdot \frac{z^N}{1} = \frac{z^N}{z^N(z-1)} = \frac{1}{z-1}.
+\]
+
+\textbf{Why does this work?} The $z^N$ factors cancel.
+
+\textbf{Both methods yield:}
+\[
+\frac{R_N}{\phi_N(z)} = \frac{1}{z-1}.
+\]
+
+\subsection{Taking the Limit}
+
+\textbf{We must evaluate:}
+\[
+\lim_{z \to \infty} \frac{1}{z-1}.
+\]
+
+\textbf{Why can we take this limit?} The function $\frac{1}{z-1}$ is defined for all $z \neq 1$, and we're considering $z \to \infty$, far from the point $z = 1$.
+
+\subsection{Evaluating the Limit}
+
+\textbf{Intuition:} As $z$ grows large, $z - 1$ also grows large (approximately like $z$), so $\frac{1}{z-1}$ shrinks toward zero.
+
+\textbf{Formal argument:}
+
+Method 1 (Direct):
+\[
+\lim_{z \to \infty} \frac{1}{z-1} = 0,
+\]
+because the denominator grows without bound while the numerator remains constant.
+
+Method 2 (Using limit laws):
+\[
+\lim_{z \to \infty} \frac{1}{z-1} = \frac{\lim_{z \to \infty} 1}{\lim_{z \to \infty} (z-1)} = \frac{1}{\infty} = 0.
+\]
+
+Method 3 (Rigorous $\epsilon$-$\delta$):
+For any $\epsilon > 0$, we need $z$ large enough that $\left|\frac{1}{z-1}\right| < \epsilon$.
+
+This requires: $\frac{1}{|z-1|} < \epsilon$, i.e., $|z-1| > \frac{1}{\epsilon}$.
+
+For $z > \frac{1}{\epsilon} + 1$, this holds. So choosing $M = \frac{1}{\epsilon} + 1$, we have that $z > M$ implies $\left|\frac{1}{z-1}\right| < \epsilon$.
+
+\textbf{Conclusion:}
+\[
+\lim_{z \to \infty} \frac{R_N}{\phi_N(z)} = \lim_{z \to \infty} \frac{1}{z-1} = 0. \quad \checkmark
+\]
+
+\section{Final Verification and Conclusion}
+
+\subsection{What Have We Proven?}
+
+We have shown that for \textit{every} positive integer $N$:
+\[
+\lim_{z \to \infty} \frac{f(z) - \sum_{n=1}^{N} \frac{1}{z^n}}{\frac{1}{z^N}} = 0.
+\]
+
+\subsection{Why Does This Complete the Proof?}
+
+This is \textit{precisely} the definition of an asymptotic expansion from the lecture notes (Definition on p.~9, Equation 58). We have verified:
+
+\begin{enumerate}
+\item $\{z^{-n}\}$ is an asymptotic sequence as $z \to \infty$ (\checkmark, Section 2.2)
+\item For every $N$, the remainder $R_N = f(z) - \sum_{n=1}^{N} a_n z^{-n}$ satisfies $R_N = o(z^{-N})$ as $z \to \infty$ (\checkmark, Section 6)
+\end{enumerate}
+
+These are the two requirements in the definition.
+
+\subsection{Why Did This Work?}
+
+The key insight is that our function $f(z) = \frac{1}{z-1}$ can be written exactly as:
+\[
+\frac{1}{z-1} = \sum_{n=1}^{N} \frac{1}{z^n} + \frac{1}{z^N(z-1)},
+\]
+where the remainder $\frac{1}{z^N(z-1)}$ is smaller than $\frac{1}{z^N}$ by a factor of $\frac{1}{z-1} \to 0$.
+
+\subsection{Connection to Convergence}
+
+\textbf{Important Note:} The series $\sum_{n=1}^{\infty} \frac{1}{z^n}$ actually \textit{converges} for $|z| > 1$:
+\[
+\sum_{n=1}^{\infty} \frac{1}{z^n} = \frac{1/z}{1 - 1/z} = \frac{1}{z-1}.
+\]
+
+So in this case, the asymptotic expansion is also a convergent series equal to $f(z)$.
+
+\textbf{Why mention this?} To emphasize that being an asymptotic expansion is a \textit{weaker} condition than convergence. As noted in the lecture notes (p.~9): ``a convergent power series is asymptotic, while a power series can be asymptotic without being convergent.''
+
+Our proof of the asymptotic property did not require proving convergence—it only required showing the remainder is $o(\phi_N)$.
+
+\section{Summary}
+
+\subsection{What We Proved}
+
+We have rigorously established:
+
+\begin{theorem}
+The series $\displaystyle\sum_{n=1}^{\infty} \frac{1}{z^n}$ is an asymptotic expansion of $\displaystyle\frac{1}{z-1}$ as $z \to \infty$.
+\end{theorem}
+
+\subsection{Method Used}
+
+Following the methodology from Lecture Notes Section 2.5:
+\begin{enumerate}
+\item Identified the asymptotic sequence $\{\phi_n(z)\} = \{z^{-n}\}$
+\item Verified it satisfies the asymptotic sequence condition
+\item Computed the partial sum $S_N = \sum_{n=1}^{N} \frac{1}{z^n}$ using geometric series formula
+\item Computed the remainder $R_N = f(z) - S_N$
+\item Showed $R_N/\phi_N(z) \to 0$ as $z \to \infty$
+\item Concluded this holds for all $N$, completing the proof
+\end{enumerate}
+
+\subsection{Why Each Step Was Necessary}
+
+\begin{itemize}
+\item \textbf{Step 1-2:} The definition requires an asymptotic sequence
+\item \textbf{Step 3:} We need the explicit form of the partial sum
+\item \textbf{Step 4:} The remainder is what we must control
+\item \textbf{Step 5:} This is the heart of the definition—proving the limit is zero
+\item \textbf{Step 6:} The definition requires this for \textit{every} $N$
+\end{itemize}
+
+\begin{center}
+\fbox{\parbox{0.9\textwidth}{
+\textbf{Conclusion:} We have proven that $\displaystyle\sum_{n=1}^{\infty} \frac{1}{z^n}$ is an asymptotic expansion of $\displaystyle\frac{1}{z-1}$ as $z \to \infty$ by verifying the defining property: for every $N$, the remainder after $N$ terms is asymptotically smaller than the $N$-th term. \quad $\blacksquare$
+}}
+\end{center}
+
+\end{document}

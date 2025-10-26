@@ -1,0 +1,495 @@
+\documentclass[11pt,a4paper]{article}
+
+% Packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage[margin=1in]{geometry}
+\usepackage{enumitem}
+\usepackage{xcolor}
+
+% Custom commands
+\newcommand{\stage}[1]{\textbf{\textcolor{blue}{#1}}}
+
+% Title information
+\title{Exercise Sheet 3: Bifurcations\\
+Question 9 - Complete Solution}
+\author{Methods of Applied Mathematics}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section*{Problem Statement}
+
+In lectures we wrote the normal form of the Hopf bifurcation in complex variables as:
+\[
+\dot{z} = (\rho + i\omega)z + \ell_1 z|z|^2
+\]
+
+By letting $z = x + iy$, show that this is just a neat way of writing the two-dimensional ODE:
+\begin{align*}
+\dot{x} &= \rho x - \omega y + \ell_1 x(x^2 + y^2) \\
+\dot{y} &= \omega x + \rho y + \ell_1 y(x^2 + y^2)
+\end{align*}
+
+\vspace{10pt}
+\hrule
+\vspace{10pt}
+
+\section{Step 1: Understand Complex Notation}
+
+\subsection*{Why complex variables?}
+
+The Hopf bifurcation creates oscillatory behavior - rotation in the phase plane. Complex numbers naturally encode rotation through multiplication by $e^{i\theta}$.
+
+\subsection*{Setup}
+
+We have:
+\begin{itemize}
+\item Complex variable: $z = x + iy$ where $x, y \in \mathbb{R}$
+\item Complex parameter: $\rho + i\omega$ where $\rho, \omega \in \mathbb{R}$
+\item Real coefficient: $\ell_1 \in \mathbb{R}$ (first Lyapunov coefficient)
+\item Complex derivative: $\dot{z} = \dot{x} + i\dot{y}$
+\end{itemize}
+
+\subsection*{XYZ Analysis of Complex Form}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (What we have):} A single complex ODE $\dot{z} = (\rho + i\omega)z + \ell_1 z|z|^2$ that encodes two real ODEs.
+
+\item \stage{STAGE Y (Why complex form):} Complex notation packages the 2D system elegantly:
+\begin{itemize}
+\item The term $(\rho + i\omega)z$ captures linear dynamics: $\rho$ controls growth/decay (radial), $\omega$ controls rotation (angular)
+\item Multiplication by $i$ rotates by $90°$: if $z = x + iy$, then $iz = -y + ix$
+\item The magnitude $|z|^2 = x^2 + y^2$ appears naturally in polar coordinates
+\item The nonlinear term $\ell_1 z|z|^2$ maintains the circular symmetry
+\end{itemize}
+This single complex equation is equivalent to a coupled system of two real equations.
+
+\item \stage{STAGE Z (What we'll prove):} By expanding $z = x + iy$ and separating real/imaginary parts, we'll recover the 2D system. This demonstrates that the complex form is not just notation - it's a faithful representation of the real dynamics with rotational structure built in.
+\end{itemize}
+
+\vspace{10pt}
+\hrule
+\vspace{10pt}
+
+\section{Step 2: Compute the Magnitude Squared}
+
+\subsection*{Definition of $|z|^2$}
+
+For $z = x + iy$, the magnitude squared is:
+\[
+|z|^2 = z \cdot \bar{z}
+\]
+
+where $\bar{z} = x - iy$ is the complex conjugate.
+
+\subsection*{Calculate}
+
+\begin{align*}
+|z|^2 &= (x + iy)(x - iy) \\
+&= x^2 - ixy + ixy - i^2y^2 \\
+&= x^2 - (-1)y^2 \\
+&= x^2 + y^2
+\end{align*}
+
+Therefore:
+\[
+\boxed{|z|^2 = x^2 + y^2}
+\]
+
+\subsection*{XYZ Analysis of Magnitude}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (What we found):} $|z|^2 = x^2 + y^2$ is the squared distance from the origin in the $(x,y)$ plane.
+
+\item \stage{STAGE Y (Why this matters):} In polar coordinates $(r, \theta)$ where $x = r\cos\theta$, $y = r\sin\theta$:
+\[
+|z|^2 = r^2\cos^2\theta + r^2\sin^2\theta = r^2
+\]
+So $|z|^2$ is the radial coordinate squared. The nonlinear term $z|z|^2$ will produce amplitude-dependent feedback - the hallmark of limit cycle stabilization in Hopf bifurcations.
+
+\item \stage{STAGE Z (What this controls):} The term $\ell_1 z|z|^2$ scales with distance cubed. For small amplitudes near the equilibrium, this is negligible. For larger amplitudes, it dominates and either stabilizes or destabilizes the motion, depending on the sign of $\ell_1$.
+\end{itemize}
+
+\vspace{10pt}
+\hrule
+\vspace{10pt}
+
+\section{Step 3: Expand the Linear Term}
+
+\subsection*{Compute $(\rho + i\omega)z$}
+
+Substitute $z = x + iy$:
+\begin{align*}
+(\rho + i\omega)(x + iy) &= \rho x + \rho(iy) + (i\omega)x + (i\omega)(iy) \\
+&= \rho x + i\rho y + i\omega x + i^2\omega y \\
+&= \rho x + i\rho y + i\omega x - \omega y \\
+&= (\rho x - \omega y) + i(\omega x + \rho y)
+\end{align*}
+
+Therefore:
+\[
+\boxed{(\rho + i\omega)z = (\rho x - \omega y) + i(\omega x + \rho y)}
+\]
+
+\subsection*{Identify real and imaginary parts}
+
+\begin{align*}
+\text{Real part:} \quad & \rho x - \omega y \\
+\text{Imaginary part:} \quad & \omega x + \rho y
+\end{align*}
+
+\subsection*{XYZ Analysis of Linear Term}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (What we found):} The multiplication $(\rho + i\omega)z$ produces both components in the output, mixing $x$ and $y$ with the parameters $\rho$ and $\omega$.
+
+\item \stage{STAGE Y (Why this structure):} This is a $2 \times 2$ linear transformation:
+\[
+\begin{pmatrix} \dot{x} \\ \dot{y} \end{pmatrix}_{\text{linear}} = \begin{pmatrix} \rho & -\omega \\ \omega & \rho \end{pmatrix} \begin{pmatrix} x \\ y \end{pmatrix}
+\]
+This matrix has a special form:
+\begin{itemize}
+\item Diagonal entries equal: $\rho$ controls uniform expansion ($\rho > 0$) or contraction ($\rho < 0$)
+\item Off-diagonal entries opposite: $\pm\omega$ produces rotation counterclockwise with angular velocity $\omega$
+\item Eigenvalues: $\lambda = \rho \pm i\omega$ (the complex conjugate pair!)
+\end{itemize}
+The matrix representation makes clear that multiplying by $(\rho + i\omega)$ in complex form is equivalent to this specific rotation-scaling matrix in real coordinates.
+
+\item \stage{STAGE Z (What this means physically):} The linear dynamics cause:
+\begin{itemize}
+\item Spiral motion (combination of rotation + radial growth/decay)
+\item $\rho = 0$: pure rotation (center)
+\item $\rho < 0$: stable spiral inward
+\item $\rho > 0$: unstable spiral outward
+\end{itemize}
+The frequency $\omega$ determines how fast trajectories rotate. At Hopf bifurcation, $\rho$ crosses zero while $\omega \neq 0$.
+\end{itemize}
+
+\vspace{10pt}
+\hrule
+\vspace{10pt}
+
+\section{Step 4: Expand the Nonlinear Term}
+
+\subsection*{Compute $\ell_1 z|z|^2$}
+
+We know $|z|^2 = x^2 + y^2$, so:
+\begin{align*}
+\ell_1 z|z|^2 &= \ell_1 (x + iy)(x^2 + y^2) \\
+&= \ell_1 [x(x^2 + y^2) + iy(x^2 + y^2)] \\
+&= \ell_1 x(x^2 + y^2) + i\ell_1 y(x^2 + y^2)
+\end{align*}
+
+Therefore:
+\[
+\boxed{\ell_1 z|z|^2 = \ell_1 x(x^2 + y^2) + i\ell_1 y(x^2 + y^2)}
+\]
+
+\subsection*{Identify real and imaginary parts}
+
+\begin{align*}
+\text{Real part:} \quad & \ell_1 x(x^2 + y^2) \\
+\text{Imaginary part:} \quad & \ell_1 y(x^2 + y^2)
+\end{align*}
+
+\subsection*{XYZ Analysis of Nonlinear Term}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (What we found):} The nonlinear term $\ell_1 z|z|^2$ separates into components proportional to $x$ and $y$, each multiplied by $(x^2 + y^2)$.
+
+\item \stage{STAGE Y (Why this form):} The factorization $z|z|^2 = z \cdot |z|^2$ means:
+\begin{itemize}
+\item The magnitude $|z|^2 = r^2$ provides radial feedback (amplitude-dependent)
+\item The factor $z = x + iy$ preserves direction (points radially)
+\item Together: $z|z|^2 = (x + iy)(x^2 + y^2) = r^2(x + iy)$
+\end{itemize}
+In polar coordinates: if $z = re^{i\theta}$, then:
+\[
+z|z|^2 = re^{i\theta} \cdot r^2 = r^3 e^{i\theta}
+\]
+This term grows like $r^3$ (cubic in amplitude), points in the same angular direction as $z$, and has coefficient $\ell_1$.
+
+The sign of $\ell_1$ determines the nature of bifurcation:
+\begin{itemize}
+\item $\ell_1 < 0$: nonlinear term opposes growth → supercritical (stable limit cycle)
+\item $\ell_1 > 0$: nonlinear term amplifies growth → subcritical (unstable limit cycle)
+\end{itemize}
+
+\item \stage{STAGE Z (What this controls):} For small $|z|$, this cubic term is negligible. As amplitude grows, it becomes significant and:
+\begin{itemize}
+\item Balances the linear instability (when $\rho > 0$) at some finite amplitude
+\item Creates a limit cycle where growth from $\rho z$ equals decay from $\ell_1 z|z|^2$
+\item The equilibrium radius satisfies $\rho + \ell_1 r^2 = 0$, giving $r = \sqrt{-\rho/\ell_1}$ (for supercritical)
+\end{itemize}
+This is the amplitude saturation mechanism that produces sustained oscillations.
+\end{itemize}
+
+\vspace{10pt}
+\hrule
+\vspace{10pt}
+
+\section{Step 5: Combine and Separate Components}
+
+\subsection*{Full complex equation}
+
+\[
+\dot{z} = (\rho + i\omega)z + \ell_1 z|z|^2
+\]
+
+\subsection*{Substitute $z = x + iy$ on left side}
+
+\[
+\dot{z} = \dot{x} + i\dot{y}
+\]
+
+\subsection*{Substitute expansions on right side}
+
+From Steps 3 and 4:
+\begin{align*}
+(\rho + i\omega)z &= (\rho x - \omega y) + i(\omega x + \rho y) \\
+\ell_1 z|z|^2 &= \ell_1 x(x^2 + y^2) + i\ell_1 y(x^2 + y^2)
+\end{align*}
+
+Adding:
+\begin{align*}
+(\rho + i\omega)z + \ell_1 z|z|^2 &= [\rho x - \omega y + \ell_1 x(x^2 + y^2)] \\
+&\quad + i[\omega x + \rho y + \ell_1 y(x^2 + y^2)]
+\end{align*}
+
+\subsection*{Equate real and imaginary parts}
+
+Since $\dot{x} + i\dot{y} = [\text{Real part}] + i[\text{Imaginary part}]$, we must have:
+
+\textbf{Real part:}
+\[
+\boxed{\dot{x} = \rho x - \omega y + \ell_1 x(x^2 + y^2)}
+\]
+
+\textbf{Imaginary part:}
+\[
+\boxed{\dot{y} = \omega x + \rho y + \ell_1 y(x^2 + y^2)}
+\]
+
+These are exactly the two equations we were asked to derive! ✓
+
+\subsection*{XYZ Analysis of Final Result}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (What we proved):} The single complex equation $\dot{z} = (\rho + i\omega)z + \ell_1 z|z|^2$ is equivalent to the 2D real system with $x$ and $y$ components as stated.
+
+\item \stage{STAGE Y (Why equivalence holds):} Complex arithmetic automatically enforces the correct coupling:
+\begin{itemize}
+\item Real part of $\dot{z}$ comes from real parts of terms on RHS
+\item Imaginary part of $\dot{z}$ comes from imaginary parts of terms on RHS
+\item The $i$ in $(\rho + i\omega)$ causes the $-\omega y$ and $+\omega x$ terms (rotation)
+\item The structure $z|z|^2$ naturally produces the radially-dependent feedback in both components
+\end{itemize}
+No information is lost in the complex form - it's a faithful encoding that respects the mathematical structure.
+
+\item \stage{STAGE Z (What this buys us):} The complex form is more than notation:
+\begin{itemize}
+\item \textbf{Conceptual clarity}: Separates radial ($\rho$) and angular ($\omega$) dynamics naturally
+\item \textbf{Computational efficiency}: One equation instead of two
+\item \textbf{Symmetry manifest}: Rotational invariance obvious (multiply $z$ by $e^{i\phi}$ leaves form unchanged)
+\item \textbf{Normal form reduction}: Easier to derive from general systems using center manifold and normal form theory
+\item \textbf{Amplitude equation}: In polar form $z = re^{i\theta}$, this separates into $\dot{r} = \rho r + \ell_1 r^3$ and $\dot{\theta} = \omega$
+\end{itemize}
+The real 2D form is necessary for numerical integration or phase plane analysis, but the complex form reveals structure.
+\end{itemize}
+
+\vspace{10pt}
+\hrule
+\vspace{10pt}
+
+\section{Step 6: Verify Component by Component}
+
+\subsection*{Check $\dot{x}$ equation}
+
+Starting from complex form, extract real part:
+
+\textbf{Linear contribution:}
+\[
+\text{Re}[(\rho + i\omega)(x + iy)] = \text{Re}[\rho x - \omega y + i(\omega x + \rho y)] = \rho x - \omega y
+\]
+
+\textbf{Nonlinear contribution:}
+\[
+\text{Re}[\ell_1(x + iy)(x^2 + y^2)] = \text{Re}[\ell_1 x(x^2 + y^2) + i\ell_1 y(x^2 + y^2)] = \ell_1 x(x^2 + y^2)
+\]
+
+\textbf{Total:}
+\[
+\dot{x} = \rho x - \omega y + \ell_1 x(x^2 + y^2) \quad \checkmark
+\]
+
+\subsection*{Check $\dot{y}$ equation}
+
+Extract imaginary part:
+
+\textbf{Linear contribution:}
+\[
+\text{Im}[(\rho + i\omega)(x + iy)] = \omega x + \rho y
+\]
+
+\textbf{Nonlinear contribution:}
+\[
+\text{Im}[\ell_1(x + iy)(x^2 + y^2)] = \ell_1 y(x^2 + y^2)
+\]
+
+\textbf{Total:}
+\[
+\dot{y} = \omega x + \rho y + \ell_1 y(x^2 + y^2) \quad \checkmark
+\]
+
+Both equations match exactly!
+
+\subsection*{XYZ Analysis of Verification}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (What we verified):} Every term in the 2D system has a clear origin from the complex equation through the rules of complex arithmetic.
+
+\item \stage{STAGE Y (Why the match is exact):} The correspondence is:
+\begin{align*}
+\text{Complex multiplication by } (\rho + i\omega) &\longleftrightarrow \text{Matrix } \begin{pmatrix} \rho & -\omega \\ \omega & \rho \end{pmatrix} \\
+\text{Complex term } z|z|^2 &\longleftrightarrow \text{Radial feedback in both components}
+\end{align*}
+These are not approximations or simplifications - they are exact algebraic equivalences. The complex form is a different representation of the same dynamics, not a different system.
+
+\item \stage{STAGE Z (What this teaches):} When we encounter the Hopf normal form in complex variables in research papers or advanced texts, we now understand:
+\begin{itemize}
+\item It's not abstract - it directly describes real phase plane dynamics
+\item We can convert back and forth between forms as needed
+\item The complex form makes certain properties (symmetry, stability) more obvious
+\item Both forms describe the same physical oscillations, just packaged differently
+\end{itemize}
+This duality between complex and real representations is powerful throughout mathematics and physics (e.g., Fourier analysis, quantum mechanics, signal processing).
+\end{itemize}
+
+\vspace{10pt}
+\hrule
+\vspace{10pt}
+
+\section{Step 7: Geometric Interpretation}
+
+\subsection*{Polar coordinate form}
+
+Let $z = re^{i\theta}$ where $r = |z| = \sqrt{x^2 + y^2}$ and $\theta = \arg(z)$.
+
+Then:
+\[
+\dot{z} = (\dot{r} + ir\dot{\theta})e^{i\theta}
+\]
+
+The complex equation $\dot{z} = (\rho + i\omega)z + \ell_1 z|z|^2$ becomes:
+\[
+(\dot{r} + ir\dot{\theta})e^{i\theta} = (\rho + i\omega)re^{i\theta} + \ell_1 re^{i\theta}r^2
+\]
+
+Factor out $e^{i\theta}$:
+\[
+\dot{r} + ir\dot{\theta} = (\rho + i\omega)r + \ell_1 r^3
+\]
+
+\subsection*{Separate equations}
+
+\textbf{Real part (radial equation):}
+\[
+\boxed{\dot{r} = \rho r + \ell_1 r^3}
+\]
+
+\textbf{Imaginary part (angular equation):}
+\[
+r\dot{\theta} = \omega r \quad \Rightarrow \quad \boxed{\dot{\theta} = \omega}
+\]
+
+\subsection*{XYZ Analysis of Polar Form}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (What we found):} The complex form decouples perfectly in polar coordinates: radial dynamics governed by $\dot{r} = \rho r + \ell_1 r^3$, angular dynamics simply $\dot{\theta} = \omega$.
+
+\item \stage{STAGE Y (Why this decoupling):} The circular symmetry of the complex equation (invariant under rotation $z \to e^{i\phi}z$) guarantees that radius and angle evolve independently. The radial equation:
+\[
+\dot{r} = r(\rho + \ell_1 r^2)
+\]
+is a 1D ODE we can solve explicitly:
+\begin{itemize}
+\item Equilibria: $r = 0$ (origin) and $r = \sqrt{-\rho/\ell_1}$ (limit cycle, if $\ell_1\rho < 0$)
+\item For supercritical ($\ell_1 < 0$):
+  \begin{itemize}
+  \item $\rho < 0$: only $r=0$ exists (stable)
+  \item $\rho = 0$: bifurcation point
+  \item $\rho > 0$: limit cycle at $r = \sqrt{\rho/|\ell_1|}$ (stable), origin unstable
+  \end{itemize}
+\end{itemize}
+
+The angular equation $\dot{\theta} = \omega$ integrates to $\theta(t) = \omega t + \theta_0$ - constant angular velocity.
+
+\item \stage{STAGE Z (What this reveals):} The Hopf bifurcation creates a limit cycle that:
+\begin{itemize}
+\item Has radius $r = \sqrt{\rho/|\ell_1|}$ (grows like $\sqrt{\rho}$ above bifurcation)
+\item Rotates with constant angular frequency $\omega$ (independent of amplitude)
+\item Has period $T = 2\pi/\omega$ (frequency determined by imaginary part of eigenvalue)
+\item Amplitude determined by balance: $\rho r = -\ell_1 r^3$
+\end{itemize}
+This is the complete solution near a Hopf bifurcation - the normal form captures all essential behavior. Real systems can be transformed to this form via center manifold reduction and normal form theory.
+\end{itemize}
+
+\vspace{10pt}
+\hrule
+\vspace{10pt}
+
+\section{Summary}
+
+\subsection*{What we proved}
+
+The complex Hopf normal form:
+\[
+\dot{z} = (\rho + i\omega)z + \ell_1 z|z|^2
+\]
+
+is \textbf{exactly equivalent} to the real 2D system:
+\begin{align*}
+\dot{x} &= \rho x - \omega y + \ell_1 x(x^2 + y^2) \\
+\dot{y} &= \omega x + \rho y + \ell_1 y(x^2 + y^2)
+\end{align*}
+
+via the substitution $z = x + iy$.
+
+\subsection*{Key steps in derivation}
+
+\begin{enumerate}
+\item Computed $|z|^2 = x^2 + y^2$
+\item Expanded $(\rho + i\omega)z = (\rho x - \omega y) + i(\omega x + \rho y)$
+\item Expanded $\ell_1 z|z|^2 = \ell_1 x(x^2 + y^2) + i\ell_1 y(x^2 + y^2)$
+\item Equated $\dot{x} + i\dot{y}$ with sum of real and imaginary parts
+\item Verified component-by-component match
+\end{enumerate}
+
+\subsection*{Advantages of complex form}
+
+\begin{itemize}
+\item \textbf{Compactness}: One equation instead of two
+\item \textbf{Symmetry}: Rotational invariance manifest
+\item \textbf{Polar decoupling}: Separates into $\dot{r} = \rho r + \ell_1 r^3$ and $\dot{\theta} = \omega$
+\item \textbf{Universality}: All Hopf bifurcations near criticality reduce to this form
+\item \textbf{Analysis}: Easier to study stability, limit cycles, and bifurcation structure
+\end{itemize}
+
+\subsection*{Physical interpretation}
+
+\begin{itemize}
+\item $\rho$: Controls stability (growth/decay rate)
+\item $\omega$: Angular frequency of rotation
+\item $\ell_1$: First Lyapunov coefficient, determines supercritical ($\ell_1 < 0$) vs subcritical ($\ell_1 > 0$)
+\item Limit cycle emerges at $\rho = 0$ with radius $\propto \sqrt{\rho}$ for $\rho > 0$ (supercritical)
+\end{itemize}
+
+\subsection*{Conclusion}
+
+The complex form $\dot{z} = (\rho + i\omega)z + \ell_1 z|z|^2$ is not just notation - it's a faithful representation of 2D oscillatory dynamics that makes the mathematical structure transparent. The equivalence to the real 2D system is exact, obtained through standard rules of complex arithmetic. This normal form is the universal local description of Hopf bifurcations across all applications.
+
+\end{document}

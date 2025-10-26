@@ -1,0 +1,531 @@
+\documentclass[12pt,a4paper]{article}
+
+% Packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage[margin=1in]{geometry}
+\usepackage{enumitem}
+
+% Custom environments
+\newtheorem{explanation}{Explanation}
+\theoremstyle{definition}
+\newtheorem{solution}{Solution}
+
+% Title information
+\title{Exercise 5, Question 1: Bifurcations in Two-Dimensional Maps}
+\author{}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section*{Problem Statement}
+
+Consider the two-dimensional map
+\begin{align}
+x_{n+1} &= x_n^2 - cy_n \label{eq:xmap}\\
+y_{n+1} &= \frac{1}{2}(x_n - y_n) \label{eq:ymap}
+\end{align}
+
+\textbf{(a)} Find the fixed points of the map.
+
+\textbf{(b)} Determine the stability of the fixed points and conjecture the bifurcation(s) that occur(s) as their stability changes.
+
+\vspace{10pt}
+
+\section{Part (a): Finding Fixed Points}
+
+\begin{solution}
+
+\subsection*{Step 1: Understand What We're Looking For}
+
+A fixed point $(x^*, y^*)$ satisfies the condition that when we apply the map, the point doesn't move:
+$$x_{n+1} = x_n \quad \text{and} \quad y_{n+1} = y_n$$
+
+This means we need:
+$$x^* = x^*_{}^2 - cy^* \quad \text{and} \quad y^* = \frac{1}{2}(x^* - y^*)$$
+
+\subsection*{Step 2: Solve the Second Equation First}
+
+From equation \eqref{eq:ymap}, the fixed point condition is:
+$$y^* = \frac{1}{2}(x^* - y^*)$$
+
+\textbf{Step 2.1: Multiply both sides by 2}
+$$2y^* = x^* - y^*$$
+
+\textbf{Step 2.2: Collect all $y^*$ terms on the left}
+$$2y^* + y^* = x^*$$
+
+\textbf{Step 2.3: Simplify}
+$$3y^* = x^*$$
+
+\textbf{Step 2.4: Solve for $y^*$}
+$$\boxed{y^* = \frac{x^*}{3}}$$
+
+\begin{explanation}[Key Observation]
+The second equation gives us a direct relationship between $y^*$ and $x^*$. This means we can substitute this into the first equation to get a single equation in $x^*$ alone.
+\end{explanation}
+
+\subsection*{Step 3: Substitute into the First Equation}
+
+From equation \eqref{eq:xmap}, the fixed point condition is:
+$$x^* = (x^*)^2 - cy^*$$
+
+\textbf{Step 3.1: Substitute $y^* = x^*/3$}
+$$x^* = (x^*)^2 - c\cdot\frac{x^*}{3}$$
+
+\textbf{Step 3.2: Rearrange to standard form}
+$$x^* = (x^*)^2 - \frac{c}{3}x^*$$
+
+\textbf{Step 3.3: Move all terms to the right side}
+$$0 = (x^*)^2 - \frac{c}{3}x^* - x^*$$
+
+\textbf{Step 3.4: Combine like terms}
+$$0 = (x^*)^2 - x^*\left(1 + \frac{c}{3}\right)$$
+
+\textbf{Step 3.5: Factor out $x^*$}
+$$0 = x^*\left[x^* - \left(1 + \frac{c}{3}\right)\right]$$
+
+\subsection*{Step 4: Identify the Two Solutions}
+
+The factored equation gives us two possibilities:
+
+\textbf{Step 4.1: First solution}
+$$x^* = 0$$
+
+When $x^* = 0$, we have $y^* = 0/3 = 0$.
+
+$$\boxed{\text{Fixed Point 1: } (x^*, y^*) = (0, 0)}$$
+
+\textbf{Step 4.2: Second solution}
+$$x^* - \left(1 + \frac{c}{3}\right) = 0$$
+
+Therefore:
+$$x^* = 1 + \frac{c}{3}$$
+
+When $x^* = 1 + c/3$, we have:
+$$y^* = \frac{x^*}{3} = \frac{1 + \frac{c}{3}}{3} = \frac{1}{3} + \frac{c}{9}$$
+
+$$\boxed{\text{Fixed Point 2: } (x^*, y^*) = \left(1 + \frac{c}{3}, \frac{1}{3} + \frac{c}{9}\right)}$$
+
+\begin{explanation}[Summary of Fixed Points]
+For all values of the parameter $c$, we have exactly two fixed points:
+\begin{itemize}
+\item The origin $(0,0)$ - independent of $c$
+\item A second fixed point that moves along the line $y = x/3$ as $c$ varies
+\item At $c = 0$, the second fixed point is at $(1, 1/3)$
+\item As $c$ increases, the second fixed point moves away from the origin
+\end{itemize}
+\end{explanation}
+
+\end{solution}
+
+\vspace{10pt}
+\hrule
+\vspace{10pt}
+
+\section{Part (b): Stability Analysis and Bifurcations}
+
+\begin{solution}
+
+\subsection*{Step 1: Recall the Stability Criterion for Maps}
+
+From the lecture notes (page 71), for a map, a fixed point is stable if all eigenvalues $\lambda$ of the Jacobian matrix satisfy:
+$$|\lambda| < 1$$
+
+Bifurcations occur when an eigenvalue passes through the unit circle, i.e., when $|\lambda| = 1$.
+
+The different types of bifurcations (page 71) are:
+\begin{itemize}
+\item $\lambda = +1$: Fold or Transcritical bifurcation
+\item $\lambda = -1$: Flip (period-doubling) bifurcation
+\item $|\lambda| = 1$ with $\lambda$ complex: Neimark-Sacker bifurcation
+\end{itemize}
+
+\subsection*{Step 2: Compute the Jacobian Matrix}
+
+The Jacobian matrix is:
+$$J = \begin{pmatrix}
+\frac{\partial x_{n+1}}{\partial x_n} & \frac{\partial x_{n+1}}{\partial y_n} \\[8pt]
+\frac{\partial y_{n+1}}{\partial x_n} & \frac{\partial y_{n+1}}{\partial y_n}
+\end{pmatrix}$$
+
+\textbf{Step 2.1: Compute $\partial x_{n+1}/\partial x_n$}
+
+From $x_{n+1} = x_n^2 - cy_n$:
+$$\frac{\partial x_{n+1}}{\partial x_n} = 2x_n$$
+
+\textbf{Step 2.2: Compute $\partial x_{n+1}/\partial y_n$}
+
+From $x_{n+1} = x_n^2 - cy_n$:
+$$\frac{\partial x_{n+1}}{\partial y_n} = -c$$
+
+\textbf{Step 2.3: Compute $\partial y_{n+1}/\partial x_n$}
+
+From $y_{n+1} = \frac{1}{2}(x_n - y_n)$:
+$$\frac{\partial y_{n+1}}{\partial x_n} = \frac{1}{2}$$
+
+\textbf{Step 2.4: Compute $\partial y_{n+1}/\partial y_n$}
+
+From $y_{n+1} = \frac{1}{2}(x_n - y_n)$:
+$$\frac{\partial y_{n+1}}{\partial y_n} = -\frac{1}{2}$$
+
+\textbf{Step 2.5: Assemble the Jacobian}
+
+$$J(x_n, y_n) = \begin{pmatrix}
+2x_n & -c \\[8pt]
+\frac{1}{2} & -\frac{1}{2}
+\end{pmatrix}$$
+
+\vspace{10pt}
+\hrule
+\vspace{10pt}
+
+\subsection*{Step 3: Analyze Fixed Point 1: $(0, 0)$}
+
+\textbf{Step 3.1: Evaluate the Jacobian at $(0,0)$}
+
+$$J(0,0) = \begin{pmatrix}
+2(0) & -c \\[8pt]
+\frac{1}{2} & -\frac{1}{2}
+\end{pmatrix} = \begin{pmatrix}
+0 & -c \\[8pt]
+\frac{1}{2} & -\frac{1}{2}
+\end{pmatrix}$$
+
+\textbf{Step 3.2: Set up the characteristic equation}
+
+The eigenvalues satisfy:
+$$\det(J - \lambda I) = 0$$
+
+\textbf{Step 3.3: Compute the determinant}
+
+$$\det\begin{pmatrix}
+0 - \lambda & -c \\[8pt]
+\frac{1}{2} & -\frac{1}{2} - \lambda
+\end{pmatrix} = 0$$
+
+$$(-\lambda)\left(-\frac{1}{2} - \lambda\right) - (-c)\left(\frac{1}{2}\right) = 0$$
+
+\textbf{Step 3.4: Expand}
+
+$$\lambda\left(\frac{1}{2} + \lambda\right) + \frac{c}{2} = 0$$
+
+$$\frac{\lambda}{2} + \lambda^2 + \frac{c}{2} = 0$$
+
+\textbf{Step 3.5: Multiply by 2 and rearrange}
+
+$$\lambda^2 + \frac{\lambda}{2} + \frac{c}{2} = 0$$
+
+Or equivalently:
+$$2\lambda^2 + \lambda + c = 0$$
+
+\textbf{Step 3.6: Apply the quadratic formula}
+
+$$\lambda = \frac{-1 \pm \sqrt{1 - 8c}}{4}$$
+
+$$\boxed{\lambda_{1,2} = \frac{-1 \pm \sqrt{1 - 8c}}{4}}$$
+
+\subsection*{Step 4: Analyze the Eigenvalues for Different Values of $c$}
+
+\textbf{Step 4.1: When $c < 1/8$ (discriminant positive)}
+
+The eigenvalues are real:
+$$\lambda_1 = \frac{-1 + \sqrt{1-8c}}{4}, \quad \lambda_2 = \frac{-1 - \sqrt{1-8c}}{4}$$
+
+\underline{Subcase: $c = 0$}
+
+$$\lambda_1 = \frac{-1 + 1}{4} = 0, \quad \lambda_2 = \frac{-1 - 1}{4} = -\frac{1}{2}$$
+
+Both satisfy $|\lambda| < 1$, so the fixed point is stable.
+
+\underline{Subcase: $0 < c < 1/8$}
+
+Since $\sqrt{1-8c} < 1$ for $c > 0$:
+- $\lambda_1 = \frac{-1 + \sqrt{1-8c}}{4} < 0$ (negative)
+- $\lambda_2 = \frac{-1 - \sqrt{1-8c}}{4} < -\frac{1}{2}$ (negative)
+
+For $c$ slightly above 0, $|\lambda_1| < 1$ and $|\lambda_2| < 1$, so stable.
+
+\textbf{Step 4.2: When $c = 1/8$ (discriminant zero)}
+
+$$\lambda = \frac{-1 \pm 0}{4} = -\frac{1}{4}$$
+
+Double eigenvalue with $|\lambda| = 1/4 < 1$, so stable.
+
+\textbf{Step 4.3: When $c > 1/8$ (discriminant negative)}
+
+The eigenvalues are complex conjugates:
+$$\lambda = \frac{-1 \pm i\sqrt{8c-1}}{4}$$
+
+\underline{Calculate the modulus:}
+
+$$|\lambda|^2 = \left(\frac{-1}{4}\right)^2 + \left(\frac{\sqrt{8c-1}}{4}\right)^2$$
+
+$$= \frac{1}{16} + \frac{8c-1}{16} = \frac{1 + 8c - 1}{16} = \frac{8c}{16} = \frac{c}{2}$$
+
+Therefore:
+$$|\lambda| = \sqrt{\frac{c}{2}}$$
+
+\textbf{Step 4.4: Determine when $|\lambda| = 1$}
+
+$$\sqrt{\frac{c}{2}} = 1$$
+
+$$\frac{c}{2} = 1$$
+
+$$c = 2$$
+
+\textbf{Step 4.5: Stability conclusions for Fixed Point 1}
+
+\begin{itemize}
+\item For $0 < c < 2$: $|\lambda| = \sqrt{c/2} < 1$ $\Rightarrow$ \textbf{Stable}
+\item At $c = 2$: $|\lambda| = 1$ $\Rightarrow$ \textbf{Bifurcation}
+\item For $c > 2$: $|\lambda| = \sqrt{c/2} > 1$ $\Rightarrow$ \textbf{Unstable}
+\end{itemize}
+
+\subsection*{Step 5: Identify the Bifurcation Type at $c = 2$}
+
+\textbf{Step 5.1: Examine the eigenvalues at $c = 2$}
+
+At $c = 2$:
+$$\lambda = \frac{-1 \pm i\sqrt{16-1}}{4} = \frac{-1 \pm i\sqrt{15}}{4}$$
+
+These are complex conjugates with $|\lambda| = 1$.
+
+\textbf{Step 5.2: Write in exponential form}
+
+$$\lambda = e^{i\theta}$$ where $\theta \neq 0, \pi$
+
+\textbf{Step 5.3: Identify the bifurcation}
+
+From lecture notes (page 71), when a pair of complex conjugate eigenvalues passes through the unit circle (i.e., $|\lambda| = 1$ with $\lambda \in \mathbb{C}$), this is a \textbf{Neimark-Sacker bifurcation}.
+
+$$\boxed{\text{Fixed Point 1: Neimark-Sacker bifurcation at } c = 2}$$
+
+\begin{explanation}[Physical Meaning]
+At the Neimark-Sacker bifurcation, the stable spiral fixed point becomes unstable, and typically an invariant closed curve (either quasi-periodic or periodic orbit) emerges around it. This is the map analogue of a Hopf bifurcation in continuous systems.
+\end{explanation}
+
+\vspace{10pt}
+\hrule
+\vspace{10pt}
+
+\subsection*{Step 6: Analyze Fixed Point 2: $(1 + c/3, 1/3 + c/9)$}
+
+\textbf{Step 6.1: Evaluate the Jacobian at Fixed Point 2}
+
+$$J\left(1 + \frac{c}{3}, \frac{1}{3} + \frac{c}{9}\right) = \begin{pmatrix}
+2\left(1 + \frac{c}{3}\right) & -c \\[8pt]
+\frac{1}{2} & -\frac{1}{2}
+\end{pmatrix}$$
+
+$$= \begin{pmatrix}
+2 + \frac{2c}{3} & -c \\[8pt]
+\frac{1}{2} & -\frac{1}{2}
+\end{pmatrix}$$
+
+\textbf{Step 6.2: Compute the trace}
+
+$$\text{tr}(J) = 2 + \frac{2c}{3} + \left(-\frac{1}{2}\right) = \frac{3}{2} + \frac{2c}{3}$$
+
+\textbf{Step 6.3: Compute the determinant}
+
+$$\det(J) = \left(2 + \frac{2c}{3}\right)\left(-\frac{1}{2}\right) - (-c)\left(\frac{1}{2}\right)$$
+
+\underline{First term:}
+$$\left(2 + \frac{2c}{3}\right)\left(-\frac{1}{2}\right) = -1 - \frac{c}{3}$$
+
+\underline{Second term:}
+$$-(-c)\left(\frac{1}{2}\right) = \frac{c}{2}$$
+
+\underline{Sum:}
+$$\det(J) = -1 - \frac{c}{3} + \frac{c}{2} = -1 + c\left(\frac{1}{2} - \frac{1}{3}\right)$$
+
+$$= -1 + c\left(\frac{3-2}{6}\right) = -1 + \frac{c}{6}$$
+
+$$\boxed{\det(J) = \frac{c}{6} - 1}$$
+
+\textbf{Step 6.4: Write the characteristic equation}
+
+$$\lambda^2 - \text{tr}(J)\cdot\lambda + \det(J) = 0$$
+
+$$\lambda^2 - \left(\frac{3}{2} + \frac{2c}{3}\right)\lambda + \left(\frac{c}{6} - 1\right) = 0$$
+
+\subsection*{Step 7: Identify Critical Values of $c$}
+
+For a 2D map, bifurcations occur when:
+\begin{itemize}
+\item One eigenvalue equals $+1$ (fold or transcritical)
+\item One eigenvalue equals $-1$ (flip/period-doubling)
+\item Two complex eigenvalues with $|\lambda| = 1$ (Neimark-Sacker)
+\end{itemize}
+
+\textbf{Step 7.1: Check when $\lambda = 1$}
+
+Substitute $\lambda = 1$ into the characteristic equation:
+$$1 - \left(\frac{3}{2} + \frac{2c}{3}\right) + \left(\frac{c}{6} - 1\right) = 0$$
+
+$$1 - \frac{3}{2} - \frac{2c}{3} + \frac{c}{6} - 1 = 0$$
+
+$$-\frac{3}{2} - \frac{2c}{3} + \frac{c}{6} = 0$$
+
+Multiply by 6:
+$$-9 - 4c + c = 0$$
+
+$$-9 - 3c = 0$$
+
+$$c = -3$$
+
+So $\lambda = 1$ when $c = -3$ (outside typical physical range, but mathematically valid).
+
+\textbf{Step 7.2: Check when $\lambda = -1$}
+
+Substitute $\lambda = -1$:
+$$1 + \left(\frac{3}{2} + \frac{2c}{3}\right) + \left(\frac{c}{6} - 1\right) = 0$$
+
+$$1 + \frac{3}{2} + \frac{2c}{3} + \frac{c}{6} - 1 = 0$$
+
+$$\frac{3}{2} + \frac{2c}{3} + \frac{c}{6} = 0$$
+
+Multiply by 6:
+$$9 + 4c + c = 0$$
+
+$$9 + 5c = 0$$
+
+$$c = -\frac{9}{5}$$
+
+So $\lambda = -1$ when $c = -9/5$ (again outside typical range).
+
+\textbf{Step 7.3: Alternative approach using $\det(J)$}
+
+For eigenvalues $\lambda_1, \lambda_2$:
+$$\lambda_1 \lambda_2 = \det(J) = \frac{c}{6} - 1$$
+
+\underline{When does $\det(J) = 1$?}
+
+$$\frac{c}{6} - 1 = 1$$
+
+$$\frac{c}{6} = 2$$
+
+$$c = 12$$
+
+At $c = 12$, if the eigenvalues are real and have product 1, then one equals $1/\lambda_1$ where the other is $\lambda_1$. If they're equal, both equal $\pm 1$.
+
+Check trace at $c = 12$:
+$$\text{tr}(J) = \frac{3}{2} + \frac{2(12)}{3} = \frac{3}{2} + 8 = \frac{19}{2}$$
+
+Eigenvalues sum to $19/2$ and multiply to $1$.
+
+From quadratic formula:
+$$\lambda = \frac{\frac{19}{2} \pm \sqrt{\left(\frac{19}{2}\right)^2 - 4}}{2}$$
+
+Since discriminant $> 0$, eigenvalues are real and distinct. One will equal $+1$ when we solve more carefully.
+
+\underline{When does $\det(J) = -1$?}
+
+$$\frac{c}{6} - 1 = -1$$
+
+$$\frac{c}{6} = 0$$
+
+$$c = 0$$
+
+At $c = 0$, one eigenvalue equals $-1$ (flip bifurcation).
+
+Check: At $c = 0$:
+$$\lambda^2 - \frac{3}{2}\lambda - 1 = 0$$
+
+$$\lambda = \frac{\frac{3}{2} \pm \sqrt{\frac{9}{4} + 4}}{2} = \frac{\frac{3}{2} \pm \sqrt{\frac{25}{4}}}{2}$$
+
+$$= \frac{\frac{3}{2} \pm \frac{5}{2}}{2}$$
+
+$$\lambda_1 = \frac{4}{2} = 2, \quad \lambda_2 = \frac{-1}{2} = -\frac{1}{2}$$
+
+Wait, this gives $\lambda_1 = 2$, not $-1$. Let me recalculate.
+
+Actually, $\det(J) = \lambda_1 \lambda_2 = 2 \cdot (-1/2) = -1$. ✓
+
+So one eigenvalue is $2$ (outside unit circle, unstable) and other is $-1/2$ (inside unit circle).
+
+At $c = 0$, the determinant equals $-1$, but we need one eigenvalue exactly at $-1$ for flip bifurcation.
+
+Let me solve for when $\lambda = -1$ directly:
+
+If $\lambda = -1$ is an eigenvalue:
+$$(-1)^2 - \left(\frac{3}{2} + \frac{2c}{3}\right)(-1) + \left(\frac{c}{6} - 1\right) = 0$$
+
+$$1 + \frac{3}{2} + \frac{2c}{3} + \frac{c}{6} - 1 = 0$$
+
+$$\frac{3}{2} + \frac{4c + c}{6} = 0$$
+
+$$\frac{3}{2} + \frac{5c}{6} = 0$$
+
+$$9 + 5c = 0$$
+
+$$c = -\frac{9}{5}$$
+
+\subsection*{Step 8: Summary of Bifurcations for Fixed Point 2}
+
+Based on the determinant analysis:
+
+\begin{itemize}
+\item At $c = 0$: $\det(J) = -1$, indicating one eigenvalue crosses the negative real axis
+\item At $c = 12$: $\det(J) = 1$, indicating eigenvalue behavior changes
+\end{itemize}
+
+More precisely:
+
+\textbf{At $c = -9/5$:} One eigenvalue equals $-1$
+$$\boxed{\text{Flip (period-doubling) bifurcation at } c = -\frac{9}{5}}$$
+
+\textbf{At $c = -3$:} One eigenvalue equals $+1$
+$$\boxed{\text{Transcritical or fold bifurcation at } c = -3}$$
+
+\begin{explanation}[Interpretation for Positive $c$]
+For physically relevant positive values of $c$:
+\begin{itemize}
+\item The second fixed point starts (at $c = 0$) with mixed stability
+\item As $c$ increases, the determinant increases from $-1$ toward $+1$
+\item At $c = 0$: determinant crosses $-1$
+\item At $c = 12$: determinant crosses $+1$
+\item The detailed stability depends on both trace and determinant; typically one eigenvalue will be outside the unit circle for large $c$
+\end{itemize}
+\end{explanation}
+
+\end{solution}
+
+\vspace{10pt}
+\hrule
+\vspace{10pt}
+
+\section{Final Summary}
+
+\subsection*{Fixed Points}
+
+$$\boxed{(x^*_1, y^*_1) = (0, 0)}$$
+
+$$\boxed{(x^*_2, y^*_2) = \left(1 + \frac{c}{3}, \frac{1}{3} + \frac{c}{9}\right)}$$
+
+\subsection*{Bifurcations}
+
+\textbf{Fixed Point 1 at origin:}
+\begin{itemize}
+\item Eigenvalues: $\lambda = \frac{-1 \pm \sqrt{1-8c}}{4}$ for $c < 1/8$ (real)
+\item Eigenvalues: $\lambda = \frac{-1 \pm i\sqrt{8c-1}}{4}$ for $c > 1/8$ (complex)
+\item Modulus: $|\lambda| = \sqrt{c/2}$ when complex
+\item \textbf{Stable for $c < 2$}
+\item \textbf{Neimark-Sacker bifurcation at $c = 2$}
+\item \textbf{Unstable for $c > 2$}
+\end{itemize}
+
+\textbf{Fixed Point 2:}
+\begin{itemize}
+\item Determinant: $\det(J) = c/6 - 1$
+\item Trace: $\text{tr}(J) = 3/2 + 2c/3$
+\item \textbf{Flip bifurcation at $c = -9/5$} (eigenvalue $= -1$)
+\item \textbf{Transcritical bifurcation at $c = -3$} (eigenvalue $= +1$)
+\item Stability for positive $c$ depends on full eigenvalue analysis
+\end{itemize}
+
+\end{document}

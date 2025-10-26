@@ -1,0 +1,526 @@
+\documentclass[12pt,a4paper]{article}
+
+% Packages
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{mathtools}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+
+% Page style
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{Asymptotics 2025/2026}
+\lhead{Problem Sheet 3, Question 2}
+\rfoot{Page \thepage}
+
+% Custom commands
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\dd}{\mathrm{d}}
+\DeclareMathOperator{\order}{O}
+
+% Theorem environments
+\theoremstyle{definition}
+\newtheorem{solution}{Solution}[section]
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt}
+
+\begin{document}
+
+\begin{center}
+    {\Large \textbf{Asymptotics: Problem Sheet 3, Question 2}}\\[10pt]
+    {\large Leading Order Asymptotic Behaviour of Laplace-Type Integrals}\\[5pt]
+    \today
+\end{center}
+
+\section*{Problem Statement}
+
+Obtain the leading order asymptotic behaviour as $X \to \infty$ of the following integrals:
+
+\begin{enumerate}[label=(\alph*)]
+    \item $\displaystyle I_a(X) = \int_X^\infty e^{-t^3} \dd t$
+    \item $\displaystyle I_b(X) = \int_3^6 \frac{e^{-Xt^2}}{\sqrt{1+t^2}} \dd t$
+    \item $\displaystyle I_c(X) = \int_0^{\pi/2} \frac{e^{X(\sin t + \cos t)}}{\sqrt{t}} \dd t$
+    \item $\displaystyle I_d(X) = \int_0^\infty e^{X(2t-t^2)} \log(1+t^2) \dd t$
+    \item $\displaystyle I_e(X) = \int_{-1}^1 e^{-X(\cosh t + 1)} e^t \dd t$
+\end{enumerate}
+
+\vspace{10pt}
+\hrule
+\vspace{10pt}
+
+\section{Solution to Part (a)}
+
+\begin{solution}[Part (a)]
+
+\textbf{Problem:} Find the leading order asymptotic behaviour of
+$$I_a(X) = \int_X^\infty e^{-t^3} \dd t \quad \text{as } X \to \infty.$$
+
+\subsection*{Step 1: Identify the structure}
+
+\textbf{What do we observe?} The integral has the form $\int_X^\infty f(t) \dd t$ where the lower limit $X \to \infty$.
+
+\textbf{Why is this significant?} This is NOT a standard Laplace integral of the form $\int_a^b f(t)e^{-X\phi(t)} \dd t$ because the large parameter $X$ appears in the integration limit, not as a coefficient in the exponent.
+
+\textbf{What method do we use?} We use a \textit{substitution} to convert this into a standard form, or we can use \textit{integration by parts}.
+
+\subsection*{Step 2: Apply substitution method}
+
+\textbf{What substitution do we choose?} Let $u = t^3$.
+
+\textbf{Why this substitution?} Because the exponent is $-t^3$, this substitution will simplify the exponential to $e^{-u}$.
+
+\textbf{Computing the differential:}
+$$\dd u = 3t^2 \dd t \quad \Rightarrow \quad \dd t = \frac{\dd u}{3t^2}$$
+
+\textbf{What is $t$ in terms of $u$?} Since $u = t^3$, we have $t = u^{1/3}$, and thus:
+$$t^2 = u^{2/3}$$
+
+\textbf{Transforming the limits:}
+\begin{itemize}
+    \item When $t = X$: $u = X^3$
+    \item When $t \to \infty$: $u \to \infty$
+\end{itemize}
+
+\subsection*{Step 3: Rewrite the integral}
+
+\textbf{Substituting everything:}
+$$I_a(X) = \int_{X^3}^\infty e^{-u} \frac{\dd u}{3u^{2/3}} = \frac{1}{3} \int_{X^3}^\infty u^{-2/3} e^{-u} \dd u$$
+
+\textbf{Why is this better?} Now we have a standard Laplace-type integral with the large parameter appearing in the lower limit.
+
+\subsection*{Step 4: Apply Watson's lemma / Integration by parts}
+
+\textbf{What do we know about large limits?} For integrals of the form $\int_a^\infty g(u) e^{-u} \dd u$ where $a \to \infty$, the dominant contribution comes from near $u = a$.
+
+\textbf{Method: Integration by parts}
+
+\textbf{Why integration by parts?} The lecture notes (Section 4.2.1) show that for integrals $\int_a^b f(t)e^{-xt} \dd t$, integration by parts yields asymptotic expansions.
+
+\textbf{Setting up:} We write
+$$\int_{X^3}^\infty u^{-2/3} e^{-u} \dd u = \int_{X^3}^\infty u^{-2/3} \left(-\frac{\dd}{\dd u} e^{-u}\right) \dd u$$
+
+\textbf{Integrating by parts:}
+$$= \left[-u^{-2/3} e^{-u}\right]_{X^3}^\infty - \int_{X^3}^\infty \left(-\frac{2}{3}u^{-5/3}\right) e^{-u} \dd u$$
+
+\textbf{Evaluating the boundary term:}
+\begin{itemize}
+    \item At $u \to \infty$: $u^{-2/3} e^{-u} \to 0$ (exponential dominates polynomial)
+    \item At $u = X^3$: we get $(X^3)^{-2/3} e^{-X^3} = X^{-2} e^{-X^3}$
+\end{itemize}
+
+\textbf{Therefore:}
+$$\int_{X^3}^\infty u^{-2/3} e^{-u} \dd u = X^{-2} e^{-X^3} + \frac{2}{3} \int_{X^3}^\infty u^{-5/3} e^{-u} \dd u$$
+
+\textbf{Why can we stop here?} The remaining integral is of order $\order(X^{-3} e^{-X^3})$ as $X \to \infty$, which is smaller than the first term.
+
+\subsection*{Step 5: Conclude the leading order behaviour}
+
+\textbf{Combining our results:}
+$$I_a(X) = \frac{1}{3} \left[X^{-2} e^{-X^3} + \order(X^{-3} e^{-X^3})\right]$$
+
+\textbf{Leading order term:}
+$$\boxed{I_a(X) \sim \frac{1}{3X^2} e^{-X^3} \quad \text{as } X \to \infty}$$
+
+\textbf{Why is this the leading order?} Because the next term is asymptotically smaller by a factor of $\order(X^{-1})$.
+
+\end{solution}
+
+\section{Solution to Part (b)}
+
+\begin{solution}[Part (b)]
+
+\textbf{Problem:} Find the leading order asymptotic behaviour of
+$$I_b(X) = \int_3^6 \frac{e^{-Xt^2}}{\sqrt{1+t^2}} \dd t \quad \text{as } X \to \infty.$$
+
+\subsection*{Step 1: Identify the structure}
+
+\textbf{What form does this integral have?} This is a Laplace-type integral:
+$$I_b(X) = \int_3^6 f(t) e^{-X\phi(t)} \dd t$$
+where:
+\begin{itemize}
+    \item $f(t) = \frac{1}{\sqrt{1+t^2}}$
+    \item $\phi(t) = t^2$
+\end{itemize}
+
+\textbf{Why is this classification important?} Because Laplace-type integrals have well-established asymptotic methods depending on the properties of $\phi(t)$.
+
+\subsection*{Step 2: Analyze the phase function $\phi(t) = t^2$}
+
+\textbf{What are the properties of $\phi(t)$ on $[3, 6]$?}
+
+\textbf{Computing the derivative:}
+$$\phi'(t) = 2t$$
+
+\textbf{Does $\phi'(t)$ vanish on $[3,6]$?}
+$$\phi'(t) = 0 \quad \Leftrightarrow \quad t = 0$$
+
+\textbf{Is $t = 0$ in our interval?} No, $0 \notin [3,6]$.
+
+\textbf{Conclusion:} $\phi'(t) \neq 0$ for all $t \in [3,6]$, so $\phi(t)$ has no critical points in the interior of the interval.
+
+\textbf{What does this mean?} The minimum of $\phi(t)$ on $[3,6]$ must occur at one of the endpoints.
+
+\subsection*{Step 3: Locate the minimum}
+
+\textbf{Evaluating $\phi(t)$ at the endpoints:}
+\begin{align*}
+    \phi(3) &= 9\\
+    \phi(6) &= 36
+\end{align*}
+
+\textbf{Which is smaller?} $\phi(3) = 9 < 36 = \phi(6)$.
+
+\textbf{Why does this matter?} According to Laplace's method (Section 4.2.3 of lecture notes), for integrals $\int_a^b f(t) e^{-X\phi(t)} \dd t$ as $X \to \infty$, the dominant contribution comes from a small neighborhood of the global minimum of $\phi(t)$.
+
+\textbf{Conclusion:} The dominant contribution comes from near $t = 3$.
+
+\subsection*{Step 4: Check if the minimum is at a boundary with $\phi'(c) \neq 0$}
+
+\textbf{What is the situation?} The minimum is at the left endpoint $c = a = 3$, and $\phi'(3) = 6 \neq 0$.
+
+\textbf{What method do we use?} According to the lecture notes (page 28, equation 206), when the minimum is at an endpoint and $\phi'(c) \neq 0$, the leading order behaviour is:
+$$I(X) \sim \frac{f(c)}{X\phi'(c)} e^{-X\phi(c)} \quad \text{as } X \to \infty$$
+where the sign depends on whether $c$ is the left or right endpoint.
+
+\textbf{Why this formula?} Because near the boundary, we can approximate the integral using the boundary value, and the factor $1/(X\phi'(c))$ comes from the rate of change of the exponential.
+
+\subsection*{Step 5: Apply the boundary point formula}
+
+\textbf{Identifying our parameters:}
+\begin{itemize}
+    \item $c = 3$ (left endpoint)
+    \item $f(3) = \frac{1}{\sqrt{1+9}} = \frac{1}{\sqrt{10}}$
+    \item $\phi(3) = 9$
+    \item $\phi'(3) = 6$
+\end{itemize}
+
+\textbf{Since $c = a$ and $\phi'(a) > 0$:} The formula (equation 206 from lecture notes) gives:
+$$I_b(X) \sim \frac{1}{X\phi'(3)} f(3) e^{-X\phi(3)}$$
+
+\textbf{Substituting values:}
+$$I_b(X) \sim \frac{1}{X \cdot 6} \cdot \frac{1}{\sqrt{10}} \cdot e^{-9X}$$
+
+$$\boxed{I_b(X) \sim \frac{1}{6\sqrt{10} \, X} e^{-9X} \quad \text{as } X \to \infty}$$
+
+\textbf{Why is this the leading order?} Because the exponential $e^{-9X}$ dominates the asymptotic behaviour, and all other contributions from the interior or the other endpoint are exponentially smaller (they contain factors like $e^{-36X}$).
+
+\end{solution}
+
+\section{Solution to Part (c)}
+
+\begin{solution}[Part (c)]
+
+\textbf{Problem:} Find the leading order asymptotic behaviour of
+$$I_c(X) = \int_0^{\pi/2} \frac{e^{X(\sin t + \cos t)}}{\sqrt{t}} \dd t \quad \text{as } X \to \infty.$$
+
+\subsection*{Step 1: Identify the structure}
+
+\textbf{What form is this?} This is a Laplace-type integral:
+$$I_c(X) = \int_0^{\pi/2} f(t) e^{X\phi(t)} \dd t$$
+where:
+\begin{itemize}
+    \item $f(t) = \frac{1}{\sqrt{t}} = t^{-1/2}$
+    \item $\phi(t) = \sin t + \cos t$
+\end{itemize}
+
+\textbf{What's different from part (b)?} The sign in the exponent: we have $+X\phi(t)$ instead of $-X\phi(t)$.
+
+\textbf{Why does this matter?} For $e^{X\phi(t)}$ with $X > 0$ large, the dominant contribution comes from where $\phi(t)$ is \textit{maximized}, not minimized.
+
+\subsection*{Step 2: Find critical points of $\phi(t)$}
+
+\textbf{Computing the derivative:}
+$$\phi'(t) = \cos t - \sin t$$
+
+\textbf{Setting $\phi'(t) = 0$:}
+$$\cos t - \sin t = 0 \quad \Rightarrow \quad \cos t = \sin t$$
+
+\textbf{When does $\cos t = \sin t$?} This occurs when $t = \pi/4$ (since $\tan t = 1$).
+
+\textbf{Is this in our interval?} Yes, $\pi/4 \in (0, \pi/2)$, so we have a critical point in the interior.
+
+\subsection*{Step 3: Verify it's a maximum}
+
+\textbf{Computing the second derivative:}
+$$\phi''(t) = -\sin t - \cos t$$
+
+\textbf{Evaluating at $t = \pi/4$:}
+$$\phi''\left(\frac{\pi}{4}\right) = -\sin\frac{\pi}{4} - \cos\frac{\pi}{4} = -\frac{\sqrt{2}}{2} - \frac{\sqrt{2}}{2} = -\sqrt{2} < 0$$
+
+\textbf{What does $\phi'' < 0$ mean?} This confirms that $t = \pi/4$ is a \textit{maximum} of $\phi(t)$.
+
+\textbf{Why is this important?} Because for $e^{X\phi(t)}$ with $X \to \infty$, the integral is dominated by the neighborhood of the maximum of $\phi(t)$.
+
+\subsection*{Step 4: Compare with boundary values}
+
+\textbf{Computing $\phi(t)$ at critical point and boundaries:}
+\begin{align*}
+    \phi(0) &= \sin 0 + \cos 0 = 0 + 1 = 1\\
+    \phi(\pi/4) &= \sin(\pi/4) + \cos(\pi/4) = \frac{\sqrt{2}}{2} + \frac{\sqrt{2}}{2} = \sqrt{2}\\
+    \phi(\pi/2) &= \sin(\pi/2) + \cos(\pi/2) = 1 + 0 = 1
+\end{align*}
+
+\textbf{Which is largest?} $\phi(\pi/4) = \sqrt{2} > 1$.
+
+\textbf{Conclusion:} The global maximum on $[0, \pi/2]$ is at $t = \pi/4$.
+
+\subsection*{Step 5: Check for singularities in $f(t)$}
+
+\textbf{What about $f(t) = t^{-1/2}$?} This function has a singularity at $t = 0$ (it blows up as $t \to 0^+$).
+
+\textbf{Does this affect our analysis?} We need to check if the singularity is integrable. Near $t = 0$:
+$$f(t) e^{X\phi(t)} \sim t^{-1/2} e^{X \cdot 1} = e^X t^{-1/2}$$
+
+\textbf{Is $\int_0^\epsilon t^{-1/2} \dd t$ convergent?} Yes:
+$$\int_0^\epsilon t^{-1/2} \dd t = 2t^{1/2}\Big|_0^\epsilon = 2\sqrt{\epsilon} < \infty$$
+
+\textbf{Conclusion:} The singularity at $t = 0$ is integrable, so it doesn't dominate the asymptotic behaviour.
+
+\subsection*{Step 6: Apply Laplace's method for interior maximum}
+
+\textbf{What formula do we use?} For an integral $\int_a^b f(t) e^{X\phi(t)} \dd t$ where $\phi(t)$ has a maximum at $c \in (a,b)$ with $\phi'(c) = 0$ and $\phi''(c) < 0$, Laplace's method (equation 205, page 27) gives:
+$$I(X) \sim \sqrt{\frac{2\pi}{X|\phi''(c)|}} f(c) e^{X\phi(c)} \quad \text{as } X \to \infty$$
+
+\textbf{Why this formula?} Near the maximum, we approximate:
+$$\phi(t) \approx \phi(c) + \frac{1}{2}\phi''(c)(t-c)^2$$
+and the integral becomes approximately Gaussian.
+
+\subsection*{Step 7: Evaluate at $c = \pi/4$}
+
+\textbf{Computing the required quantities:}
+\begin{align*}
+    c &= \frac{\pi}{4}\\
+    f(c) &= \left(\frac{\pi}{4}\right)^{-1/2} = \sqrt{\frac{4}{\pi}} = \frac{2}{\sqrt{\pi}}\\
+    \phi(c) &= \sqrt{2}\\
+    |\phi''(c)| &= |-\sqrt{2}| = \sqrt{2}
+\end{align*}
+
+\textbf{Applying the formula:}
+$$I_c(X) \sim \sqrt{\frac{2\pi}{X\sqrt{2}}} \cdot \frac{2}{\sqrt{\pi}} \cdot e^{\sqrt{2}X}$$
+
+\textbf{Simplifying:}
+$$= \sqrt{\frac{2\pi}{X\sqrt{2}}} \cdot \frac{2}{\sqrt{\pi}} \cdot e^{\sqrt{2}X}$$
+$$= \frac{2}{\sqrt{\pi}} \sqrt{\frac{2\pi}{X\sqrt{2}}} e^{\sqrt{2}X}$$
+$$= \frac{2}{\sqrt{\pi}} \cdot \sqrt{2\pi} \cdot \frac{1}{\sqrt{X\sqrt{2}}} e^{\sqrt{2}X}$$
+$$= 2\sqrt{2} \cdot \frac{1}{\sqrt{X\sqrt{2}}} e^{\sqrt{2}X}$$
+$$= 2\sqrt{2} \cdot \frac{1}{X^{1/2} \cdot 2^{1/4}} e^{\sqrt{2}X}$$
+$$= \frac{2\sqrt{2}}{2^{1/4}} \cdot X^{-1/2} e^{\sqrt{2}X}$$
+$$= 2^{1-1/4} X^{-1/2} e^{\sqrt{2}X}$$
+$$= 2^{3/4} X^{-1/2} e^{\sqrt{2}X}$$
+
+$$\boxed{I_c(X) \sim \frac{2^{3/4}}{\sqrt{X}} e^{\sqrt{2}X} \quad \text{as } X \to \infty}$$
+
+\textbf{Alternative simplified form:}
+$$\boxed{I_c(X) \sim \sqrt{\frac{2\sqrt{2}}{X}} \cdot \frac{2}{\sqrt{\pi}} e^{\sqrt{2}X} = \frac{2}{\sqrt{\pi}} \sqrt{\frac{2\sqrt{2}}{X}} e^{\sqrt{2}X} \quad \text{as } X \to \infty}$$
+
+\end{solution}
+
+\section{Solution to Part (d)}
+
+\begin{solution}[Part (d)]
+
+\textbf{Problem:} Find the leading order asymptotic behaviour of
+$$I_d(X) = \int_0^\infty e^{X(2t-t^2)} \log(1+t^2) \dd t \quad \text{as } X \to \infty.$$
+
+\subsection*{Step 1: Identify the structure}
+
+\textbf{What form is this?} This is a Laplace-type integral:
+$$I_d(X) = \int_0^\infty f(t) e^{X\phi(t)} \dd t$$
+where:
+\begin{itemize}
+    \item $f(t) = \log(1+t^2)$
+    \item $\phi(t) = 2t - t^2$
+\end{itemize}
+
+\textbf{What type of integral?} Since we have $e^{X\phi(t)}$ with large positive $X$, we look for the \textit{maximum} of $\phi(t)$.
+
+\subsection*{Step 2: Find critical points of $\phi(t)$}
+
+\textbf{Computing the derivative:}
+$$\phi'(t) = 2 - 2t$$
+
+\textbf{Setting $\phi'(t) = 0$:}
+$$2 - 2t = 0 \quad \Rightarrow \quad t = 1$$
+
+\textbf{Is this in our domain?} Yes, $t = 1 \in (0, \infty)$.
+
+\subsection*{Step 3: Verify it's a maximum}
+
+\textbf{Computing the second derivative:}
+$$\phi''(t) = -2$$
+
+\textbf{What does this tell us?} Since $\phi''(t) = -2 < 0$ everywhere, and in particular $\phi''(1) = -2 < 0$, we confirm that $t = 1$ is a \textit{maximum}.
+
+\subsection*{Step 4: Check the behaviour at boundaries}
+
+\textbf{As $t \to 0$:} $\phi(0) = 0$
+
+\textbf{As $t \to \infty$:}
+$$\phi(t) = 2t - t^2 = t(2-t) \to -\infty$$
+since the $-t^2$ term dominates.
+
+\textbf{At the critical point:}
+$$\phi(1) = 2(1) - 1^2 = 2 - 1 = 1$$
+
+\textbf{Conclusion:} The global maximum of $\phi(t)$ on $[0, \infty)$ is at $t = 1$ with $\phi(1) = 1$.
+
+\subsection*{Step 5: Check properties of $f(t)$ at $t = 1$}
+
+\textbf{Computing $f(1)$:}
+$$f(1) = \log(1+1^2) = \log 2$$
+
+\textbf{Is $f(1)$ finite and non-zero?} Yes, $f(1) = \log 2 > 0$ is finite.
+
+\textbf{Is the integral convergent?} As $t \to \infty$:
+$$f(t) e^{X\phi(t)} = \log(1+t^2) \cdot e^{X(2t-t^2)} \sim \log(t^2) e^{-Xt^2} = 2\log t \cdot e^{-Xt^2}$$
+
+This decays exponentially, so the integral converges.
+
+\subsection*{Step 6: Apply Laplace's method}
+
+\textbf{What formula do we use?} For $\int_a^b f(t) e^{X\phi(t)} \dd t$ with maximum at $c \in (a,b)$ where $\phi'(c) = 0$ and $\phi''(c) < 0$, Laplace's method gives:
+$$I(X) \sim \sqrt{\frac{2\pi}{X|\phi''(c)|}} f(c) e^{X\phi(c)} \quad \text{as } X \to \infty$$
+
+\textbf{Why does this work despite infinite upper limit?} The exponential decay as $t \to \infty$ ensures that contributions far from $t = 1$ are exponentially suppressed.
+
+\subsection*{Step 7: Apply the formula with $c = 1$}
+
+\textbf{Identifying our values:}
+\begin{align*}
+    c &= 1\\
+    f(c) &= \log 2\\
+    \phi(c) &= 1\\
+    |\phi''(c)| &= |-2| = 2
+\end{align*}
+
+\textbf{Substituting into the formula:}
+$$I_d(X) \sim \sqrt{\frac{2\pi}{X \cdot 2}} \log 2 \cdot e^{X \cdot 1}$$
+
+$$= \sqrt{\frac{\pi}{X}} \log 2 \cdot e^X$$
+
+$$\boxed{I_d(X) \sim (\log 2) \sqrt{\frac{\pi}{X}} e^X \quad \text{as } X \to \infty}$$
+
+\textbf{Why is this the leading order?} All other contributions (from $t \neq 1$) are exponentially smaller because $\phi(t) < \phi(1) = 1$ everywhere else, leading to factors like $e^{X\phi(t)}$ with $\phi(t) < 1$.
+
+\end{solution}
+
+\section{Solution to Part (e)}
+
+\begin{solution}[Part (e)]
+
+\textbf{Problem:} Find the leading order asymptotic behaviour of
+$$I_e(X) = \int_{-1}^1 e^{-X(\cosh t + 1)} e^t \dd t \quad \text{as } X \to \infty.$$
+
+\subsection*{Step 1: Rewrite in standard form}
+
+\textbf{Combining the exponentials:}
+$$I_e(X) = \int_{-1}^1 e^t \cdot e^{-X(\cosh t + 1)} \dd t$$
+
+\textbf{What form is this?} This is a Laplace-type integral:
+$$I_e(X) = \int_{-1}^1 f(t) e^{-X\phi(t)} \dd t$$
+where:
+\begin{itemize}
+    \item $f(t) = e^t$
+    \item $\phi(t) = \cosh t + 1$
+\end{itemize}
+
+\textbf{What type?} Since we have $e^{-X\phi(t)}$ with $X$ large and positive, we seek the \textit{minimum} of $\phi(t)$.
+
+\subsection*{Step 2: Analyze $\phi(t) = \cosh t + 1$}
+
+\textbf{What is $\cosh t$?}
+$$\cosh t = \frac{e^t + e^{-t}}{2}$$
+
+\textbf{Properties of $\cosh t$:}
+\begin{itemize}
+    \item $\cosh t \geq 1$ for all $t \in \R$
+    \item $\cosh t = 1$ if and only if $t = 0$
+    \item $\cosh t$ is even: $\cosh(-t) = \cosh t$
+    \item $\cosh t$ is decreasing on $(-\infty, 0)$ and increasing on $(0, \infty)$
+\end{itemize}
+
+\textbf{Therefore:} $\phi(t) = \cosh t + 1 \geq 2$ with minimum at $t = 0$.
+
+\subsection*{Step 3: Find critical points}
+
+\textbf{Computing the derivative:}
+$$\phi'(t) = \sinh t$$
+
+where $\sinh t = \frac{e^t - e^{-t}}{2}$.
+
+\textbf{Setting $\phi'(t) = 0$:}
+$$\sinh t = 0 \quad \Rightarrow \quad t = 0$$
+
+\textbf{Is this in our interval?} Yes, $0 \in (-1, 1)$.
+
+\subsection*{Step 4: Verify it's a minimum}
+
+\textbf{Computing the second derivative:}
+$$\phi''(t) = \cosh t$$
+
+\textbf{Evaluating at $t = 0$:}
+$$\phi''(0) = \cosh 0 = 1 > 0$$
+
+\textbf{Conclusion:} Since $\phi''(0) > 0$, the point $t = 0$ is a \textit{minimum} of $\phi(t)$.
+
+\subsection*{Step 5: Evaluate quantities at the minimum}
+
+\textbf{Computing:}
+\begin{align*}
+    c &= 0\\
+    \phi(0) &= \cosh 0 + 1 = 1 + 1 = 2\\
+    f(0) &= e^0 = 1\\
+    \phi''(0) &= 1
+\end{align*}
+
+\subsection*{Step 6: Apply Laplace's method}
+
+\textbf{What formula?} For $\int_a^b f(t) e^{-X\phi(t)} \dd t$ with minimum at $c \in (a,b)$ where $\phi'(c) = 0$ and $\phi''(c) > 0$, Laplace's method (equation 205) gives:
+$$I(X) \sim \sqrt{\frac{2\pi}{X\phi''(c)}} f(c) e^{-X\phi(c)} \quad \text{as } X \to \infty$$
+
+\textbf{Why this formula?} Near the minimum, we approximate:
+$$\phi(t) \approx \phi(c) + \frac{1}{2}\phi''(c)(t-c)^2$$
+and the integral becomes approximately Gaussian (with $e^{-X[\cdots]}$ giving the Gaussian factor).
+
+\subsection*{Step 7: Substitute values}
+
+\textbf{Applying the formula:}
+$$I_e(X) \sim \sqrt{\frac{2\pi}{X \cdot 1}} \cdot 1 \cdot e^{-X \cdot 2}$$
+
+$$= \sqrt{\frac{2\pi}{X}} e^{-2X}$$
+
+$$\boxed{I_e(X) \sim \sqrt{\frac{2\pi}{X}} e^{-2X} \quad \text{as } X \to \infty}$$
+
+\textbf{Why is this the leading order?} Because:
+\begin{enumerate}
+    \item The exponential factor $e^{-2X}$ comes from the minimum value $\phi(0) = 2$
+    \item All other points have $\phi(t) > 2$, giving exponentially smaller contributions
+    \item The $\sqrt{1/X}$ factor arises from the Gaussian approximation near the minimum
+\end{enumerate}
+
+\end{solution}
+
+\section*{Summary of Methods Used}
+
+\begin{enumerate}
+    \item \textbf{Part (a):} Substitution followed by integration by parts
+    \item \textbf{Part (b):} Laplace's method with minimum at boundary (endpoint formula)
+    \item \textbf{Part (c):} Laplace's method with maximum at interior critical point
+    \item \textbf{Part (d):} Laplace's method with maximum at interior critical point
+    \item \textbf{Part (e):} Laplace's method with minimum at interior critical point
+\end{enumerate}
+
+\vspace{10pt}
+
+\textbf{Key principle:} For Laplace-type integrals $\int f(t) e^{\pm X\phi(t)} \dd t$ as $X \to \infty$:
+\begin{itemize}
+    \item If $e^{-X\phi(t)}$: dominant contribution from \textit{minimum} of $\phi(t)$
+    \item If $e^{+X\phi(t)}$: dominant contribution from \textit{maximum} of $\phi(t)$
+    \item If extremum is at interior with $\phi'(c) = 0$: use Laplace's method formula with $\sqrt{2\pi/(X|\phi''(c)|)}$
+    \item If extremum is at boundary with $\phi'(c) \neq 0$: use boundary formula with $1/(X\phi'(c))$
+\end{itemize}
+
+\end{document}

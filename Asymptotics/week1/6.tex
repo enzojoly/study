@@ -1,0 +1,346 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{geometry}
+\geometry{margin=1in}
+\usepackage{enumitem}
+\usepackage{xcolor}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{observation}{Observation}
+
+\title{Asymptotics 2025/2026 Sheet 1\\Problem 6: Detailed Solution}
+\author{}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section*{Problem 6}
+
+\textbf{Problem Statement:} Show that $f(x) \sim g(x)$ as $x \to x_0$ does \textit{not} necessarily imply that $\exp(f(x)) \sim \exp(g(x))$ as $x \to x_0$ by finding a counterexample.
+
+\vspace{1em}
+
+\section{Understanding What We Must Do}
+
+\subsection{Interpreting the Problem}
+
+\textbf{What the problem asks:} We must demonstrate that asymptotic equivalence is \textit{not preserved} under the exponential function.
+
+\textbf{Why this matters:} Asymptotic equivalence is a key concept from Section 2.4.1 of the lecture notes. The definition states:
+
+\begin{definition}[Asymptotic Equivalence]
+Functions $f(x)$ and $g(x)$ are asymptotically equivalent as $x \to x_0$, written $f(x) \sim g(x)$, if
+\[
+\lim_{x \to x_0} \frac{f(x)}{g(x)} = 1.
+\]
+\end{definition}
+
+\textbf{What we observe:} The condition requires the \textit{ratio} of the functions to approach exactly $1$. This is a multiplicative relationship.
+
+\textbf{Why the exponential is special:} The exponential function converts \textit{additive} relationships into \textit{multiplicative} ones. If $f(x) = g(x) + h(x)$, then
+\[
+e^{f(x)} = e^{g(x) + h(x)} = e^{g(x)} \cdot e^{h(x)}.
+\]
+
+\textbf{The intuition:} Even if $f(x) \sim g(x)$, meaning $f(x)/g(x) \to 1$, we can write $f(x) = g(x) \cdot (1 + o(1))$ or equivalently $f(x) - g(x) = o(g(x))$. But this difference, when exponentiated, can produce a \textit{constant multiplicative factor} that prevents $e^{f(x)}/e^{g(x)}$ from approaching $1$.
+
+\subsection{Strategy for Finding a Counterexample}
+
+\textbf{What we need:} Two functions $f(x)$ and $g(x)$ such that:
+\begin{enumerate}
+\item $\lim_{x \to x_0} \frac{f(x)}{g(x)} = 1$ (they are asymptotically equivalent)
+\item $\lim_{x \to x_0} \frac{e^{f(x)}}{e^{g(x)}} \neq 1$ (their exponentials are NOT asymptotically equivalent)
+\end{enumerate}
+
+\textbf{Why we choose this approach:} The simplest counterexamples involve functions that differ by a \textit{constant}.
+
+\textbf{The key observation:} If $f(x) = g(x) + c$ where $c$ is a nonzero constant, then:
+\[
+\frac{f(x)}{g(x)} = \frac{g(x) + c}{g(x)} = 1 + \frac{c}{g(x)}.
+\]
+
+\textbf{Why this works:} If $g(x) \to \infty$ as $x \to x_0$, then $\frac{c}{g(x)} \to 0$, so $\frac{f(x)}{g(x)} \to 1$, giving us $f(x) \sim g(x)$.
+
+\textbf{But for the exponential:}
+\[
+\frac{e^{f(x)}}{e^{g(x)}} = \frac{e^{g(x)+c}}{e^{g(x)}} = e^c \neq 1 \text{ (if } c \neq 0).
+\]
+
+\textbf{Why this is our counterexample:} The ratio remains constant at $e^c$ rather than approaching $1$.
+
+\section{Constructing the Counterexample}
+
+\subsection{Choosing the Functions}
+
+\textbf{Our choice:}
+\[
+f(x) = x + 1, \quad g(x) = x, \quad x_0 = \infty.
+\]
+
+\textbf{Why these functions:}
+\begin{itemize}
+\item They are simple and explicit
+\item They differ by a constant: $f(x) - g(x) = 1$
+\item As $x \to \infty$, both functions grow without bound
+\item The constant difference becomes negligible relative to the magnitude of the functions
+\end{itemize}
+
+\textbf{Observation:} We have $f(x) = g(x) + 1$, so we are in the situation described above with $c = 1$.
+
+\section{Verification Part I: Showing $f(x) \sim g(x)$}
+
+\subsection{Computing the Ratio}
+
+\textbf{What we must show:} We need to prove that
+\[
+\lim_{x \to \infty} \frac{f(x)}{g(x)} = 1.
+\]
+
+\textbf{Why we compute this:} This is the direct application of the definition of asymptotic equivalence.
+
+\textbf{Step 1: Substitute our functions}
+\[
+\frac{f(x)}{g(x)} = \frac{x+1}{x}.
+\]
+
+\textbf{What we observe:} The ratio is a rational function with the same degree in numerator and denominator.
+
+\textbf{Why we proceed as follows:} We can factor out the dominant term from both numerator and denominator.
+
+\textbf{Step 2: Factor out $x$ from numerator}
+\[
+\frac{x+1}{x} = \frac{x(1 + \frac{1}{x})}{x} = 1 + \frac{1}{x}.
+\]
+
+\textbf{What we did:} We wrote $x + 1 = x(1 + 1/x)$ by factoring out $x$.
+
+\textbf{Why this is valid:} For $x \neq 0$, we can always factor out $x$ from the numerator. Since we're taking $x \to \infty$, we never encounter $x = 0$.
+
+\textbf{What we observe now:} The ratio has been simplified to $1 + \frac{1}{x}$.
+
+\subsection{Taking the Limit}
+
+\textbf{Step 3: Apply the limit}
+\[
+\lim_{x \to \infty} \frac{f(x)}{g(x)} = \lim_{x \to \infty} \left(1 + \frac{1}{x}\right).
+\]
+
+\textbf{Why we can split this:} The limit of a sum is the sum of limits (when both limits exist).
+
+\textbf{Step 4: Evaluate each term}
+\[
+\lim_{x \to \infty} \left(1 + \frac{1}{x}\right) = \lim_{x \to \infty} 1 + \lim_{x \to \infty} \frac{1}{x}.
+\]
+
+\textbf{What we observe:}
+\begin{itemize}
+\item $\lim_{x \to \infty} 1 = 1$ (constant function)
+\item $\lim_{x \to \infty} \frac{1}{x} = 0$ (standard limit: reciprocal of unbounded function)
+\end{itemize}
+
+\textbf{Why $\frac{1}{x} \to 0$:} As $x$ grows arbitrarily large (toward infinity), the reciprocal $\frac{1}{x}$ becomes arbitrarily small. Formally, for any $\epsilon > 0$, we can choose $N = 1/\epsilon$, and for all $x > N$, we have $\frac{1}{x} < \epsilon$.
+
+\textbf{Step 5: Combine the results}
+\[
+\lim_{x \to \infty} \frac{f(x)}{g(x)} = 1 + 0 = 1.
+\]
+
+\subsection{Conclusion of Part I}
+
+\textbf{What we have established:}
+\[
+\boxed{f(x) \sim g(x) \text{ as } x \to \infty \quad \checkmark}
+\]
+
+\textbf{Why this is important:} We have satisfied the first condition of our counterexample. The functions $f(x) = x+1$ and $g(x) = x$ are indeed asymptotically equivalent as $x \to \infty$.
+
+\textbf{Intuitive meaning:} For very large $x$, the difference of $1$ between $x+1$ and $x$ becomes negligible compared to their magnitudes. When $x = 1000$, we're comparing $1001$ to $1000$, a difference of only $0.1\%$.
+
+\section{Verification Part II: Showing $e^{f(x)} \not\sim e^{g(x)}$}
+
+\subsection{What We Must Show}
+
+\textbf{The goal:} Prove that
+\[
+\lim_{x \to \infty} \frac{e^{f(x)}}{e^{g(x)}} \neq 1.
+\]
+
+\textbf{Why this matters:} If this limit is not equal to $1$, then by definition, $e^{f(x)} \not\sim e^{g(x)}$, completing our counterexample.
+
+\subsection{Computing the Exponential Ratio}
+
+\textbf{Step 1: Write out the ratio}
+\[
+\frac{e^{f(x)}}{e^{g(x)}} = \frac{e^{x+1}}{e^x}.
+\]
+
+\textbf{What we observe:} Both numerator and denominator are exponential functions with different exponents.
+
+\textbf{Why we proceed with exponential properties:} Recall the fundamental law of exponents:
+\[
+\frac{e^a}{e^b} = e^{a-b}.
+\]
+
+\textbf{Why this law holds:} By definition of exponential function, $e^a \cdot e^b = e^{a+b}$. Dividing both sides by $e^b$ gives $e^a = e^{a+b-b} = e^{a-b} \cdot e^b / e^b = e^{a-b}$.
+
+\textbf{Step 2: Apply the exponential law}
+\[
+\frac{e^{x+1}}{e^x} = e^{(x+1) - x} = e^1 = e.
+\]
+
+\textbf{What happened:} The exponents $(x+1)$ and $x$ subtracted to give exactly $1$.
+
+\textbf{Why this is exact:} This is an algebraic identity, true for all values of $x$, not just in the limit.
+
+\textbf{Critical observation:} The ratio is \textit{constant}—it equals $e$ for \textit{every} value of $x$, not just as $x \to \infty$.
+
+\subsection{Taking the Limit}
+
+\textbf{Step 3: Apply the limit}
+\[
+\lim_{x \to \infty} \frac{e^{f(x)}}{e^{g(x)}} = \lim_{x \to \infty} e = e.
+\]
+
+\textbf{Why this limit is trivial:} Since the ratio equals $e$ for all $x$, the limit is simply $e$.
+
+\textbf{What is the value of $e$:} We have $e \approx 2.71828...$, which is the base of natural logarithms.
+
+\textbf{Critical comparison:}
+\[
+e \neq 1.
+\]
+
+\textbf{Why this inequality matters:} The definition of $e^{f(x)} \sim e^{g(x)}$ requires
+\[
+\lim_{x \to \infty} \frac{e^{f(x)}}{e^{g(x)}} = 1,
+\]
+but we have found this limit equals $e \approx 2.718 \neq 1$.
+
+\subsection{Conclusion of Part II}
+
+\textbf{What we have established:}
+\[
+\boxed{e^{f(x)} \not\sim e^{g(x)} \text{ as } x \to \infty \quad \checkmark}
+\]
+
+\textbf{Why this completes the counterexample:} We now have both required properties:
+\begin{enumerate}
+\item $f(x) \sim g(x)$ (from Part I)
+\item $e^{f(x)} \not\sim e^{g(x)}$ (from Part II)
+\end{enumerate}
+
+\section{Deep Understanding: Why the Exponential Fails}
+
+\subsection{The Nature of Asymptotic Equivalence}
+
+\textbf{What asymptotic equivalence means:} When $f(x) \sim g(x)$, we can write
+\[
+f(x) = g(x) \left(1 + o(1)\right) \quad \text{as } x \to x_0,
+\]
+or equivalently,
+\[
+f(x) = g(x) + o(g(x)) \quad \text{as } x \to x_0.
+\]
+
+\textbf{Why this formulation matters:} It shows that $f(x)$ and $g(x)$ differ by a term that is asymptotically smaller than $g(x)$ itself.
+
+\textbf{In our example:} We have $f(x) = x + 1$ and $g(x) = x$, so
+\[
+f(x) - g(x) = 1 = o(x) \quad \text{as } x \to \infty,
+\]
+since $\lim_{x \to \infty} \frac{1}{x} = 0$.
+
+\subsection{What the Exponential Does}
+
+\textbf{The exponential transformation:} When we exponentiate both sides, we get
+\[
+e^{f(x)} = e^{g(x) + [f(x) - g(x)]} = e^{g(x)} \cdot e^{f(x) - g(x)}.
+\]
+
+\textbf{Why this is the key:} The exponential converts the \textit{additive} difference $f(x) - g(x)$ into a \textit{multiplicative} factor $e^{f(x) - g(x)}$.
+
+\textbf{In our example:}
+\[
+e^{f(x)} = e^x \cdot e^{(x+1) - x} = e^x \cdot e^1 = e \cdot e^x.
+\]
+
+\textbf{What we observe:} The exponential of the difference, $e^{f(x) - g(x)} = e^1 = e$, is a \textit{constant}.
+
+\textbf{Why this constant matters:} Even though $f(x) - g(x) = 1$ is negligible compared to $g(x) = x$ as $x \to \infty$ (making $f \sim g$), when exponentiated it produces a constant factor $e \neq 1$ that does \textit{not} vanish in the limit.
+
+\subsection{The General Principle}
+
+\textbf{General observation:} If $f(x) = g(x) + c + o(1)$ where $c \neq 0$ is a constant, then:
+\[
+f(x) \sim g(x) \quad \text{as } x \to \infty \quad \text{(if } g(x) \to \infty),
+\]
+but
+\[
+\frac{e^{f(x)}}{e^{g(x)}} = e^c \cdot e^{o(1)} \to e^c \neq 1.
+\]
+
+\textbf{Why this explains our result:} The "small" additive constant $c$ becomes a "significant" multiplicative factor $e^c$ after exponentiation.
+
+\textbf{The fundamental insight:} Asymptotic equivalence is preserved under operations that respect the multiplicative structure (like multiplication, division, taking powers), but \textit{not} under operations that convert additive relationships to multiplicative ones (like exponentials).
+
+\section{Alternative Perspective: Order Notation}
+
+\subsection{Using Order Notation}
+
+\textbf{Another way to see this:} We can write
+\[
+f(x) - g(x) = 1 = O(1) \quad \text{as } x \to \infty.
+\]
+
+\textbf{What this means:} The difference is bounded; it doesn't grow or shrink as $x \to \infty$.
+
+\textbf{Why $f \sim g$ holds:} Since
+\[
+\frac{f(x)}{g(x)} = 1 + \frac{f(x) - g(x)}{g(x)} = 1 + \frac{O(1)}{x} = 1 + O\left(\frac{1}{x}\right) \to 1,
+\]
+we have asymptotic equivalence.
+
+\textbf{But for the exponential:}
+\[
+\frac{e^{f(x)}}{e^{g(x)}} = e^{f(x) - g(x)} = e^{O(1)}.
+\]
+
+\textbf{Critical point:} The notation $e^{O(1)}$ represents a quantity that is bounded between $e^{-C}$ and $e^C$ for some constant $C$, but it does \textit{not} necessarily approach $1$. In our case, $e^{O(1)} = e^1 = e$.
+
+\section{Final Summary and Conclusion}
+
+\subsection{Complete Counterexample}
+
+\textbf{Functions chosen:}
+\[
+\boxed{f(x) = x + 1, \quad g(x) = x, \quad x_0 = \infty}
+\]
+
+\textbf{Verification that $f \sim g$:}
+\[
+\lim_{x \to \infty} \frac{x+1}{x} = \lim_{x \to \infty} \left(1 + \frac{1}{x}\right) = 1 + 0 = 1 \quad \checkmark
+\]
+
+\textbf{Verification that $e^f \not\sim e^g$:}
+\[
+\lim_{x \to \infty} \frac{e^{x+1}}{e^x} = \lim_{x \to \infty} e^1 = e \neq 1 \quad \checkmark
+\]
+
+\subsection{What We Have Proven}
+
+\textbf{The statement:} We have demonstrated by explicit counterexample that:
+\[
+\boxed{f(x) \sim g(x) \text{ as } x \to x_0 \;\;\not\!\!\!\implies\;\; e^{f(x)} \sim e^{g(x)} \text{ as } x \to x_0}
+\]
+
+\textbf{Why this is important for asymptotics:} The result shows that asymptotic equivalence is \textit{not} preserved under all function operations. We must be careful when manipulating asymptotic expressions, especially when applying nonlinear transformations.
+
+\textbf{The key lesson:} Operations that convert additive relationships to multiplicative ones (exponentials, but also operations like $x \mapsto e^x$, $x \mapsto 10^x$, etc.) can break asymptotic equivalence, even when additive differences are asymptotically negligible.
+
+\textbf{Connection to lecture notes:} This connects to the discussion in Section 2.4.1, where it is noted that "asymptotic relations can be integrated, but not always differentiated." Similarly, exponentials of asymptotic equivalences do not preserve the equivalence.
+
+\end{document}

@@ -1,0 +1,237 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{mathtools}
+\usepackage{graphicx}
+\usepackage{enumitem}
+
+% Theorem environments
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+
+% Custom commands
+\newcommand{\dd}{\mathrm{d}}
+\newcommand{\RR}{\mathbb{R}}
+\newcommand{\CC}{\mathbb{C}}
+\newcommand{\ii}{\mathrm{i}}
+
+\title{Asymptotics 2025/2026 -- Problem Sheet 5\\
+\Large Solution to Question 2(a)}
+\author{Method of Steepest Descent}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section*{Problem Statement}
+Use the method of steepest descent to find the leading asymptotic behaviour as $X \to \infty$ of:
+\begin{equation}
+I(X) = \int_{-1}^{\infty} e^{X(t+\ii t-t^2/2)} \dd t
+\end{equation}
+
+\section*{Solution}
+
+\subsection*{Step 1: Identify the Complex Function}
+
+The integral has the form
+\begin{equation}
+I(X) = \int_{-1}^{\infty} e^{X\phi(t)} \dd t
+\end{equation}
+where the complex function $\phi(t)$ is given by:
+\begin{equation}
+\phi(t) = t + \ii t - \frac{t^2}{2} = t(1+\ii) - \frac{t^2}{2}
+\end{equation}
+
+This is a steepest descent problem with $\phi(t) \in \CC$ and integration parameter $X \to \infty$.
+
+\subsection*{Step 2: Find Critical Points (Saddle Points)}
+
+Following the methodology from Section 4.4.2 of the lecture notes, we locate saddle points by finding where $\phi'(t) = 0$:
+\begin{equation}
+\phi'(t) = 1 + \ii - t = 0
+\end{equation}
+
+Thus, the unique saddle point is:
+\begin{equation}
+t_0 = 1 + \ii
+\end{equation}
+
+The second derivative at this point is:
+\begin{equation}
+\phi''(t) = -1 \quad \text{for all } t
+\end{equation}
+
+In particular, $\phi''(t_0) = -1 = e^{\ii\pi}$, so $|\phi''(t_0)| = 1$ and $\alpha = \pi$.
+
+\subsection*{Step 3: Evaluate $\phi$ at the Saddle Point}
+
+We compute:
+\begin{align}
+\phi(t_0) &= (1+\ii)(1+\ii) - \frac{(1+\ii)^2}{2}\\
+&= (1+\ii)^2 - \frac{(1+\ii)^2}{2}\\
+&= \frac{(1+\ii)^2}{2}\\
+&= \frac{1 + 2\ii - 1}{2}\\
+&= \ii
+\end{align}
+
+\subsection*{Step 4: Determine Steepest Descent Contours}
+
+To understand the geometry of the steepest descent paths, we decompose $\phi(t)$ into real and imaginary parts. Setting $t = x + \ii y$:
+\begin{align}
+\phi(x+\ii y) &= (x+\ii y)(1+\ii) - \frac{(x+\ii y)^2}{2}\\
+&= x + \ii x + \ii y - y - \frac{x^2 - y^2 + 2\ii xy}{2}\\
+&= \left(x - y - \frac{x^2 - y^2}{2}\right) + \ii\left(x + y - xy\right)
+\end{align}
+
+Therefore:
+\begin{equation}
+u(x,y) = x - y - \frac{x^2 - y^2}{2}, \qquad v(x,y) = x + y - xy
+\end{equation}
+
+At the saddle point $(x_0, y_0) = (1,1)$:
+\begin{equation}
+v(1,1) = 1 + 1 - 1 = 1
+\end{equation}
+
+The constant phase contour through the saddle point satisfies $v(x,y) = 1$.
+
+\textbf{Local analysis near the saddle point:}
+
+Near $t_0 = 1+\ii$, set $t = t_0 + se^{\ii\theta}$ for small $s \geq 0$. Then:
+\begin{equation}
+\phi(t) \approx \phi(t_0) + \frac{1}{2}\phi''(t_0)(t-t_0)^2 = \ii - \frac{1}{2}s^2e^{2\ii\theta}
+\end{equation}
+
+The real part is:
+\begin{equation}
+\text{Re}[\phi(t)] \approx -\frac{s^2}{2}\cos(2\theta)
+\end{equation}
+
+Using the general formula from the lecture notes (page 72), for $\phi''(t_0) = ae^{\ii\alpha}$ with $a = 1$ and $\alpha = \pi$, the directions of steepest descent are:
+\begin{equation}
+\theta_{\text{descent}} = -\frac{\alpha}{2} + (2p+1)\frac{\pi}{2}, \quad p = 0,1
+\end{equation}
+
+For $p=0$: $\theta = -\pi/2 + \pi/2 = 0$
+
+For $p=1$: $\theta = -\pi/2 + 3\pi/2 = \pi$
+
+Thus, the steepest descent directions are along $\theta = 0$ and $\theta = \pi$, i.e., along the horizontal direction (parallel to the real axis) passing through $t_0 = 1+\ii$.
+
+\textbf{Parameterization of steepest descent path:}
+
+The steepest descent path through $t_0$ is the horizontal line at height $y=1$:
+\begin{equation}
+t = x + \ii, \quad x \in (-\infty, \infty)
+\end{equation}
+
+Along this path:
+\begin{align}
+\phi(x+\ii) &= (x+\ii)(1+\ii) - \frac{(x+\ii)^2}{2}\\
+&= x - 1 + \ii(x+1) - \frac{x^2 - 1 + 2\ii x}{2}\\
+&= x - 1 - \frac{x^2-1}{2} + \ii\left(x + 1 - x\right)\\
+&= -\frac{x^2}{2} + x - \frac{1}{2} + \ii\\
+&= -\frac{(x-1)^2}{2} + \ii
+\end{align}
+
+The real part is:
+\begin{equation}
+u(x,1) = -\frac{(x-1)^2}{2}
+\end{equation}
+
+This has a maximum at $x=1$ (the saddle point) and decreases to $-\infty$ as $|x| \to \infty$, confirming exponential decay along the steepest descent path.
+
+\subsection*{Step 5: Deform the Integration Contour}
+
+The original integration path runs from $-1$ to $\infty$ along the real axis (at $y=0$). The saddle point $t_0 = 1+\ii$ lies off this path.
+
+By Cauchy's integral theorem (Section 4.4, page 68), since $e^{X\phi(t)}$ is entire (analytic everywhere in $\CC$), we can deform the contour without changing the integral value, provided boundary contributions vanish.
+
+We deform the contour to consist of:
+\begin{enumerate}[label=(\roman*)]
+\item A vertical segment from $-1$ to $-1+\ii$
+\item The horizontal steepest descent path from $-1+\ii$ to $+\infty+\ii$ (passing through the saddle point $t_0 = 1+\ii$)
+\end{enumerate}
+
+\textbf{Justification for neglecting the vertical segment:}
+
+Along the vertical segment $t = -1 + \ii s$ for $s \in [0,1]$:
+\begin{align}
+\text{Re}[\phi(-1+\ii s)] &= -1 - s - \frac{1 - s^2}{2}\\
+&= -\frac{3}{2} - s + \frac{s^2}{2}\\
+&\leq -\frac{3}{2} + \frac{1}{2} = -1
+\end{align}
+
+Therefore:
+\begin{equation}
+\left|\int_{0}^{1} e^{X\phi(-1+\ii s)} \ii \dd s\right| \leq \int_{0}^{1} e^{-X} \dd s = e^{-X}
+\end{equation}
+
+As $X \to \infty$, this contribution is exponentially small compared to the saddle point contribution and can be neglected: $e^{-X} = o(e^{0}) = o(1)$.
+
+\subsection*{Step 6: Evaluate the Integral Along the Steepest Descent Path}
+
+Along the horizontal line $y=1$, we have $t = x + \ii$ with $x \in (-\infty, \infty)$ and $\dd t = \dd x$. Using our result from Step 4:
+\begin{equation}
+\phi(x+\ii) = \ii - \frac{(x-1)^2}{2}
+\end{equation}
+
+Therefore:
+\begin{align}
+I(X) &\sim \int_{-\infty}^{\infty} e^{X[\ii - (x-1)^2/2]} \dd x\\
+&= e^{\ii X} \int_{-\infty}^{\infty} e^{-X(x-1)^2/2} \dd x
+\end{align}
+
+\textbf{Change of variables:}
+
+Let $u = x - 1$, so $\dd u = \dd x$:
+\begin{equation}
+I(X) = e^{\ii X} \int_{-\infty}^{\infty} e^{-Xu^2/2} \dd u
+\end{equation}
+
+\textbf{Evaluate the Gaussian integral:}
+
+Using the standard result $\int_{-\infty}^{\infty} e^{-au^2} \dd u = \sqrt{\pi/a}$ for $a > 0$:
+\begin{equation}
+\int_{-\infty}^{\infty} e^{-Xu^2/2} \dd u = \sqrt{\frac{2\pi}{X}}
+\end{equation}
+
+\subsection*{Step 7: Final Result}
+
+Combining the results, we obtain the leading asymptotic behaviour:
+
+\begin{equation}
+\boxed{I(X) \sim \sqrt{\frac{2\pi}{X}} \, e^{\ii X} \quad \text{as } X \to \infty}
+\end{equation}
+
+This can also be written as:
+\begin{equation}
+I(X) \sim \sqrt{\frac{2\pi}{X}} \left[\cos(X) + \ii\sin(X)\right] \quad \text{as } X \to \infty
+\end{equation}
+
+\subsection*{Verification}
+
+The result is consistent with the general steepest descent formula from the lecture notes. For an integral of the form $\int f(z)e^{\lambda\phi(z)} \dd z$ with a saddle point at $z_0$ where $\phi'(z_0) = 0$ and $\phi''(z_0) \neq 0$, the leading asymptotic contribution is:
+\begin{equation}
+I(\lambda) \sim \sqrt{\frac{2\pi}{\lambda|\phi''(z_0)|}} \, f(z_0) \, e^{\lambda\phi(z_0)} \, e^{\ii\beta}
+\end{equation}
+where $\beta$ accounts for the phase factor depending on the direction of the steepest descent path.
+
+In our case:
+\begin{itemize}
+\item $\lambda = X$
+\item $f(t) = 1$, so $f(t_0) = 1$
+\item $\phi(t_0) = \ii$
+\item $|\phi''(t_0)| = |-1| = 1$
+\item The steepest descent path is horizontal, contributing no additional phase
+\end{itemize}
+
+This yields:
+\begin{equation}
+I(X) \sim \sqrt{\frac{2\pi}{X}} \, e^{\ii X}
+\end{equation}
+
+confirming our result. \qed
+
+\end{document}

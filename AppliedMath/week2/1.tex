@@ -1,0 +1,485 @@
+\documentclass[12pt,a4paper]{article}
+
+% Packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage[margin=1in]{geometry}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{mathtools}
+
+% Custom environments
+\newtheorem{explanation}{Explanation}
+\theoremstyle{definition}
+\newtheorem{solution}{Solution}
+
+% Custom commands
+\newcommand{\stage}[1]{\textbf{\textcolor{blue}{#1}}}
+
+% Title information
+\title{Methods of Applied Mathematics - Part 1\\
+Exercise Sheet 2: Question 1\\
+Stability in 1 Dimension}
+\author{Complete Solution with XYZ Methodology}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section*{Problem Statement}
+
+A cup of hot coffee temperature $T$ is placed in a room of ambient temperature $A$. The cup loses heat to the air at a rate proportional to the temperature difference $T - A$, with a constant of proportionality (rate constant of heat loss) $c$.
+
+\section{Question 1(a): Formulate the Differential Equation}
+
+\begin{solution}
+
+\subsection*{Step 1: Translate Physical Law into Mathematical Form}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (What we know):} The problem describes \textbf{Newton's Law of Cooling}. The rate of temperature change is proportional to the temperature difference between the object and its surroundings.
+
+\item \stage{STAGE Y (Why this form):} The temperature $T(t)$ changes with time. The phrase ``loses heat at a rate proportional to'' means the \textit{time derivative} of temperature is proportional to the temperature difference. The constant of proportionality is $c$, and since heat is \textit{lost}, the rate is negative.
+
+\item \stage{STAGE Z (Mathematical translation):} The rate of change of temperature is:
+\begin{equation}
+\frac{dT}{dt} = -c(T - A)
+\end{equation}
+\end{itemize}
+
+\subsection*{Step 2: Verify Signs and Physical Meaning}
+
+\begin{explanation}[Sign Check]
+Consider two scenarios:
+\begin{itemize}
+\item If $T > A$ (coffee hotter than room): Then $T - A > 0$, so $\frac{dT}{dt} = -c(T-A) < 0$. Temperature \textbf{decreases}. \checkmark
+
+\item If $T < A$ (coffee colder than room): Then $T - A < 0$, so $\frac{dT}{dt} = -c(T-A) > 0$. Temperature \textbf{increases}. \checkmark
+\end{itemize}
+Both cases are physically correct: temperature moves toward ambient temperature.
+\end{explanation}
+
+\subsection*{Step 3: Physical Constraints}
+
+From physical reasoning:
+\begin{itemize}
+\item $c > 0$ (positive rate constant - heat loss occurs)
+\item $A$ is constant (ambient temperature doesn't change)
+\item $T(t)$ is the unknown function we seek
+\end{itemize}
+
+\subsection*{Final Answer for Part (a)}
+
+\begin{equation}
+\boxed{\frac{dT}{dt} = -c(T - A) \quad \text{where } c > 0}
+\end{equation}
+
+Alternatively, this can be written as:
+\begin{equation}
+\dot{T} = -cT + cA
+\end{equation}
+
+\end{solution}
+
+\vspace{10pt}
+\hrule
+\vspace{10pt}
+
+\section{Question 1(b): Show Ambient Temperature is an Equilibrium}
+
+\begin{solution}
+
+\subsection*{Step 1: Define Equilibrium Point}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (Definition from Lecture Notes, Section 6):} An \textbf{equilibrium point} $T^*$ is a value where the rate of change is zero, i.e., where $\frac{dT}{dt} = 0$. At an equilibrium, the system does not change with time.
+
+\item \stage{STAGE Y (Why this concept):} If we start at an equilibrium, the system remains there forever. This corresponds to physical steady states. For the coffee problem, we want to show that coffee at ambient temperature stays at ambient temperature.
+
+\item \stage{STAGE Z (What we'll prove):} We must show that $T^* = A$ satisfies $\frac{dT}{dt}\Big|_{T=T^*} = 0$.
+\end{itemize}
+
+\subsection*{Step 2: Substitute $T = A$ into the ODE}
+
+From part (a), our differential equation is:
+\begin{equation}
+\frac{dT}{dt} = -c(T - A)
+\end{equation}
+
+Evaluate at $T = A$:
+\begin{align}
+\frac{dT}{dt}\Big|_{T=A} &= -c(A - A) \\
+&= -c \cdot 0 \\
+&= 0 \quad \checkmark
+\end{align}
+
+\subsection*{Step 3: Physical Interpretation}
+
+\begin{explanation}[Physical Meaning]
+When the coffee temperature equals the ambient temperature $(T = A)$, there is \textbf{no temperature difference} to drive heat transfer. Therefore, the temperature remains constant at $T = A$. This is precisely what we mean by an equilibrium.
+
+From the lecture notes (page 19, equation 6.1): For a 1D system $\dot{x} = f(x)$, equilibria occur where $f(x^*) = 0$. Here, $f(T) = -c(T-A)$, and $f(A) = 0$.
+\end{explanation}
+
+\subsection*{Final Answer for Part (b)}
+
+\begin{equation}
+\boxed{T^* = A \text{ is an equilibrium because } \frac{dT}{dt}\Big|_{T=A} = -c(A-A) = 0}
+\end{equation}
+
+A cup of coffee at ambient temperature will remain at ambient temperature.
+
+\end{solution}
+
+\vspace{10pt}
+\hrule
+\vspace{10pt}
+
+\section{Question 1(c): Prove Stability of the Equilibrium}
+
+\begin{solution}
+
+\subsection*{Step 1: Classify the Stability Type Needed}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (What we need):} We must prove that $T^* = A$ is a \textbf{stable equilibrium} and that there are no other attractors. This means trajectories starting at any initial temperature $T_0$ must approach $T^* = A$ as $t \to \infty$.
+
+\item \stage{STAGE Y (Why this approach):} From lecture notes (Section 6, pages 19-20), there are two methods to determine stability:
+\begin{enumerate}
+\item \textbf{Linearization}: Examine $f'(T^*)$ at the equilibrium
+\item \textbf{Phase line analysis}: Check the sign of $\dot{T}$ on both sides of the equilibrium
+\end{enumerate}
+We will use \textit{both} methods for complete rigor.
+
+\item \stage{STAGE Z (Structure of proof):} We'll prove: (i) local stability via linearization, (ii) global attraction via phase line analysis, (iii) uniqueness of equilibrium.
+\end{itemize}
+
+\subsection*{Method 1: Linearization Analysis}
+
+\textbf{Step 2A: Compute the Derivative}
+
+From lecture notes (Section 9, equation 9.1), for a 1D system $\dot{x} = f(x)$:
+\begin{equation}
+\text{Linearization coefficient: } \lambda = \frac{df}{dx}\Big|_{x=x^*}
+\end{equation}
+
+For our system $\dot{T} = f(T) = -c(T - A)$:
+\begin{align}
+\frac{df}{dT} &= \frac{d}{dT}[-c(T - A)] \\
+&= -c
+\end{align}
+
+At the equilibrium $T^* = A$:
+\begin{equation}
+\lambda = \frac{df}{dT}\Big|_{T=A} = -c
+\end{equation}
+
+\textbf{Step 2B: Stability Criterion}
+
+\begin{explanation}[Stability from Eigenvalue Sign (Lecture Notes, Section 6)]
+For a 1D system with equilibrium at $x^*$:
+\begin{itemize}
+\item If $\lambda < 0$: equilibrium is \textbf{stable} (exponential decay toward $x^*$)
+\item If $\lambda > 0$: equilibrium is \textbf{unstable} (exponential growth away from $x^*$)
+\item If $\lambda = 0$: linearization inconclusive (need higher-order analysis)
+\end{itemize}
+
+The local solution near equilibrium is approximately $T(t) - A \approx (T_0 - A)e^{\lambda t}$.
+\end{explanation}
+
+Since $c > 0$ (given physical constraint), we have:
+\begin{equation}
+\lambda = -c < 0 \quad \Longrightarrow \quad \boxed{\text{Equilibrium is locally stable}}
+\end{equation}
+
+\subsection*{Method 2: Phase Line Analysis (Global Stability)}
+
+\textbf{Step 3A: Analyze Sign of $\dot{T}$ on Both Sides}
+
+The phase line shows the direction of motion for all $T$:
+
+\begin{center}
+\begin{tabular}{|c|c|c|}
+\hline
+Region & Condition & Sign of $\dot{T} = -c(T-A)$ \\
+\hline
+$T > A$ & $T - A > 0$ & $\dot{T} < 0$ (temperature decreases) \\
+$T = A$ & $T - A = 0$ & $\dot{T} = 0$ (equilibrium) \\
+$T < A$ & $T - A < 0$ & $\dot{T} > 0$ (temperature increases) \\
+\hline
+\end{tabular}
+\end{center}
+
+\vspace{5pt}
+
+\textbf{Phase Line Diagram:}
+\begin{verbatim}
+                T < A              T = A             T > A
+        <-------------------------|------------------------->
+                  -------->       • A       <--------
+                  (T increases)   (equil)   (T decreases)
+\end{verbatim}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (What the phase line shows):} Arrows point \textit{toward} $T = A$ from both directions.
+
+\item \stage{STAGE Y (Why this means global stability):} No matter where we start ($T_0 > A$ or $T_0 < A$), the system always moves toward $A$. There are no regions where trajectories move away from $A$.
+
+\item \stage{STAGE Z (Conclusion):} The equilibrium $T^* = A$ is \textbf{globally stable} - all trajectories approach it as $t \to \infty$.
+\end{itemize}
+
+\subsection*{Step 4: Uniqueness of Equilibrium (No Other Attractors)}
+
+To complete the proof, we must show there are no other equilibria or limit cycles.
+
+\textbf{Finding All Equilibria:}
+Set $\dot{T} = 0$:
+\begin{align}
+-c(T - A) &= 0 \\
+T - A &= 0 \quad \text{(since } c \neq 0 \text{)} \\
+T &= A
+\end{align}
+
+Therefore, $T^* = A$ is the \textbf{unique equilibrium}.
+
+\textbf{Excluding Periodic Orbits:}
+
+\begin{explanation}[Why No Limit Cycles in 1D]
+From lecture notes: In one-dimensional systems, trajectories cannot cross (uniqueness of solutions). Therefore:
+\begin{itemize}
+\item Closed orbits (limit cycles) are \textbf{impossible} in 1D
+\item The only possible long-term behaviors are: approaching an equilibrium, or diverging to $\pm\infty$
+\end{itemize}
+
+Since $\dot{T} = -c(T-A)$ is bounded and always points toward $A$, divergence is impossible.
+\end{explanation}
+
+\subsection*{Step 5: Formal Proof of Global Convergence}
+
+Let $T_0$ be any initial temperature. Define the ``distance from equilibrium'':
+\begin{equation}
+V(T) = \frac{1}{2}(T - A)^2 \geq 0
+\end{equation}
+
+This is a Lyapunov function. Compute its time derivative:
+\begin{align}
+\frac{dV}{dt} &= (T - A) \frac{dT}{dt} \\
+&= (T - A) \cdot [-c(T - A)] \\
+&= -c(T - A)^2 \\
+&\leq 0 \quad \text{for all } T
+\end{align}
+
+Moreover, $\frac{dV}{dt} = 0$ if and only if $T = A$.
+
+\begin{explanation}[Lyapunov Stability Criterion]
+\begin{itemize}
+\item $V(T) \geq 0$ for all $T$, with $V(A) = 0$
+\item $\frac{dV}{dt} \leq 0$ for all $T$
+\item $\frac{dV}{dt} = 0$ only at $T = A$
+\end{itemize}
+
+This proves that $V(T)$ decreases monotonically to zero, meaning $T(t) \to A$ as $t \to \infty$ for any initial condition.
+\end{explanation}
+
+\subsection*{Final Answer for Part (c)}
+
+\begin{equation}
+\boxed{
+\begin{aligned}
+&\text{The equilibrium } T^* = A \text{ is stable because:} \\
+&\text{1. Linearization: } \lambda = -c < 0 \text{ (local stability)} \\
+&\text{2. Phase line: Arrows point toward } A \text{ from both sides (global attraction)} \\
+&\text{3. Uniqueness: } T = A \text{ is the only equilibrium} \\
+&\text{4. No other attractors: 1D systems cannot have limit cycles} \\
+&\text{Therefore: } T(t) \to A \text{ as } t \to \infty \text{ for any starting temperature } T_0
+\end{aligned}
+}
+\end{equation}
+
+\end{solution}
+
+\vspace{10pt}
+\hrule
+\vspace{10pt}
+
+\section{Question 1(d): Change of Variables and Solution}
+
+\begin{solution}
+
+\subsection*{Step 1: Define the Change of Variables}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (Purpose):} We want to shift the equilibrium from $T = A$ to the origin, making $x = 0$ the equilibrium. This simplifies the mathematics and makes the exponential decay more apparent.
+
+\item \stage{STAGE Y (Why this works):} From lecture notes (Section 6, page 20): The solution near an equilibrium $x^*$ looks like $x(t) - x^* = (x_0 - x^*)e^{\lambda t}$. By defining $x = T - A$, we center the problem at the origin.
+
+\item \stage{STAGE Z (What we'll do):} Define $x = T - A$, derive the ODE for $x(t)$, solve it, then transform back to $T(t)$.
+\end{itemize}
+
+\subsection*{Step 2: Derive the Differential Equation for $x$}
+
+Given: $x = T - A$
+
+Take the time derivative:
+\begin{align}
+\frac{dx}{dt} &= \frac{d}{dt}(T - A) \\
+&= \frac{dT}{dt} - \frac{dA}{dt} \\
+&= \frac{dT}{dt} - 0 \quad \text{(since } A \text{ is constant)} \\
+&= \frac{dT}{dt}
+\end{align}
+
+Substitute $\frac{dT}{dt} = -c(T - A)$ from part (a):
+\begin{align}
+\frac{dx}{dt} &= -c(T - A) \\
+&= -cx
+\end{align}
+
+\begin{equation}
+\boxed{\frac{dx}{dt} = -cx \quad \text{with } x(0) = T_0 - A}
+\end{equation}
+
+\begin{explanation}[Why This is Better]
+The new ODE $\dot{x} = -cx$ has:
+\begin{itemize}
+\item Equilibrium at $x = 0$ (instead of $T = A$)
+\item Standard exponential decay form
+\item No inhomogeneous term
+\end{itemize}
+This is the canonical form of a stable 1D linear system.
+\end{explanation}
+
+\subsection*{Step 3: Solve the ODE for $x(t)$}
+
+The equation $\frac{dx}{dt} = -cx$ is a first-order linear ODE with constant coefficients.
+
+\textbf{Method: Separation of Variables}
+
+\begin{align}
+\frac{dx}{dt} &= -cx \\
+\frac{dx}{x} &= -c \, dt \quad \text{(separating variables)}
+\end{align}
+
+Integrate both sides:
+\begin{align}
+\int \frac{dx}{x} &= \int -c \, dt \\
+\ln|x| &= -ct + C_1 \quad \text{(where } C_1 \text{ is constant)} \\
+|x| &= e^{-ct + C_1} \\
+x &= Ce^{-ct} \quad \text{(where } C = \pm e^{C_1} \text{)}
+\end{align}
+
+\textbf{Apply Initial Condition:}
+
+At $t = 0$: $x(0) = T_0 - A$
+\begin{align}
+x(0) &= Ce^{0} = C \\
+\Rightarrow C &= T_0 - A
+\end{align}
+
+Therefore:
+\begin{equation}
+\boxed{x(t) = (T_0 - A)e^{-ct}}
+\end{equation}
+
+\subsection*{Step 4: Change Variables Back to $T(t)$}
+
+Recall $x = T - A$, so $T = x + A$:
+\begin{align}
+T(t) &= x(t) + A \\
+&= (T_0 - A)e^{-ct} + A
+\end{align}
+
+Rearranging:
+\begin{equation}
+T(t) = A + (T_0 - A)e^{-ct}
+\end{equation}
+
+\subsection*{Step 5: Verify and Interpret the Solution}
+
+\textbf{Verification:}
+
+Check initial condition:
+\begin{equation}
+T(0) = A + (T_0 - A)e^{0} = A + (T_0 - A) = T_0 \quad \checkmark
+\end{equation}
+
+Check equilibrium approach:
+\begin{equation}
+\lim_{t \to \infty} T(t) = A + (T_0 - A) \lim_{t \to \infty} e^{-ct} = A + (T_0 - A) \cdot 0 = A \quad \checkmark
+\end{equation}
+
+Check ODE satisfaction:
+\begin{align}
+\frac{dT}{dt} &= (T_0 - A) \cdot (-c)e^{-ct} = -c(T_0 - A)e^{-ct} \\
+&= -c[T(t) - A] \quad \checkmark
+\end{align}
+
+\textbf{Physical Interpretation:}
+
+\begin{explanation}[Understanding the Solution]
+\begin{itemize}
+\item \textbf{Steady state}: $T(\infty) = A$ (ambient temperature)
+
+\item \textbf{Deviation from equilibrium}: $(T_0 - A)e^{-ct}$ decays exponentially
+
+\item \textbf{Time scale}: $\tau = 1/c$ is the characteristic cooling time
+\begin{itemize}
+\item At $t = \tau = 1/c$: Temperature difference reduced to $1/e \approx 37\%$ of initial
+\item At $t = 3\tau$: Temperature difference reduced to $e^{-3} \approx 5\%$ of initial
+\end{itemize}
+
+\item \textbf{Rate constant $c$}:
+\begin{itemize}
+\item Large $c$: Fast cooling (good insulation or high surface area)
+\item Small $c$: Slow cooling (poor insulation or small surface area)
+\end{itemize}
+\end{itemize}
+\end{explanation}
+
+\subsection*{Final Answer for Part (d)}
+
+\textbf{Solution in transformed variable:}
+\begin{equation}
+\boxed{x(t) = (T_0 - A)e^{-ct}}
+\end{equation}
+
+\textbf{Solution for temperature:}
+\begin{equation}
+\boxed{T(t) = A + (T_0 - A)e^{-ct}}
+\end{equation}
+
+where:
+\begin{itemize}
+\item $T_0$ = initial temperature of coffee
+\item $A$ = ambient room temperature
+\item $c > 0$ = heat loss rate constant
+\item $\tau = 1/c$ = characteristic cooling time
+\end{itemize}
+
+\end{solution}
+
+\vspace{10pt}
+\hrule
+\vspace{10pt}
+
+\section*{Summary: Complete Analysis of Coffee Cooling Problem}
+
+\begin{enumerate}[leftmargin=*]
+\item \textbf{Differential Equation}: $\dot{T} = -c(T - A)$ models Newton's Law of Cooling
+
+\item \textbf{Equilibrium}: $T^* = A$ (ambient temperature) is the unique equilibrium
+
+\item \textbf{Stability}: The equilibrium is globally stable:
+\begin{itemize}
+\item Linearization gives $\lambda = -c < 0$ (local stability)
+\item Phase line analysis confirms global attraction
+\item No other equilibria or attractors exist
+\end{itemize}
+
+\item \textbf{Solution}: $T(t) = A + (T_0 - A)e^{-ct}$ describes exponential relaxation to equilibrium with time constant $\tau = 1/c$
+
+\item \textbf{Key Insight}: This is the prototypical example of a stable 1D linear system from Lecture Notes Section 6. The solution exhibits exponential decay toward the equilibrium, consistent with the general theory: near equilibrium $x^*$, solutions behave like $(x_0 - x^*)e^{\lambda t}$ where $\lambda < 0$ ensures stability.
+\end{enumerate}
+
+\end{document}

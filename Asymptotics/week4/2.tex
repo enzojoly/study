@@ -1,0 +1,243 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{mathtools}
+\usepackage{enumitem}
+\usepackage{xcolor}
+
+\newcommand{\stage}[1]{\textbf{\textcolor{blue}{#1}}}
+
+\title{Question 2: Perturbation Analysis of Cubic Equation\\
+Complete Two-Term Expansions for All Roots}
+\author{Asymptotics Course — Sheet 4}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section*{Problem Statement}
+
+Find two-term expansions as $\epsilon \to 0$ of all solutions of:
+\[
+(1 - \epsilon)x^3 + (\epsilon - 3)x^2 + 3x - 1 = 0
+\]
+
+\section{Step 1: Analyze the Unperturbed Problem}
+
+\subsection*{Set $\epsilon = 0$}
+
+\[
+x^3 - 3x^2 + 3x - 1 = 0
+\]
+
+\subsection*{Recognize the Structure}
+
+This is a perfect cube:
+\[
+x^3 - 3x^2 + 3x - 1 = (x-1)^3 = 0
+\]
+
+\textbf{Unperturbed root:} $x = 1$ (with multiplicity 3)
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (What we have):} A degenerate triple root at $x = 1$ when $\epsilon = 0$.
+
+\item \stage{STAGE Y (Why this matters):} For small $\epsilon \neq 0$, the cubic equation has three distinct roots. The triple root splits into three separate roots. This is a \textbf{singular perturbation problem} similar to Section 2.3 of the lecture notes.
+
+\item \stage{STAGE Z (What this means):} We expect non-integer power expansions (likely $\epsilon^{1/2}$ or $\epsilon^{1/3}$) for some roots, as standard integer power expansions fail for degenerate roots.
+\end{itemize}
+
+\section{Step 2: Reformulate the Equation}
+
+\subsection*{Expand and Rearrange}
+
+\begin{align*}
+(1-\epsilon)x^3 + (\epsilon - 3)x^2 + 3x - 1 &= 0 \\
+x^3 - \epsilon x^3 + \epsilon x^2 - 3x^2 + 3x - 1 &= 0 \\
+x^3 - 3x^2 + 3x - 1 &= \epsilon x^3 - \epsilon x^2 \\
+(x-1)^3 &= \epsilon x^2(x - 1)
+\end{align*}
+
+\subsection*{Factor Out Common Term}
+
+\[
+(x-1)^3 = \epsilon x^2(x-1)
+\]
+
+This can be written as:
+\[
+(x-1)\left[(x-1)^2 - \epsilon x^2\right] = 0
+\]
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (What we found):} The equation factors as $(x-1)$ times another quadratic expression.
+
+\item \stage{STAGE Y (Why this helps):} This reveals that either $x = 1$ exactly, or $(x-1)^2 = \epsilon x^2$.
+
+\item \stage{STAGE Z (Solution strategy):} We have one obvious root $x = 1$, and two other roots from solving $(x-1)^2 = \epsilon x^2$.
+\end{itemize}
+
+\section{Step 3: ROOT 1 — The Persistent Root}
+
+\subsection*{Test $x = 1$ Directly}
+
+Substitute $x = 1$ into the original equation:
+\begin{align*}
+(1-\epsilon)(1)^3 + (\epsilon-3)(1)^2 + 3(1) - 1 &= 1 - \epsilon + \epsilon - 3 + 3 - 1 \\
+&= 0 \quad \checkmark
+\end{align*}
+
+\textbf{Conclusion:} $x = 1$ is an exact root for all values of $\epsilon$.
+
+\subsection*{Two-Term Expansion}
+
+\begin{center}
+\fbox{%
+\parbox{0.75\textwidth}{%
+\textbf{ROOT 1:}
+\[
+x_1 = 1 + 0 \cdot \epsilon + O(\epsilon^2) = 1
+\]
+}}
+\end{center}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (Special case):} This root does not move from $x = 1$ as $\epsilon$ varies.
+
+\item \stage{STAGE Y (Why this happens):} The original cubic has a special structure where $x = 1$ satisfies the equation identically for all $\epsilon$.
+
+\item \stage{STAGE Z (Interpretation):} One of the three roots from the degenerate triple root remains at $x = 1$, while the other two separate.
+\end{itemize}
+
+\section{Step 4: ROOTS 2 and 3 — Solve $(x-1)^2 = \epsilon x^2$}
+
+\subsection*{Expand the Equation}
+
+\begin{align*}
+(x-1)^2 &= \epsilon x^2 \\
+x^2 - 2x + 1 &= \epsilon x^2 \\
+x^2(1-\epsilon) - 2x + 1 &= 0
+\end{align*}
+
+\subsection*{Apply Quadratic Formula}
+
+\[
+x = \frac{2 \pm \sqrt{4 - 4(1-\epsilon)}}{2(1-\epsilon)} = \frac{2 \pm \sqrt{4\epsilon}}{2(1-\epsilon)} = \frac{2 \pm 2\sqrt{\epsilon}}{2(1-\epsilon)}
+\]
+
+Simplify:
+\[
+x = \frac{1 \pm \sqrt{\epsilon}}{1-\epsilon}
+\]
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (What we found):} Two roots of the form $\frac{1 \pm \sqrt{\epsilon}}{1-\epsilon}$.
+
+\item \stage{STAGE Y (Why fractional powers):} The discriminant $\sqrt{4\epsilon} = 2\sqrt{\epsilon}$ introduces $\epsilon^{1/2}$, confirming our expectation of non-integer power expansions.
+
+\item \stage{STAGE Z (Next step):} Expand for small $\epsilon$ using geometric series.
+\end{itemize}
+
+\section{Step 5: Expand Using Geometric Series}
+
+\subsection*{Expand the Denominator}
+
+For $|\epsilon| < 1$:
+\[
+\frac{1}{1-\epsilon} = 1 + \epsilon + \epsilon^2 + \epsilon^3 + \cdots
+\]
+
+\subsection*{Compute the Product}
+
+\begin{align*}
+x &= (1 \pm \sqrt{\epsilon})(1 + \epsilon + \epsilon^2 + \cdots) \\
+&= 1 \pm \sqrt{\epsilon} + \epsilon \pm \epsilon\sqrt{\epsilon} + \epsilon^2 \pm \epsilon^2\sqrt{\epsilon} + \cdots \\
+&= 1 \pm \sqrt{\epsilon} + \epsilon \pm \epsilon^{3/2} + \epsilon^2 \pm \cdots
+\end{align*}
+
+\subsection*{Order the Terms}
+
+The asymptotic sequence is: $1, \epsilon^{1/2}, \epsilon, \epsilon^{3/2}, \epsilon^2, \ldots$
+
+For two-term expansions (keeping terms up to order $\epsilon$):
+\[
+x = 1 \pm \epsilon^{1/2} + \epsilon + O(\epsilon^{3/2})
+\]
+
+\section{Step 6: State All Three Roots}
+
+\subsection*{Complete Two-Term Expansions}
+
+\begin{center}
+\fbox{%
+\parbox{0.85\textwidth}{%
+\textbf{ROOT 1 (Persistent):}
+\[
+x_1 = 1
+\]
+\textbf{ROOT 2 (Positive Branch):}
+\[
+x_2 = 1 + \epsilon^{1/2} + \epsilon + O(\epsilon^{3/2})
+\]
+\textbf{ROOT 3 (Negative Branch):}
+\[
+x_3 = 1 - \epsilon^{1/2} + \epsilon + O(\epsilon^{3/2})
+\]
+}}
+\end{center}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (Summary):} The degenerate triple root at $x = 1$ splits into one exact root at $x = 1$ and two roots that separate symmetrically with leading correction $\pm\epsilon^{1/2}$.
+
+\item \stage{STAGE Y (Verification strategy):} The symmetry $x_2 + x_3 = 2 + 2\epsilon + \cdots$ and $x_2 - x_3 = 2\epsilon^{1/2} + \cdots$ confirms the structure.
+
+\item \stage{STAGE Z (Physical interpretation):} As $\epsilon$ increases from zero, two of the three coincident roots move away from $x = 1$ at a rate proportional to $\sqrt{\epsilon}$, while the third remains fixed.
+\end{itemize}
+
+\section{Step 7: Verification}
+
+\subsection*{Check Using Vieta's Formulas}
+
+For the cubic $(1-\epsilon)x^3 + (\epsilon-3)x^2 + 3x - 1 = 0$, divide by $(1-\epsilon)$:
+\[
+x^3 + \frac{\epsilon-3}{1-\epsilon}x^2 + \frac{3}{1-\epsilon}x - \frac{1}{1-\epsilon} = 0
+\]
+
+Sum of roots:
+\[
+x_1 + x_2 + x_3 = -\frac{\epsilon-3}{1-\epsilon} = \frac{3-\epsilon}{1-\epsilon} = (3-\epsilon)(1+\epsilon+\cdots) = 3 + 2\epsilon + O(\epsilon^2)
+\]
+
+From our solution:
+\[
+1 + (1+\epsilon^{1/2}+\epsilon) + (1-\epsilon^{1/2}+\epsilon) = 3 + 2\epsilon + O(\epsilon^{3/2}) \quad \checkmark
+\]
+
+\subsection*{Direct Verification for Root 2 (Leading Terms)}
+
+Substitute $x = 1 + \epsilon^{1/2}$ into the original equation and verify to leading order:
+\begin{align*}
+(x-1)^3 &= (\epsilon^{1/2})^3 = \epsilon^{3/2} \\
+\epsilon x^2(x-1) &= \epsilon(1+\epsilon^{1/2})^2(\epsilon^{1/2}) = \epsilon(1+2\epsilon^{1/2}+\epsilon)(\epsilon^{1/2}) \\
+&= \epsilon^{3/2}(1+2\epsilon^{1/2}+\epsilon) = \epsilon^{3/2} + O(\epsilon^2)
+\end{align*}
+
+To leading order: $\epsilon^{3/2} \approx \epsilon^{3/2}$ $\checkmark$
+
+\section{Verification Checklist}
+
+\begin{enumerate}[leftmargin=*]
+\item[$\checkmark$] \textbf{Unperturbed problem solved:} Found $(x-1)^3 = 0$, triple root at $x=1$
+\item[$\checkmark$] \textbf{Equation reformulated:} Factored as $(x-1)[(x-1)^2 - \epsilon x^2] = 0$
+\item[$\checkmark$] \textbf{All three roots identified:} One exact, two from quadratic
+\item[$\checkmark$] \textbf{Correct asymptotic sequence:} Used $\{1, \epsilon^{1/2}, \epsilon, \epsilon^{3/2}, \ldots\}$
+\item[$\checkmark$] \textbf{Two terms for each root:} Included terms up to order $\epsilon$
+\item[$\checkmark$] \textbf{Vieta's formulas checked:} Sum of roots verified
+\item[$\checkmark$] \textbf{Direct substitution:} Verified leading order balance
+\end{enumerate}
+
+\vspace{1em}
+\textit{This solution follows the methodology of Section 2.3 (non-integer power expansions) and Section 2.2 (singular perturbations) of the lecture notes, systematically finding all roots with proper two-term asymptotic expansions.}
+
+\end{document}

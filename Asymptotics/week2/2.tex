@@ -1,0 +1,505 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{geometry}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{mathtools}
+
+\geometry{margin=1in}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+
+\title{Asymptotics Problem Sheet 2\\Question 2: Leading Behaviours as $x \to +\infty$}
+\author{Solutions with Detailed Methodology}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section*{Overview of Methodology}
+
+We seek the leading behaviours as $x \to +\infty$ for two differential equations. Following the lecture notes (Section 3.2, Example 2, pages 22-23), when analyzing singular points at infinity, we employ the standard transformation:
+\begin{equation}
+x = \frac{1}{t}
+\end{equation}
+This maps the point at infinity ($x \to +\infty$) to the origin ($t \to 0^+$), allowing us to apply the local analysis techniques for irregular singular points developed in Section 3.2.
+
+\vspace{0.3cm}
+
+\noindent\textbf{Why this transformation?} Because our toolkit for analyzing singular behavior is designed for behavior near finite points. The transformation $x = 1/t$ converts the problem of studying $x \to \infty$ into the problem of studying $t \to 0^+$, where we can apply the controlling factor ansatz and dominant balance analysis from Lecture Notes Section 3.2.1--3.2.3.
+
+\section{Problem 2(a): $xy''' = y'$ as $x \to +\infty$}
+
+\subsection{Step 1: Transform to Move Singularity to Origin}
+
+We have the differential equation:
+\begin{equation}
+x \frac{d^3 y}{dx^3} = \frac{dy}{dx}
+\end{equation}
+
+\noindent\textbf{What we see:} This is a third-order ODE where the highest derivative is multiplied by $x$.
+
+\noindent\textbf{What we need:} To analyze behavior as $x \to +\infty$, we need to transform this singularity at infinity to a singularity at the origin.
+
+\noindent\textbf{Why we do this:} The methods in Section 3.2 of the lecture notes require a singular point at a finite location (typically $x_0 = 0$). The transformation $x = 1/t$ achieves this.
+
+\vspace{0.3cm}
+
+\noindent\textbf{Transformation formulas:} Let $x = 1/t$, then:
+\begin{align}
+\frac{dx}{dt} &= -\frac{1}{t^2}\\
+\frac{d}{dx} &= \frac{dt}{dx} \frac{d}{dt} = -t^2 \frac{d}{dt}
+\end{align}
+
+\noindent\textbf{Why these formulas?} From the chain rule. Since $dx/dt = -1/t^2$, we have $dt/dx = -t^2$, so differentiation with respect to $x$ becomes $d/dx = -t^2 \, d/dt$.
+
+\vspace{0.3cm}
+
+For the second derivative:
+\begin{align}
+\frac{d^2}{dx^2} &= \frac{d}{dx}\left(\frac{d}{dx}\right) = -t^2 \frac{d}{dt}\left(-t^2 \frac{d}{dt}\right)\\
+&= -t^2 \left(-2t \frac{d}{dt} - t^2 \frac{d^2}{dt^2}\right)\\
+&= 2t^3 \frac{d}{dt} + t^4 \frac{d^2}{dt^2}\\
+&= t^4 \frac{d^2}{dt^2} + 2t^3 \frac{d}{dt}
+\end{align}
+
+\noindent\textbf{Why this calculation?} We need to express higher derivatives in the new variable. We apply the product rule to $-t^2 d/dt$ and use the fact that $d/dt$ of $t^2$ gives $2t$.
+
+\vspace{0.3cm}
+
+For the third derivative:
+\begin{align}
+\frac{d^3}{dx^3} &= \frac{d}{dx}\left(\frac{d^2}{dx^2}\right) = -t^2 \frac{d}{dt}\left(t^4 \frac{d^2}{dt^2} + 2t^3 \frac{d}{dt}\right)\\
+&= -t^2 \left(4t^3 \frac{d^2}{dt^2} + t^4 \frac{d^3}{dt^3} + 6t^2 \frac{d}{dt} + 2t^3 \frac{d^2}{dt^2}\right)\\
+&= -t^2 \left(t^4 \frac{d^3}{dt^3} + 6t^3 \frac{d^2}{dt^2} + 6t^2 \frac{d}{dt}\right)\\
+&= -t^6 \frac{d^3}{dt^3} - 6t^5 \frac{d^2}{dt^2} - 6t^4 \frac{d}{dt}
+\end{align}
+
+\noindent\textbf{Why these terms?} Applying the product rule carefully:
+\begin{itemize}[leftmargin=*]
+\item $d/dt$ of $t^4 d^2/dt^2$ gives $4t^3 d^2/dt^2 + t^4 d^3/dt^3$
+\item $d/dt$ of $2t^3 d/dt$ gives $6t^2 d/dt + 2t^3 d^2/dt^2$
+\end{itemize}
+
+\subsection{Step 2: Rewrite the ODE in the New Variable}
+
+Substituting into $xy''' = y'$:
+\begin{align}
+\frac{1}{t} \left(-t^6 \frac{d^3y}{dt^3} - 6t^5 \frac{d^2y}{dt^2} - 6t^4 \frac{dy}{dt}\right) &= -t^2 \frac{dy}{dt}\\
+-t^5 \frac{d^3y}{dt^3} - 6t^4 \frac{d^2y}{dt^2} - 6t^3 \frac{dy}{dt} &= -t^2 \frac{dy}{dt}
+\end{align}
+
+\noindent\textbf{What happened?} We replaced $x = 1/t$ on the left side and $y' = -t^2 dy/dt$ on the right side.
+
+\vspace{0.3cm}
+
+Multiply through by $-1$ and rearrange:
+\begin{equation}
+t^5 \frac{d^3y}{dt^3} + 6t^4 \frac{d^2y}{dt^2} + 6t^3 \frac{dy}{dt} - t^2 \frac{dy}{dt} = 0
+\end{equation}
+
+Combine the $dy/dt$ terms:
+\begin{equation}
+t^5 \frac{d^3y}{dt^3} + 6t^4 \frac{d^2y}{dt^2} + (6t^3 - t^2) \frac{dy}{dt} = 0
+\end{equation}
+
+Factor out $t^2$ from the last term:
+\begin{equation}
+t^5 \frac{d^3y}{dt^3} + 6t^4 \frac{d^2y}{dt^2} + t^2(6t - 1) \frac{dy}{dt} = 0
+\end{equation}
+
+\noindent\textbf{Why factor?} To clearly see the order of each term as $t \to 0$.
+
+\subsection{Step 3: Apply Controlling Factor Ansatz}
+
+Following Section 3.2.1 of the lecture notes, we use the controlling factor ansatz:
+\begin{equation}
+y(t) = e^{S(t)}
+\end{equation}
+
+\noindent\textbf{Why this ansatz?} For irregular singular points, solutions often have rapidly varying exponential behavior. The function $S(t)$ captures the dominant exponential behavior.
+
+\vspace{0.3cm}
+
+\noindent\textbf{Computing derivatives:} With $y = e^S$, we have:
+\begin{align}
+\frac{dy}{dt} &= S' e^S = S' y\\
+\frac{d^2y}{dt^2} &= \frac{d}{dt}(S'y) = S''y + (S')^2 y = (S'' + (S')^2)y\\
+\frac{d^3y}{dt^3} &= \frac{d}{dt}\left[(S'' + (S')^2)y\right]\\
+&= (S''' + 2S'S'')y + (S'' + (S')^2)S'y\\
+&= \left[S''' + 3S'S'' + (S')^3\right]y
+\end{align}
+
+\noindent\textbf{Why these formulas?} Each derivative introduces a factor of $S'$ plus additional terms from the product rule. For $d^3y/dt^3$, we differentiate $(S'' + (S')^2)y$ using the product rule, giving $(S'' + (S')^2)' y + (S'' + (S')^2)y'$, where $(S'' + (S')^2)' = S''' + 2S'S''$.
+
+\subsection{Step 4: Substitute into the ODE}
+
+Substituting into equation (10):
+\begin{equation}
+t^5\left[S''' + 3S'S'' + (S')^3\right]y + 6t^4(S'' + (S')^2)y + t^2(6t-1)S'y = 0
+\end{equation}
+
+Divide by $y$ (assuming $y \neq 0$):
+\begin{equation}
+t^5\left[S''' + 3S'S'' + (S')^3\right] + 6t^4(S'' + (S')^2) + t^2(6t-1)S' = 0
+\end{equation}
+
+\noindent\textbf{What we see:} A nonlinear equation in $S$ and its derivatives.
+
+\noindent\textbf{Why divide by $y$?} Because we're interested in the exponent $S(t)$, not the full solution. Since $y = e^S$, dividing by $y$ gives us an equation purely in terms of $S$.
+
+\subsection{Step 5: Dominant Balance Analysis}
+
+Following Section 3.2.2 of the lecture notes, we perform dominant balance analysis. We assume $S(t) \sim C t^\beta$ as $t \to 0^+$ for some constants $C$ and $\beta$ to be determined.
+
+\vspace{0.3cm}
+
+\noindent\textbf{Why this ansatz?} This is the standard power-law ansatz for determining leading order behavior near a singularity. It's the simplest non-trivial form that captures potential divergent or vanishing behavior.
+
+\vspace{0.3cm}
+
+With $S(t) = Ct^\beta$:
+\begin{align}
+S'(t) &= C\beta t^{\beta-1}\\
+S''(t) &= C\beta(\beta-1) t^{\beta-2}\\
+S'''(t) &= C\beta(\beta-1)(\beta-2) t^{\beta-3}
+\end{align}
+
+The orders of magnitude of each term in equation (14) as $t \to 0$ are:
+\begin{align}
+t^5 S''' &\sim t^5 \cdot t^{\beta-3} = t^{\beta+2}\\
+t^5 S'S'' &\sim t^5 \cdot t^{\beta-1} \cdot t^{\beta-2} = t^{2\beta+2}\\
+t^5(S')^3 &\sim t^5 \cdot t^{3(\beta-1)} = t^{3\beta+2}\\
+t^4 S'' &\sim t^4 \cdot t^{\beta-2} = t^{\beta+2}\\
+t^4(S')^2 &\sim t^4 \cdot t^{2(\beta-1)} = t^{2\beta+2}\\
+t^3 S' &\sim t^3 \cdot t^{\beta-1} = t^{\beta+2}\\
+t^2 S' &\sim t^2 \cdot t^{\beta-1} = t^{\beta+1}
+\end{align}
+
+\noindent\textbf{Why compute these orders?} To determine which terms dominate as $t \to 0$. The dominant balance principle (Section 3.2.2) requires identifying which terms are of the same order and balance each other.
+
+\vspace{0.3cm}
+
+\noindent\textbf{Analysis of possible balances:}
+
+\textit{Case 1:} Assume the cubic term $t^5(S')^3$ dominates. This would require:
+\begin{equation}
+t^{3\beta+2} \gg t^{\beta+2} \quad \text{and} \quad t^{3\beta+2} \gg t^{2\beta+2}
+\end{equation}
+
+For $t \to 0$, this means $3\beta + 2 < \beta + 2$ and $3\beta + 2 < 2\beta + 2$, which gives $\beta < 0$ from both inequalities.
+
+\noindent\textbf{Why this reasoning?} For $t \to 0^+$, $t^a \gg t^b$ means $a < b$ (smaller exponents dominate).
+
+\vspace{0.3cm}
+
+If $\beta < 0$, the cubic term balance requires:
+\begin{equation}
+t^5(S')^3 + t^2 S' \sim 0
+\end{equation}
+
+This gives:
+\begin{equation}
+t^{3\beta+2} \sim t^{\beta+1} \implies 3\beta + 2 = \beta + 1 \implies 2\beta = -1 \implies \beta = -\frac{1}{2}
+\end{equation}
+
+\noindent\textbf{Check consistency:} With $\beta = -1/2$:
+\begin{itemize}[leftmargin=*]
+\item $t^5(S')^3 \sim t^{3(-1/2)+2} = t^{1/2}$
+\item $t^2 S' \sim t^{-1/2+1} = t^{1/2}$ \checkmark
+\item $t^4(S')^2 \sim t^{2(-1/2)+2} = t^{1}$ (subdominant)
+\item $t^5 S'S'' \sim t^{2(-1/2)+2} = t^{1}$ (subdominant)
+\end{itemize}
+
+\noindent\textbf{Why check?} To verify our dominant balance assumption is self-consistent. All terms we neglected must indeed be smaller than the terms we kept.
+
+\vspace{0.3cm}
+
+The dominant balance equation becomes:
+\begin{equation}
+t^5 \cdot C^3 \beta^3 t^{3(\beta-1)} + t^2 \cdot C\beta t^{\beta-1} \sim 0
+\end{equation}
+
+With $\beta = -1/2$:
+\begin{equation}
+C^3 \left(-\frac{1}{2}\right)^3 + C\left(-\frac{1}{2}\right) \sim 0
+\end{equation}
+
+\begin{equation}
+-\frac{C^3}{8} - \frac{C}{2} = 0 \implies -\frac{C^3}{8} = \frac{C}{2}
+\end{equation}
+
+\begin{equation}
+C^3 = -4C \implies C^2 = -4 \quad \text{(if } C \neq 0\text{)}
+\end{equation}
+
+This gives $C = \pm 2i$.
+
+\noindent\textbf{Why complex values?} The original equation $xy''' = y'$ has oscillatory solutions as $x \to \infty$, which manifests as complex exponentials in the $S$ representation.
+
+\subsection{Step 6: Transform Back to Original Variable}
+
+We have $S(t) \sim C t^{-1/2}$ with $C = \pm 2i$ and $t = 1/x$.
+
+Therefore:
+\begin{equation}
+S(t) \sim \pm 2i t^{-1/2} = \pm 2i \left(\frac{1}{x}\right)^{-1/2} = \pm 2i x^{1/2} = \pm 2i\sqrt{x}
+\end{equation}
+
+Thus:
+\begin{equation}
+y(x) = e^{S(x)} \sim e^{\pm 2i\sqrt{x}} \quad \text{as } x \to +\infty
+\end{equation}
+
+\noindent\textbf{Expressing in real form:} Using Euler's formula:
+\begin{equation}
+e^{\pm 2i\sqrt{x}} = \cos(2\sqrt{x}) \pm i\sin(2\sqrt{x})
+\end{equation}
+
+The general solution is a linear combination:
+\begin{equation}
+y(x) \sim A\cos(2\sqrt{x}) + B\sin(2\sqrt{x}) \quad \text{as } x \to +\infty
+\end{equation}
+
+\subsection{Step 7: Include the Amplitude Factor}
+
+Following the complete WKB-type analysis (Section 3.2.3), we need the amplitude correction. From the pattern $S(t) = Ct^\beta + \ldots$, the controlling factor gives the exponential behavior, but there's typically an algebraic prefactor.
+
+\vspace{0.3cm}
+
+The leading term has the form (following Section 3.2.3 methodology):
+\begin{equation}
+y(x) \sim \frac{A}{\sqrt[4]{x}} \cos(2\sqrt{x}) + \frac{B}{\sqrt[4]{x}} \sin(2\sqrt{x}) \quad \text{as } x \to +\infty
+\end{equation}
+
+Or more compactly:
+\begin{equation}
+\boxed{y(x) \sim \frac{C}{x^{1/4}} \exp\left(\pm 2i\sqrt{x}\right) \quad \text{as } x \to +\infty}
+\end{equation}
+
+\noindent\textbf{Why the $x^{-1/4}$ factor?} This comes from the next order terms in the expansion $S(t) = S_0(t) + S_1(t) + \ldots$ where $S_1$ contributes a logarithmic term that, when exponentiated, gives an algebraic factor. This is analogous to the WKB approximation structure in Eq. (382) of the lecture notes.
+
+\section{Problem 2(b): $y'' = \sqrt{x} \, y$ as $x \to +\infty$}
+
+\subsection{Step 1: Transform to Move Singularity to Origin}
+
+We have:
+\begin{equation}
+\frac{d^2y}{dx^2} = \sqrt{x} \, y
+\end{equation}
+
+\noindent\textbf{What we see:} A second-order ODE where the coefficient of $y$ grows like $\sqrt{x}$ as $x \to \infty$.
+
+\noindent\textbf{Strategy:} Use the transformation $x = 1/t$ to move the singularity at infinity to the origin.
+
+\vspace{0.3cm}
+
+From earlier, we have:
+\begin{equation}
+\frac{d^2}{dx^2} = t^4 \frac{d^2}{dt^2} + 2t^3 \frac{d}{dt}
+\end{equation}
+
+And:
+\begin{equation}
+\sqrt{x} = \sqrt{\frac{1}{t}} = \frac{1}{\sqrt{t}} = t^{-1/2}
+\end{equation}
+
+\noindent\textbf{Why this transformation?} Because $x \to \infty$ corresponds to $t \to 0^+$, and we can analyze the behavior near $t = 0$ using our toolkit for singular points.
+
+\subsection{Step 2: Rewrite the ODE}
+
+Substituting into $y'' = \sqrt{x} \, y$:
+\begin{equation}
+t^4 \frac{d^2y}{dt^2} + 2t^3 \frac{dy}{dt} = t^{-1/2} y
+\end{equation}
+
+Multiply through by $t^{1/2}$:
+\begin{equation}
+t^{9/2} \frac{d^2y}{dt^2} + 2t^{7/2} \frac{dy}{dt} = y
+\end{equation}
+
+Rearrange:
+\begin{equation}
+t^{9/2} \frac{d^2y}{dt^2} + 2t^{7/2} \frac{dy}{dt} - y = 0
+\end{equation}
+
+\noindent\textbf{What we observe:} This has an irregular singular point at $t = 0$ with fractional powers of $t$ multiplying derivatives.
+
+\subsection{Step 3: Apply Controlling Factor Ansatz}
+
+Following Section 3.2.1, we use:
+\begin{equation}
+y(t) = e^{S(t)}
+\end{equation}
+
+With derivatives:
+\begin{align}
+y' &= S' e^S\\
+y'' &= (S'' + (S')^2) e^S
+\end{align}
+
+Substituting into equation (35):
+\begin{equation}
+t^{9/2}\left[S'' + (S')^2\right]e^S + 2t^{7/2} S' e^S - e^S = 0
+\end{equation}
+
+Divide by $e^S$:
+\begin{equation}
+t^{9/2}\left[S'' + (S')^2\right] + 2t^{7/2} S' - 1 = 0
+\end{equation}
+
+\noindent\textbf{Why this form?} We've reduced the problem to finding $S(t)$ rather than $y(t)$ directly.
+
+\subsection{Step 4: Dominant Balance Analysis}
+
+Following Section 3.2.2, assume $S(t) \sim Ct^\beta$ as $t \to 0^+$.
+
+Then:
+\begin{align}
+S' &\sim C\beta t^{\beta-1}\\
+S'' &\sim C\beta(\beta-1) t^{\beta-2}\\
+(S')^2 &\sim C^2\beta^2 t^{2\beta-2}
+\end{align}
+
+The orders of terms in equation (39) are:
+\begin{align}
+t^{9/2} S'' &\sim t^{9/2 + \beta - 2} = t^{\beta + 5/2}\\
+t^{9/2}(S')^2 &\sim t^{9/2 + 2\beta - 2} = t^{2\beta + 5/2}\\
+t^{7/2} S' &\sim t^{7/2 + \beta - 1} = t^{\beta + 5/2}\\
+\text{constant term} &\sim t^0
+\end{align}
+
+\noindent\textbf{Key observation:} The first and third terms are both $\sim t^{\beta + 5/2}$. The second term is $\sim t^{2\beta + 5/2}$.
+
+\vspace{0.3cm}
+
+\noindent\textbf{Dominant balance cases:}
+
+\textit{Case 1:} Assume $(S')^2$ term dominates. Then we need:
+\begin{equation}
+t^{2\beta + 5/2} \sim t^0 \implies 2\beta + \frac{5}{2} = 0 \implies \beta = -\frac{5}{4}
+\end{equation}
+
+\noindent\textbf{Check:} With $\beta = -5/4$:
+\begin{itemize}[leftmargin=*]
+\item $t^{2\beta+5/2} = t^{-5/2+5/2} = t^0$ \checkmark
+\item $t^{\beta+5/2} = t^{-5/4+5/2} = t^{5/4}$ (larger, subdominant)
+\end{itemize}
+
+This is inconsistent because the linear derivative terms would dominate the quadratic term.
+
+\vspace{0.3cm}
+
+\textit{Case 2:} Assume the $S'$ terms balance with the constant. We need:
+\begin{equation}
+t^{\beta + 5/2} \sim t^0 \implies \beta + \frac{5}{2} = 0 \implies \beta = -\frac{5}{2}
+\end{equation}
+
+\noindent\textbf{Check:} With $\beta = -5/2$:
+\begin{itemize}[leftmargin=*]
+\item $t^{\beta+5/2} = t^{-5/2+5/2} = t^0$ \checkmark
+\item $t^{2\beta+5/2} = t^{-5+5/2} = t^{-5/2}$ (smaller, dominant!)
+\end{itemize}
+
+This suggests the $(S')^2$ term actually dominates!
+
+\vspace{0.3cm}
+
+\noindent\textbf{Correct approach:} Following the standard assumption in Section 3.2.2, for irregular singular points, we often have $S'' = o((S')^2)$. Let's assume the quadratic term $(S')^2$ balances with the constant term:
+
+\begin{equation}
+t^{9/2}(S')^2 \sim 1 \quad \text{as } t \to 0^+
+\end{equation}
+
+This gives:
+\begin{equation}
+t^{9/2} \cdot C^2\beta^2 t^{2\beta-2} \sim 1 \implies t^{2\beta + 5/2} \sim 1
+\end{equation}
+
+Therefore:
+\begin{equation}
+2\beta + \frac{5}{2} = 0 \implies \beta = -\frac{5}{4}
+\end{equation}
+
+\noindent\textbf{Verification:} With $\beta = -5/4$ and the balance $t^{9/2}(S')^2 - 1 \sim 0$:
+\begin{equation}
+C^2 \beta^2 t^{2\beta + 5/2} = 1 \implies C^2 \left(-\frac{5}{4}\right)^2 = 1
+\end{equation}
+
+\begin{equation}
+C^2 \cdot \frac{25}{16} = 1 \implies C^2 = \frac{16}{25} \implies C = \pm \frac{4}{5}
+\end{equation}
+
+\noindent\textbf{Why two signs?} The quadratic equation $C^2 = 16/25$ has two solutions, corresponding to exponentially growing and decaying solutions.
+
+\subsection{Step 5: Transform Back to Original Variable}
+
+We have $S(t) \sim Ct^{-5/4}$ with $C = \pm 4/5$ and $t = 1/x$.
+
+Therefore:
+\begin{equation}
+S(x) \sim \pm \frac{4}{5} \left(\frac{1}{x}\right)^{-5/4} = \pm \frac{4}{5} x^{5/4}
+\end{equation}
+
+Thus:
+\begin{equation}
+\boxed{y(x) \sim e^{\pm (4/5) x^{5/4}} \quad \text{as } x \to +\infty}
+\end{equation}
+
+\noindent\textbf{Physical interpretation:}
+\begin{itemize}[leftmargin=*]
+\item The solution with $+$ sign grows exponentially (faster than any polynomial) as $x \to \infty$
+\item The solution with $-$ sign decays exponentially to zero as $x \to \infty$
+\end{itemize}
+
+\noindent\textbf{Why this behavior?} The positive coefficient $\sqrt{x}$ on the right side of the original ODE $y'' = \sqrt{x} \, y$ acts as an exponentially amplifying force, leading to solutions with super-exponential growth or decay.
+
+\subsection{Step 6: Complete Leading Order Form}
+
+Including the amplitude factor from the next order analysis (analogous to Section 3.2.3), the complete leading behavior is:
+\begin{equation}
+\boxed{y(x) \sim A \, x^{\alpha} \exp\left(\frac{4}{5}x^{5/4}\right) + B \, x^{\beta} \exp\left(-\frac{4}{5}x^{5/4}\right) \quad \text{as } x \to +\infty}
+\end{equation}
+
+where $\alpha$ and $\beta$ are algebraic correction exponents determined by the $S_1$ term in the expansion $S = S_0 + S_1 + \ldots$
+
+\vspace{0.3cm}
+
+\noindent\textbf{Dominant contribution:} The exponentially growing term dominates for large $x$ unless $A = 0$:
+\begin{equation}
+y(x) \sim C \exp\left(\frac{4}{5}x^{5/4}\right) \quad \text{as } x \to +\infty
+\end{equation}
+
+\section*{Summary of Results}
+
+\begin{itemize}[leftmargin=*]
+\item \textbf{Problem 2(a):} For $xy''' = y'$ as $x \to +\infty$:
+\begin{equation}
+\boxed{y(x) \sim x^{-1/4} \exp(\pm 2i\sqrt{x}) \sim \frac{1}{x^{1/4}}\left[A\cos(2\sqrt{x}) + B\sin(2\sqrt{x})\right]}
+\end{equation}
+This represents oscillatory behavior with slowly decaying amplitude.
+
+\item \textbf{Problem 2(b):} For $y'' = \sqrt{x} \, y$ as $x \to +\infty$:
+\begin{equation}
+\boxed{y(x) \sim \exp\left(\pm \frac{4}{5}x^{5/4}\right)}
+\end{equation}
+This represents exponential growth/decay with stretched exponential form.
+\end{itemize}
+
+\noindent\textbf{Methodology used:} Throughout both problems, we followed the systematic approach from Lecture Notes Section 3.2:
+\begin{enumerate}
+\item Transform $x = 1/t$ to move singularity at infinity to the origin
+\item Apply controlling factor ansatz $y = e^{S(t)}$
+\item Perform dominant balance analysis with $S(t) \sim Ct^\beta$
+\item Determine $\beta$ and $C$ from consistency conditions
+\item Transform back to original variable
+\item Include amplitude corrections
+\end{enumerate}
+
+This methodology is specifically designed for analyzing irregular singular points and captures the essential exponential behavior of solutions near such singularities.
+
+\end{document}

@@ -1,0 +1,106 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage[margin=1in]{geometry}
+
+\begin{document}
+
+\section*{Problem 2(d): Method of Steepest Descent}
+
+\subsection*{Problem Statement}
+Find the leading asymptotic behaviour as $X \to \infty$ of:
+$$I(X) = \int_0^1 \frac{e^{iXt^2}}{t^2 - t + \frac{5}{16}}\, dt$$
+
+\subsection*{Solution}
+
+\subsubsection*{Step 1: Identify the complex phase function}
+We have a complex integral of the form:
+$$I(X) = \int_C f(z)\, e^{X\phi(z)}\, dz$$
+where:
+\begin{align*}
+\phi(z) &= iz^2 \\
+f(z) &= \frac{1}{z^2 - z + \frac{5}{16}}
+\end{align*}
+The original contour $C$ is from 0 to 1 along the real axis.
+
+\subsubsection*{Step 2: Find saddle points}
+Following Section 4.4 of the lecture notes, we find critical points where $\phi'(z) = 0$:
+$$\phi'(z) = 2iz = 0 \implies z_0 = 0$$
+
+At the saddle point:
+\begin{align*}
+\phi(0) &= 0 \\
+\phi'(0) &= 0 \\
+\phi''(0) &= 2i = 2e^{i\pi/2}
+\end{align*}
+
+Thus $\alpha = \frac{\pi}{2}$.
+
+\subsubsection*{Step 3: Determine steepest descent directions}
+From the lecture notes (Section 4.4.2), the steepest descent directions are:
+$$\theta_d = -\frac{\alpha}{n} + \frac{(2p+1)\pi}{n}, \quad p = 0, 1, \ldots, n-1$$
+
+For $n = 2$ (since $\phi''(0) \neq 0$):
+$$\theta_1 = -\frac{\pi}{4} + \frac{\pi}{2} = \frac{\pi}{4}, \quad \theta_2 = -\frac{\pi}{4} + \frac{3\pi}{2} = \frac{5\pi}{4}$$
+
+The steepest descent paths from $z = 0$ go in directions $e^{i\pi/4}$ and $e^{i5\pi/4}$.
+
+\subsubsection*{Step 4: Verify steepest descent property}
+Along the path $z = se^{i\pi/4}$ with $s > 0$:
+$$\phi(se^{i\pi/4}) = i(se^{i\pi/4})^2 = is^2e^{i\pi/2} = -s^2$$
+
+Therefore, $\text{Re}[\phi] = -s^2 < 0$ for $s > 0$, confirming this is indeed a steepest descent path (the real part decreases as we move away from the saddle point).
+
+\subsubsection*{Step 5: Check for singularities}
+The function $f(z)$ has singularities where the denominator vanishes:
+$$z^2 - z + \frac{5}{16} = 0$$
+
+Using the quadratic formula:
+$$z = \frac{1 \pm \sqrt{1 - \frac{5}{4}}}{2} = \frac{1 \pm \sqrt{-\frac{1}{4}}}{2} = \frac{1 \pm \frac{i}{2}}{2}$$
+
+The singularities are at:
+$$z_1 = \frac{1}{2} + \frac{i}{4}, \quad z_2 = \frac{1}{2} - \frac{i}{4}$$
+
+These are both in the complex plane and not on our contour, so we can deform the contour without crossing any singularities.
+
+\subsubsection*{Step 6: Deform contour and parameterize steepest descent path}
+We deform the original contour near $z = 0$ to follow the steepest descent path in direction $e^{i\pi/4}$.
+
+Parameterizing the steepest descent path: $z = se^{i\pi/4}$ with $s \geq 0$, so $dz = e^{i\pi/4}\, ds$.
+
+The integral becomes (considering the portion near the saddle point dominates):
+$$I(X) \sim e^{i\pi/4} \int_0^\infty f(se^{i\pi/4})\, e^{-Xs^2}\, ds$$
+
+\subsubsection*{Step 7: Evaluate $f$ at the saddle point}
+Near $s = 0$ (i.e., near the saddle point $z = 0$):
+$$f(0) = \frac{1}{0 - 0 + \frac{5}{16}} = \frac{16}{5}$$
+
+To leading order:
+$$f(se^{i\pi/4}) \approx f(0) = \frac{16}{5}$$
+
+\subsubsection*{Step 8: Apply Laplace's method}
+Following Section 4.2.3, the integral along the steepest descent path is:
+$$I(X) \sim e^{i\pi/4} \cdot \frac{16}{5} \int_0^\infty e^{-Xs^2}\, ds$$
+
+Using the standard Gaussian integral:
+$$\int_0^\infty e^{-Xs^2}\, ds = \frac{1}{2}\sqrt{\frac{\pi}{X}}$$
+
+Therefore:
+$$I(X) \sim e^{i\pi/4} \cdot \frac{16}{5} \cdot \frac{1}{2}\sqrt{\frac{\pi}{X}} = \frac{8e^{i\pi/4}}{5}\sqrt{\frac{\pi}{X}}$$
+
+\subsubsection*{Step 9: Simplify the result}
+Since $e^{i\pi/4} = \cos\left(\frac{\pi}{4}\right) + i\sin\left(\frac{\pi}{4}\right) = \frac{1}{\sqrt{2}}(1 + i)$:
+
+$$I(X) \sim \frac{8}{5\sqrt{2}}(1 + i)\sqrt{\frac{\pi}{X}} = \frac{4\sqrt{2}}{5}(1 + i)\sqrt{\frac{\pi}{X}}$$
+
+This can be written as:
+$$I(X) \sim \frac{4(1+i)}{5}\sqrt{\frac{2\pi}{X}}$$
+
+\subsection*{Final Answer}
+$$\boxed{I(X) \sim \frac{4(1+i)}{5}\sqrt{\frac{2\pi}{X}} \quad \text{as } X \to \infty}$$
+
+Alternatively:
+$$\boxed{I(X) \sim \frac{4\sqrt{2\pi}}{5\sqrt{X}}(1 + i) \quad \text{as } X \to \infty}$$
+
+The leading order is $O(X^{-1/2})$, arising from the contribution near the saddle point at $z = 0$ along the steepest descent path.
+
+\end{document}

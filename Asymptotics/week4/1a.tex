@@ -1,0 +1,200 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{mathtools}
+\usepackage{enumitem}
+\usepackage{xcolor}
+
+\newcommand{\stage}[1]{\textbf{\textcolor{blue}{#1}}}
+
+\title{Question 1(a): Asymptotic Analysis\\
+Leading Order Behavior of $\int_X^\infty e^{-t^3} dt$}
+\author{Asymptotics Course — Sheet 4}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section*{Problem Statement}
+Find the leading order asymptotic behavior as $X \to \infty$ of:
+\[
+I(X) = \int_X^\infty e^{-t^3} dt
+\]
+
+\section{Step 1: Problem Classification and Strategy}
+
+\subsection*{Form Recognition}
+
+The integral has the form:
+\[
+I(X) = \int_X^\infty e^{-t^3} dt
+\]
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (What we have):} An integral with exponential decay $e^{-t^3}$ over $[X, \infty)$ where the decay rate accelerates rapidly as $t$ increases.
+
+\item \stage{STAGE Y (Why this approach):} As $X \to \infty$, the exponential $e^{-t^3}$ decays extremely rapidly. The main contribution to the integral comes from values of $t$ near the lower limit $X$. This suggests using \textbf{integration by parts} (Section 4.1 of lecture notes).
+
+\item \stage{STAGE Z (What this means):} The integral is exponentially small, and we seek its leading order behavior by extracting contributions from the boundary at $t = X$.
+\end{itemize}
+
+\section{Step 2: Variable Transformation}
+
+To apply standard techniques, we first transform the integral using substitution.
+
+\subsection*{Substitution}
+
+Set:
+\[
+u = t^3 \quad \Rightarrow \quad du = 3t^2 dt \quad \Rightarrow \quad dt = \frac{du}{3t^2}
+\]
+
+Since $t = u^{1/3}$, we have $t^2 = u^{2/3}$, therefore:
+\[
+dt = \frac{du}{3u^{2/3}}
+\]
+
+\subsection*{Transformed Limits}
+\begin{align*}
+t = X &\quad \Rightarrow \quad u = X^3 \\
+t = \infty &\quad \Rightarrow \quad u = \infty
+\end{align*}
+
+\subsection*{Transformed Integral}
+
+\[
+I(X) = \int_{X^3}^\infty e^{-u} \cdot \frac{1}{3u^{2/3}} \, du
+\]
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (What we did):} Transformed to standard exponential form with $e^{-u}$ and identified the prefactor $f(u) = \frac{1}{3u^{2/3}}$.
+
+\item \stage{STAGE Y (Why this helps):} The integral now has the form $\int_{a}^\infty f(u)e^{-u}du$ which is amenable to integration by parts as described in Section 4.1, Equation (165).
+
+\item \stage{STAGE Z (Next step):} Apply integration by parts to extract the leading order contribution from the lower limit.
+\end{itemize}
+
+\section{Step 3: Integration by Parts}
+
+\subsection*{General Formula (Section 4.1)}
+
+For an integral of the form $\int_a^\infty f(u)e^{-u}du$, we write:
+\[
+e^{-u} = \frac{d}{du}(-e^{-u})
+\]
+
+Integration by parts gives:
+\begin{align*}
+\int_a^\infty f(u)e^{-u}du &= \left[-f(u)e^{-u}\right]_a^\infty + \int_a^\infty f'(u)e^{-u}du \\
+&= f(a)e^{-a} + \int_a^\infty f'(u)e^{-u}du
+\end{align*}
+
+\subsection*{Application to Our Integral}
+
+With $f(u) = \frac{1}{3u^{2/3}}$ and $a = X^3$:
+
+\[
+I(X) = \frac{1}{3(X^3)^{2/3}} e^{-X^3} + \int_{X^3}^\infty \frac{d}{du}\left(\frac{1}{3u^{2/3}}\right) e^{-u} du
+\]
+
+Simplify the first term:
+\[
+\frac{1}{3(X^3)^{2/3}} = \frac{1}{3X^2}
+\]
+
+Therefore:
+\[
+I(X) = \frac{e^{-X^3}}{3X^2} + \int_{X^3}^\infty \frac{d}{du}\left(\frac{1}{3u^{2/3}}\right) e^{-u} du
+\]
+
+\section{Step 4: Compute the Derivative}
+
+\subsection*{Derivative Calculation}
+
+\[
+\frac{d}{du}\left(\frac{1}{3u^{2/3}}\right) = \frac{1}{3} \cdot \left(-\frac{2}{3}\right) u^{-5/3} = -\frac{2}{9}u^{-5/3}
+\]
+
+\subsection*{Updated Expression}
+
+\[
+I(X) = \frac{e^{-X^3}}{3X^2} - \frac{2}{9}\int_{X^3}^\infty u^{-5/3}e^{-u} du
+\]
+
+\section{Step 5: Asymptotic Order Analysis}
+
+\subsection*{Order of the Remainder Term}
+
+The remainder integral satisfies:
+\[
+\left|\int_{X^3}^\infty u^{-5/3}e^{-u} du\right| < (X^3)^{-5/3} \int_{X^3}^\infty e^{-u} du = X^{-5} e^{-X^3}
+\]
+
+\subsection*{Comparison of Terms}
+
+\begin{itemize}[leftmargin=*]
+\item Leading term: $\frac{e^{-X^3}}{3X^2} = O(X^{-2}e^{-X^3})$ as $X \to \infty$
+
+\item Remainder term: $O(X^{-5}e^{-X^3})$ as $X \to \infty$
+\end{itemize}
+
+\subsection*{Dominance Relation}
+
+\[
+\frac{X^{-5}e^{-X^3}}{X^{-2}e^{-X^3}} = X^{-3} \to 0 \text{ as } X \to \infty
+\]
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (What we found):} The remainder term is of order $X^{-5}e^{-X^3}$, which is three powers of $X$ smaller than the leading term.
+
+\item \stage{STAGE Y (Why this matters):} The ratio $X^{-3} \to 0$ confirms the remainder is asymptotically negligible compared to the first term. The leading order behavior is completely determined by the boundary contribution at $u = X^3$ (equivalently $t = X$).
+
+\item \stage{STAGE Z (Conclusion):} We can neglect the remainder term in the asymptotic limit.
+\end{itemize}
+
+\section{Step 6: Final Answer}
+
+Using the proper asymptotic notation (Definition, page 8 of notes):
+
+\begin{center}
+\fbox{%
+\parbox{0.85\textwidth}{%
+\textbf{Leading Order Asymptotic:}
+\[
+I(X) = \int_X^\infty e^{-t^3} dt \sim \frac{e^{-X^3}}{3X^2} \quad \text{as } X \to \infty
+\]
+}}
+\end{center}
+
+\subsection*{Alternative Notation}
+
+This can also be written as:
+\[
+I(X) = \frac{e^{-X^3}}{3X^2}\left[1 + O\left(\frac{1}{X^3}\right)\right] \quad \text{as } X \to \infty
+\]
+
+\section{Verification Checklist}
+
+\textit{Following the standards of Section 4.1-4.2:}
+
+\begin{enumerate}[leftmargin=*]
+\item[$\checkmark$] \textbf{Method identified:} Integration by parts (Section 4.1)
+\item[$\checkmark$] \textbf{Transformation applied:} Substitution $u = t^3$ to standard form
+\item[$\checkmark$] \textbf{Leading term extracted:} Boundary contribution at lower limit
+\item[$\checkmark$] \textbf{Remainder estimated:} Shown to be $O(X^{-5}e^{-X^3})$
+\item[$\checkmark$] \textbf{Dominance verified:} Ratio $X^{-3} \to 0$ confirms asymptotic ordering
+\item[$\checkmark$] \textbf{Proper notation:} Used $\sim$ for asymptotic equivalence
+\end{enumerate}
+
+\subsection*{Physical Interpretation}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (Behavior):} The integral decays faster than any polynomial as $X \to \infty$ due to the $e^{-X^3}$ factor.
+
+\item \stage{STAGE Y (Mechanism):} The rapid exponential decay means only a thin layer of width $\sim O(X^{-2})$ near $t = X$ contributes significantly to the integral.
+
+\item \stage{STAGE Z (Result):} The leading order is determined entirely by the local behavior at the lower integration limit, with the asymptotic form $\frac{e^{-X^3}}{3X^2}$.
+\end{itemize}
+
+\end{document}

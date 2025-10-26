@@ -1,0 +1,479 @@
+\documentclass[11pt,a4paper]{article}
+
+% Packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage[margin=0.4in]{geometry}
+\usepackage{enumitem}
+\usepackage{xcolor}
+
+% Custom commands
+\newcommand{\stage}[1]{\textbf{\textcolor{blue}{#1}}}
+
+% Title information
+\title{Exercise Sheet 4: Maps\\
+Question 5 - Complete Solution}
+\author{Methods of Applied Mathematics}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section*{Problem Statement}
+
+Solve the map:
+\begin{align*}
+x_{n+1} &= 2x_n - y_n \\
+y_{n+1} &= 2y_n - x_n
+\end{align*}
+
+with initial condition $x_0 = 1$, $y_0 = 0$.
+
+\textbf{Part (a):} Iterate the map repeatedly until a pattern emerges.
+
+\textbf{Part (b):} Use eigenvalue decomposition as for ODEs, but with $\lambda^n$ powers instead of $e^{\lambda t}$ terms.
+
+\vspace{10pt}
+\hrule
+\vspace{10pt}
+
+\section{Part (a): Direct Iteration Method}
+
+\subsection*{Set up iteration procedure}
+
+The map is a discrete-time dynamical system. Starting from $(x_0, y_0) = (1, 0)$, we repeatedly apply:
+\begin{align*}
+x_{n+1} &= 2x_n - y_n \\
+y_{n+1} &= 2y_n - x_n
+\end{align*}
+
+\subsection*{Compute successive iterates}
+
+\textbf{Iteration 0 $\to$ 1:}
+\begin{align*}
+x_1 &= 2x_0 - y_0 = 2(1) - 0 = 2 \\
+y_1 &= 2y_0 - x_0 = 2(0) - 1 = -1
+\end{align*}
+
+\textbf{Iteration 1 $\to$ 2:}
+\begin{align*}
+x_2 &= 2x_1 - y_1 = 2(2) - (-1) = 5 \\
+y_2 &= 2y_1 - x_1 = 2(-1) - 2 = -4
+\end{align*}
+
+\textbf{Iteration 2 $\to$ 3:}
+\begin{align*}
+x_3 &= 2x_2 - y_2 = 2(5) - (-4) = 14 \\
+y_3 &= 2y_2 - x_2 = 2(-4) - 5 = -13
+\end{align*}
+
+\textbf{Iteration 3 $\to$ 4:}
+\begin{align*}
+x_4 &= 2x_3 - y_3 = 2(14) - (-13) = 41 \\
+y_4 &= 2y_3 - x_3 = 2(-13) - 14 = -40
+\end{align*}
+
+\textbf{Iteration 4 $\to$ 5:}
+\begin{align*}
+x_5 &= 2x_4 - y_4 = 2(41) - (-40) = 122 \\
+y_5 &= 2y_4 - x_4 = 2(-40) - 41 = -121
+\end{align*}
+
+\subsection*{Tabulate results}
+
+\begin{center}
+\begin{tabular}{|c|c|c|}
+\hline
+$n$ & $x_n$ & $y_n$ \\
+\hline
+0 & 1 & 0 \\
+1 & 2 & $-1$ \\
+2 & 5 & $-4$ \\
+3 & 14 & $-13$ \\
+4 & 41 & $-40$ \\
+5 & 122 & $-121$ \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsection*{XYZ Analysis of Iteration Pattern}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (What we observe):} The values grow rapidly. The $x_n$ sequence is $1, 2, 5, 14, 41, 122, \ldots$ and the $y_n$ sequence is $0, -1, -4, -13, -40, -121, \ldots$. Note that $x_n$ and $y_n$ are always close: $x_n - y_n = 1, 3, 9, 27, 81, 243, \ldots = 3^n$.
+
+\item \stage{STAGE Y (Why this pattern):} Looking at combinations:
+\begin{itemize}
+\item $x_n + y_n$: $1, 1, 1, 1, 1, 1, \ldots$ (constant!)
+\item $x_n - y_n$: $1, 3, 9, 27, 81, 243, \ldots$ (powers of 3: $3^n$)
+\end{itemize}
+The map preserves $x_n + y_n = 1$ but amplifies the difference $x_n - y_n$ by factor of 3 each iteration. This suggests the system has two eigenvalues: $\lambda_1 = 3$ (exponential growth in the difference direction) and $\lambda_2 = 1$ (constant in the sum direction).
+
+\item \stage{STAGE Z (What this means):} From the pattern $x_n - y_n = 3^n$ and $x_n + y_n = 1$, we can solve:
+\[
+x_n = \frac{(x_n + y_n) + (x_n - y_n)}{2} = \frac{1 + 3^n}{2}
+\]
+\[
+y_n = \frac{(x_n + y_n) - (x_n - y_n)}{2} = \frac{1 - 3^n}{2}
+\]
+This gives explicit formulas, which we'll verify rigorously in part (b).
+\end{itemize}
+
+\subsection*{Conjectured solution from iteration}
+
+\[
+\boxed{x_n = \frac{3^n + 1}{2}, \quad y_n = \frac{1 - 3^n}{2}}
+\]
+
+\vspace{10pt}
+\hrule
+\vspace{10pt}
+
+\section{Part (b): Eigenvalue Decomposition Method}
+
+\subsection*{Step 1: Write system in matrix form}
+
+The map can be written as:
+\[
+\begin{pmatrix} x_{n+1} \\ y_{n+1} \end{pmatrix} = \begin{pmatrix} 2 & -1 \\ -1 & 2 \end{pmatrix} \begin{pmatrix} x_n \\ y_n \end{pmatrix}
+\]
+
+Define the matrix:
+\[
+A = \begin{pmatrix} 2 & -1 \\ -1 & 2 \end{pmatrix}
+\]
+
+\subsection*{XYZ Analysis of Matrix Structure}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (What we have):} A $2 \times 2$ symmetric matrix with 2's on the diagonal and $-1$'s off-diagonal.
+
+\item \stage{STAGE Y (Why this form matters):} Symmetry guarantees real eigenvalues and orthogonal eigenvectors. The structure $A = 2I - J$ where $J$ is the all-ones off-diagonal suggests eigenvalues related to sum and difference coordinates.
+
+\item \stage{STAGE Z (What to compute):} Find eigenvalues $\lambda$ and eigenvectors $\mathbf{v}$ to decompose the solution as $\mathbf{x}_n = \alpha_1 \lambda_1^n \mathbf{v}_1 + \alpha_2 \lambda_2^n \mathbf{v}_2$.
+\end{itemize}
+
+\vspace{10pt}
+\hrule
+\vspace{10pt}
+
+\subsection*{Step 2: Find eigenvalues}
+
+Solve the characteristic equation $\det(A - \lambda I) = 0$:
+\[
+\det\begin{pmatrix} 2-\lambda & -1 \\ -1 & 2-\lambda \end{pmatrix} = 0
+\]
+
+Expand:
+\begin{align*}
+(2-\lambda)^2 - (-1)(-1) &= 0 \\
+(2-\lambda)^2 - 1 &= 0 \\
+4 - 4\lambda + \lambda^2 - 1 &= 0 \\
+\lambda^2 - 4\lambda + 3 &= 0
+\end{align*}
+
+Factor:
+\[
+(\lambda - 3)(\lambda - 1) = 0
+\]
+
+Therefore:
+\[
+\boxed{\lambda_1 = 3, \quad \lambda_2 = 1}
+\]
+
+\subsection*{XYZ Analysis of Eigenvalues}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (What we found):} Two positive real eigenvalues: $\lambda_1 = 3 > 1$ and $\lambda_2 = 1$.
+
+\item \stage{STAGE Y (Why these values):}
+\begin{itemize}
+\item $\lambda_1 = 3 > 1$: This eigenvalue causes exponential growth. Points in this eigendirection grow by factor 3 each iteration.
+\item $\lambda_2 = 1$: This eigenvalue preserves magnitude. Points in this eigendirection remain at constant distance from origin.
+\end{itemize}
+For stability analysis: $|\lambda_1| = 3 > 1$ means unstable (exponential growth), $|\lambda_2| = 1$ means marginally stable (neutral). Any initial condition with nonzero component in the $\lambda_1$ eigendirection will grow to infinity.
+
+\item \stage{STAGE Z (What this means dynamically):} The system has one unstable direction (growing like $3^n$) and one neutral direction (constant). Our initial condition $(1,0)$ must have components in both directions, explaining why the iterations showed both growth and a constant pattern.
+\end{itemize}
+
+\vspace{10pt}
+\hrule
+\vspace{10pt}
+
+\subsection*{Step 3: Find eigenvectors}
+
+\textbf{For $\lambda_1 = 3$:}
+
+Solve $(A - 3I)\mathbf{v}_1 = \mathbf{0}$:
+\[
+\begin{pmatrix} 2-3 & -1 \\ -1 & 2-3 \end{pmatrix} \begin{pmatrix} v_1 \\ v_2 \end{pmatrix} = \begin{pmatrix} -1 & -1 \\ -1 & -1 \end{pmatrix} \begin{pmatrix} v_1 \\ v_2 \end{pmatrix} = \begin{pmatrix} 0 \\ 0 \end{pmatrix}
+\]
+
+From first row: $-v_1 - v_2 = 0 \Rightarrow v_2 = -v_1$
+
+Choose $v_1 = 1$, then $v_2 = -1$:
+\[
+\boxed{\mathbf{v}_1 = \begin{pmatrix} 1 \\ -1 \end{pmatrix}}
+\]
+
+\textbf{For $\lambda_2 = 1$:}
+
+Solve $(A - I)\mathbf{v}_2 = \mathbf{0}$:
+\[
+\begin{pmatrix} 2-1 & -1 \\ -1 & 2-1 \end{pmatrix} \begin{pmatrix} v_1 \\ v_2 \end{pmatrix} = \begin{pmatrix} 1 & -1 \\ -1 & 1 \end{pmatrix} \begin{pmatrix} v_1 \\ v_2 \end{pmatrix} = \begin{pmatrix} 0 \\ 0 \end{pmatrix}
+\]
+
+From first row: $v_1 - v_2 = 0 \Rightarrow v_2 = v_1$
+
+Choose $v_1 = 1$, then $v_2 = 1$:
+\[
+\boxed{\mathbf{v}_2 = \begin{pmatrix} 1 \\ 1 \end{pmatrix}}
+\]
+
+\subsection*{Verify orthogonality}
+
+\[
+\mathbf{v}_1 \cdot \mathbf{v}_2 = (1)(1) + (-1)(1) = 1 - 1 = 0 \quad \checkmark
+\]
+
+The eigenvectors are orthogonal, as expected for a symmetric matrix.
+
+\subsection*{XYZ Analysis of Eigenvectors}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (What we found):}
+\begin{itemize}
+\item $\mathbf{v}_1 = (1, -1)^T$: the "difference" direction
+\item $\mathbf{v}_2 = (1, 1)^T$: the "sum" direction
+\end{itemize}
+
+\item \stage{STAGE Y (Why these directions):}
+\begin{itemize}
+\item $\mathbf{v}_1 = (1, -1)$: Points in this direction have $x = -y$ (opposite signs). This is the direction where $x - y$ is maximized. Along this direction, the map scales by $\lambda_1 = 3$.
+\item $\mathbf{v}_2 = (1, 1)$: Points in this direction have $x = y$ (same values). This is the direction where $x + y$ is constant. Along this direction, the map scales by $\lambda_2 = 1$ (unchanged).
+\end{itemize}
+These match the observed pattern from part (a): $x_n - y_n$ grows like $3^n$, while $x_n + y_n$ stays constant at 1.
+
+\item \stage{STAGE Z (What this geometric picture means):} Any initial point can be decomposed into components along these two perpendicular axes. The component along $\mathbf{v}_1$ grows exponentially, while the component along $\mathbf{v}_2$ remains constant. This explains the long-term behavior: trajectories move along lines parallel to $\mathbf{v}_1$ while maintaining their projection onto $\mathbf{v}_2$.
+\end{itemize}
+
+\vspace{10pt}
+\hrule
+\vspace{10pt}
+
+\subsection*{Step 4: General solution}
+
+The general solution has the form:
+\[
+\begin{pmatrix} x_n \\ y_n \end{pmatrix} = \alpha_1 \lambda_1^n \mathbf{v}_1 + \alpha_2 \lambda_2^n \mathbf{v}_2
+\]
+
+Substituting our eigenvalues and eigenvectors:
+\[
+\begin{pmatrix} x_n \\ y_n \end{pmatrix} = \alpha_1 (3)^n \begin{pmatrix} 1 \\ -1 \end{pmatrix} + \alpha_2 (1)^n \begin{pmatrix} 1 \\ 1 \end{pmatrix}
+\]
+
+Simplify:
+\[
+\begin{pmatrix} x_n \\ y_n \end{pmatrix} = \alpha_1 \cdot 3^n \begin{pmatrix} 1 \\ -1 \end{pmatrix} + \alpha_2 \begin{pmatrix} 1 \\ 1 \end{pmatrix}
+\]
+
+In component form:
+\begin{align*}
+x_n &= \alpha_1 \cdot 3^n + \alpha_2 \\
+y_n &= -\alpha_1 \cdot 3^n + \alpha_2
+\end{align*}
+
+\subsection*{XYZ Analysis of General Solution Form}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (What the formula shows):} The solution is a linear combination of two modes: one that grows exponentially ($3^n$ term) and one that is constant (the $\alpha_2$ term).
+
+\item \stage{STAGE Y (Why this structure):} Unlike ODEs where solutions involve $e^{\lambda t}$ (continuous exponential growth), maps have discrete time steps, so solutions involve $\lambda^n$ (discrete exponential growth). Each iteration multiplies by $\lambda$ rather than adding $\lambda \, dt$. The constants $\alpha_1, \alpha_2$ weight how much of each eigenmode is present, determined by projecting the initial condition onto the eigenvectors.
+
+\item \stage{STAGE Z (What remains):} We need two equations (the initial conditions) to determine two unknowns ($\alpha_1, \alpha_2$). Once found, we have the complete explicit solution for all time steps $n$.
+\end{itemize}
+
+\vspace{10pt}
+\hrule
+\vspace{10pt}
+
+\subsection*{Step 5: Apply initial conditions}
+
+At $n = 0$: $(x_0, y_0) = (1, 0)$
+
+\[
+\begin{pmatrix} 1 \\ 0 \end{pmatrix} = \alpha_1 (3)^0 \begin{pmatrix} 1 \\ -1 \end{pmatrix} + \alpha_2 (1)^0 \begin{pmatrix} 1 \\ 1 \end{pmatrix} = \alpha_1 \begin{pmatrix} 1 \\ -1 \end{pmatrix} + \alpha_2 \begin{pmatrix} 1 \\ 1 \end{pmatrix}
+\]
+
+This gives two equations:
+\begin{align}
+1 &= \alpha_1 + \alpha_2 \label{eq:ic1} \\
+0 &= -\alpha_1 + \alpha_2 \label{eq:ic2}
+\end{align}
+
+From equation (\ref{eq:ic2}):
+\[
+\alpha_2 = \alpha_1
+\]
+
+Substitute into equation (\ref{eq:ic1}):
+\[
+1 = \alpha_1 + \alpha_1 = 2\alpha_1 \quad \Rightarrow \quad \alpha_1 = \frac{1}{2}
+\]
+
+Therefore:
+\[
+\boxed{\alpha_1 = \frac{1}{2}, \quad \alpha_2 = \frac{1}{2}}
+\]
+
+\subsection*{XYZ Analysis of Initial Condition Decomposition}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (What we found):} The initial condition $(1, 0)$ has equal weight ($1/2$) in both eigendirections.
+
+\item \stage{STAGE Y (Why equal weights):} The initial point $(1, 0)$ lies exactly halfway between the two eigenvector directions:
+\[
+\begin{pmatrix} 1 \\ 0 \end{pmatrix} = \frac{1}{2}\begin{pmatrix} 1 \\ -1 \end{pmatrix} + \frac{1}{2}\begin{pmatrix} 1 \\ 1 \end{pmatrix}
+\]
+Geometrically, $(1, 0)$ is the average of $(1, -1)$ and $(1, 1)$. Since both components are present, the trajectory will show both exponential growth (from the $\lambda_1=3$ mode) and a constant background (from the $\lambda_2=1$ mode).
+
+\item \stage{STAGE Z (What this predicts):} With equal weights, the solution will be $x_n = \frac{1}{2}3^n + \frac{1}{2}$ and $y_n = -\frac{1}{2}3^n + \frac{1}{2}$. For large $n$, the $3^n$ terms dominate, and the trajectory approaches the unstable eigendirection $(1, -1)$ (moving along the line $y = -x + 1$).
+\end{itemize}
+
+\vspace{10pt}
+\hrule
+\vspace{10pt}
+
+\subsection*{Step 6: Write explicit solution}
+
+Substitute $\alpha_1 = \alpha_2 = 1/2$ into the general solution:
+\begin{align*}
+x_n &= \frac{1}{2} \cdot 3^n + \frac{1}{2} = \frac{3^n + 1}{2} \\
+y_n &= -\frac{1}{2} \cdot 3^n + \frac{1}{2} = \frac{1 - 3^n}{2}
+\end{align*}
+
+\[
+\boxed{x_n = \frac{3^n + 1}{2}, \quad y_n = \frac{1 - 3^n}{2}}
+\]
+
+\vspace{10pt}
+\hrule
+\vspace{10pt}
+
+\subsection*{Step 7: Verify solution}
+
+\textbf{Check initial condition at $n=0$:}
+\begin{align*}
+x_0 &= \frac{3^0 + 1}{2} = \frac{1 + 1}{2} = 1 \quad \checkmark \\
+y_0 &= \frac{1 - 3^0}{2} = \frac{1 - 1}{2} = 0 \quad \checkmark
+\end{align*}
+
+\textbf{Check map is satisfied at $n=0 \to 1$:}
+\begin{align*}
+x_1 &= \frac{3^1 + 1}{2} = \frac{4}{2} = 2 \\
+\text{From map: } x_1 &= 2x_0 - y_0 = 2(1) - 0 = 2 \quad \checkmark \\[5pt]
+y_1 &= \frac{1 - 3^1}{2} = \frac{-2}{2} = -1 \\
+\text{From map: } y_1 &= 2y_0 - x_0 = 2(0) - 1 = -1 \quad \checkmark
+\end{align*}
+
+\textbf{Check map is satisfied at $n=1 \to 2$:}
+\begin{align*}
+x_2 &= \frac{3^2 + 1}{2} = \frac{10}{2} = 5 \\
+\text{From map: } x_2 &= 2x_1 - y_1 = 2(2) - (-1) = 5 \quad \checkmark \\[5pt]
+y_2 &= \frac{1 - 3^2}{2} = \frac{-8}{2} = -4 \\
+\text{From map: } y_2 &= 2y_1 - x_1 = 2(-1) - 2 = -4 \quad \checkmark
+\end{align*}
+
+\textbf{General verification:}
+
+We verify that $x_n, y_n$ satisfy the original map equations. From our solution:
+\begin{align*}
+2x_n - y_n &= 2 \cdot \frac{3^n + 1}{2} - \frac{1 - 3^n}{2} \\
+&= \frac{2(3^n + 1) - (1 - 3^n)}{2} \\
+&= \frac{2 \cdot 3^n + 2 - 1 + 3^n}{2} \\
+&= \frac{3 \cdot 3^n + 1}{2} \\
+&= \frac{3^{n+1} + 1}{2} = x_{n+1} \quad \checkmark
+\end{align*}
+
+\begin{align*}
+2y_n - x_n &= 2 \cdot \frac{1 - 3^n}{2} - \frac{3^n + 1}{2} \\
+&= \frac{2(1 - 3^n) - (3^n + 1)}{2} \\
+&= \frac{2 - 2 \cdot 3^n - 3^n - 1}{2} \\
+&= \frac{1 - 3 \cdot 3^n}{2} \\
+&= \frac{1 - 3^{n+1}}{2} = y_{n+1} \quad \checkmark
+\end{align*}
+
+The solution is verified!
+
+\vspace{10pt}
+\hrule
+\vspace{10pt}
+
+\section{Summary and Comparison}
+
+\subsection*{Both methods yield the same result}
+
+\[
+\boxed{x_n = \frac{3^n + 1}{2}, \quad y_n = \frac{1 - 3^n}{2}}
+\]
+
+\subsection*{Method comparison}
+
+\begin{center}
+\begin{tabular}{p{7cm}|p{7cm}}
+\textbf{Method (a): Direct Iteration} & \textbf{Method (b): Eigenvalue Decomposition} \\
+\hline
+\textbf{Pros:} & \textbf{Pros:} \\
+- Simple to implement & - Gives explicit closed-form solution \\
+- No linear algebra required & - Reveals system structure (eigenmodes) \\
+- Easy to program & - Efficient for computing $x_n$ for large $n$ \\
+- Good for short-term behavior & - Explains long-term behavior analytically \\[5pt]
+\textbf{Cons:} & \textbf{Cons:} \\
+- Must compute every step & - Requires eigenvalue computation \\
+- Impractical for large $n$ & - More complex setup \\
+- Pattern recognition needed & - Requires understanding of linear algebra \\
+- No insight into system structure & - Can be difficult for large systems \\
+\end{tabular}
+\end{center}
+
+\subsection*{XYZ Analysis of Solution Structure}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (What the solution tells us):}
+\begin{itemize}
+\item $x_n$ grows like $3^n/2$ for large $n$
+\item $y_n$ grows like $-3^n/2$ for large $n$ (same magnitude, opposite sign)
+\item The ratio $y_n/x_n \to -1$ as $n \to \infty$
+\end{itemize}
+
+\item \stage{STAGE Y (Why this behavior):} The dominant eigenvalue $\lambda_1 = 3$ with eigenvector $(1, -1)$ controls long-term dynamics. The system is unstable: trajectories escape to infinity along the unstable eigendirection. The $\lambda_2 = 1$ mode contributes a constant background $(1/2, 1/2)$, but becomes negligible relative to the growing $3^n$ terms. This is characteristic of linear maps where $|\lambda_{\text{max}}| > 1$.
+
+\item \stage{STAGE Z (What this means):}
+\begin{itemize}
+\item \textbf{Asymptotic behavior:} $(x_n, y_n) \approx (3^n/2, -3^n/2)$ as $n \to \infty$
+\item \textbf{Trajectory shape:} Points move along lines parallel to $(1, -1)$
+\item \textbf{Growth rate:} Distance from origin grows like $\sqrt{x_n^2 + y_n^2} \sim 3^n/\sqrt{2}$
+\item \textbf{Doubling time:} Since $3^n = e^{n \ln 3}$, the system grows by factor $e$ every $1/\ln 3 \approx 0.91$ iterations
+\end{itemize}
+\end{itemize}
+
+\subsection*{Connection to ODEs}
+
+The key difference between maps and ODEs:
+\begin{center}
+\begin{tabular}{c|c}
+\textbf{ODEs} & \textbf{Maps} \\
+\hline
+$\mathbf{x}(t) = \alpha_1 e^{\lambda_1 t} \mathbf{v}_1 + \alpha_2 e^{\lambda_2 t} \mathbf{v}_2$ & $\mathbf{x}_n = \alpha_1 \lambda_1^n \mathbf{v}_1 + \alpha_2 \lambda_2^n \mathbf{v}_2$ \\
+Continuous time & Discrete time \\
+Stability: $\text{Re}(\lambda) < 0$ & Stability: $|\lambda| < 1$ \\
+$e^{\lambda t}$ terms & $\lambda^n$ terms \\
+\end{tabular}
+\end{center}
+
+For our system: $\lambda_1 = 3 > 1$ (unstable), $\lambda_2 = 1$ (marginally stable). The origin is an unstable fixed point.
+
+\end{document}

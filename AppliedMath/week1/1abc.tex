@@ -1,0 +1,874 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{mathtools}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+
+% Custom commands for XYZ methodology
+\newcommand{\stage}[1]{\textbf{\textcolor{blue}{#1}}}
+\newcommand{\critical}[1]{\textbf{\textcolor{red}{#1}}}
+
+\title{Exercise Sheet 1: Question 1\\
+Rewriting Systems as First Order ODEs\\
+Methods of Applied Mathematics [SEMT30006]}
+\author{Complete Solutions with XYZ Methodology}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section*{Problem Statement}
+
+Rewrite the following systems as first order ODEs, making it clear what state variables you have chosen and what their state-space is.
+
+\begin{enumerate}[label=(\alph*)]
+    \item $\displaystyle\frac{d^3u}{dt^3} - \frac{du}{dt} + \sin(u) = 0$
+
+    \item $\displaystyle\frac{d^2u}{dt^2} + \frac{du}{dt} + u - 2v = 0, \quad \frac{d^2v}{dt^2} + \frac{dv}{dt} + v - 2u = 0$
+
+    \item $\displaystyle\frac{d^2u}{dt^2} + \frac{du}{dt} - u + u^3 - v = 0, \quad \frac{dv}{dt} = u - v$
+\end{enumerate}
+
+\vspace{0.5cm}
+
+\critical{CONTEXT FROM COURSE:} In dynamical systems theory (lecture notes pages 6-13), we always work with \textbf{first-order} systems of ODEs. Higher-order equations must be converted to first-order form by introducing new state variables. This canonical form allows us to:
+\begin{itemize}
+    \item Analyze phase space structure
+    \item Find equilibria and study their stability
+    \item Construct phase portraits
+    \item Apply existence and uniqueness theorems
+\end{itemize}
+
+\newpage
+
+\section{Problem 1(a): Third-Order Scalar ODE}
+
+\subsection*{Problem Statement}
+Convert to first-order form:
+\begin{equation}
+\frac{d^3u}{dt^3} - \frac{du}{dt} + \sin(u) = 0
+\end{equation}
+
+\subsection*{Step 1: Identify the Order and Required State Variables}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (What we have):}
+A third-order ODE involving $u$, $\frac{du}{dt}$, and $\frac{d^3u}{dt^3}$. The highest derivative is of order 3.
+
+\item \stage{STAGE Y (Why we need 3 state variables):}
+To convert an $n$-th order ODE to first-order form, we need exactly $n$ state variables. Each variable represents one derivative level:
+\begin{itemize}
+    \item One variable for $u$ itself
+    \item One variable for $\frac{du}{dt}$
+    \item One variable for $\frac{d^2u}{dt^2}$
+\end{itemize}
+
+The third derivative $\frac{d^3u}{dt^3}$ will be expressed in terms of these state variables using the original equation.
+
+\item \stage{STAGE Z (Strategy):}
+Introduce new variables for each derivative up to order $n-1 = 2$, then solve the original equation for the highest derivative.
+\end{itemize}
+
+\subsection*{Step 2: Define State Variables}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (Introducing state variables):}
+Define:
+\begin{align}
+x_1 &= u \\
+x_2 &= \frac{du}{dt} = \dot{u} \\
+x_3 &= \frac{d^2u}{dt^2} = \ddot{u}
+\end{align}
+
+\item \stage{STAGE Y (Why this choice):}
+This is the \textbf{standard canonical form}. By defining each variable as the derivative of the previous one, we create a "chain" structure:
+\begin{align}
+\dot{x}_1 &= x_2 \\
+\dot{x}_2 &= x_3 \\
+\dot{x}_3 &= ?
+\end{align}
+
+The first two equations come directly from our definitions. The third equation comes from the original ODE.
+
+\item \stage{STAGE Z (State space):}
+Our state vector is:
+\begin{equation}
+\mathbf{x} = \begin{pmatrix} x_1 \\ x_2 \\ x_3 \end{pmatrix} = \begin{pmatrix} u \\ \dot{u} \\ \ddot{u} \end{pmatrix}
+\end{equation}
+\end{itemize}
+
+\subsection*{Step 3: Express Highest Derivative from Original Equation}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (Solving for $\frac{d^3u}{dt^3}$):}
+From the original equation:
+\begin{equation}
+\frac{d^3u}{dt^3} - \frac{du}{dt} + \sin(u) = 0
+\end{equation}
+
+Rearrange:
+\begin{equation}
+\frac{d^3u}{dt^3} = \frac{du}{dt} - \sin(u)
+\end{equation}
+
+\item \stage{STAGE Y (Converting to state variables):}
+Express in terms of $x_1, x_2, x_3$:
+\begin{align}
+\frac{d^3u}{dt^3} &= \frac{du}{dt} - \sin(u) \\
+&= x_2 - \sin(x_1)
+\end{align}
+
+Since $\dot{x}_3 = \frac{d}{dt}\left(\frac{d^2u}{dt^2}\right) = \frac{d^3u}{dt^3}$:
+\begin{equation}
+\dot{x}_3 = x_2 - \sin(x_1)
+\end{equation}
+
+\item \stage{STAGE Z (Complete third equation):}
+We now have all three first-order equations.
+\end{itemize}
+
+\subsection*{Step 4: Write Complete First-Order System}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (System of first-order ODEs):}
+\begin{align}
+\frac{dx_1}{dt} &= x_2 \\
+\frac{dx_2}{dt} &= x_3 \\
+\frac{dx_3}{dt} &= x_2 - \sin(x_1)
+\end{align}
+
+\item \stage{STAGE Y (Vector form):}
+More compactly, as a vector ODE:
+\begin{equation}
+\frac{d}{dt}\begin{pmatrix} x_1 \\ x_2 \\ x_3 \end{pmatrix} = \begin{pmatrix} x_2 \\ x_3 \\ x_2 - \sin(x_1) \end{pmatrix}
+\end{equation}
+
+Or using the notation $\dot{\mathbf{x}} = \mathbf{f}(\mathbf{x})$:
+\begin{equation}
+\dot{\mathbf{x}} = \mathbf{f}(\mathbf{x}) \quad \text{where} \quad \mathbf{f}(\mathbf{x}) = \begin{pmatrix} x_2 \\ x_3 \\ x_2 - \sin(x_1) \end{pmatrix}
+\end{equation}
+
+\item \stage{STAGE Z (Key observations):}
+\begin{itemize}
+    \item This is a \textbf{3-dimensional} dynamical system
+    \item The system is \textbf{autonomous} (no explicit dependence on $t$)
+    \item The system is \textbf{nonlinear} due to $\sin(x_1)$
+\end{itemize}
+\end{itemize}
+
+\subsection*{Step 5: Specify State Space}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (State space definition):}
+The state space is the set of all possible values of $\mathbf{x} = (x_1, x_2, x_3)$.
+
+\item \stage{STAGE Y (Determining constraints):}
+Since $u$ can be any real number and its derivatives can also be any real numbers (no physical constraints given), the state space is:
+\begin{equation}
+\mathcal{S} = \mathbb{R}^3 = \{(x_1, x_2, x_3) \in \mathbb{R}^3\}
+\end{equation}
+
+This is \textbf{three-dimensional Euclidean space}.
+
+\item \stage{STAGE Z (Physical interpretation):}
+Each point $(x_1, x_2, x_3)$ in this space represents a complete state of the system:
+\begin{itemize}
+    \item $x_1$: position
+    \item $x_2$: velocity
+    \item $x_3$: acceleration
+\end{itemize}
+
+Trajectories in this 3D space describe how the system evolves over time.
+\end{itemize}
+
+\subsection*{Final Answer for Problem 1(a)}
+
+\begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title=\textbf{Complete Solution}]
+
+\textbf{State Variables:}
+\begin{align}
+x_1 &= u \\
+x_2 &= \dot{u} \\
+x_3 &= \ddot{u}
+\end{align}
+
+\textbf{First-Order System:}
+\begin{equation}
+\boxed{
+\begin{aligned}
+\dot{x}_1 &= x_2 \\
+\dot{x}_2 &= x_3 \\
+\dot{x}_3 &= x_2 - \sin(x_1)
+\end{aligned}
+}
+\end{equation}
+
+\textbf{State Space:}
+\begin{equation}
+\boxed{\mathcal{S} = \mathbb{R}^3}
+\end{equation}
+
+\textbf{Vector Form:}
+\begin{equation}
+\boxed{
+\dot{\mathbf{x}} = \begin{pmatrix} x_2 \\ x_3 \\ x_2 - \sin(x_1) \end{pmatrix}, \quad \mathbf{x} \in \mathbb{R}^3
+}
+\end{equation}
+\end{tcolorbox}
+
+\subsection*{Verification}
+
+\critical{CHECK:} Let's verify by recovering the original equation.
+
+\begin{itemize}[leftmargin=*]
+\item From $\dot{x}_1 = x_2$, we have $x_2 = \dot{u}$
+\item From $\dot{x}_2 = x_3$, we have $x_3 = \ddot{x}_2 = \ddot{u}$
+\item From $\dot{x}_3 = x_2 - \sin(x_1)$, we have:
+\begin{equation}
+\dddot{u} = \dot{u} - \sin(u)
+\end{equation}
+
+Rearranging:
+\begin{equation}
+\dddot{u} - \dot{u} + \sin(u) = 0 \quad \checkmark
+\end{equation}
+\end{itemize}
+
+\newpage
+
+\section{Problem 1(b): Coupled Second-Order ODEs}
+
+\subsection*{Problem Statement}
+Convert to first-order form:
+\begin{align}
+\frac{d^2u}{dt^2} + \frac{du}{dt} + u - 2v &= 0 \\
+\frac{d^2v}{dt^2} + \frac{dv}{dt} + v - 2u &= 0
+\end{align}
+
+\subsection*{Step 1: Count Total Order and Required State Variables}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (What we have):}
+Two coupled second-order ODEs. Each equation involves a variable and its first and second derivatives.
+
+\item \stage{STAGE Y (Why we need 4 state variables):}
+We have:
+\begin{itemize}
+    \item Variable $u$ appears with derivatives up to order 2
+    \item Variable $v$ appears with derivatives up to order 2
+\end{itemize}
+
+For each second-order variable, we need 2 state variables:
+\begin{itemize}
+    \item Total state variables needed: $2 + 2 = 4$
+\end{itemize}
+
+\item \stage{STAGE Z (Strategy):}
+Introduce state variables for $u$, $\dot{u}$, $v$, and $\dot{v}$. Express $\ddot{u}$ and $\ddot{v}$ from the original equations.
+\end{itemize}
+
+\subsection*{Step 2: Define State Variables}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (Introducing state variables):}
+Define:
+\begin{align}
+x_1 &= u \\
+x_2 &= \frac{du}{dt} = \dot{u} \\
+x_3 &= v \\
+x_4 &= \frac{dv}{dt} = \dot{v}
+\end{align}
+
+\item \stage{STAGE Y (Why this ordering):}
+We group variables related to $u$ first $(x_1, x_2)$, then variables related to $v$ $(x_3, x_4)$. This is a natural organization, though any consistent ordering works.
+
+Alternative notation sometimes used: $(u, \dot{u}, v, \dot{v})$ or $(u, v, \dot{u}, \dot{v})$. The key is consistency.
+
+\item \stage{STAGE Z (Initial equations):}
+From our definitions, we immediately have:
+\begin{align}
+\dot{x}_1 &= x_2 \quad \text{(definition of } x_2\text{)} \\
+\dot{x}_3 &= x_4 \quad \text{(definition of } x_4\text{)}
+\end{align}
+\end{itemize}
+
+\subsection*{Step 3: Solve Original Equations for Second Derivatives}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (First equation):}
+From $\frac{d^2u}{dt^2} + \frac{du}{dt} + u - 2v = 0$:
+\begin{equation}
+\frac{d^2u}{dt^2} = -\frac{du}{dt} - u + 2v
+\end{equation}
+
+\item \stage{STAGE Y (Converting to state variables):}
+Express in terms of $x_1, x_2, x_3, x_4$:
+\begin{equation}
+\frac{d^2u}{dt^2} = -x_2 - x_1 + 2x_3
+\end{equation}
+
+Since $\dot{x}_2 = \frac{d}{dt}\left(\frac{du}{dt}\right) = \frac{d^2u}{dt^2}$:
+\begin{equation}
+\dot{x}_2 = -x_2 - x_1 + 2x_3
+\end{equation}
+
+\item \stage{STAGE Z (First half complete):}
+We now have $\dot{x}_1$ and $\dot{x}_2$.
+\end{itemize}
+
+\subsection*{Step 4: Handle Second Equation}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (Second equation):}
+From $\frac{d^2v}{dt^2} + \frac{dv}{dt} + v - 2u = 0$:
+\begin{equation}
+\frac{d^2v}{dt^2} = -\frac{dv}{dt} - v + 2u
+\end{equation}
+
+\item \stage{STAGE Y (Converting to state variables):}
+Express in terms of $x_1, x_2, x_3, x_4$:
+\begin{equation}
+\frac{d^2v}{dt^2} = -x_4 - x_3 + 2x_1
+\end{equation}
+
+Since $\dot{x}_4 = \frac{d}{dt}\left(\frac{dv}{dt}\right) = \frac{d^2v}{dt^2}$:
+\begin{equation}
+\dot{x}_4 = -x_4 - x_3 + 2x_1
+\end{equation}
+
+\item \stage{STAGE Z (System complete):}
+We now have all four equations for $\dot{x}_1, \dot{x}_2, \dot{x}_3, \dot{x}_4$.
+\end{itemize}
+
+\subsection*{Step 5: Write Complete First-Order System}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (System of first-order ODEs):}
+\begin{align}
+\frac{dx_1}{dt} &= x_2 \\
+\frac{dx_2}{dt} &= -x_1 - x_2 + 2x_3 \\
+\frac{dx_3}{dt} &= x_4 \\
+\frac{dx_4}{dt} &= 2x_1 - x_3 - x_4
+\end{align}
+
+\item \stage{STAGE Y (Vector form):}
+\begin{equation}
+\frac{d}{dt}\begin{pmatrix} x_1 \\ x_2 \\ x_3 \\ x_4 \end{pmatrix} = \begin{pmatrix} x_2 \\ -x_1 - x_2 + 2x_3 \\ x_4 \\ 2x_1 - x_3 - x_4 \end{pmatrix}
+\end{equation}
+
+\item \stage{STAGE Z (Matrix representation):}
+Since this system is \textbf{linear}, we can write it as $\dot{\mathbf{x}} = A\mathbf{x}$ where:
+\begin{equation}
+A = \begin{pmatrix}
+0 & 1 & 0 & 0 \\
+-1 & -1 & 2 & 0 \\
+0 & 0 & 0 & 1 \\
+2 & 0 & -1 & -1
+\end{pmatrix}
+\end{equation}
+
+This is a $4 \times 4$ constant coefficient system.
+\end{itemize}
+
+\subsection*{Step 6: Specify State Space}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (State space definition):}
+The state space consists of all possible values of $\mathbf{x} = (x_1, x_2, x_3, x_4)$.
+
+\item \stage{STAGE Y (Determining constraints):}
+The variables $u, \dot{u}, v, \dot{v}$ can all take any real values (no constraints given), so:
+\begin{equation}
+\mathcal{S} = \mathbb{R}^4 = \{(x_1, x_2, x_3, x_4) \in \mathbb{R}^4\}
+\end{equation}
+
+\item \stage{STAGE Z (Interpretation):}
+This is a \textbf{four-dimensional} phase space. Each point represents:
+\begin{itemize}
+    \item $x_1 = u$: position/state of first variable
+    \item $x_2 = \dot{u}$: velocity of first variable
+    \item $x_3 = v$: position/state of second variable
+    \item $x_4 = \dot{v}$: velocity of second variable
+\end{itemize}
+\end{itemize}
+
+\subsection*{Step 7: Analyze System Structure}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (Coupling structure):}
+Notice the coupling:
+\begin{itemize}
+    \item $\dot{x}_2$ depends on $x_1$ (from $u$), $x_2$ (from $\dot{u}$), and $x_3$ (from $v$)
+    \item $\dot{x}_4$ depends on $x_1$ (from $u$), $x_3$ (from $v$), and $x_4$ (from $\dot{v}$)
+\end{itemize}
+
+\item \stage{STAGE Y (Symmetry observation):}
+The original equations have a special symmetry:
+\begin{align}
+\ddot{u} + \dot{u} + u - 2v &= 0 \\
+\ddot{v} + \dot{v} + v - 2u &= 0
+\end{align}
+
+If we swap $u \leftrightarrow v$, the system remains unchanged. This is a \textbf{permutation symmetry}.
+
+In the matrix form:
+\begin{equation}
+A = \begin{pmatrix}
+0 & 1 & 0 & 0 \\
+-1 & -1 & 2 & 0 \\
+0 & 0 & 0 & 1 \\
+2 & 0 & -1 & -1
+\end{pmatrix}
+\end{equation}
+
+The $(2,1)$ and $(4,3)$ entries are both $-1$ (self-coupling), while $(2,3) = 2$ and $(4,1) = 2$ (cross-coupling).
+
+\item \stage{STAGE Z (Physical interpretation):}
+This could model two coupled oscillators where:
+\begin{itemize}
+    \item Each oscillator has damping (the $\dot{u}$ and $\dot{v}$ terms)
+    \item Each oscillator has restoring force (the $u$ and $v$ terms)
+    \item They are coupled with strength 2 (the $-2v$ and $-2u$ terms)
+\end{itemize}
+\end{itemize}
+
+\subsection*{Final Answer for Problem 1(b)}
+
+\begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title=\textbf{Complete Solution}]
+
+\textbf{State Variables:}
+\begin{align}
+x_1 &= u \\
+x_2 &= \dot{u} \\
+x_3 &= v \\
+x_4 &= \dot{v}
+\end{align}
+
+\textbf{First-Order System:}
+\begin{equation}
+\boxed{
+\begin{aligned}
+\dot{x}_1 &= x_2 \\
+\dot{x}_2 &= -x_1 - x_2 + 2x_3 \\
+\dot{x}_3 &= x_4 \\
+\dot{x}_4 &= 2x_1 - x_3 - x_4
+\end{aligned}
+}
+\end{equation}
+
+\textbf{State Space:}
+\begin{equation}
+\boxed{\mathcal{S} = \mathbb{R}^4}
+\end{equation}
+
+\textbf{Matrix Form:}
+\begin{equation}
+\boxed{
+\dot{\mathbf{x}} = A\mathbf{x}, \quad A = \begin{pmatrix}
+0 & 1 & 0 & 0 \\
+-1 & -1 & 2 & 0 \\
+0 & 0 & 0 & 1 \\
+2 & 0 & -1 & -1
+\end{pmatrix}, \quad \mathbf{x} \in \mathbb{R}^4
+}
+\end{equation}
+\end{tcolorbox}
+
+\subsection*{Verification}
+
+\critical{CHECK:} Verify by recovering the original equations.
+
+\begin{itemize}[leftmargin=*]
+\item From $\dot{x}_1 = x_2$: we have $x_2 = \dot{u}$
+\item From $\dot{x}_2 = -x_1 - x_2 + 2x_3$:
+\begin{equation}
+\ddot{u} = -u - \dot{u} + 2v \quad \Rightarrow \quad \ddot{u} + \dot{u} + u - 2v = 0 \quad \checkmark
+\end{equation}
+
+\item From $\dot{x}_3 = x_4$: we have $x_4 = \dot{v}$
+\item From $\dot{x}_4 = 2x_1 - x_3 - x_4$:
+\begin{equation}
+\ddot{v} = 2u - v - \dot{v} \quad \Rightarrow \quad \ddot{v} + \dot{v} + v - 2u = 0 \quad \checkmark
+\end{equation}
+\end{itemize}
+
+\newpage
+
+\section{Problem 1(c): Mixed-Order Coupled System}
+
+\subsection*{Problem Statement}
+Convert to first-order form:
+\begin{align}
+\frac{d^2u}{dt^2} + \frac{du}{dt} - u + u^3 - v &= 0 \\
+\frac{dv}{dt} &= u - v
+\end{align}
+
+\subsection*{Step 1: Analyze the System Structure}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (What we have):}
+A \textbf{mixed-order} system:
+\begin{itemize}
+    \item First equation: second-order in $u$, involves $u, \dot{u}, \ddot{u}, v$
+    \item Second equation: first-order in $v$, involves $u, v, \dot{v}$
+\end{itemize}
+
+\item \stage{STAGE Y (Why this is different):}
+Unlike problem 1(b) where both equations were second-order, here we have:
+\begin{itemize}
+    \item Variable $u$: appears up to order 2 $\Rightarrow$ need 2 state variables
+    \item Variable $v$: appears up to order 1 $\Rightarrow$ need 1 state variable
+\end{itemize}
+
+Total state variables needed: $2 + 1 = 3$
+
+The second equation is \textbf{already first-order}, so it will transfer directly with minimal modification.
+
+\item \stage{STAGE Z (Strategy):}
+Introduce state variables for $u$, $\dot{u}$, and $v$. The second equation is already in the right form.
+\end{itemize}
+
+\subsection*{Step 2: Define State Variables}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (Introducing state variables):}
+Define:
+\begin{align}
+x_1 &= u \\
+x_2 &= \frac{du}{dt} = \dot{u} \\
+x_3 &= v
+\end{align}
+
+\item \stage{STAGE Y (Why only 3 variables):}
+Since $v$ only appears as $v$ and $\dot{v}$ (never $\ddot{v}$), we don't need a separate variable for $\dot{v}$. The variable $x_3 = v$ is sufficient.
+
+Note: If $v$ had appeared with higher derivatives, we would need additional state variables.
+
+\item \stage{STAGE Z (First equation from definition):}
+From the definition of $x_2$:
+\begin{equation}
+\dot{x}_1 = x_2
+\end{equation}
+\end{itemize}
+
+\subsection*{Step 3: Convert First Original Equation}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (Solving for $\ddot{u}$):}
+From $\frac{d^2u}{dt^2} + \frac{du}{dt} - u + u^3 - v = 0$:
+\begin{equation}
+\frac{d^2u}{dt^2} = -\frac{du}{dt} + u - u^3 + v
+\end{equation}
+
+\item \stage{STAGE Y (Converting to state variables):}
+Express in terms of $x_1, x_2, x_3$:
+\begin{equation}
+\frac{d^2u}{dt^2} = -x_2 + x_1 - x_1^3 + x_3
+\end{equation}
+
+Since $\dot{x}_2 = \frac{d^2u}{dt^2}$:
+\begin{equation}
+\dot{x}_2 = -x_2 + x_1 - x_1^3 + x_3
+\end{equation}
+
+\item \stage{STAGE Z (Nonlinearity):}
+Note the \textbf{cubic nonlinearity} $x_1^3$. This makes the system \textbf{nonlinear}, which means:
+\begin{itemize}
+    \item Cannot be written as $\dot{\mathbf{x}} = A\mathbf{x}$ (no constant matrix $A$)
+    \item More complex dynamics possible (multiple equilibria, limit cycles, etc.)
+    \item Linearization will be needed for stability analysis
+\end{itemize}
+\end{itemize}
+
+\subsection*{Step 4: Convert Second Original Equation}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (Already first-order):}
+The equation $\frac{dv}{dt} = u - v$ is already first-order.
+
+\item \stage{STAGE Y (Direct substitution):}
+Simply replace $v$ with $x_3$ and $u$ with $x_1$:
+\begin{equation}
+\frac{dx_3}{dt} = x_1 - x_3
+\end{equation}
+
+Or:
+\begin{equation}
+\dot{x}_3 = x_1 - x_3
+\end{equation}
+
+\item \stage{STAGE Z (Linear coupling):}
+This equation is linear in the state variables, even though the overall system is nonlinear due to the first equation.
+\end{itemize}
+
+\subsection*{Step 5: Write Complete First-Order System}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (System of first-order ODEs):}
+\begin{align}
+\frac{dx_1}{dt} &= x_2 \\
+\frac{dx_2}{dt} &= -x_2 + x_1 - x_1^3 + x_3 \\
+\frac{dx_3}{dt} &= x_1 - x_3
+\end{align}
+
+\item \stage{STAGE Y (Vector form):}
+\begin{equation}
+\frac{d}{dt}\begin{pmatrix} x_1 \\ x_2 \\ x_3 \end{pmatrix} = \begin{pmatrix} x_2 \\ -x_2 + x_1 - x_1^3 + x_3 \\ x_1 - x_3 \end{pmatrix}
+\end{equation}
+
+Or using the notation $\dot{\mathbf{x}} = \mathbf{f}(\mathbf{x})$:
+\begin{equation}
+\dot{\mathbf{x}} = \mathbf{f}(\mathbf{x}) \quad \text{where} \quad \mathbf{f}(\mathbf{x}) = \begin{pmatrix} x_2 \\ -x_2 + x_1 - x_1^3 + x_3 \\ x_1 - x_3 \end{pmatrix}
+\end{equation}
+
+\item \stage{STAGE Z (System classification):}
+\begin{itemize}
+    \item \textbf{Dimension:} 3 (three state variables)
+    \item \textbf{Autonomy:} Autonomous (no explicit $t$ dependence)
+    \item \textbf{Linearity:} Nonlinear (due to $x_1^3$ term)
+    \item \textbf{Coupling:} All three variables are coupled together
+\end{itemize}
+\end{itemize}
+
+\subsection*{Step 6: Specify State Space}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (State space definition):}
+The state space consists of all possible values of $\mathbf{x} = (x_1, x_2, x_3)$.
+
+\item \stage{STAGE Y (Determining constraints):}
+No constraints are specified on $u$, $\dot{u}$, or $v$, so:
+\begin{equation}
+\mathcal{S} = \mathbb{R}^3 = \{(x_1, x_2, x_3) \in \mathbb{R}^3\}
+\end{equation}
+
+\item \stage{STAGE Z (Geometric picture):}
+This is a \textbf{three-dimensional} phase space where:
+\begin{itemize}
+    \item $x_1 = u$: first dynamical variable
+    \item $x_2 = \dot{u}$: rate of change of first variable
+    \item $x_3 = v$: second dynamical variable
+\end{itemize}
+
+Trajectories are curves in $\mathbb{R}^3$ that never cross (by uniqueness of solutions).
+\end{itemize}
+
+\subsection*{Step 7: Find Equilibria}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (Equilibrium definition):}
+Equilibria occur where $\dot{\mathbf{x}} = \mathbf{0}$:
+\begin{align}
+x_2 &= 0 \\
+-x_2 + x_1 - x_1^3 + x_3 &= 0 \\
+x_1 - x_3 &= 0
+\end{align}
+
+\item \stage{STAGE Y (Solving the system):}
+From the first equation: $x_2 = 0$
+
+From the third equation: $x_3 = x_1$
+
+Substitute into the second equation:
+\begin{align}
+-0 + x_1 - x_1^3 + x_1 &= 0 \\
+2x_1 - x_1^3 &= 0 \\
+x_1(2 - x_1^2) &= 0
+\end{align}
+
+This gives:
+\begin{equation}
+x_1 = 0 \quad \text{or} \quad x_1 = \pm\sqrt{2}
+\end{equation}
+
+\item \stage{STAGE Z (Three equilibria):}
+The equilibrium points are:
+\begin{align}
+\mathbf{x}^*_1 &= (0, 0, 0) \\
+\mathbf{x}^*_2 &= (\sqrt{2}, 0, \sqrt{2}) \\
+\mathbf{x}^*_3 &= (-\sqrt{2}, 0, -\sqrt{2})
+\end{align}
+
+In terms of original variables:
+\begin{align}
+(u, \dot{u}, v) &= (0, 0, 0) \\
+(u, \dot{u}, v) &= (\sqrt{2}, 0, \sqrt{2}) \\
+(u, \dot{u}, v) &= (-\sqrt{2}, 0, -\sqrt{2})
+\end{align}
+
+The nonlinearity creates multiple equilibria!
+\end{itemize}
+
+\subsection*{Step 8: Physical Interpretation}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (System structure):}
+The term $u - u^3$ is a classic \textbf{Duffing-type} nonlinearity, suggesting this could model:
+\begin{itemize}
+    \item A nonlinear oscillator with cubic restoring force
+    \item Damping from the $\dot{u}$ term
+    \item Coupling to another variable $v$
+\end{itemize}
+
+\item \stage{STAGE Y (The role of $v$):}
+The variable $v$ satisfies $\dot{v} = u - v$, which means:
+\begin{itemize}
+    \item $v$ is "driven" by $u$
+    \item $v$ decays exponentially toward $u$ with rate 1
+    \item $v$ acts as a "filtered" or "smoothed" version of $u$
+\end{itemize}
+
+\item \stage{STAGE Z (Feedback loop):}
+There's a feedback structure:
+\begin{itemize}
+    \item $u$ influences $v$ through $\dot{v} = u - v$
+    \item $v$ influences $u$ through the $+v$ term in $\ddot{u}$
+    \item This creates a bidirectional coupling
+\end{itemize}
+\end{itemize}
+
+\subsection*{Final Answer for Problem 1(c)}
+
+\begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title=\textbf{Complete Solution}]
+
+\textbf{State Variables:}
+\begin{align}
+x_1 &= u \\
+x_2 &= \dot{u} \\
+x_3 &= v
+\end{align}
+
+\textbf{First-Order System:}
+\begin{equation}
+\boxed{
+\begin{aligned}
+\dot{x}_1 &= x_2 \\
+\dot{x}_2 &= -x_2 + x_1 - x_1^3 + x_3 \\
+\dot{x}_3 &= x_1 - x_3
+\end{aligned}
+}
+\end{equation}
+
+\textbf{State Space:}
+\begin{equation}
+\boxed{\mathcal{S} = \mathbb{R}^3}
+\end{equation}
+
+\textbf{Vector Form:}
+\begin{equation}
+\boxed{
+\dot{\mathbf{x}} = \begin{pmatrix} x_2 \\ -x_2 + x_1 - x_1^3 + x_3 \\ x_1 - x_3 \end{pmatrix}, \quad \mathbf{x} \in \mathbb{R}^3
+}
+\end{equation}
+
+\textbf{Equilibria:}
+\begin{equation}
+\boxed{
+(u, \dot{u}, v) \in \{(0, 0, 0), \; (\sqrt{2}, 0, \sqrt{2}), \; (-\sqrt{2}, 0, -\sqrt{2})\}
+}
+\end{equation}
+\end{tcolorbox}
+
+\subsection*{Verification}
+
+\critical{CHECK:} Verify by recovering the original equations.
+
+\begin{itemize}[leftmargin=*]
+\item From $\dot{x}_1 = x_2$: we have $\dot{u} = x_2$ ✓
+
+\item From $\dot{x}_2 = -x_2 + x_1 - x_1^3 + x_3$:
+\begin{align}
+\ddot{u} &= -\dot{u} + u - u^3 + v \\
+\ddot{u} + \dot{u} - u + u^3 - v &= 0 \quad \checkmark
+\end{align}
+
+\item From $\dot{x}_3 = x_1 - x_3$:
+\begin{equation}
+\dot{v} = u - v \quad \checkmark
+\end{equation}
+\end{itemize}
+
+\newpage
+
+\section*{Summary: Converting Higher-Order ODEs to First-Order Form}
+
+\subsection*{General Procedure (The XYZ Method)}
+
+\begin{enumerate}
+\item \stage{STAGE X (Identify):}
+\begin{itemize}
+    \item Count the variables and their highest derivative orders
+    \item Determine total number of state variables needed
+    \item Recognize any equations already in first-order form
+\end{itemize}
+
+\item \stage{STAGE Y (Define):}
+\begin{itemize}
+    \item Introduce state variables for each variable up to order $n-1$
+    \item Standard choice: $x_1 = u$, $x_2 = \dot{u}$, $x_3 = \ddot{u}$, etc.
+    \item Write immediate relations: $\dot{x}_i = x_{i+1}$
+\end{itemize}
+
+\item \stage{STAGE Z (Solve):}
+\begin{itemize}
+    \item Solve original equations for highest derivatives
+    \item Express in terms of state variables only
+    \item Verify by substituting back into original equations
+\end{itemize}
+\end{enumerate}
+
+\subsection*{Key Principles from Course Material}
+
+\critical{From lecture notes (pages 6-13):}
+
+\begin{enumerate}
+\item \textbf{Phase space dimension:} For $m$ variables with maximum orders $n_1, n_2, \ldots, n_m$, the phase space has dimension $N = n_1 + n_2 + \cdots + n_m$.
+
+\item \textbf{Autonomy:} A system is autonomous if $\dot{\mathbf{x}} = \mathbf{f}(\mathbf{x})$ with no explicit $t$ dependence. All three problems here are autonomous.
+
+\item \textbf{Linearity:} System is linear if $\mathbf{f}(\mathbf{x}) = A\mathbf{x}$ for some matrix $A$. Only problem (b) is linear.
+
+\item \textbf{Trajectories:} Solutions are curves $\mathbf{x}(t)$ in phase space that cannot cross (by uniqueness).
+
+\item \textbf{Equilibria:} Found by solving $\mathbf{f}(\mathbf{x}^*) = \mathbf{0}$.
+\end{enumerate}
+
+\subsection*{Comparison Table}
+
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+\textbf{Problem} & \textbf{Original Orders} & \textbf{State Dim.} & \textbf{Linear?} & \textbf{Equilibria} \\
+\hline
+1(a) & $u$: 3rd order & 3 & No & Need analysis \\
+\hline
+1(b) & $u, v$: 2nd order & 4 & Yes & $(0,0,0,0)$ only \\
+\hline
+1(c) & $u$: 2nd, $v$: 1st & 3 & No & Three: see above \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsection*{Connection to Future Analysis}
+
+Once in first-order form, we can:
+\begin{itemize}
+\item Find equilibria by solving $\dot{\mathbf{x}} = \mathbf{0}$
+\item Linearize about equilibria using Jacobian matrix
+\item Analyze stability using eigenvalues
+\item Construct phase portraits
+\item Apply existence and uniqueness theorems
+\end{itemize}
+
+These techniques will be explored in subsequent exercise problems.
+
+\vfill
+
+\begin{center}
+\Large\textbf{END OF QUESTION 1 SOLUTIONS}
+\end{center}
+
+\end{document}

@@ -1,6 +1,0 @@
-Digest the entirety of Lecturenotes.pdf which is course content that you will require, then provide the XYZ style guide methodology exactly as mentioned in the style guide (it does not stand for anything it is just an example of consecutive exhaustive explanation). provide a full latex code document for solutions to exercise 0 with intuition and methodology and the aesthetic progression and structure displayed in ref.tex. Please provide LaTeX source code ONLY . No pdf. .tex only. Provide .tex documents in this style, one at a time.
-for Problems2.pdf For now provide answer to all questions on the sheet in this manner without exception.
-
-We're going to need much more magnified and deeply scoped examples that illustrate the transitive journey to each solution via each step as according to the style guide XYZ what do we see and what is the reason and fundamentally for every TOKEN of analysis WHY is this what we are doing "we have this" WHY "then we do this" WHY "we know because of this "WHY" etc.
-for Problems3.pdf For now provide answer to question 1.
-Ensure that the created artefact is not broken and is formulated as a claude artefact. Ensure that it can compile with pdflatex

@@ -1,0 +1,438 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage{inputenc}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{enumitem}
+\usepackage{xcolor}
+
+% Custom environments for pedagogical structure
+\newtheoremstyle{problem}
+  {10pt}{10pt}{\normalfont}{}{\bfseries}{.}{.5em}{}
+\theoremstyle{problem}
+\newtheorem{problem}{Problem}
+
+\newenvironment{strategy}{\par\noindent\textbf{Strategy:}\itshape}{\par}
+\newenvironment{justification}{\par\noindent\textbf{Justification:}\itshape}{\par}
+\newenvironment{technique}{\par\noindent\textbf{Technique:}\itshape}{\par}
+\newenvironment{reflection}{\par\noindent\textbf{Reflection:}\itshape}{\par}
+\newenvironment{keyconcept}{\par\noindent\textbf{Key Concept:}\itshape}{\par}
+
+\title{Asymptotics Problem 7.3: Complete Pedagogical Solution}
+\author{Perturbed WKB: Multiple Scaling Regimes}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\begin{problem}
+For the equation
+\[
+\varepsilon^2 y''(x) + [q(x) + \chi(\varepsilon)r(x)]y(x) = 0
+\]
+deduce the leading order solution as $\varepsilon \to 0$ for those cases where $\chi(\varepsilon)$ is $o(1)$ and yet not so small that the standard WKB solution is appropriate. Consider all relevant cases.
+\end{problem}
+
+\section*{Solution: Step-by-Step Atomic Breakdown}
+
+\subsection*{Step 1: Understanding the Problem Structure}
+
+\begin{strategy}
+We have a perturbation of the standard WKB equation. The standard form $\varepsilon^2 y'' + q(x)y = 0$ now has an additional term $\chi(\varepsilon)r(x)y$. Our task is to determine:
+\begin{enumerate}[leftmargin=*]
+\item Under what conditions on $\chi(\varepsilon)$ does this term affect the leading order solution?
+\item How to modify the WKB solution to account for this perturbation?
+\item What are the different regimes based on the size of $\chi(\varepsilon)$?
+\end{enumerate}
+\end{strategy}
+
+\begin{justification}
+The problem states that $\chi(\varepsilon) = o(1)$, meaning $\chi(\varepsilon) \to 0$ as $\varepsilon \to 0$. However, we're told it's ``not so small that the standard WKB solution is appropriate.'' This suggests there's a critical threshold: if $\chi$ is too small, it has no effect; if it's large enough (but still $\to 0$), it modifies the solution. We need to identify this threshold.
+\end{justification}
+
+\subsection*{Step 2: Recalling the Standard WKB Solution}
+
+\noindent\textbf{Standard case:} For $\varepsilon^2 y'' + q(x)y = 0$, the WKB solution (from Problem 2 and Lecture Notes \S6.3.2) is:
+\[
+y_\pm(x) \sim \frac{A_\pm}{q(x)^{1/4}}\exp\left(\pm\frac{i}{\varepsilon}\int^x\sqrt{q(s)}\,ds\right) \quad \text{as } \varepsilon \to 0.
+\]
+
+\begin{keyconcept}
+The WKB solution has two key components:
+\begin{itemize}
+\item \textbf{Amplitude:} $A(x) = q(x)^{-1/4}$ (varies slowly with $x$)
+\item \textbf{Phase:} $S(x) = \int^x\sqrt{q(s)}\,ds$ (oscillates rapidly with frequency $\sim 1/\varepsilon$)
+\end{itemize}
+The phase accumulates at rate $\sqrt{q(x)}$ per unit $x$, so the solution oscillates with local wavelength $\sim \varepsilon/\sqrt{q(x)}$.
+\end{keyconcept}
+
+\subsection*{Step 3: Setting Up the WKB Ansatz for the Perturbed Problem}
+
+\noindent\textbf{What we do:} Apply the WKB ansatz to the perturbed equation.
+
+\begin{technique}
+The WKB method assumes solutions of the form:
+\[
+y(x) = A(x)\exp\left(\frac{i}{\varepsilon}S(x)\right),
+\]
+where $S(x)$ is the phase function and $A(x)$ is the slowly-varying amplitude. Both $S$ and $A$ may depend on $\varepsilon$ implicitly through the equation's structure.
+\end{technique}
+
+\subsection*{Step 4: Computing Derivatives of the WKB Ansatz}
+
+\noindent\textbf{What we need:} $y'$ and $y''$ for $y = A\exp(iS/\varepsilon)$.
+
+\subsubsection*{Step 4a: First Derivative}
+
+\begin{technique}
+Use the product rule and chain rule:
+\begin{align*}
+y' &= A' \exp\left(\frac{iS}{\varepsilon}\right) + A \cdot \frac{iS'}{\varepsilon}\exp\left(\frac{iS}{\varepsilon}\right)\\
+&= \left(A' + \frac{iS'}{\varepsilon}A\right)\exp\left(\frac{iS}{\varepsilon}\right).
+\end{align*}
+\end{technique}
+
+\subsubsection*{Step 4b: Second Derivative}
+
+\noindent Differentiate $y' = (A' + iS'A/\varepsilon)e^{iS/\varepsilon}$:
+\begin{align*}
+y'' &= \left(A'' + \frac{iS''}{\varepsilon}A + \frac{iS'}{\varepsilon}A'\right)e^{iS/\varepsilon} + \left(A' + \frac{iS'}{\varepsilon}A\right) \cdot \frac{iS'}{\varepsilon}e^{iS/\varepsilon}\\
+&= \left[A'' + \frac{2iS'}{\varepsilon}A' + \frac{iS''}{\varepsilon}A + \left(\frac{iS'}{\varepsilon}\right)^2A\right]e^{iS/\varepsilon}\\
+&= \left[A'' + \frac{2iS'}{\varepsilon}A' + \frac{iS''}{\varepsilon}A - \frac{(S')^2}{\varepsilon^2}A\right]e^{iS/\varepsilon}.
+\end{align*}
+
+\subsection*{Step 5: Substituting into the ODE}
+
+\noindent Substitute into $\varepsilon^2 y'' + [q(x) + \chi(\varepsilon)r(x)]y = 0$:
+\begin{align*}
+&\varepsilon^2\left[A'' + \frac{2iS'}{\varepsilon}A' + \frac{iS''}{\varepsilon}A - \frac{(S')^2}{\varepsilon^2}A\right]e^{iS/\varepsilon}\\
+&\qquad + [q(x) + \chi(\varepsilon)r(x)]Ae^{iS/\varepsilon} = 0.
+\end{align*}
+
+\noindent Dividing by $e^{iS/\varepsilon}$ (which is never zero):
+\[
+\varepsilon^2 A'' + 2i\varepsilon S'A' + i\varepsilon S''A - (S')^2A + [q + \chi r]A = 0.
+\]
+
+\noindent Rearranging by powers of $\varepsilon$:
+\[
+-(S')^2A + [q + \chi r]A + \varepsilon[2iS'A' + iS''A] + \varepsilon^2 A'' = 0.
+\]
+
+\subsection*{Step 6: Identifying the Leading Order Balance}
+
+\begin{strategy}
+In the WKB method, we solve hierarchically by examining different orders in $\varepsilon$. The key question is: \emph{At what order does $\chi r$ appear?}
+
+This depends on the relative size of $\chi(\varepsilon)$ compared to powers of $\varepsilon$.
+\end{strategy}
+
+\subsubsection*{Step 6a: The $O(\varepsilon^0) = O(1)$ Terms}
+
+\noindent At leading order (collecting all terms not explicitly multiplied by $\varepsilon$ or $\varepsilon^2$):
+\[
+-(S')^2 + q + \chi r = 0.
+\]
+
+\begin{justification}
+This is the \emph{eikonal equation} (or Hamilton-Jacobi equation) for the phase $S(x)$. It determines how rapidly the phase accumulates as we move through $x$. Notice that $\chi r$ appears at this leading order because it's not multiplied by any power of $\varepsilon$ in the original equation.
+\end{justification}
+
+\noindent Solving for $S'$:
+\[
+(S')^2 = q(x) + \chi(\varepsilon)r(x) \quad \Longrightarrow \quad S'(x) = \pm\sqrt{q(x) + \chi(\varepsilon)r(x)}.
+\]
+
+\subsection*{Step 7: Determining When $\chi r$ Affects the Solution}
+
+\begin{keyconcept}
+The phase function is:
+\[
+S(x) = \pm\int^x \sqrt{q(s) + \chi(\varepsilon)r(s)}\,ds.
+\]
+This appears in the solution as $\exp(iS/\varepsilon)$. The term $\chi r$ affects the \emph{observable} phase if:
+\[
+\frac{1}{\varepsilon}\left|\int^x \chi r(s)(\text{correction})\,ds\right| = O(1),
+\]
+i.e., if the integrated effect is comparable to or larger than $O(\varepsilon)$.
+\end{keyconcept}
+
+\subsection*{Step 8: Expanding for Small $\chi$}
+
+\noindent\textbf{What we do:} Since $\chi = o(1)$, expand $\sqrt{q + \chi r}$ for small $\chi$.
+
+\begin{technique}
+Use the binomial expansion $(1+u)^{1/2} \approx 1 + \frac{u}{2} - \frac{u^2}{8} + \cdots$ for $|u| \ll 1$:
+\begin{align*}
+\sqrt{q + \chi r} &= \sqrt{q}\sqrt{1 + \frac{\chi r}{q}}\\
+&= \sqrt{q}\left(1 + \frac{\chi r}{2q} - \frac{\chi^2 r^2}{8q^2} + O(\chi^3)\right).
+\end{align*}
+\end{technique}
+
+\begin{justification}
+This expansion is valid when $|\chi r/q| \ll 1$, which we assume holds. If $r$ and $q$ are of similar magnitude and $\chi \to 0$, this condition is satisfied.
+\end{justification}
+
+\noindent Therefore:
+\[
+S'(x) = \pm\sqrt{q(x)}\left[1 + \frac{\chi(\varepsilon)r(x)}{2q(x)} + O(\chi^2)\right].
+\]
+
+\noindent Integrating:
+\[
+S(x) = \pm\int^x\sqrt{q(s)}\,ds \pm \frac{\chi(\varepsilon)}{2}\int^x\frac{r(s)}{\sqrt{q(s)}}\,ds + O(\chi^2).
+\]
+
+\noindent Let's define:
+\begin{align*}
+S_0(x) &= \int^x\sqrt{q(s)}\,ds \quad \text{(standard WKB phase)}\\
+S_1(x) &= \frac{1}{2}\int^x\frac{r(s)}{\sqrt{q(s)}}\,ds \quad \text{(first-order correction)}.
+\end{align*}
+
+\noindent Then:
+\[
+S(x) = \pm\left[S_0(x) + \chi(\varepsilon)S_1(x) + O(\chi^2)\right].
+\]
+
+\subsection*{Step 9: Analyzing Different Regimes of $\chi(\varepsilon)$}
+
+\begin{strategy}
+The correction to the phase is $\chi S_1$, which appears in the exponent as:
+\[
+\exp\left(\frac{iS}{\varepsilon}\right) = \exp\left(\frac{iS_0}{\varepsilon}\right)\exp\left(\frac{i\chi S_1}{\varepsilon}\right).
+\]
+The second exponential modifies the solution significantly if $\chi S_1/\varepsilon = O(1)$ or larger. This motivates us to compare $\chi$ with $\varepsilon$.
+\end{strategy}
+
+\subsubsection*{Case 1: $\chi(\varepsilon) = o(\varepsilon)$ (Very Small Perturbation)}
+
+\noindent\textbf{Condition:} $\chi(\varepsilon) \ll \varepsilon$, e.g., $\chi = \varepsilon^{1+\delta}$ for some $\delta > 0$.
+
+\begin{justification}
+In this regime:
+\[
+\frac{\chi S_1}{\varepsilon} = \frac{\chi}{\varepsilon} \cdot S_1 \to 0 \quad \text{as } \varepsilon \to 0.
+\]
+The phase correction is asymptotically negligible. We can expand:
+\[
+\exp\left(\frac{i\chi S_1}{\varepsilon}\right) \approx 1 + \frac{i\chi S_1}{\varepsilon} + \cdots
+\]
+Since $\chi/\varepsilon \to 0$, this approaches $1$ and the standard WKB solution applies.
+\end{justification}
+
+\noindent\textbf{Leading order solution:}
+\[
+\boxed{y(x) \sim \frac{A_\pm}{q(x)^{1/4}}\exp\left(\pm\frac{i}{\varepsilon}\int^x\sqrt{q(s)}\,ds\right) \quad \text{(Standard WKB)}}
+\]
+
+\begin{reflection}
+This makes sense: if $\chi$ is much smaller than $\varepsilon$, the perturbation $\chi r$ is negligible compared to the inherent approximation error of the WKB method (which is $O(\varepsilon)$).
+\end{reflection}
+
+\subsubsection*{Case 2: $\chi(\varepsilon) \sim \varepsilon$ (Critical Perturbation)}
+
+\noindent\textbf{Condition:} $\chi(\varepsilon)/\varepsilon \to C$ for some nonzero constant $C$, e.g., $\chi = \alpha\varepsilon$ with $\alpha = O(1)$.
+
+\begin{justification}
+In this regime:
+\[
+\frac{\chi S_1}{\varepsilon} = \frac{\chi}{\varepsilon} \cdot S_1 \sim C \cdot S_1 = O(1).
+\]
+The phase correction is $O(1)$ and cannot be neglected. The perturbation genuinely modifies the leading order WKB solution.
+\end{justification}
+
+\noindent\textbf{Leading order solution:} We must include the correction term.
+\[
+S(x) = S_0(x) + \chi S_1(x) + O(\chi^2) = S_0(x) + \chi S_1(x) + O(\varepsilon^2).
+\]
+
+\noindent Since $O(\varepsilon^2) = o(\varepsilon) = o(\chi)$ in this regime, we have to leading order:
+\[
+\boxed{y(x) \sim \frac{A_\pm}{q(x)^{1/4}}\exp\left(\pm\frac{i}{\varepsilon}\left[\int^x\sqrt{q(s)}\,ds + \frac{\chi(\varepsilon)}{2}\int^x\frac{r(s)}{\sqrt{q(s)}}\,ds\right]\right)}
+\]
+
+\begin{reflection}
+This is the interesting regime the problem asks about! When $\chi \sim \varepsilon$, the perturbation affects the phase but not the amplitude at leading order. The physical interpretation: the local frequency of oscillation is modified from $\sqrt{q}/\varepsilon$ to $\sqrt{q+\chi r}/\varepsilon \approx (\sqrt{q} + \chi r/(2\sqrt{q}))/\varepsilon$.
+\end{reflection}
+
+\subsubsection*{Case 3: $\varepsilon \ll \chi(\varepsilon) \ll 1$ (Large but Vanishing Perturbation)}
+
+\noindent\textbf{Condition:} $\chi(\varepsilon) \gg \varepsilon$ but $\chi(\varepsilon) \to 0$, e.g., $\chi = \varepsilon^\beta$ for $0 < \beta < 1$.
+
+\begin{justification}
+In this regime:
+\[
+\frac{\chi S_1}{\varepsilon} = \frac{\chi}{\varepsilon} \cdot S_1 \to \infty \quad \text{as } \varepsilon \to 0.
+\]
+The phase correction dominates. The ratio $\chi/\varepsilon \to \infty$ means we should treat the full $\sqrt{q + \chi r}$ without expanding.
+\end{justification}
+
+\noindent\textbf{Leading order solution:} Use the exact phase function without Taylor expansion:
+\[
+\boxed{y(x) \sim \frac{A_\pm}{[q(x) + \chi(\varepsilon)r(x)]^{1/4}}\exp\left(\pm\frac{i}{\varepsilon}\int^x\sqrt{q(s) + \chi(\varepsilon)r(s)}\,ds\right)}
+\]
+
+\begin{justification}
+Why do we also modify the amplitude? From the $O(\varepsilon)$ equation (transport equation), the amplitude satisfies:
+\[
+2S'A' + S''A = 0 \quad \Longrightarrow \quad A \propto (S')^{-1/2} = [q + \chi r]^{-1/4}.
+\]
+Since $\chi r$ appears at leading order in $S'$, it also affects the amplitude at leading order.
+\end{justification}
+
+\begin{reflection}
+In this regime, the perturbed coefficient $q + \chi r$ should simply replace $q$ in the WKB formula. The distinction between $q$ and $q + \chi r$ becomes important, even though $\chi r/q \to 0$.
+\end{reflection}
+
+\subsection*{Step 10: Computing the Amplitude Correction}
+
+\noindent\textbf{What remains:} Verify the amplitude formula from the $O(\varepsilon)$ equation.
+
+\subsubsection*{Step 10a: The Transport Equation}
+
+\noindent From our expansion in Step 5, the $O(\varepsilon)$ terms give:
+\[
+2iS'A' + iS''A = 0 \quad \Longrightarrow \quad 2S'A' = -S''A.
+\]
+
+\begin{technique}
+Separate variables:
+\[
+\frac{A'}{A} = -\frac{S''}{2S'}.
+\]
+Integrate both sides:
+\[
+\ln|A| = -\frac{1}{2}\int\frac{S''}{S'}dx = -\frac{1}{2}\ln|S'| + \text{const.}
+\]
+Therefore:
+\[
+A(x) = \frac{C}{[S'(x)]^{1/2}}.
+\]
+\end{technique}
+
+\subsubsection*{Step 10b: Expressing $A$ in Terms of $q$ and $\chi r$}
+
+\noindent Since $S'(x) = \sqrt{q(x) + \chi(\varepsilon)r(x)}$:
+\[
+A(x) = \frac{C}{[q(x) + \chi(\varepsilon)r(x)]^{1/4}}.
+\]
+
+\noindent For small $\chi$, we can expand:
+\[
+[q + \chi r]^{-1/4} = q^{-1/4}(1 + \chi r/q)^{-1/4} \approx q^{-1/4}\left(1 - \frac{\chi r}{4q}\right).
+\]
+
+\begin{justification}
+This confirms our amplitude formulas:
+\begin{itemize}
+\item \textbf{Case 1} ($\chi \ll \varepsilon$): $A \approx q^{-1/4}$ (standard WKB amplitude)
+\item \textbf{Case 2} ($\chi \sim \varepsilon$): $A \approx q^{-1/4}(1 - \chi r/(4q)) = q^{-1/4} + O(\varepsilon)$ (first-order correction)
+\item \textbf{Case 3} ($\chi \gg \varepsilon$): $A = [q+\chi r]^{-1/4}$ (full modified amplitude)
+\end{itemize}
+\end{justification}
+
+\subsection*{Step 11: Summary Table of All Cases}
+
+\begin{center}
+\renewcommand{\arraystretch}{2}
+\begin{tabular}{|c|c|p{8cm}|}
+\hline
+\textbf{Regime} & \textbf{Condition} & \textbf{Leading Order Solution} \\
+\hline
+\textbf{Case 1} & $\chi \ll \varepsilon$ &
+$y \sim \dfrac{A_\pm}{q^{1/4}}\exp\left(\pm\dfrac{i}{\varepsilon}\displaystyle\int^x\sqrt{q}\,ds\right)$
+
+Standard WKB applies \\
+\hline
+\textbf{Case 2} & $\chi \sim \varepsilon$ &
+$y \sim \dfrac{A_\pm}{q^{1/4}}\exp\left(\pm\dfrac{i}{\varepsilon}\left[\displaystyle\int^x\sqrt{q}\,ds + \dfrac{\chi}{2}\displaystyle\int^x\dfrac{r}{\sqrt{q}}\,ds\right]\right)$
+
+Phase correction essential \\
+\hline
+\textbf{Case 3} & $\varepsilon \ll \chi \ll 1$ &
+$y \sim \dfrac{A_\pm}{(q+\chi r)^{1/4}}\exp\left(\pm\dfrac{i}{\varepsilon}\displaystyle\int^x\sqrt{q+\chi r}\,ds\right)$
+
+Full modified WKB \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsection*{Step 12: Physical Interpretation and Key Insights}
+
+\begin{keyconcept}
+The three regimes correspond to different physical scenarios:
+
+\begin{enumerate}
+\item \textbf{Negligible perturbation} ($\chi \ll \varepsilon$): The additional term $\chi r(x)y$ is so small that it has no observable effect on the leading order solution. It's smaller than the inherent WKB approximation error.
+
+\item \textbf{Resonant perturbation} ($\chi \sim \varepsilon$): This is the \emph{critical case} the problem asks about. The perturbation is small enough to treat perturbatively (we can expand $\sqrt{q+\chi r}$), but large enough to produce an $O(1)$ phase shift over the integration domain. This is analogous to a resonant forcing in oscillator theory.
+
+\item \textbf{Dominant perturbation} ($\chi \gg \varepsilon$): The term $\chi r$ is comparable to $q$ in determining the solution structure. We should use the full modified coefficient $q + \chi r$ rather than treating $\chi r$ as a perturbation.
+\end{enumerate}
+\end{keyconcept}
+
+\subsection*{Step 13: Connection to Lecture Material}
+
+\begin{reflection}
+This problem illustrates several key asymptotic principles from the lectures:
+
+\begin{itemize}
+\item \textbf{Multiple scales} (\S7.1): The parameter $\chi/\varepsilon$ determines which scale is relevant. When $\chi \sim \varepsilon$, both the fast oscillation scale ($\sim \varepsilon$) and the perturbation correction scale ($\sim \chi$) are important.
+
+\item \textbf{Dominant balance} (\S2.2.2): We must identify which terms balance at leading order. For $\chi \ll \varepsilon$, the term $\chi ry$ is subdominant; for $\chi \sim \varepsilon$ or larger, it enters the dominant balance.
+
+\item \textbf{Asymptotic sequences} (\S2.5): The natural asymptotic sequence here is not just powers of $\varepsilon$, but involves both $\varepsilon$ and $\chi(\varepsilon)$. We must understand the relative ordering.
+
+\item \textbf{Uniform validity} (\S7.1.1): The Case 1 solution is uniformly valid for $\chi \ll \varepsilon$, but fails when $\chi \sim \varepsilon$. The Case 2 solution corrects this and is uniformly valid when $\chi \sim \varepsilon$.
+\end{itemize}
+\end{reflection}
+
+\subsection*{Step 14: Verification Example}
+
+\noindent\textbf{Concrete example:} Let $\chi(\varepsilon) = \varepsilon^\alpha$ for $0 < \alpha < 2$.
+
+\begin{itemize}
+\item If $\alpha > 1$: Then $\chi/\varepsilon = \varepsilon^{\alpha-1} \to 0$, so $\chi \ll \varepsilon$ $\Rightarrow$ \textbf{Case 1}
+
+\item If $\alpha = 1$: Then $\chi/\varepsilon = O(1)$, so $\chi \sim \varepsilon$ $\Rightarrow$ \textbf{Case 2}
+
+\item If $0 < \alpha < 1$: Then $\chi/\varepsilon = \varepsilon^{\alpha-1} \to \infty$, so $\chi \gg \varepsilon$ $\Rightarrow$ \textbf{Case 3}
+\end{itemize}
+
+\begin{justification}
+This confirms our regime classification. The critical exponent is $\alpha = 1$, corresponding to $\chi \sim \varepsilon$.
+\end{justification}
+
+\subsection*{Final Answer Summary}
+
+\begin{center}
+\fbox{\begin{minipage}{0.95\textwidth}
+\textbf{Complete Solution:}
+
+For the equation $\varepsilon^2 y'' + [q(x) + \chi(\varepsilon)r(x)]y = 0$ with $\chi(\varepsilon) = o(1)$:
+
+\vspace{0.3cm}
+\textbf{The critical comparison is between $\chi(\varepsilon)$ and $\varepsilon$:}
+
+\begin{enumerate}
+\item If $\chi(\varepsilon) = o(\varepsilon)$: Standard WKB applies
+\[
+y \sim \frac{A_\pm}{q^{1/4}}\exp\left(\pm\frac{i}{\varepsilon}\int^x\sqrt{q}\,ds\right)
+\]
+
+\item If $\chi(\varepsilon) \sim \varepsilon$: Phase correction required (the non-trivial case!)
+\[
+y \sim \frac{A_\pm}{q^{1/4}}\exp\left(\pm\frac{i}{\varepsilon}\left[\int^x\sqrt{q}\,ds + \frac{\chi}{2}\int^x\frac{r}{\sqrt{q}}\,ds\right]\right)
+\]
+
+\item If $\chi(\varepsilon) \gg \varepsilon$ (but still $\chi \to 0$): Use modified WKB
+\[
+y \sim \frac{A_\pm}{(q+\chi r)^{1/4}}\exp\left(\pm\frac{i}{\varepsilon}\int^x\sqrt{q+\chi r}\,ds\right)
+\]
+\end{enumerate}
+
+The phrase ``not so small that the standard WKB solution is appropriate'' refers to \textbf{Cases 2 and 3}, where $\chi \geq O(\varepsilon)$.
+\end{minipage}}
+\end{center}
+
+\end{document}

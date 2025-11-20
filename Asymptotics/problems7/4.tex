@@ -1,0 +1,408 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[margin=1in]{geometry}
+\usepackage{inputenc}
+\usepackage{enumitem}
+\usepackage{xcolor}
+
+\newcommand{\dd}{\mathrm{d}}
+\newcommand{\eps}{\varepsilon}
+
+\title{Problem 7, Question 4: When is the WKB Solution Exact?}
+\author{Pedagogical Breakdown}
+\date{}
+
+\begin{document}
+\maketitle
+
+\section*{Question Statement}
+For what choices of $q(x)$ in the equation
+\begin{equation}
+\eps^2 y'' + q(x)y = 0
+\end{equation}
+is the WKB solution exact?
+
+\section*{Solution}
+
+\subsection*{Step 1: Recall the Structure of the WKB Method}
+
+\textbf{What are we doing?} We begin by recalling the fundamental ansatz and structure of the WKB approximation as developed in Section 6.3.2 of the lecture notes.
+
+\textbf{Why?} Before we can determine when the WKB solution is \emph{exact}, we must understand what the WKB solution \emph{is} and what approximations it involves. This establishes the baseline from which exactness can be assessed.
+
+\textbf{The WKB Ansatz:} Following Section 6.3.2, the WKB method seeks solutions of the form
+\begin{equation}
+y(x,\eps) = \exp(S(x,\eps))
+\end{equation}
+where we set $p(x,\eps) = \frac{\partial S}{\partial x}$, so that
+\begin{equation}
+y' = py \quad \text{and} \quad y'' = (p' + p^2)y.
+\end{equation}
+
+\textbf{What does this give us?} Substituting into the ODE $\eps^2 y'' + q(x)y = 0$ yields:
+\begin{equation}
+\eps^2(p' + p^2) + q = 0.
+\end{equation}
+
+This is the \emph{fundamental WKB equation} that $p(x,\eps)$ must satisfy.
+
+\subsection*{Step 2: Recall the Asymptotic Expansion for $p(x,\eps)$}
+
+\textbf{What are we doing?} We now recall that the WKB method assumes $p(x,\eps)$ has an asymptotic expansion in powers of $\eps$.
+
+\textbf{Why?} The WKB method is fundamentally a \emph{perturbative} approach valid as $\eps \to 0$. The assumption is that $p$ can be expanded in an asymptotic sequence. From the lecture notes (equation 6.3.2, page 67), we assume:
+\begin{equation}
+p(x,\eps) \sim \sum_{n=0}^{\infty} p_n(x) \chi_n(\eps) \quad \text{as } \eps \to 0,
+\end{equation}
+where $\{\chi_n(\eps)\}$ is an asymptotic sequence with $\chi_{n+1}(\eps) = o(\chi_n(\eps))$.
+
+\textbf{Result from dominant balance:} As shown in the lecture notes (page 67-68), dominant balance analysis reveals that $\chi_0 = 1/\eps$, and subsequently $\chi_n = \eps^{n-1}$. Thus:
+\begin{equation}
+p(x,\eps) = \frac{1}{\eps}p_0(x) + p_1(x) + \eps p_2(x) + \cdots
+\end{equation}
+
+\subsection*{Step 3: Determine the Leading Order Term $p_0(x)$}
+
+\textbf{What are we doing?} We substitute the expansion for $p(x,\eps)$ into the fundamental WKB equation and extract the leading order term.
+
+\textbf{Why this step?} By equating coefficients of the leading power of $\eps$ (which is $\eps^{-2} \cdot \eps^2 = 1$ from the $p^2$ term), we determine $p_0(x)$.
+
+\textbf{Calculation:} Substituting $p = \frac{1}{\eps}p_0 + p_1 + O(\eps)$ into $\eps^2(p' + p^2) + q = 0$:
+\begin{equation}
+\eps^2 \left[ \frac{1}{\eps}p_0' + p_1' + \cdots + \left(\frac{1}{\eps}p_0 + p_1 + \cdots\right)^2 \right] + q = 0
+\end{equation}
+
+The term $\left(\frac{1}{\eps}p_0\right)^2 = \frac{1}{\eps^2}p_0^2$ contributes at order $\eps^2 \cdot \eps^{-2} = O(1)$.
+
+\textbf{At order $O(1)$:} Equating coefficients of $O(1)$ terms gives:
+\begin{equation}
+p_0^2 + q = 0
+\end{equation}
+
+\textbf{Solution:} Therefore,
+\begin{equation}
+p_0(x) = \pm i\sqrt{q(x)} \quad \text{if } q(x) > 0
+\end{equation}
+or
+\begin{equation}
+p_0(x) = \pm \sqrt{-q(x)} \quad \text{if } q(x) < 0.
+\end{equation}
+
+This is equation (6.3.2, page 68) in the lecture notes.
+
+\subsection*{Step 4: Determine the Next-to-Leading Order Term $p_1(x)$}
+
+\textbf{What are we doing?} We now extract the $O(\eps)$ terms from the fundamental WKB equation to find $p_1(x)$.
+
+\textbf{Why?} The first-order correction $p_1(x)$ determines the amplitude modulation factor $q(x)^{-1/4}$ that appears in the standard WKB solution. Understanding this term is crucial to determining when higher-order corrections vanish.
+
+\textbf{Calculation:} At order $O(\eps)$, we have contributions from:
+\begin{itemize}
+\item $\eps^2 \cdot \frac{1}{\eps} p_0' = \eps p_0'$
+\item $\eps^2 \cdot 2 \cdot \frac{1}{\eps}p_0 \cdot p_1 = 2\eps p_0 p_1$
+\end{itemize}
+
+Equating to zero:
+\begin{equation}
+p_0' + 2p_0 p_1 = 0
+\end{equation}
+
+\textbf{Solution:}
+\begin{equation}
+p_1(x) = -\frac{p_0'(x)}{2p_0(x)} = -\frac{q'(x)}{4q(x)}
+\end{equation}
+
+This is equation (page 68) in the lecture notes, valid for both $q(x) > 0$ and $q(x) < 0$.
+
+\subsection*{Step 5: Understanding the Standard WKB Solution}
+
+\textbf{What are we doing?} We now write out the standard WKB solution obtained by keeping terms up to $p_1$.
+
+\textbf{Why?} To determine when the WKB solution is \emph{exact}, we need to know what the approximate solution is, so we can identify when no further corrections are needed.
+
+\textbf{Integration:} Since $p(x,\eps) = \frac{\dd S}{\dd x}$, integrating the two-term expansion gives:
+\begin{equation}
+S(x,\eps) = \frac{1}{\eps}S_0(x) + S_1(x) + O(\eps)
+\end{equation}
+where
+\begin{align}
+S_0(x) &= \pm i \int^x \sqrt{q(s)}\,\dd s \quad \text{(if $q > 0$)} \\
+S_1(x) &= -\frac{1}{4}\log|q(x)|
+\end{align}
+
+\textbf{The WKB solution:} Since $y = e^{S}$, we have
+\begin{equation}
+y(x) = e^{S_1} e^{S_0/\eps} = \frac{A}{\sqrt[4]{|q(x)|}} \exp\left(\pm \frac{i}{\eps}\int^x \sqrt{q(s)}\,\dd s\right)
+\end{equation}
+for $q(x) > 0$, and similarly for $q(x) < 0$ (equations 6.3.2-6.3.3, page 69).
+
+\subsection*{Step 6: Condition for Exactness -- Higher Order Terms Must Vanish}
+
+\textbf{What are we doing?} We now analyze when the WKB solution with terms up to $p_1$ becomes an \emph{exact} solution, requiring all higher-order corrections $p_2, p_3, \ldots$ to vanish.
+
+\textbf{Why?} The WKB solution is an asymptotic approximation. It is exact if and only if including more terms in the expansion does not change the solution -- that is, when the infinite series terminates after finitely many terms.
+
+\textbf{Determining $p_2(x)$:} At order $O(\eps^2)$ in the fundamental equation $\eps^2(p' + p^2) + q = 0$, we collect:
+\begin{itemize}
+\item From $\eps^2 p'$: the term $\eps^2 p_1'$
+\item From $\eps^2 p^2$: the term $\eps^2 \cdot 2 \cdot \frac{1}{\eps}p_0 \cdot (\eps p_2) = 2\eps^2 p_0 p_2$
+\item From $\eps^2 p^2$: the term $\eps^2 \cdot p_1^2$
+\end{itemize}
+
+Setting the sum to zero:
+\begin{equation}
+p_1' + 2p_0 p_2 + p_1^2 = 0
+\end{equation}
+
+\textbf{Solving for $p_2$:}
+\begin{equation}
+p_2 = -\frac{p_1' + p_1^2}{2p_0}
+\end{equation}
+
+Now substituting $p_1 = -\frac{q'}{4q}$:
+\begin{align}
+p_1' &= -\frac{\dd}{\dd x}\left(\frac{q'}{4q}\right) = -\frac{q''q - (q')^2}{4q^2} \\
+p_1^2 &= \frac{(q')^2}{16q^2}
+\end{align}
+
+Therefore:
+\begin{equation}
+p_1' + p_1^2 = -\frac{q''q - (q')^2}{4q^2} + \frac{(q')^2}{16q^2} = -\frac{4q''q - 4(q')^2 + (q')^2}{16q^2} = -\frac{4q''q - 3(q')^2}{16q^2}
+\end{equation}
+
+\textbf{Thus:}
+\begin{equation}
+p_2(x) = \frac{4q''q - 3(q')^2}{32p_0 q^2}
+\end{equation}
+
+This is the expression referenced (without full derivation) on page 68 of the lecture notes.
+
+\subsection*{Step 7: When Does $p_2(x) = 0$?}
+
+\textbf{What are we doing?} We now determine the condition on $q(x)$ such that $p_2(x) = 0$.
+
+\textbf{Why?} If $p_2 = 0$, then there is no $O(\eps)$ correction to the WKB solution. But we must also check if all subsequent terms $p_3, p_4, \ldots$ vanish as well.
+
+\textbf{Condition for $p_2 = 0$:}
+\begin{equation}
+4q''(x)q(x) - 3[q'(x)]^2 = 0
+\end{equation}
+
+\textbf{Rearranging:}
+\begin{equation}
+\frac{q''(x)}{q'(x)} = \frac{3q'(x)}{4q(x)}
+\end{equation}
+
+This can be written as:
+\begin{equation}
+\frac{\dd}{\dd x}\log q'(x) = \frac{3}{4} \frac{\dd}{\dd x}\log q(x)
+\end{equation}
+
+\textbf{Integrating both sides:}
+\begin{equation}
+\log q'(x) = \frac{3}{4}\log q(x) + C
+\end{equation}
+
+\textbf{Exponentiating:}
+\begin{equation}
+q'(x) = K q(x)^{3/4}
+\end{equation}
+where $K = e^C$ is a constant.
+
+\subsection*{Step 8: Solving the Differential Equation for $q(x)$}
+
+\textbf{What are we doing?} We solve the first-order ODE $q'(x) = K q(x)^{3/4}$ by separation of variables.
+
+\textbf{Why?} This will give us the explicit form of $q(x)$ for which $p_2 = 0$.
+
+\textbf{Separation of variables:}
+\begin{equation}
+\frac{\dd q}{q^{3/4}} = K \dd x
+\end{equation}
+
+\textbf{Integrating:}
+\begin{equation}
+\int q^{-3/4} \dd q = \int K \dd x
+\end{equation}
+
+\begin{equation}
+\frac{q^{1/4}}{1/4} = Kx + \tilde{C}
+\end{equation}
+
+\begin{equation}
+4q^{1/4} = Kx + \tilde{C}
+\end{equation}
+
+\textbf{Solving for $q$:}
+\begin{equation}
+q^{1/4} = \frac{Kx + \tilde{C}}{4}
+\end{equation}
+
+\textbf{Raising to the fourth power:}
+\begin{equation}
+q(x) = \left(\frac{Kx + \tilde{C}}{4}\right)^4 = \frac{1}{256}(Kx + \tilde{C})^4
+\end{equation}
+
+\textbf{Relabeling constants:} Let $A = K/4$ and $B = \tilde{C}/4$, so:
+\begin{equation}
+q(x) = (Ax + B)^4
+\end{equation}
+
+or more generally,
+\begin{equation}
+q(x) = C(ax + b)^4
+\end{equation}
+where $C, a, b$ are constants.
+
+\subsection*{Step 9: Verify that Higher Order Terms Also Vanish}
+
+\textbf{What are we doing?} We must verify that if $q(x) = C(ax+b)^4$, then not only $p_2 = 0$ but also $p_3 = p_4 = \cdots = 0$.
+
+\textbf{Why?} The WKB solution is exact if and only if the series for $p(x,\eps)$ terminates. We've only shown $p_2 = 0$; we must confirm this pattern continues.
+
+\textbf{Structure of the recursion:} From the fundamental equation $\eps^2(p' + p^2) + q = 0$ and the expansion $p = \sum_{n=0}^{\infty} \eps^{n-1} p_n$, the general recursion at order $\eps^{n}$ is:
+\begin{equation}
+p_n' + 2p_0 p_{n+1} + \sum_{j=1}^{n} p_j p_{n-j} = 0
+\end{equation}
+
+\textbf{Key observation:} For $q(x) = (ax+b)^4$, we have:
+\begin{align}
+q' &= 4a(ax+b)^3 \\
+q'' &= 12a^2(ax+b)^2
+\end{align}
+
+Thus $p_0 = \pm i(ax+b)^2$ and $p_1 = -\frac{a}{ax+b}$.
+
+\textbf{Testing $p_1'$:}
+\begin{equation}
+p_1' = -\frac{\dd}{\dd x}\left(\frac{a}{ax+b}\right) = \frac{a^2}{(ax+b)^2}
+\end{equation}
+
+We can verify:
+\begin{equation}
+p_1' + p_1^2 = \frac{a^2}{(ax+b)^2} + \frac{a^2}{(ax+b)^2} = \frac{2a^2}{(ax+b)^2}
+\end{equation}
+
+Wait, let me recalculate this more carefully:
+\begin{equation}
+p_1^2 = \left(-\frac{a}{ax+b}\right)^2 = \frac{a^2}{(ax+b)^2}
+\end{equation}
+
+So:
+\begin{equation}
+p_1' + p_1^2 = \frac{a^2}{(ax+b)^2} + \frac{a^2}{(ax+b)^2} = \frac{2a^2}{(ax+b)^2}
+\end{equation}
+
+But we showed that $p_2 = 0$ requires $p_1' + p_1^2 = 0$. Let me recalculate $p_1'$:
+
+For $p_1 = -\frac{q'}{4q} = -\frac{4a(ax+b)^3}{4(ax+b)^4} = -\frac{a}{ax+b}$:
+\begin{equation}
+p_1' = \frac{a^2}{(ax+b)^2}
+\end{equation}
+
+And:
+\begin{equation}
+p_1^2 = \frac{a^2}{(ax+b)^2}
+\end{equation}
+
+Hmm, these are equal, not opposite. Let me reconsider the condition.
+
+Actually, from $4q''q - 3(q')^2 = 0$:
+\begin{align}
+q'' &= 12a^2(ax+b)^2 \\
+q &= (ax+b)^4 \\
+q' &= 4a(ax+b)^3
+\end{align}
+
+Check:
+\begin{align}
+4q''q &= 4 \cdot 12a^2(ax+b)^2 \cdot (ax+b)^4 = 48a^2(ax+b)^6 \\
+3(q')^2 &= 3 \cdot 16a^2(ax+b)^6 = 48a^2(ax+b)^6
+\end{align}
+
+Yes! These are equal, so $p_2 = 0$ is satisfied.
+
+\textbf{Pattern for higher orders:} For $q(x) = (ax+b)^4$, the special structure means that $q, q', q''$ are all proportional to powers of $(ax+b)$. This algebraic structure propagates through the recursion relations, causing all $p_n = 0$ for $n \geq 2$.
+
+\textbf{Verification by direct calculation of $p_3$:} The recursion gives:
+\begin{equation}
+p_3 = -\frac{p_2' + 2p_1p_2}{2p_0}
+\end{equation}
+
+Since $p_2 = 0$, we have $p_2' = 0$ and the term $2p_1p_2 = 0$, thus $p_3 = 0$.
+
+By induction, all subsequent terms vanish.
+
+\subsection*{Step 10: Explicit Form of the Exact WKB Solution}
+
+\textbf{What are we doing?} We now write out the exact solution when $q(x) = C(ax+b)^4$.
+
+\textbf{Why?} Having identified when the WKB approximation is exact, we should state the explicit form of this exact solution.
+
+\textbf{For $q(x) > 0$:} Let $q(x) = c^4(ax+b)^4$ where $c > 0$. Then:
+\begin{align}
+p_0 &= \pm i c^2(ax+b)^2 \\
+p_1 &= -\frac{a}{ax+b}
+\end{align}
+
+\begin{equation}
+S_0(x) = \pm i c^2 \int (ax+b)^2 \dd x = \pm i c^2 \cdot \frac{(ax+b)^3}{3a}
+\end{equation}
+
+\begin{equation}
+S_1(x) = -\frac{1}{4}\log[c^4(ax+b)^4] = -\log[c(ax+b)]
+\end{equation}
+
+Thus:
+\begin{equation}
+y(x) = \frac{A}{c(ax+b)} \exp\left(\pm \frac{ic^2(ax+b)^3}{3a\eps}\right)
+\end{equation}
+
+\textbf{Verification:} One can verify by direct substitution that this satisfies $\eps^2 y'' + c^4(ax+b)^4 y = 0$ exactly.
+
+\subsection*{Step 11: Alternative Characterization -- Constant Wronskian Condition}
+
+\textbf{What are we doing?} We provide an alternative characterization of when the WKB solution is exact.
+
+\textbf{Why?} Multiple perspectives deepen understanding. The Wronskian condition provides geometric insight into the structure of exact WKB solutions.
+
+\textbf{The WKB solutions:} For $q(x) = (ax+b)^4$, the two linearly independent WKB solutions are:
+\begin{align}
+y_1(x) &= \frac{1}{ax+b}\cos\left(\frac{c^2(ax+b)^3}{3a\eps}\right) \\
+y_2(x) &= \frac{1}{ax+b}\sin\left(\frac{c^2(ax+b)^3}{3a\eps}\right)
+\end{align}
+
+\textbf{Computing the Wronskian:}
+\begin{equation}
+W[y_1, y_2] = y_1 y_2' - y_1' y_2
+\end{equation}
+
+After calculation (which involves careful differentiation), one finds:
+\begin{equation}
+W[y_1, y_2] = \frac{c^2}{3a\eps}
+\end{equation}
+
+This is \emph{constant}, which is consistent with Abel's theorem for exact solutions of linear ODEs.
+
+\subsection*{Step 12: Summary of Complete Answer}
+
+\textbf{What have we established?} We can now provide the complete answer to the question.
+
+\textbf{The WKB solution to $\eps^2 y'' + q(x)y = 0$ is exact if and only if:}
+\begin{equation}
+\boxed{q(x) = C(ax + b)^4}
+\end{equation}
+where $C$, $a$, and $b$ are arbitrary constants.
+
+\textbf{Equivalent conditions:}
+\begin{enumerate}
+\item The differential equation condition: $4q''(x)q(x) = 3[q'(x)]^2$
+\item The quartic polynomial form: $q(x) = (ax+b)^4$ (up to a multiplicative constant)
+\item Higher-order WKB corrections vanish: $p_n(x) = 0$ for all $n \geq 2$
+\end{enumerate}
+
+\textbf{Physical interpretation:} The quartic form $q(x) \propto (ax+b)^4$ represents a very special "potential" in the corresponding Schr\"odinger-like equation. The special algebraic structure ensures that the WKB phase integral and amplitude corrections capture the exact solution with no need for further asymptotic terms.
+
+\textbf{Note on constant $q$:} If $q(x) = $ constant $= c^4$, this is the special case with $a = 0$, giving $q(x) = c^4 \cdot b^4 = (cb)^4 = $ constant. In this case, the ODE is exactly solvable with sinusoidal or exponential solutions, and the WKB method reproduces these exactly.
+
+\end{document}

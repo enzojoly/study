@@ -1,0 +1,497 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{geometry}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{mdframed}
+
+\geometry{margin=2.5cm}
+
+\newmdtheoremenv[
+    linecolor=blue!30,
+    backgroundcolor=blue!5,
+    linewidth=2pt,
+    topline=true,
+    bottomline=true,
+    rightline=true,
+    leftline=true
+]{strategy}{Strategy}
+
+\newmdtheoremenv[
+    linecolor=red!30,
+    backgroundcolor=red!5,
+    linewidth=2pt
+]{insight}{Key Insight}
+
+\theoremstyle{definition}
+\newtheorem*{problem}{Problem}
+\newtheorem*{solution}{Solution}
+
+\title{\textbf{Asymptotics Problem Sheet 6, Question 5}\\
+\large Eigenvalue Perturbation for a $2\times 2$ Matrix}
+\author{Following Lecture Notes Section 5.2.4:\\
+Fredholm Alternative in Linear Algebra}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\begin{problem}
+Estimate the eigenvalues and eigenvectors of the matrix
+\[
+A = \begin{bmatrix} 1 & 1-\epsilon \\ \epsilon-1 & 1 \end{bmatrix}
+\]
+for $\epsilon \ll 1$. Compare your results with the exact solution.
+\end{problem}
+
+\section*{Overview and Strategy}
+
+\begin{strategy}
+This problem requires a \textbf{perturbative approach to eigenvalue problems} as developed in Lecture Notes Section 5.2.4. We identify that:
+\begin{enumerate}[label=\roman*.]
+    \item The matrix can be decomposed as $A = C + \epsilon D$ (unperturbed + perturbation)
+    \item This fits the framework: $(C + \epsilon D)x = \lambda x$
+    \item We solve the unperturbed problem first, then compute corrections using the Fredholm alternative
+    \item Since $C$ is \emph{not} self-adjoint, we need both right and left eigenvectors
+\end{enumerate}
+\end{strategy}
+
+\section{Step 1: Matrix Decomposition}
+
+\subsection*{Why We Do This}
+\textbf{Reason:} To apply perturbation theory, we must separate the problem into an exactly solvable unperturbed part and a small perturbation.
+
+\subsection*{What We Have}
+The given matrix is:
+\[
+A = \begin{bmatrix} 1 & 1-\epsilon \\ \epsilon-1 & 1 \end{bmatrix}
+\]
+
+\subsection*{What We Do}
+Rewrite by collecting terms with and without $\epsilon$:
+\begin{align*}
+A &= \begin{bmatrix} 1 & 1-\epsilon \\ \epsilon-1 & 1 \end{bmatrix} \\
+&= \begin{bmatrix} 1 & 1 \\ -1 & 1 \end{bmatrix} + \epsilon \begin{bmatrix} 0 & -1 \\ 1 & 0 \end{bmatrix}
+\end{align*}
+
+\subsection*{Why This Form}
+\textbf{This is precisely the form required by Lecture Notes Eq. (318)}:
+\[
+Cx + \epsilon Dx = \lambda x
+\]
+where we identify:
+\[
+\boxed{C = \begin{bmatrix} 1 & 1 \\ -1 & 1 \end{bmatrix}, \quad D = \begin{bmatrix} 0 & -1 \\ 1 & 0 \end{bmatrix}}
+\]
+
+\section{Step 2: Solve the Unperturbed Problem}
+
+\subsection*{Why We Do This}
+\textbf{Reason:} The perturbative expansion begins with the $O(\epsilon^0)$ problem, which determines $\lambda_0$ and $x_0$ (Lecture Notes, page 50).
+
+\subsection*{What We Need}
+We solve: $Cx_0 = \lambda_0 x_0$
+
+\subsection*{Computing the Characteristic Polynomial}
+The characteristic equation is $\det(C - \lambda_0 I) = 0$:
+\[
+\det\begin{bmatrix} 1-\lambda_0 & 1 \\ -1 & 1-\lambda_0 \end{bmatrix} = 0
+\]
+
+\textbf{Expanding the determinant:}
+\begin{align*}
+(1-\lambda_0)(1-\lambda_0) - (1)(-1) &= 0 \\
+(1-\lambda_0)^2 + 1 &= 0 \\
+1 - 2\lambda_0 + \lambda_0^2 + 1 &= 0 \\
+\lambda_0^2 - 2\lambda_0 + 2 &= 0
+\end{align*}
+
+\subsection*{Why This Leads to Complex Eigenvalues}
+Using the quadratic formula:
+\[
+\lambda_0 = \frac{2 \pm \sqrt{4 - 8}}{2} = \frac{2 \pm \sqrt{-4}}{2} = \frac{2 \pm 2i}{2} = 1 \pm i
+\]
+
+\begin{insight}
+The discriminant is negative, yielding complex conjugate eigenvalues. This means the unperturbed matrix $C$ represents a rotation with scaling, not a Hermitian operator.
+\end{insight}
+
+\[
+\boxed{\lambda_{0,1} = 1 + i, \quad \lambda_{0,2} = 1 - i}
+\]
+
+\section{Step 3: Find Right Eigenvectors $x_0$}
+
+\subsection*{For $\lambda_{0,1} = 1 + i$}
+
+\textbf{What We Need:} Solve $(C - \lambda_0 I)x_0 = 0$
+
+\textbf{Setting up the system:}
+\[
+\begin{bmatrix} 1-(1+i) & 1 \\ -1 & 1-(1+i) \end{bmatrix}\begin{bmatrix} x_1 \\ x_2 \end{bmatrix} = \begin{bmatrix} 0 \\ 0 \end{bmatrix}
+\]
+
+\[
+\begin{bmatrix} -i & 1 \\ -1 & -i \end{bmatrix}\begin{bmatrix} x_1 \\ x_2 \end{bmatrix} = \begin{bmatrix} 0 \\ 0 \end{bmatrix}
+\]
+
+\textbf{From the first equation:}
+\[
+-ix_1 + x_2 = 0 \quad \Rightarrow \quad x_2 = ix_1
+\]
+
+\textbf{Why We Can Choose $x_1 = 1$:}
+Eigenvectors are determined up to a scalar multiple. Setting $x_1 = 1$ gives:
+
+\[
+\boxed{x_{0,1} = \begin{bmatrix} 1 \\ i \end{bmatrix}}
+\]
+
+\subsection*{Verification}
+\textbf{Why We Check:} To ensure our eigenvector is correct.
+\begin{align*}
+Cx_{0,1} &= \begin{bmatrix} 1 & 1 \\ -1 & 1 \end{bmatrix}\begin{bmatrix} 1 \\ i \end{bmatrix} \\
+&= \begin{bmatrix} 1 + i \\ -1 + i \end{bmatrix} \\
+&= (1+i)\begin{bmatrix} 1 \\ i \end{bmatrix} = \lambda_{0,1} x_{0,1} \quad \checkmark
+\end{align*}
+
+\subsection*{For $\lambda_{0,2} = 1 - i$}
+
+By similar calculation (or by complex conjugation):
+\[
+\boxed{x_{0,2} = \begin{bmatrix} 1 \\ -i \end{bmatrix}}
+\]
+
+\section{Step 4: Find Left Eigenvectors $y_0$}
+
+\subsection*{Why We Need Left Eigenvectors}
+\begin{insight}
+\textbf{Critical point from Lecture Notes (page 50):} Since $C$ is NOT self-adjoint (not Hermitian), we cannot use the simplified formula. We must find $y_0$ satisfying:
+\[
+C^* y_0 = \lambda_0 y_0
+\]
+where $C^* = C^T$ for real matrices (Lecture Notes, Example on page 50).
+\end{insight}
+
+\subsection*{Computing $C^T$}
+\[
+C^T = \begin{bmatrix} 1 & -1 \\ 1 & 1 \end{bmatrix}
+\]
+
+\subsection*{For $\lambda_{0,1} = 1 + i$}
+
+\textbf{We solve:} $(C^T - \lambda_0 I)y_0 = 0$
+
+\[
+\begin{bmatrix} 1-(1+i) & -1 \\ 1 & 1-(1+i) \end{bmatrix}\begin{bmatrix} y_1 \\ y_2 \end{bmatrix} = \begin{bmatrix} 0 \\ 0 \end{bmatrix}
+\]
+
+\[
+\begin{bmatrix} -i & -1 \\ 1 & -i \end{bmatrix}\begin{bmatrix} y_1 \\ y_2 \end{bmatrix} = \begin{bmatrix} 0 \\ 0 \end{bmatrix}
+\]
+
+\textbf{From the first equation:}
+\[
+-iy_1 - y_2 = 0 \quad \Rightarrow \quad y_2 = -iy_1
+\]
+
+\textbf{Setting $y_1 = 1$:}
+\[
+\boxed{y_{0,1} = \begin{bmatrix} 1 \\ -i \end{bmatrix}}
+\]
+
+\subsection*{For $\lambda_{0,2} = 1 - i$}
+
+Similarly:
+\[
+\boxed{y_{0,2} = \begin{bmatrix} 1 \\ i \end{bmatrix}}
+\]
+
+\section{Step 5: Apply First-Order Perturbation Formula}
+
+\subsection*{The Formula (Lecture Notes, page 50)}
+For non-self-adjoint case:
+\[
+\lambda_1 = \frac{\langle Dx_0, y_0 \rangle}{\langle x_0, y_0 \rangle}
+\]
+where the inner product for real/complex vectors is: $\langle u, v \rangle = u_1 v_1 + u_2 v_2$ (standard dot product).
+
+\subsection*{For $\lambda_{0,1} = 1 + i$}
+
+\subsubsection*{Step 5a: Compute $Dx_0$}
+
+\textbf{What we compute:}
+\[
+Dx_{0,1} = \begin{bmatrix} 0 & -1 \\ 1 & 0 \end{bmatrix}\begin{bmatrix} 1 \\ i \end{bmatrix}
+\]
+
+\textbf{Why this calculation matters:} This gives us the perturbation $D$ acting on the unperturbed eigenvector.
+
+\textbf{Computing entry by entry:}
+\begin{align*}
+(Dx_{0,1})_1 &= 0 \cdot 1 + (-1) \cdot i = -i \\
+(Dx_{0,1})_2 &= 1 \cdot 1 + 0 \cdot i = 1
+\end{align*}
+
+\[
+\boxed{Dx_{0,1} = \begin{bmatrix} -i \\ 1 \end{bmatrix}}
+\]
+
+\subsubsection*{Step 5b: Compute $\langle Dx_0, y_0 \rangle$}
+
+\textbf{What we compute:}
+\[
+\langle Dx_{0,1}, y_{0,1} \rangle = \begin{bmatrix} -i \\ 1 \end{bmatrix} \cdot \begin{bmatrix} 1 \\ -i \end{bmatrix}
+\]
+
+\textbf{Why:} This is the numerator of our perturbation formula.
+
+\textbf{Computing:}
+\[
+= (-i)(1) + (1)(-i) = -i - i = -2i
+\]
+
+\[
+\boxed{\langle Dx_{0,1}, y_{0,1} \rangle = -2i}
+\]
+
+\subsubsection*{Step 5c: Compute $\langle x_0, y_0 \rangle$}
+
+\textbf{What we compute:}
+\[
+\langle x_{0,1}, y_{0,1} \rangle = \begin{bmatrix} 1 \\ i \end{bmatrix} \cdot \begin{bmatrix} 1 \\ -i \end{bmatrix}
+\]
+
+\textbf{Why:} This is the denominator, ensuring proper normalization.
+
+\textbf{Computing:}
+\[
+= (1)(1) + (i)(-i) = 1 - i^2 = 1 - (-1) = 2
+\]
+
+\[
+\boxed{\langle x_{0,1}, y_{0,1} \rangle = 2}
+\]
+
+\subsubsection*{Step 5d: Compute $\lambda_1$}
+
+\textbf{Applying the formula:}
+\[
+\lambda_1 = \frac{-2i}{2} = -i
+\]
+
+\begin{insight}
+The first-order correction is purely imaginary, which will modify the imaginary part of the eigenvalue.
+\end{insight}
+
+\subsubsection*{Step 5e: Assemble the Perturbed Eigenvalue}
+
+\textbf{The perturbative expansion (Lecture Notes, page 49):}
+\[
+\lambda(\epsilon) = \lambda_0 + \epsilon \lambda_1 + O(\epsilon^2)
+\]
+
+\textbf{Therefore:}
+\[
+\boxed{\lambda_1(\epsilon) = (1 + i) + \epsilon(-i) + O(\epsilon^2) = 1 + i(1 - \epsilon) + O(\epsilon^2)}
+\]
+
+\subsection*{For $\lambda_{0,2} = 1 - i$}
+
+\textbf{By similar calculation (or by symmetry):}
+
+\[
+Dx_{0,2} = \begin{bmatrix} 0 & -1 \\ 1 & 0 \end{bmatrix}\begin{bmatrix} 1 \\ -i \end{bmatrix} = \begin{bmatrix} i \\ 1 \end{bmatrix}
+\]
+
+\[
+\langle Dx_{0,2}, y_{0,2} \rangle = \begin{bmatrix} i \\ 1 \end{bmatrix} \cdot \begin{bmatrix} 1 \\ i \end{bmatrix} = i + i = 2i
+\]
+
+\[
+\langle x_{0,2}, y_{0,2} \rangle = \begin{bmatrix} 1 \\ -i \end{bmatrix} \cdot \begin{bmatrix} 1 \\ i \end{bmatrix} = 1 + 1 = 2
+\]
+
+\[
+\lambda_1 = \frac{2i}{2} = i
+\]
+
+\[
+\boxed{\lambda_2(\epsilon) = (1 - i) + \epsilon(i) + O(\epsilon^2) = 1 - i(1 - \epsilon) + O(\epsilon^2)}
+\]
+
+\section{Step 6: Exact Solution for Comparison}
+
+\subsection*{Why We Compute This}
+\textbf{Reason:} To verify that our perturbative approach gives the correct leading-order behavior (Lecture Notes methodology: always compare approximate with exact when possible).
+
+\subsection*{Setting Up the Characteristic Equation}
+
+\[
+\det(A - \lambda I) = \det\begin{bmatrix} 1-\lambda & 1-\epsilon \\ \epsilon-1 & 1-\lambda \end{bmatrix} = 0
+\]
+
+\subsection*{Computing the Determinant}
+
+\textbf{Expanding:}
+\begin{align*}
+&(1-\lambda)(1-\lambda) - (1-\epsilon)(\epsilon-1) \\
+&= (1-\lambda)^2 - (1-\epsilon)(\epsilon-1)
+\end{align*}
+
+\textbf{Why we simplify $(1-\epsilon)(\epsilon-1)$:}
+\[
+(1-\epsilon)(\epsilon-1) = -(1-\epsilon)(1-\epsilon) = -(1-\epsilon)^2
+\]
+
+\textbf{Therefore:}
+\begin{align*}
+&= (1-\lambda)^2 + (1-\epsilon)^2 \\
+&= 1 - 2\lambda + \lambda^2 + 1 - 2\epsilon + \epsilon^2 \\
+&= \lambda^2 - 2\lambda + (2 - 2\epsilon + \epsilon^2)
+\end{align*}
+
+\subsection*{Solving the Quadratic}
+
+\[
+\lambda = \frac{2 \pm \sqrt{4 - 4(2 - 2\epsilon + \epsilon^2)}}{2}
+\]
+
+\textbf{Simplifying the discriminant:}
+\begin{align*}
+4 - 4(2 - 2\epsilon + \epsilon^2) &= 4 - 8 + 8\epsilon - 4\epsilon^2 \\
+&= -4 + 8\epsilon - 4\epsilon^2 \\
+&= -4(1 - 2\epsilon + \epsilon^2) \\
+&= -4(1-\epsilon)^2
+\end{align*}
+
+\textbf{Taking the square root:}
+\[
+\sqrt{-4(1-\epsilon)^2} = 2i\sqrt{(1-\epsilon)^2} = 2i|1-\epsilon|
+\]
+
+\textbf{For $\epsilon \ll 1$, we have $|1-\epsilon| = 1-\epsilon$, so:}
+\[
+= 2i(1-\epsilon)
+\]
+
+\subsection*{Final Exact Eigenvalues}
+
+\[
+\lambda = \frac{2 \pm 2i(1-\epsilon)}{2} = 1 \pm i(1-\epsilon)
+\]
+
+\[
+\boxed{\lambda_{\text{exact},1} = 1 + i(1-\epsilon), \quad \lambda_{\text{exact},2} = 1 - i(1-\epsilon)}
+\]
+
+\section{Step 7: Comparison and Validation}
+
+\subsection*{Perturbative Results}
+\begin{align*}
+\lambda_1(\epsilon) &= 1 + i(1-\epsilon) + O(\epsilon^2) \\
+\lambda_2(\epsilon) &= 1 - i(1-\epsilon) + O(\epsilon^2)
+\end{align*}
+
+\subsection*{Exact Results}
+\begin{align*}
+\lambda_{\text{exact},1} &= 1 + i(1-\epsilon) \\
+\lambda_{\text{exact},2} &= 1 - i(1-\epsilon)
+\end{align*}
+
+\begin{insight}
+\textbf{Remarkable observation:} The perturbative expansion is \emph{exact to all orders}! This happens because the characteristic polynomial happens to have a special structure where higher-order terms in $\epsilon$ exactly cancel.
+\end{insight}
+
+\subsection*{Why This Agreement Is Significant}
+
+\textbf{Validating the method:} The agreement confirms that:
+\begin{enumerate}
+    \item Our identification of $C$ and $D$ was correct
+    \item The Fredholm alternative formula (Lecture Notes, page 50) works perfectly
+    \item The computation of left eigenvectors was essential and correct
+\end{enumerate}
+
+\section{Step 8: Finding Perturbed Eigenvectors (Optional)}
+
+\subsection*{Using the Lecture Notes Framework}
+
+From the Lecture Notes (page 49-50), we have at $O(\epsilon)$:
+\[
+(C - \lambda_0 I)x_1 = (\lambda_1 I - D)x_0
+\]
+
+\textbf{For $\lambda_{0,1} = 1+i$, $\lambda_1 = -i$:}
+
+The right-hand side:
+\[
+(\lambda_1 I - D)x_0 = \left(-i\begin{bmatrix} 1 & 0 \\ 0 & 1 \end{bmatrix} - \begin{bmatrix} 0 & -1 \\ 1 & 0 \end{bmatrix}\right)\begin{bmatrix} 1 \\ i \end{bmatrix}
+\]
+
+\[
+= \begin{bmatrix} -i & 1 \\ -1 & -i \end{bmatrix}\begin{bmatrix} 1 \\ i \end{bmatrix} = \begin{bmatrix} -i + i \\ -1 + 1 \end{bmatrix} = \begin{bmatrix} 0 \\ 0 \end{bmatrix}
+\]
+
+\textbf{This means:} $(C - \lambda_0 I)x_1 = 0$, so $x_1$ can be any multiple of $x_0$. We typically choose $x_1 = 0$ for normalization.
+
+\textbf{Therefore, the eigenvector to first order is:}
+\[
+\boxed{x(\epsilon) = \begin{bmatrix} 1 \\ i \end{bmatrix} + O(\epsilon)}
+\]
+
+\section{Summary and Conclusions}
+
+\subsection*{Main Results}
+
+\begin{mdframed}[linecolor=green!50!black, linewidth=2pt]
+\textbf{Eigenvalues (Perturbative):}
+\[
+\lambda_1(\epsilon) = 1 + i(1-\epsilon) + O(\epsilon^2)
+\]
+\[
+\lambda_2(\epsilon) = 1 - i(1-\epsilon) + O(\epsilon^2)
+\]
+
+\textbf{Eigenvalues (Exact):}
+\[
+\lambda_{\text{exact},1} = 1 + i(1-\epsilon)
+\]
+\[
+\lambda_{\text{exact},2} = 1 - i(1-\epsilon)
+\]
+
+\textbf{Agreement:} Perfect match to all orders in $\epsilon$!
+
+\textbf{Eigenvectors (to leading order):}
+\[
+x_1 = \begin{bmatrix} 1 \\ i \end{bmatrix} + O(\epsilon), \quad x_2 = \begin{bmatrix} 1 \\ -i \end{bmatrix} + O(\epsilon)
+\]
+\end{mdframed}
+
+\subsection*{Key Methodological Points}
+
+\begin{enumerate}
+    \item \textbf{Matrix decomposition:} Identifying $A = C + \epsilon D$ was crucial for applying perturbation theory
+
+    \item \textbf{Unperturbed problem:} Solving $Cx_0 = \lambda_0 x_0$ gave complex eigenvalues, indicating non-normality
+
+    \item \textbf{Left eigenvectors:} Because $C \neq C^T$, we needed $y_0$ from $C^T y_0 = \lambda_0 y_0$ (Lecture Notes, page 50)
+
+    \item \textbf{Perturbation formula:} $\lambda_1 = \langle Dx_0, y_0 \rangle / \langle x_0, y_0 \rangle$ (non-self-adjoint case)
+
+    \item \textbf{Verification:} Exact solution confirmed our perturbative result exactly
+\end{enumerate}
+
+\subsection*{Connection to Course Material}
+
+This problem demonstrates:
+\begin{itemize}
+    \item \textbf{Section 5.2.4:} Fredholm alternative for eigenvalue problems
+    \item \textbf{Regular perturbation:} Smooth dependence on $\epsilon$ (no singular behavior)
+    \item \textbf{Complex eigenvalues:} Handled naturally within the framework
+    \item \textbf{Validation through exact solution:} Essential step in asymptotic analysis
+\end{itemize}
+
+\end{document}

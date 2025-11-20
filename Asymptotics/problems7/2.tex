@@ -1,0 +1,518 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage{inputenc}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{enumitem}
+\usepackage{xcolor}
+
+% Custom environments for pedagogical structure
+\newtheoremstyle{problem}
+  {10pt}{10pt}{\normalfont}{}{\bfseries}{.}{.5em}{}
+\theoremstyle{problem}
+\newtheorem{problem}{Problem}
+
+\newenvironment{strategy}{\par\noindent\textbf{Strategy:}\itshape}{\par}
+\newenvironment{justification}{\par\noindent\textbf{Justification:}\itshape}{\par}
+\newenvironment{technique}{\par\noindent\textbf{Technique:}\itshape}{\par}
+\newenvironment{reflection}{\par\noindent\textbf{Reflection:}\itshape}{\par}
+
+\title{Asymptotics Problem 7.2: Complete Pedagogical Solution}
+\author{WKB Method via Double Transformation}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\begin{problem}
+For the equation $\varepsilon^2 y''(x) + q(x)y(x) = 0$, look for transformations of both the dependent and independent variables, $z = \varphi(x)$, $\nu(z) = \psi(x)y(x)$ so that with suitable choice for the functions $\varphi(x)$ and $\psi(x)$, the ODE becomes $\varepsilon^2\nu''(z) + \nu(z) = 0$ to the leading order as $\varepsilon \to 0$. Hence deduce the leading order solution and show it is equivalent to the WKB solution. (You may assume that $q(x)$ is a positive function.)
+\end{problem}
+
+\section*{Solution: Step-by-Step Atomic Breakdown}
+
+\subsection*{Step 1: Understanding the Problem and Overall Strategy}
+
+\begin{strategy}
+We are performing a \emph{double transformation}:
+\begin{itemize}[leftmargin=*]
+\item \textbf{Independent variable transformation:} $z = \varphi(x)$ (change of coordinate)
+\item \textbf{Dependent variable transformation:} $\nu(z) = \psi(x)y(x)$ (amplitude rescaling)
+\end{itemize}
+The goal is to transform the ODE with variable coefficient $q(x)$ into the \emph{simplest possible form} with constant coefficients: $\varepsilon^2\nu'' + \nu = 0$.
+\end{strategy}
+
+\begin{justification}
+Why do we want this particular form? Because $\varepsilon^2\nu'' + \nu = 0$ is exactly solvable:
+\[
+\nu(z) = A\cos\left(\frac{z}{\varepsilon}\right) + B\sin\left(\frac{z}{\varepsilon}\right),
+\]
+which exhibits the rapid oscillations characteristic of WKB solutions. By transforming our original equation into this form, we can:
+\begin{enumerate}
+\item Solve it exactly in the transformed variables
+\item Transform back to obtain the WKB approximation
+\item Understand geometrically what the WKB method is doing
+\end{enumerate}
+This approach appears in Lecture Notes \S7.2.1, equations (479)-(511), where it's used to derive WKB from the averaging method.
+\end{justification}
+
+\subsection*{Step 2: Setting Up the Transformation Framework}
+
+\noindent\textbf{What we have:}
+\begin{align*}
+\text{Original equation:} &\quad \varepsilon^2 y''(x) + q(x)y(x) = 0\\
+\text{New independent variable:} &\quad z = \varphi(x)\\
+\text{New dependent variable:} &\quad \nu(z) = \psi(x)y(x)\\
+\text{Target equation:} &\quad \varepsilon^2\nu''(z) + \nu(z) = 0
+\end{align*}
+
+\begin{technique}
+To substitute into the ODE, we need to express $y$ and its derivatives in terms of $\nu$ and its derivatives. This requires careful application of the chain rule for both transformations.
+\end{technique}
+
+\subsection*{Step 3: Relating $y$ to $\nu$}
+
+\noindent From $\nu(z) = \psi(x)y(x)$, we can express $y$ in terms of $\nu$:
+\[
+y(x) = \frac{\nu(z)}{\psi(x)} = \frac{\nu(\varphi(x))}{\psi(x)}.
+\]
+
+\begin{justification}
+This inverse relationship is crucial: we're expressing the old unknown $y(x)$ in terms of the new unknown $\nu(z)$. Note that $\nu$ is a function of $z$, which itself depends on $x$ through $z = \varphi(x)$.
+\end{justification}
+
+\subsection*{Step 4: Computing the First Derivative $y'(x)$}
+
+\noindent\textbf{What we need:} $\frac{dy}{dx}$ using $y = \frac{\nu(z)}{\psi(x)}$ and $z = \varphi(x)$.
+
+\begin{technique}
+Use the quotient rule combined with the chain rule. We have:
+\[
+y(x) = \frac{\nu(z(x))}{\psi(x)}.
+\]
+Applying the quotient rule:
+\[
+\frac{dy}{dx} = \frac{\frac{d\nu}{dx} \cdot \psi(x) - \nu(z) \cdot \frac{d\psi}{dx}}{\psi(x)^2}.
+\]
+\end{technique}
+
+\noindent But $\nu$ depends on $x$ through $z$, so by the chain rule:
+\[
+\frac{d\nu}{dx} = \frac{d\nu}{dz} \cdot \frac{dz}{dx} = \nu'(z) \cdot \varphi'(x).
+\]
+
+\noindent Therefore:
+\[
+y'(x) = \frac{\nu'(z)\varphi'(x) \cdot \psi(x) - \nu(z) \cdot \psi'(x)}{\psi(x)^2}.
+\]
+
+\noindent Simplifying:
+\[
+y'(x) = \frac{\varphi'(x)}{\psi(x)}\nu'(z) - \frac{\psi'(x)}{\psi(x)^2}\nu(z).
+\]
+
+\subsection*{Step 5: Computing the Second Derivative $y''(x)$}
+
+\noindent\textbf{What we need:} Differentiate $y'(x)$ with respect to $x$.
+
+\begin{technique}
+We have two terms to differentiate:
+\[
+y'(x) = \frac{\varphi'(x)}{\psi(x)}\nu'(z) - \frac{\psi'(x)}{\psi(x)^2}\nu(z).
+\]
+Each term requires the product rule and chain rule.
+\end{technique}
+
+\subsubsection*{Step 5a: Differentiating the First Term}
+
+\noindent For the term $\frac{\varphi'}{\psi}\nu'$, apply the product rule:
+\begin{align*}
+\frac{d}{dx}\left[\frac{\varphi'(x)}{\psi(x)}\nu'(z)\right] &= \frac{d}{dx}\left[\frac{\varphi'}{\psi}\right] \cdot \nu' + \frac{\varphi'}{\psi} \cdot \frac{d\nu'}{dx}.
+\end{align*}
+
+\noindent For the first factor, use the quotient rule:
+\[
+\frac{d}{dx}\left[\frac{\varphi'}{\psi}\right] = \frac{\varphi''\psi - \varphi'\psi'}{\psi^2}.
+\]
+
+\noindent For the second factor, use the chain rule:
+\[
+\frac{d\nu'}{dx} = \frac{d}{dx}\left[\frac{d\nu}{dz}\right] = \frac{d^2\nu}{dz^2} \cdot \frac{dz}{dx} = \nu''(z) \cdot \varphi'(x).
+\]
+
+\noindent Therefore:
+\[
+\frac{d}{dx}\left[\frac{\varphi'}{\psi}\nu'\right] = \frac{\varphi''\psi - \varphi'\psi'}{\psi^2}\nu' + \frac{\varphi'}{\psi}\nu''\varphi' = \frac{\varphi''\psi - \varphi'\psi'}{\psi^2}\nu' + \frac{(\varphi')^2}{\psi}\nu''.
+\]
+
+\subsubsection*{Step 5b: Differentiating the Second Term}
+
+\noindent For the term $-\frac{\psi'}{\psi^2}\nu$, apply the product rule:
+\begin{align*}
+\frac{d}{dx}\left[-\frac{\psi'}{\psi^2}\nu\right] &= -\frac{d}{dx}\left[\frac{\psi'}{\psi^2}\right] \cdot \nu - \frac{\psi'}{\psi^2} \cdot \frac{d\nu}{dx}.
+\end{align*}
+
+\noindent For the first factor, use the quotient rule:
+\[
+\frac{d}{dx}\left[\frac{\psi'}{\psi^2}\right] = \frac{\psi''\psi^2 - \psi' \cdot 2\psi\psi'}{\psi^4} = \frac{\psi''\psi - 2(\psi')^2}{\psi^3}.
+\]
+
+\noindent For the second factor:
+\[
+\frac{d\nu}{dx} = \nu'(z)\varphi'(x).
+\]
+
+\noindent Therefore:
+\[
+\frac{d}{dx}\left[-\frac{\psi'}{\psi^2}\nu\right] = -\frac{\psi''\psi - 2(\psi')^2}{\psi^3}\nu - \frac{\psi'}{\psi^2}\nu'\varphi'.
+\]
+
+\subsubsection*{Step 5c: Combining Both Terms}
+
+\noindent Adding the results from Steps 5a and 5b:
+\begin{align*}
+y''(x) &= \frac{\varphi''\psi - \varphi'\psi'}{\psi^2}\nu' + \frac{(\varphi')^2}{\psi}\nu'' - \frac{\psi''\psi - 2(\psi')^2}{\psi^3}\nu - \frac{\psi'\varphi'}{\psi^2}\nu'.
+\end{align*}
+
+\noindent Collecting terms by derivative order of $\nu$:
+\begin{align*}
+y''(x) &= \frac{(\varphi')^2}{\psi}\nu'' + \left[\frac{\varphi''\psi - \varphi'\psi'}{\psi^2} - \frac{\psi'\varphi'}{\psi^2}\right]\nu' - \frac{\psi''\psi - 2(\psi')^2}{\psi^3}\nu.
+\end{align*}
+
+\noindent Simplifying the coefficient of $\nu'$:
+\[
+\frac{\varphi''\psi - \varphi'\psi' - \psi'\varphi'}{\psi^2} = \frac{\varphi''\psi - 2\varphi'\psi'}{\psi^2}.
+\]
+
+\noindent Therefore:
+\[
+y''(x) = \frac{(\varphi')^2}{\psi}\nu'' + \frac{\varphi''\psi - 2\varphi'\psi'}{\psi^2}\nu' - \frac{\psi''\psi - 2(\psi')^2}{\psi^3}\nu.
+\]
+
+\subsection*{Step 6: Substituting into the Original ODE}
+
+\noindent\textbf{What we do:} Substitute $y$ and $y''$ into $\varepsilon^2 y'' + qy = 0$.
+
+\begin{align*}
+\varepsilon^2 y'' + q(x)y &= 0\\
+\varepsilon^2\left[\frac{(\varphi')^2}{\psi}\nu'' + \frac{\varphi''\psi - 2\varphi'\psi'}{\psi^2}\nu' - \frac{\psi''\psi - 2(\psi')^2}{\psi^3}\nu\right] + q(x)\frac{\nu}{\psi} &= 0.
+\end{align*}
+
+\noindent Multiply through by $\psi$ to clear denominators:
+\[
+\varepsilon^2(\varphi')^2\nu'' + \varepsilon^2\frac{\varphi''\psi - 2\varphi'\psi'}{\psi}\nu' - \varepsilon^2\frac{\psi''\psi - 2(\psi')^2}{\psi^2}\nu + q(x)\nu = 0.
+\]
+
+\subsection*{Step 7: Imposing Conditions for the Target Form}
+
+\noindent\textbf{Our goal:} We want $\varepsilon^2\nu''(z) + \nu(z) = 0$, which means:
+\begin{itemize}
+\item Coefficient of $\nu''$: should be $\varepsilon^2$
+\item Coefficient of $\nu'$: should be $0$
+\item Coefficient of $\nu$: should be $1$
+\end{itemize}
+
+\begin{strategy}
+We have three conditions and two unknown functions ($\varphi$ and $\psi$). We'll impose the conditions strategically:
+\begin{enumerate}
+\item Make the coefficient of $\nu''$ equal to $\varepsilon^2$
+\item Make the coefficient of $\nu'$ equal to $0$
+\item Check what remains for the coefficient of $\nu$
+\end{enumerate}
+\end{strategy}
+
+\subsubsection*{Step 7a: Condition from the $\nu''$ Term}
+
+\noindent The coefficient of $\nu''$ is $\varepsilon^2(\varphi')^2$. We require:
+\[
+\varepsilon^2(\varphi')^2 = \varepsilon^2 \quad \Longrightarrow \quad (\varphi')^2 = 1 \quad \Longrightarrow \quad \varphi'(x) = \pm 1.
+\]
+
+\begin{justification}
+We choose the positive sign (the negative would just reverse the direction of $z$):
+\[
+\varphi'(x) = 1 \quad \Longrightarrow \quad \varphi(x) = x + \text{const.}
+\]
+Without loss of generality, we can set the constant to zero, so $\varphi(x) = x$, which means $z = x$.
+\end{justification}
+
+\begin{reflection}
+Wait! If $\varphi(x) = x$, then we're not really changing the independent variable at all. This seems strange at first, but it makes sense: the essence of the WKB transformation is in the \emph{dependent variable} transformation $\psi(x)$, not the independent variable. However, let's not assume this yet and continue more generally.
+\end{reflection}
+
+\subsubsection*{Step 7b: General Case - Condition from the $\nu'$ Term}
+
+\noindent Let's continue with general $\varphi'(x)$ satisfying $(\varphi')^2 = 1$. The coefficient of $\nu'$ is:
+\[
+\varepsilon^2\frac{\varphi''\psi - 2\varphi'\psi'}{\psi}.
+\]
+
+\noindent We require this to vanish:
+\[
+\varphi''\psi - 2\varphi'\psi' = 0 \quad \Longrightarrow \quad \varphi''\psi = 2\varphi'\psi'.
+\]
+
+\noindent Rearranging:
+\[
+\frac{\varphi''}{\varphi'} = 2\frac{\psi'}{\psi}.
+\]
+
+\begin{technique}
+Recognize that $\frac{\varphi''}{\varphi'} = \frac{d}{dx}\ln|\varphi'|$ and $\frac{\psi'}{\psi} = \frac{d}{dx}\ln|\psi|$. Therefore:
+\[
+\frac{d}{dx}\ln|\varphi'| = 2\frac{d}{dx}\ln|\psi| = \frac{d}{dx}\ln|\psi^2|.
+\]
+\end{technique}
+
+\noindent Integrating:
+\[
+\ln|\varphi'| = \ln|\psi^2| + C \quad \Longrightarrow \quad |\varphi'| = K\psi^2,
+\]
+where $K = e^C$ is a positive constant.
+
+\noindent Combined with $(\varphi')^2 = 1$, we have $|\varphi'| = 1$, so:
+\[
+\psi^2 = \frac{1}{K}.
+\]
+
+\noindent Choosing $K = 1$ (absorbing the constant into $\nu$), we get:
+\[
+\psi(x) = 1.
+\]
+
+\begin{reflection}
+This is surprising! The dependent variable transformation is trivial: $\psi(x) = 1$ means $\nu(z) = y(x)$. Combined with $\varphi(x) = x$, we seem to have done nothing. But this can't be right - let's reconsider our approach.
+\end{reflection}
+
+\subsection*{Step 8: Reconsidering the Transformation Strategy}
+
+\begin{strategy}
+The issue is that we've been too restrictive. Let's instead require that the coefficient of $\nu''$ be $\varepsilon^2$ times \emph{something that could vary with $x$}, but which we'll handle at leading order as $\varepsilon \to 0$. The key insight is that we want:
+\[
+\varepsilon^2(\varphi')^2 = \varepsilon^2 \quad \text{to leading order}.
+\]
+But actually, let's try a different approach: set $(\varphi')^2 = q(x)$ instead!
+\end{strategy}
+
+\begin{justification}
+Why this choice? Because if $(\varphi')^2 = q(x)$, then:
+\[
+\varphi'(x) = \sqrt{q(x)},
+\]
+and the coefficient of $\nu''$ becomes $\varepsilon^2 q(x)$. If we then divide the entire equation by $q(x)$, we can potentially get the desired form. Let's try this!
+\end{justification}
+
+\subsection*{Step 9: New Approach - Setting $\varphi'(x) = \sqrt{q(x)}$}
+
+\noindent\textbf{Choice:} Let $\varphi'(x) = \sqrt{q(x)}$, so:
+\[
+z = \varphi(x) = \int^x \sqrt{q(s)}\,ds.
+\]
+
+\begin{justification}
+This is the natural choice because $\sqrt{q(x)}$ is the local "frequency" of oscillation in the WKB solution. By integrating it, we're creating a new coordinate $z$ that measures accumulated phase. This connects directly to the WKB solution formula (Lecture Notes \S6.3.2, equation (382)):
+\[
+y_\pm(x) \sim \frac{A_\pm}{|q(x)|^{1/4}}\exp\left(\pm\frac{i}{\varepsilon}\int^x\sqrt{q(s)}\,ds\right).
+\]
+\end{justification}
+
+\noindent With this choice, the coefficient of $\nu''$ becomes:
+\[
+\varepsilon^2(\varphi')^2 = \varepsilon^2 q(x).
+\]
+
+\subsection*{Step 10: Finding $\psi(x)$ with the New $\varphi$}
+
+\noindent Now we need to find $\psi(x)$ such that the $\nu'$ term vanishes. The coefficient of $\nu'$ is:
+\[
+\varepsilon^2\frac{\varphi''\psi - 2\varphi'\psi'}{\psi}.
+\]
+
+\noindent Setting this to zero:
+\[
+\varphi''\psi - 2\varphi'\psi' = 0 \quad \Longrightarrow \quad \frac{\varphi''}{\varphi'} = 2\frac{\psi'}{\psi}.
+\]
+
+\noindent With $\varphi' = \sqrt{q}$:
+\[
+\varphi'' = \frac{d}{dx}\sqrt{q} = \frac{q'}{2\sqrt{q}} = \frac{q'}{2\varphi'}.
+\]
+
+\noindent Therefore:
+\[
+\frac{\varphi''}{\varphi'} = \frac{q'}{2q}.
+\]
+
+\noindent The condition becomes:
+\[
+\frac{q'}{2q} = 2\frac{\psi'}{\psi} \quad \Longrightarrow \quad \frac{\psi'}{\psi} = \frac{q'}{4q}.
+\]
+
+\begin{technique}
+Integrate: $\ln|\psi| = \frac{1}{4}\ln|q| + C$, so:
+\[
+\psi(x) = Kq(x)^{1/4},
+\]
+where $K$ is a constant. Choosing $K = 1$:
+\[
+\psi(x) = q(x)^{1/4}.
+\]
+\end{technique}
+
+\subsection*{Step 11: Verifying the Coefficient of $\nu$}
+
+\noindent With $\varphi' = \sqrt{q}$ and $\psi = q^{1/4}$, let's check the coefficient of $\nu$ in our transformed equation.
+
+\noindent The original coefficient (after multiplying by $\psi$) was:
+\[
+-\varepsilon^2\frac{\psi''\psi - 2(\psi')^2}{\psi^2} + q(x).
+\]
+
+\begin{technique}
+We need to compute $\psi'$ and $\psi''$:
+\begin{align*}
+\psi &= q^{1/4}\\
+\psi' &= \frac{1}{4}q^{-3/4}q' = \frac{q'}{4q^{3/4}}\\
+\psi'' &= \frac{d}{dx}\left[\frac{q'}{4q^{3/4}}\right] = \frac{1}{4}\left[\frac{q''q^{3/4} - q' \cdot \frac{3}{4}q^{-1/4}q'}{q^{3/2}}\right]\\
+&= \frac{1}{4q^{3/4}}\left[q'' - \frac{3(q')^2}{4q}\right].
+\end{align*}
+\end{technique}
+
+\noindent Computing $\psi''\psi$:
+\begin{align*}
+\psi''\psi &= \frac{1}{4q^{3/4}}\left[q'' - \frac{3(q')^2}{4q}\right] \cdot q^{1/4}\\
+&= \frac{1}{4q^{1/2}}\left[q'' - \frac{3(q')^2}{4q}\right].
+\end{align*}
+
+\noindent Computing $(\psi')^2$:
+\[
+(\psi')^2 = \frac{(q')^2}{16q^{3/2}}.
+\]
+
+\noindent Therefore:
+\begin{align*}
+\psi''\psi - 2(\psi')^2 &= \frac{1}{4q^{1/2}}\left[q'' - \frac{3(q')^2}{4q}\right] - \frac{(q')^2}{8q^{3/2}}\\
+&= \frac{1}{4q^{1/2}}q'' - \frac{3(q')^2}{16q^{3/2}} - \frac{2(q')^2}{16q^{3/2}}\\
+&= \frac{1}{4q^{1/2}}q'' - \frac{5(q')^2}{16q^{3/2}}.
+\end{align*}
+
+\noindent And:
+\[
+\frac{\psi''\psi - 2(\psi')^2}{\psi^2} = \frac{\frac{1}{4q^{1/2}}q'' - \frac{5(q')^2}{16q^{3/2}}}{q^{1/2}} = \frac{1}{4q}q'' - \frac{5(q')^2}{16q^2}.
+\]
+
+\noindent The coefficient of $\nu$ is:
+\[
+-\varepsilon^2\left[\frac{1}{4q}q'' - \frac{5(q')^2}{16q^2}\right] + q = q\left[1 - \varepsilon^2\left(\frac{q''}{4q^2} - \frac{5(q')^2}{16q^3}\right)\right].
+\]
+
+\subsection*{Step 12: Taking the Leading Order as $\varepsilon \to 0$}
+
+\begin{justification}
+As $\varepsilon \to 0$, the term multiplied by $\varepsilon^2$ becomes negligible. To leading order:
+\[
+\text{Coefficient of } \nu \to q(x) \quad \text{as } \varepsilon \to 0.
+\]
+\end{justification}
+
+\noindent So our transformed equation is (to leading order):
+\[
+\varepsilon^2 q(x)\nu''(z) + q(x)\nu(z) = 0.
+\]
+
+\noindent Dividing by $q(x)$:
+\[
+\varepsilon^2\nu''(z) + \nu(z) = 0.
+\]
+
+\begin{center}
+\fbox{\begin{minipage}{0.9\textwidth}
+\textbf{Success!} With the transformations:
+\begin{align*}
+z &= \varphi(x) = \int^x \sqrt{q(s)}\,ds\\
+\nu(z) &= \psi(x)y(x) = q(x)^{1/4}y(x)
+\end{align*}
+the ODE $\varepsilon^2 y'' + q(x)y = 0$ becomes $\varepsilon^2\nu'' + \nu = 0$ to leading order as $\varepsilon \to 0$.
+\end{minipage}}
+\end{center}
+
+\subsection*{Step 13: Solving the Transformed Equation}
+
+\noindent\textbf{The equation:} $\varepsilon^2\nu''(z) + \nu(z) = 0$ is a constant-coefficient ODE.
+
+\begin{technique}
+Try $\nu(z) = e^{\lambda z}$:
+\[
+\varepsilon^2\lambda^2 e^{\lambda z} + e^{\lambda z} = 0 \quad \Longrightarrow \quad \lambda^2 = -\frac{1}{\varepsilon^2} \quad \Longrightarrow \quad \lambda = \pm\frac{i}{\varepsilon}.
+\]
+\end{technique}
+
+\noindent The general solution is:
+\[
+\nu(z) = A\exp\left(\frac{iz}{\varepsilon}\right) + B\exp\left(-\frac{iz}{\varepsilon}\right),
+\]
+or equivalently:
+\[
+\nu(z) = C\cos\left(\frac{z}{\varepsilon}\right) + D\sin\left(\frac{z}{\varepsilon}\right).
+\]
+
+\subsection*{Step 14: Transforming Back to $y(x)$}
+
+\noindent From $\nu(z) = \psi(x)y(x) = q(x)^{1/4}y(x)$, we have:
+\[
+y(x) = \frac{\nu(z)}{q(x)^{1/4}} = \frac{\nu(\varphi(x))}{q(x)^{1/4}}.
+\]
+
+\noindent Substituting $\nu(z) = A\exp(iz/\varepsilon) + B\exp(-iz/\varepsilon)$ and $z = \int^x\sqrt{q(s)}\,ds$:
+\[
+y(x) = \frac{1}{q(x)^{1/4}}\left[A\exp\left(\frac{i}{\varepsilon}\int^x\sqrt{q(s)}\,ds\right) + B\exp\left(-\frac{i}{\varepsilon}\int^x\sqrt{q(s)}\,ds\right)\right].
+\]
+
+\subsection*{Step 15: Comparing with the WKB Solution}
+
+\begin{justification}
+From Lecture Notes \S6.3.2, equation (382), the WKB solution for $\varepsilon^2 y'' + q(x)y = 0$ with $q(x) > 0$ is:
+\[
+y_\pm(x) \sim \frac{A_\pm}{|q(x)|^{1/4}}\exp\left(\pm\frac{i}{\varepsilon}\int^x\sqrt{q(s)}\,ds + O(\varepsilon)\right) \quad \text{as } \varepsilon \to 0.
+\]
+Since $q(x) > 0$, we have $|q(x)| = q(x)$, so this becomes:
+\[
+y_\pm(x) \sim \frac{A_\pm}{q(x)^{1/4}}\exp\left(\pm\frac{i}{\varepsilon}\int^x\sqrt{q(s)}\,ds\right).
+\]
+\end{justification}
+
+\noindent Our solution from the transformation method is:
+\[
+y(x) = \frac{A}{q(x)^{1/4}}\exp\left(\frac{i}{\varepsilon}\int^x\sqrt{q(s)}\,ds\right) + \frac{B}{q(x)^{1/4}}\exp\left(-\frac{i}{\varepsilon}\int^x\sqrt{q(s)}\,ds\right).
+\]
+
+\begin{center}
+\fbox{\begin{minipage}{0.9\textwidth}
+\textbf{Conclusion:} The solution obtained by the double transformation method is \emph{exactly} the leading order WKB solution! This proves that the WKB approximation can be understood as a systematic coordinate and amplitude transformation that converts the variable-coefficient ODE into a constant-coefficient one.
+\end{minipage}}
+\end{center}
+
+\subsection*{Final Summary and Physical Interpretation}
+
+\begin{reflection}
+What have we learned?
+\begin{enumerate}
+\item \textbf{The transformation $z = \int^x\sqrt{q(s)}\,ds$} converts the spatial variable $x$ into a ``phase variable'' $z$ that measures accumulated oscillations. Where $q(x)$ is large, oscillations are rapid and $dz/dx = \sqrt{q}$ is large.
+
+\item \textbf{The transformation $\nu = q^{1/4}y$} rescales the amplitude. The factor $q^{1/4}$ appears because it's the unique power that eliminates the first derivative term after the coordinate transformation.
+
+\item \textbf{Geometric insight:} In the $(z,\nu)$ coordinates, solutions are pure sinusoids with wavelength $\sim\varepsilon$. When transformed back to $(x,y)$ coordinates, these become:
+\begin{itemize}
+\item Amplitude-modulated by $q(x)^{-1/4}$
+\item Phase-modulated by $\int\sqrt{q(s)}\,ds$
+\end{itemize}
+
+\item \textbf{Connection to \S7.2.1:} This is exactly the approach used in Lecture Notes equations (479)-(511) to derive WKB from the averaging method. The key equations there are:
+\begin{itemize}
+\item Equation (488): $\dot{h}(t) = \sqrt{q(\varepsilon t)}$ (same as our $\varphi'$)
+\item Equation (510): $R(T) = c_2/q(\tau)^{1/4}$ (same as our $\psi^{-1}$)
+\item Equation (511): The final WKB form
+\end{itemize}
+\end{enumerate}
+\end{reflection}
+
+\end{document}

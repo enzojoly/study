@@ -1,0 +1,474 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{mathtools}
+\usepackage{enumitem}
+\usepackage{xcolor}
+
+% Custom commands
+\newcommand{\stage}[1]{\textbf{\textcolor{blue}{#1}}}
+
+\title{Question 2: Regular Perturbation of Linear Oscillator\\
+Complete Solution with Exact Comparison}
+\author{Asymptotics Course --- Sheet 6}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section*{Problem Statement}
+Obtain a two-term expansion when $\epsilon \ll 1$ for the solution of:
+\begin{equation}
+\frac{d^2 f}{dt^2} + f = \epsilon \frac{df}{dt}, \quad f(0) = 1, \quad \frac{df}{dt}(0) = \epsilon^2
+\end{equation}
+Compare this expansion with that obtained by expanding the exact solution.
+
+\section{Step 1: Problem Classification and Method Selection}
+
+\subsection*{Form Recognition}
+
+The ODE has the structure:
+\begin{equation}
+\frac{d^2 f}{dt^2} + f = \epsilon \frac{df}{dt}
+\end{equation}
+with initial conditions:
+\begin{align}
+f(0) &= 1 \\
+f'(0) &= \epsilon^2
+\end{align}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (What we have):} This is a second-order linear ODE with a small parameter $\epsilon$ multiplying the first derivative term. The unperturbed equation ($\epsilon = 0$) is the simple harmonic oscillator $f'' + f = 0$, which has well-defined solutions.
+
+\item \stage{STAGE Y (Why this classification):} When $\epsilon = 0$, we obtain $f'' + f = 0$ with $f(0) = 1$ and $f'(0) = 0$. This has the solution $f_0(t) = \cos t$. The perturbed problem should smoothly approach this solution as $\epsilon \to 0$. The highest derivative is NOT multiplied by $\epsilon$, so this is a \textbf{regular perturbation problem}, not a singular one.
+
+\item \stage{STAGE Z (What this means):} We can use a standard power series expansion in $\epsilon$. The solution will remain smooth and bounded as $\epsilon \to 0$. We expect the expansion to be uniformly valid for moderate times (though we must check for secular terms).
+\end{itemize}
+
+\section{Step 2: Perturbation Expansion Setup}
+
+\subsection*{Expansion Ansatz}
+
+We seek a solution of the form:
+\begin{equation}
+f(t) = f_0(t) + \epsilon f_1(t) + \epsilon^2 f_2(t) + \mathcal{O}(\epsilon^3)
+\end{equation}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (What we're doing):} We assume the solution can be expanded as a power series in $\epsilon$, where each coefficient function $f_n(t)$ is independent of $\epsilon$.
+
+\item \stage{STAGE Y (Why this works):} For regular perturbation problems, the solution depends smoothly on $\epsilon$. By Taylor's theorem for functions of a parameter, such a series expansion exists and converges for sufficiently small $\epsilon$.
+
+\item \stage{STAGE Z (Next step):} Substitute this ansatz into both the ODE and the initial conditions, then collect terms by powers of $\epsilon$.
+\end{itemize}
+
+\section{Step 3: Substitute and Collect Terms}
+
+\subsection*{Derivatives of the Ansatz}
+
+From equation (6):
+\begin{align}
+f'(t) &= f_0'(t) + \epsilon f_1'(t) + \epsilon^2 f_2'(t) + \mathcal{O}(\epsilon^3) \\
+f''(t) &= f_0''(t) + \epsilon f_1''(t) + \epsilon^2 f_2''(t) + \mathcal{O}(\epsilon^3)
+\end{align}
+
+\subsection*{Substitution into ODE}
+
+Insert into $f'' + f = \epsilon f'$:
+\begin{multline}
+\left[f_0'' + \epsilon f_1'' + \epsilon^2 f_2'' + \mathcal{O}(\epsilon^3)\right] + \left[f_0 + \epsilon f_1 + \epsilon^2 f_2 + \mathcal{O}(\epsilon^3)\right] \\
+= \epsilon\left[f_0' + \epsilon f_1' + \epsilon^2 f_2' + \mathcal{O}(\epsilon^3)\right]
+\end{multline}
+
+Rearranging:
+\begin{equation}
+(f_0'' + f_0) + \epsilon(f_1'' + f_1 - f_0') + \epsilon^2(f_2'' + f_2 - f_1') + \mathcal{O}(\epsilon^3) = 0
+\end{equation}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (What we observe):} After substitution, we have a polynomial in $\epsilon$ equal to zero.
+
+\item \stage{STAGE Y (Why we can equate coefficients):} For the equation to hold for all small $\epsilon$, each power of $\epsilon$ must independently vanish. This is because polynomials can only be identically zero if all coefficients are zero.
+
+\item \stage{STAGE Z (Result):} We obtain a hierarchy of ODEs, one for each order of $\epsilon$.
+\end{itemize}
+
+\subsection*{Initial Conditions Hierarchy}
+
+Expand $f(0) = 1$:
+\begin{equation}
+f_0(0) + \epsilon f_1(0) + \epsilon^2 f_2(0) + \cdots = 1
+\end{equation}
+
+Expand $f'(0) = \epsilon^2$:
+\begin{equation}
+f_0'(0) + \epsilon f_1'(0) + \epsilon^2 f_2'(0) + \cdots = \epsilon^2
+\end{equation}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (Initial conditions by order):} Equating powers of $\epsilon$ in the initial conditions:
+\begin{align*}
+\mathcal{O}(1): &\quad f_0(0) = 1, \quad f_0'(0) = 0 \\
+\mathcal{O}(\epsilon): &\quad f_1(0) = 0, \quad f_1'(0) = 0 \\
+\mathcal{O}(\epsilon^2): &\quad f_2(0) = 0, \quad f_2'(0) = 1
+\end{align*}
+
+\item \stage{STAGE Y (Why this structure):} The condition $f'(0) = \epsilon^2$ means the initial velocity is of order $\epsilon^2$, so it doesn't appear until the second order. This is crucial for determining the correct initial conditions at each order.
+
+\item \stage{STAGE Z (Ready to solve):} We now have complete ODE problems at each order.
+\end{itemize}
+
+\section{Step 4: Solve Order by Order}
+
+\subsection*{Order $\mathcal{O}(1)$: Leading Order Problem}
+
+\textbf{ODE and Initial Conditions:}
+\begin{equation}
+f_0'' + f_0 = 0, \quad f_0(0) = 1, \quad f_0'(0) = 0
+\end{equation}
+
+\textbf{General Solution:}
+The characteristic equation is $r^2 + 1 = 0 \Rightarrow r = \pm i$, giving:
+\begin{equation}
+f_0(t) = A\cos t + B\sin t
+\end{equation}
+
+\textbf{Apply Initial Conditions:}
+\begin{align}
+f_0(0) = A = 1 &\Rightarrow A = 1 \\
+f_0'(t) = -A\sin t + B\cos t \Rightarrow f_0'(0) = B = 0 &\Rightarrow B = 0
+\end{align}
+
+\textbf{Leading Order Solution:}
+\begin{equation}
+\boxed{f_0(t) = \cos t}
+\end{equation}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (What we found):} The unperturbed solution is pure harmonic oscillation with unit amplitude and zero initial velocity.
+
+\item \stage{STAGE Y (Physical meaning):} This represents an undamped oscillator starting from maximum displacement. The perturbation term $\epsilon f'$ represents weak damping.
+
+\item \stage{STAGE Z (Next order):} This solution becomes the forcing term for the next order.
+\end{itemize}
+
+\subsection*{Order $\mathcal{O}(\epsilon)$: First Correction}
+
+\textbf{ODE and Initial Conditions:}
+\begin{equation}
+f_1'' + f_1 = f_0' = -\sin t, \quad f_1(0) = 0, \quad f_1'(0) = 0
+\end{equation}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (What we have):} An inhomogeneous ODE where the forcing term is $-\sin t$, which is a solution of the homogeneous equation.
+
+\item \stage{STAGE Y (Why this matters - Resonance):} The forcing frequency equals the natural frequency. This is a resonance condition that will produce a \textbf{secular term} (a term growing linearly with time).
+
+\item \stage{STAGE Z (Expect secular growth):} The particular solution will contain a term proportional to $t\cos t$.
+\end{itemize}
+
+\textbf{Solution Method:}
+
+The homogeneous solution is:
+\begin{equation}
+f_{1,h}(t) = C\cos t + D\sin t
+\end{equation}
+
+For the particular solution, since $\sin t$ is a homogeneous solution, we use the ansatz:
+\begin{equation}
+f_{1,p}(t) = t(E\cos t + F\sin t)
+\end{equation}
+
+\textbf{Compute derivatives:}
+\begin{align}
+f_{1,p}'(t) &= (E\cos t + F\sin t) + t(-E\sin t + F\cos t) \\
+&= E\cos t + F\sin t - Et\sin t + Ft\cos t
+\end{align}
+
+\begin{align}
+f_{1,p}''(t) &= -E\sin t + F\cos t + [-E\sin t - Et\cos t + F\cos t - Ft\sin t] \\
+&= -2E\sin t + 2F\cos t - Et\cos t - Ft\sin t
+\end{align}
+
+\textbf{Substitute into ODE:}
+\begin{multline}
+f_{1,p}'' + f_{1,p} = [-2E\sin t + 2F\cos t - Et\cos t - Ft\sin t] \\
++ [Et\cos t + Ft\sin t] = -\sin t
+\end{multline}
+
+Simplifying:
+\begin{equation}
+-2E\sin t + 2F\cos t = -\sin t
+\end{equation}
+
+\textbf{Coefficient matching:}
+\begin{align}
+\cos t: &\quad 2F = 0 \Rightarrow F = 0 \\
+\sin t: &\quad -2E = -1 \Rightarrow E = \frac{1}{2}
+\end{align}
+
+\textbf{Particular solution:}
+\begin{equation}
+f_{1,p}(t) = \frac{t}{2}\cos t
+\end{equation}
+
+\textbf{General solution:}
+\begin{equation}
+f_1(t) = C\cos t + D\sin t + \frac{t}{2}\cos t
+\end{equation}
+
+\textbf{Apply initial conditions:}
+\begin{align}
+f_1(0) = C = 0 &\Rightarrow C = 0 \\
+f_1'(t) = -C\sin t + D\cos t + \frac{1}{2}\cos t - \frac{t}{2}\sin t \\
+f_1'(0) = D + \frac{1}{2} = 0 &\Rightarrow D = -\frac{1}{2}
+\end{align}
+
+\textbf{First Order Correction:}
+\begin{equation}
+\boxed{f_1(t) = -\frac{1}{2}\sin t + \frac{t}{2}\cos t}
+\end{equation}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (What we found):} The first correction contains both a bounded oscillatory part $-\frac{1}{2}\sin t$ and a secular term $\frac{t}{2}\cos t$ that grows without bound.
+
+\item \stage{STAGE Y (Why secular terms appear):} The forcing term $-\sin t$ is in resonance with the natural frequency. The secular term represents the cumulative effect of resonant forcing.
+
+\item \stage{STAGE Z (Validity limitation):} This expansion breaks down when $t \sim \mathcal{O}(1/\epsilon)$ because then the "correction" term $\epsilon f_1 \sim \epsilon t \sim 1$ becomes comparable to the leading term. For moderate times $t = \mathcal{O}(1)$, the expansion remains valid.
+\end{itemize}
+
+\section{Step 5: Two-Term Perturbation Result}
+
+Combining the results:
+\begin{equation}
+\boxed{f(t) = \cos t + \epsilon\left(-\frac{1}{2}\sin t + \frac{t}{2}\cos t\right) + \mathcal{O}(\epsilon^2)}
+\end{equation}
+
+This can be rewritten as:
+\begin{equation}
+\boxed{f(t) = \cos t - \frac{\epsilon}{2}\sin t + \frac{\epsilon t}{2}\cos t + \mathcal{O}(\epsilon^2)}
+\end{equation}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (Two-term expansion complete):} We have the leading order and first correction.
+
+\item \stage{STAGE Y (Domain of validity):} This expansion is uniformly valid for $t \ll 1/\epsilon$. For longer times, the secular term dominates and the expansion fails.
+
+\item \stage{STAGE Z (Next task):} Compare with the exact solution.
+\end{itemize}
+
+\section{Step 6: Exact Solution}
+
+\subsection*{Solve the Characteristic Equation}
+
+The ODE is:
+\begin{equation}
+f'' - \epsilon f' + f = 0
+\end{equation}
+
+Try $f = e^{rt}$:
+\begin{equation}
+r^2 - \epsilon r + 1 = 0
+\end{equation}
+
+Using the quadratic formula:
+\begin{equation}
+r = \frac{\epsilon \pm \sqrt{\epsilon^2 - 4}}{2} = \frac{\epsilon \pm \sqrt{-(4 - \epsilon^2)}}{2} = \frac{\epsilon \pm i\sqrt{4 - \epsilon^2}}{2}
+\end{equation}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (Complex roots):} The discriminant is negative for small $\epsilon$, giving complex conjugate roots.
+
+\item \stage{STAGE Y (Oscillatory solution):} Complex roots indicate oscillatory behavior with exponential amplitude modulation.
+
+\item \stage{STAGE Z (Exact form):} We can write the solution in terms of exponentials or trigonometric functions.
+\end{itemize}
+
+Let:
+\begin{align}
+\alpha &= \frac{\epsilon}{2} \\
+\omega &= \frac{\sqrt{4 - \epsilon^2}}{2} = \frac{1}{2}\sqrt{4 - \epsilon^2}
+\end{align}
+
+\textbf{General solution:}
+\begin{equation}
+f(t) = e^{\alpha t}(A\cos(\omega t) + B\sin(\omega t))
+\end{equation}
+
+\subsection*{Apply Initial Conditions}
+
+\textbf{Condition 1:} $f(0) = 1$
+\begin{equation}
+f(0) = e^0(A\cos 0 + B\sin 0) = A = 1 \Rightarrow A = 1
+\end{equation}
+
+\textbf{Condition 2:} $f'(0) = \epsilon^2$
+
+First compute $f'(t)$:
+\begin{align}
+f'(t) &= \alpha e^{\alpha t}(A\cos(\omega t) + B\sin(\omega t)) \\
+&\quad + e^{\alpha t}(-A\omega\sin(\omega t) + B\omega\cos(\omega t))
+\end{align}
+
+At $t = 0$:
+\begin{equation}
+f'(0) = \alpha A + B\omega = \frac{\epsilon}{2} + B\omega = \epsilon^2
+\end{equation}
+
+Solving for $B$:
+\begin{equation}
+B\omega = \epsilon^2 - \frac{\epsilon}{2} \Rightarrow B = \frac{\epsilon^2 - \frac{\epsilon}{2}}{\omega} = \frac{2\epsilon^2 - \epsilon}{2\omega}
+\end{equation}
+
+\textbf{Exact solution:}
+\begin{equation}
+\boxed{f_{\text{exact}}(t) = e^{\frac{\epsilon t}{2}}\left[\cos\left(\frac{t}{2}\sqrt{4-\epsilon^2}\right) + \frac{2\epsilon^2 - \epsilon}{2\omega}\sin\left(\frac{t}{2}\sqrt{4-\epsilon^2}\right)\right]}
+\end{equation}
+
+where $\omega = \frac{1}{2}\sqrt{4-\epsilon^2}$.
+
+\section{Step 7: Expand the Exact Solution}
+
+\subsection*{Expand Each Component}
+
+\textbf{1. Exponential term:}
+\begin{equation}
+e^{\frac{\epsilon t}{2}} = 1 + \frac{\epsilon t}{2} + \frac{\epsilon^2 t^2}{8} + \mathcal{O}(\epsilon^3)
+\end{equation}
+
+\textbf{2. Frequency term:}
+\begin{align}
+\omega &= \frac{1}{2}\sqrt{4 - \epsilon^2} = \frac{1}{2} \cdot 2\sqrt{1 - \frac{\epsilon^2}{4}} \\
+&= 1 \cdot \left(1 - \frac{\epsilon^2}{8} + \mathcal{O}(\epsilon^4)\right) = 1 - \frac{\epsilon^2}{8} + \mathcal{O}(\epsilon^4)
+\end{align}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (Binomial expansion):} Used $(1+x)^{1/2} = 1 + \frac{1}{2}x - \frac{1}{8}x^2 + \cdots$ with $x = -\epsilon^2/4$.
+
+\item \stage{STAGE Y (Why to order $\epsilon^2$):} We need $\omega$ accurate to $\mathcal{O}(\epsilon^2)$ to get $f$ correct to $\mathcal{O}(\epsilon)$.
+
+\item \stage{STAGE Z (Apply to trig functions):} The argument of sine and cosine becomes $t(1 - \epsilon^2/8) = t - \epsilon^2 t/8$.
+\end{itemize}
+
+\textbf{3. Cosine term:}
+\begin{align}
+\cos(\omega t) &= \cos\left(t\left[1 - \frac{\epsilon^2}{8}\right]\right) = \cos\left(t - \frac{\epsilon^2 t}{8}\right) \\
+&= \cos t \cos\left(\frac{\epsilon^2 t}{8}\right) + \sin t \sin\left(\frac{\epsilon^2 t}{8}\right) \\
+&= \cos t \left[1 - \frac{1}{2}\left(\frac{\epsilon^2 t}{8}\right)^2 + \cdots\right] + \sin t \left[\frac{\epsilon^2 t}{8} + \cdots\right] \\
+&= \cos t + \frac{\epsilon^2 t}{8}\sin t + \mathcal{O}(\epsilon^4)
+\end{align}
+
+\textbf{4. Coefficient of sine:}
+\begin{align}
+\frac{2\epsilon^2 - \epsilon}{2\omega} &= \frac{2\epsilon^2 - \epsilon}{2(1 - \epsilon^2/8 + \mathcal{O}(\epsilon^4))} \\
+&= \frac{2\epsilon^2 - \epsilon}{2}(1 + \epsilon^2/8 + \mathcal{O}(\epsilon^4)) \\
+&= (\epsilon^2 - \frac{\epsilon}{2})(1 + \epsilon^2/8) + \mathcal{O}(\epsilon^3) \\
+&= -\frac{\epsilon}{2} + \epsilon^2 + \mathcal{O}(\epsilon^3)
+\end{align}
+
+\textbf{5. Sine term:}
+\begin{align}
+\sin(\omega t) &= \sin\left(t - \frac{\epsilon^2 t}{8}\right) \\
+&= \sin t \cos\left(\frac{\epsilon^2 t}{8}\right) - \cos t \sin\left(\frac{\epsilon^2 t}{8}\right) \\
+&= \sin t + \mathcal{O}(\epsilon^4)
+\end{align}
+
+\subsection*{Combine All Terms}
+
+\begin{multline}
+f_{\text{exact}}(t) = \left(1 + \frac{\epsilon t}{2} + \mathcal{O}(\epsilon^2)\right) \\
+\times \left[\cos t + \frac{\epsilon^2 t}{8}\sin t + \left(-\frac{\epsilon}{2} + \mathcal{O}(\epsilon^2)\right)\sin t + \mathcal{O}(\epsilon^2)\right]
+\end{multline}
+
+Expanding to $\mathcal{O}(\epsilon)$:
+\begin{align}
+f_{\text{exact}}(t) &= \left(1 + \frac{\epsilon t}{2}\right)\left[\cos t - \frac{\epsilon}{2}\sin t\right] + \mathcal{O}(\epsilon^2) \\
+&= \cos t - \frac{\epsilon}{2}\sin t + \frac{\epsilon t}{2}\cos t - \frac{\epsilon^2 t}{4}\sin t + \mathcal{O}(\epsilon^2) \\
+&= \cos t - \frac{\epsilon}{2}\sin t + \frac{\epsilon t}{2}\cos t + \mathcal{O}(\epsilon^2)
+\end{align}
+
+\textbf{Expanded exact solution:}
+\begin{equation}
+\boxed{f_{\text{exact}}(t) = \cos t - \frac{\epsilon}{2}\sin t + \frac{\epsilon t}{2}\cos t + \mathcal{O}(\epsilon^2)}
+\end{equation}
+
+\section{Step 8: Comparison and Verification}
+
+\subsection*{Direct Comparison}
+
+\textbf{Perturbation expansion result (from Step 5):}
+\begin{equation}
+f_{\text{pert}}(t) = \cos t - \frac{\epsilon}{2}\sin t + \frac{\epsilon t}{2}\cos t + \mathcal{O}(\epsilon^2)
+\end{equation}
+
+\textbf{Expanded exact solution (from Step 7):}
+\begin{equation}
+f_{\text{exact}}(t) = \cos t - \frac{\epsilon}{2}\sin t + \frac{\epsilon t}{2}\cos t + \mathcal{O}(\epsilon^2)
+\end{equation}
+
+\begin{center}
+\fbox{\parbox{0.9\textwidth}{
+\textbf{PERFECT AGREEMENT}: The two-term perturbation expansion matches the expansion of the exact solution identically to $\mathcal{O}(\epsilon)$.
+}}
+\end{center}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (What we verified):} Both methods give identical results through order $\epsilon$.
+
+\item \stage{STAGE Y (Why this confirms validity):} The perturbation method is correct for this regular problem. The secular term $\frac{\epsilon t}{2}\cos t$ is a genuine feature of the exact solution, not an artifact of the method.
+
+\item \stage{STAGE Z (Physical interpretation):} The damping term $\epsilon f'$ causes both:
+\begin{enumerate}
+\item A phase shift (the $-\frac{\epsilon}{2}\sin t$ term)
+\item A slow amplitude growth that appears as secular growth at this order but is actually bounded by the exponential $e^{\epsilon t/2} \approx 1 + \epsilon t/2$ for small $t$.
+\end{enumerate}
+\end{itemize}
+
+\subsection*{Key Observations}
+
+\textbf{1. Secular Term Resolution:}
+
+The secular term $\frac{\epsilon t}{2}\cos t$ appears unbounded as $t \to \infty$, but in the exact solution it's part of:
+\begin{equation}
+e^{\frac{\epsilon t}{2}}\cos(\omega t) \approx \left(1 + \frac{\epsilon t}{2}\right)\cos t
+\end{equation}
+
+The exponential growth is actually bounded and represents weak growth due to the negative damping coefficient (the term enters as $-\epsilon f'$ on the RHS, which is anti-damping for $f' < 0$).
+
+\textbf{2. Validity Domain:}
+
+The expansion is uniformly valid for:
+\begin{equation}
+t \ll \frac{1}{\epsilon}
+\end{equation}
+
+For $t = \mathcal{O}(1/\epsilon)$, the $\mathcal{O}(\epsilon)$ term becomes $\mathcal{O}(1)$ and the expansion breaks down. The multiple scales method would be needed for longer times.
+
+\textbf{3. Initial Condition Impact:}
+
+The unusual initial condition $f'(0) = \epsilon^2$ means:
+\begin{itemize}
+\item No contribution to $f_0'(0)$ or $f_1'(0)$
+\item The initial velocity is extremely small, entering only at $\mathcal{O}(\epsilon^2)$
+\item This affects the coefficient $B$ in the exact solution
+\end{itemize}
+
+\section{Verification Checklist}
+
+\begin{enumerate}[leftmargin=*]
+\item[$\checkmark$] \textbf{Problem classified:} Regular perturbation (highest derivative not multiplied by $\epsilon$)
+\item[$\checkmark$] \textbf{Expansion ansatz:} $f = f_0 + \epsilon f_1 + \mathcal{O}(\epsilon^2)$
+\item[$\checkmark$] \textbf{Order $\mathcal{O}(1)$:} $f_0 = \cos t$
+\item[$\checkmark$] \textbf{Order $\mathcal{O}(\epsilon)$:} $f_1 = -\frac{1}{2}\sin t + \frac{t}{2}\cos t$ (with secular term)
+\item[$\checkmark$] \textbf{Exact solution found:} Using characteristic equation method
+\item[$\checkmark$] \textbf{Exact solution expanded:} Careful Taylor expansion to $\mathcal{O}(\epsilon)$
+\item[$\checkmark$] \textbf{Perfect agreement:} Perturbation and exact expansion match
+\item[$\checkmark$] \textbf{Secular term explained:} Genuine feature from exponential growth $e^{\epsilon t/2}$
+\item[$\checkmark$] \textbf{Validity domain identified:} $t \ll 1/\epsilon$
+\end{enumerate}
+
+\vspace{1em}
+\textit{This solution demonstrates that regular perturbation theory correctly captures the behavior of damped oscillators for moderate times, including secular terms that represent physical exponential growth.}
+
+\end{document}

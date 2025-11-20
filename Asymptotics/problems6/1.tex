@@ -1,0 +1,471 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{mathtools}
+\usepackage{enumitem}
+\usepackage{xcolor}
+
+% Custom commands
+\newcommand{\stage}[1]{\textbf{\textcolor{blue}{#1}}}
+
+\title{Problem Sheet 6, Question 1:\\
+Regular Perturbation of Initial Value Problem\\
+Complete Solution with Full Methodology}
+\author{Asymptotics Course 2025/2026}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section*{Problem Statement}
+
+Obtain a two-term expansion when $\epsilon \ll 1$ for the solution of
+\[
+\frac{df}{dt} - f = \epsilon f^2 e^{-t}, \quad f(0) = 1.
+\]
+
+\section{Step 1: Problem Classification and Method Selection}
+
+\subsection*{Form Recognition}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (What we have):}
+We have a first-order nonlinear ordinary differential equation with a small parameter $\epsilon$ multiplying a nonlinear term. The equation has the form
+\[
+\frac{df}{dt} - f = \epsilon f^2 e^{-t}
+\]
+with initial condition $f(0) = 1$. The parameter $0 < \epsilon \ll 1$ is small.
+
+\item \stage{STAGE Y (Why we classify):}
+When $\epsilon = 0$, the equation becomes
+\[
+\frac{df_0}{dt} - f_0 = 0, \quad f_0(0) = 1,
+\]
+which is a linear first-order ODE with solution $f_0(t) = e^t$. This solution exists for all $t \geq 0$ and is smooth. For small but nonzero $\epsilon$, we expect the solution to vary smoothly from the unperturbed solution. There are no singular behaviors expected (no boundary layers, no loss of derivatives).
+
+\item \stage{STAGE Z (What this means):}
+This is a \textbf{regular perturbation problem}. The solution can be expressed as a power series in $\epsilon$:
+\[
+f(t, \epsilon) = f_0(t) + \epsilon f_1(t) + \epsilon^2 f_2(t) + O(\epsilon^3).
+\]
+The appropriate method is the \textbf{regular perturbation expansion method} as discussed in Section 5.1 of the lecture notes.
+\end{itemize}
+
+\subsection*{Why Regular Perturbation Works Here}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (What we check):}
+The small parameter $\epsilon$ multiplies the \emph{nonlinear} term $f^2 e^{-t}$, but does \emph{not} multiply the highest derivative. The unperturbed problem ($\epsilon = 0$) has the same order as the perturbed problem (both are first-order ODEs).
+
+\item \stage{STAGE Y (Why this matters):}
+When a small parameter multiplies the highest derivative (e.g., $\epsilon \frac{d^2f}{dt^2} + \cdots$), we typically encounter \textbf{singular perturbation problems} with boundary layers (Section 6 of lecture notes). Here, the derivative structure is unchanged when $\epsilon \to 0$, so the solution varies smoothly.
+
+\item \stage{STAGE Z (Conclusion):}
+We proceed with confidence using regular perturbation expansion.
+\end{itemize}
+
+\section{Step 2: Set Up the Perturbation Expansion}
+
+\subsection*{The Ansatz}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (What we assume):}
+We assume the solution can be written as a power series in $\epsilon$:
+\[
+f(t, \epsilon) = f_0(t) + \epsilon f_1(t) + \epsilon^2 f_2(t) + O(\epsilon^3).
+\]
+For a two-term expansion, we need to determine $f_0(t)$ and $f_1(t)$.
+
+\item \stage{STAGE Y (Why this form):}
+From the theory of regular perturbations (Section 5.1), when the solution depends smoothly on $\epsilon$, it admits a Taylor expansion in $\epsilon$. Each coefficient function $f_n(t)$ is independent of $\epsilon$ and depends only on time $t$.
+
+\item \stage{STAGE Z (What we'll do):}
+Substitute this ansatz into the ODE and the initial condition, then collect terms of equal powers of $\epsilon$. Each power of $\epsilon$ will give us a separate ODE to solve sequentially.
+\end{itemize}
+
+\section{Step 3: Substitute the Expansion into the ODE}
+
+\subsection*{Compute the Derivative}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (Calculate $\frac{df}{dt}$):}
+From $f(t, \epsilon) = f_0(t) + \epsilon f_1(t) + \epsilon^2 f_2(t) + O(\epsilon^3)$, we have
+\[
+\frac{df}{dt} = \frac{df_0}{dt} + \epsilon \frac{df_1}{dt} + \epsilon^2 \frac{df_2}{dt} + O(\epsilon^3).
+\]
+
+\item \stage{STAGE Y (Why straightforward):}
+Since each $f_n(t)$ depends only on $t$ (not on $\epsilon$), differentiation with respect to $t$ passes through the sum term by term.
+
+\item \stage{STAGE Z (Result):}
+We have the derivative ready for substitution.
+\end{itemize}
+
+\subsection*{Compute the Nonlinear Term}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (Calculate $f^2$):}
+We need to expand
+\[
+f^2 = \left(f_0 + \epsilon f_1 + \epsilon^2 f_2 + O(\epsilon^3)\right)^2.
+\]
+Expanding the square:
+\begin{align*}
+f^2 &= f_0^2 + 2f_0 \cdot \epsilon f_1 + 2f_0 \cdot \epsilon^2 f_2 + (\epsilon f_1)^2 + O(\epsilon^3) \\
+&= f_0^2 + 2\epsilon f_0 f_1 + \epsilon^2(2f_0 f_2 + f_1^2) + O(\epsilon^3).
+\end{align*}
+
+\item \stage{STAGE Y (Why careful expansion needed):}
+The nonlinearity $f^2$ couples different orders of the expansion. The term $f_0^2$ contributes at $O(1)$ when multiplied by $\epsilon$ (giving $\epsilon f_0^2$, which is $O(\epsilon)$). The cross-term $2f_0 f_1$ appears at $O(\epsilon)$ but contributes at $O(\epsilon^2)$ when multiplied by the $\epsilon$ in front. We must track all contributions systematically.
+
+\item \stage{STAGE Z (Ready for substitution):}
+Therefore,
+\[
+\epsilon f^2 e^{-t} = \epsilon f_0^2 e^{-t} + \epsilon^2 (2f_0 f_1 e^{-t}) + O(\epsilon^3).
+\]
+\end{itemize}
+
+\subsection*{Substitute Everything into the ODE}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (The full substitution):}
+The ODE $\frac{df}{dt} - f = \epsilon f^2 e^{-t}$ becomes:
+\begin{align*}
+&\left[\frac{df_0}{dt} + \epsilon \frac{df_1}{dt} + \epsilon^2 \frac{df_2}{dt}\right] - \left[f_0 + \epsilon f_1 + \epsilon^2 f_2\right] \\
+&\qquad = \epsilon f_0^2 e^{-t} + \epsilon^2(2f_0 f_1 e^{-t}) + O(\epsilon^3).
+\end{align*}
+
+\item \stage{STAGE Y (Why we organize by powers of $\epsilon$):}
+For this equation to hold for all small $\epsilon$, the coefficients of each power of $\epsilon$ must separately equal zero. This is the fundamental principle of perturbation theory: if a power series in $\epsilon$ equals zero for all small $\epsilon$, then each coefficient must vanish independently.
+
+\item \stage{STAGE Z (Ready to collect terms):}
+We now group all terms by their order in $\epsilon$.
+\end{itemize}
+
+\section{Step 4: Collect Terms by Powers of $\epsilon$}
+
+\subsection*{Organize the Equation}
+
+Rearranging:
+\[
+\left(\frac{df_0}{dt} - f_0\right) + \epsilon\left(\frac{df_1}{dt} - f_1 - f_0^2 e^{-t}\right) + \epsilon^2\left(\frac{df_2}{dt} - f_2 - 2f_0 f_1 e^{-t}\right) + O(\epsilon^3) = 0.
+\]
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (What we see):}
+The equation is now organized as a polynomial in $\epsilon$. Each bracket contains terms of the same order.
+
+\item \stage{STAGE Y (Why this organization works):}
+Since this equation must hold for all $t$ and all sufficiently small $\epsilon$, and since the terms $1, \epsilon, \epsilon^2, \ldots$ are linearly independent functions of $\epsilon$, each coefficient must vanish separately.
+
+\item \stage{STAGE Z (The hierarchy of equations):}
+We obtain a sequence of ODEs to solve in order:
+\begin{align}
+O(\epsilon^0): \quad & \frac{df_0}{dt} - f_0 = 0 \tag{Eq. 0}\\
+O(\epsilon^1): \quad & \frac{df_1}{dt} - f_1 = f_0^2 e^{-t} \tag{Eq. 1}\\
+O(\epsilon^2): \quad & \frac{df_2}{dt} - f_2 = 2f_0 f_1 e^{-t} \tag{Eq. 2}
+\end{align}
+\end{itemize}
+
+\section{Step 5: Apply Initial Conditions}
+
+\subsection*{Expand the Initial Condition}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (The given condition):}
+We have $f(0) = 1$. Substituting our expansion:
+\[
+f(0, \epsilon) = f_0(0) + \epsilon f_1(0) + \epsilon^2 f_2(0) + O(\epsilon^3) = 1.
+\]
+
+\item \stage{STAGE Y (Why expand the initial condition):}
+Just as with the ODE, the initial condition must hold for all small $\epsilon$. Therefore, we must have equality at each order in $\epsilon$.
+
+\item \stage{STAGE Z (Initial conditions for each order):}
+Matching coefficients:
+\begin{align*}
+O(\epsilon^0): \quad & f_0(0) = 1 \\
+O(\epsilon^1): \quad & f_1(0) = 0 \\
+O(\epsilon^2): \quad & f_2(0) = 0
+\end{align*}
+\end{itemize}
+
+\section{Step 6: Solve the Leading Order Problem}
+
+\subsection*{The $O(1)$ Equation}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (The problem to solve):}
+\[
+\frac{df_0}{dt} - f_0 = 0, \quad f_0(0) = 1.
+\]
+
+\item \stage{STAGE Y (Why we solve this first):}
+This is the unperturbed problem (the problem when $\epsilon = 0$). All higher-order corrections depend on this solution, so we must solve it first. This is a standard linear first-order ODE.
+
+\item \stage{STAGE Z (Method of solution):}
+This is a separable ODE. We can write $\frac{df_0}{f_0} = dt$.
+\end{itemize}
+
+\subsection*{Solving by Separation of Variables}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (Separate and integrate):}
+\[
+\frac{df_0}{f_0} = dt \implies \int \frac{df_0}{f_0} = \int dt \implies \ln|f_0| = t + C.
+\]
+
+\item \stage{STAGE Y (Why we can take the absolute value away):}
+Since $f_0(0) = 1 > 0$ and the solution is continuous, $f_0(t)$ remains positive for all $t$ in the domain of interest. Thus $|f_0| = f_0$.
+
+\item \stage{STAGE Z (General solution):}
+Exponentiating both sides:
+\[
+f_0(t) = Ke^t
+\]
+where $K = e^C$ is a constant determined by initial conditions.
+\end{itemize}
+
+\subsection*{Apply the Initial Condition}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (Use $f_0(0) = 1$):}
+\[
+f_0(0) = Ke^0 = K = 1.
+\]
+
+\item \stage{STAGE Y (Why this determines the solution uniquely):}
+The first-order linear ODE with an initial condition has a unique solution by the existence and uniqueness theorem for ODEs.
+
+\item \stage{STAGE Z (Leading order solution):}
+\[
+\boxed{f_0(t) = e^t}
+\]
+\end{itemize}
+
+\subsection*{Verification}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (Check the ODE):}
+\[
+\frac{df_0}{dt} = e^t, \quad f_0 = e^t \implies \frac{df_0}{dt} - f_0 = e^t - e^t = 0. \quad \checkmark
+\]
+
+\item \stage{STAGE Y (Check the initial condition):}
+\[
+f_0(0) = e^0 = 1. \quad \checkmark
+\]
+
+\item \stage{STAGE Z (Confidence in the solution):}
+Both the ODE and initial condition are satisfied. We proceed to the next order.
+\end{itemize}
+
+\section{Step 7: Solve the First-Order Correction}
+
+\subsection*{The $O(\epsilon)$ Equation}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (The problem to solve):}
+Using $f_0(t) = e^t$ in Eq. 1:
+\[
+\frac{df_1}{dt} - f_1 = f_0^2 e^{-t} = (e^t)^2 e^{-t} = e^{2t} \cdot e^{-t} = e^t,
+\]
+with initial condition $f_1(0) = 0$.
+
+\item \stage{STAGE Y (Why this is more complex):}
+Unlike the homogeneous equation for $f_0$, this is an \textbf{inhomogeneous linear ODE}. The right-hand side $e^t$ acts as a forcing term. We need to find both the homogeneous solution and a particular solution.
+
+\item \stage{STAGE Z (Solution strategy):}
+The general solution is:
+\[
+f_1(t) = f_1^{(\text{hom})}(t) + f_1^{(\text{part})}(t)
+\]
+where $f_1^{(\text{hom})}$ solves the homogeneous equation and $f_1^{(\text{part})}$ is any particular solution.
+\end{itemize}
+
+\subsection*{Homogeneous Solution}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (Solve $\frac{df_1^{(\text{hom})}}{dt} - f_1^{(\text{hom})} = 0$):}
+This is the same form as the $O(1)$ equation:
+\[
+f_1^{(\text{hom})}(t) = Ae^t
+\]
+where $A$ is an arbitrary constant.
+
+\item \stage{STAGE Y (Why we need this):}
+The homogeneous solution provides the freedom to satisfy initial conditions. The particular solution alone may not satisfy $f_1(0) = 0$.
+
+\item \stage{STAGE Z (One part of the solution):}
+We have found the complementary function.
+\end{itemize}
+
+\subsection*{Particular Solution}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (The issue with naive guess):}
+Normally, for an equation $\frac{df_1}{dt} - f_1 = e^t$, we might try a particular solution $f_1^{(\text{part})} = Be^t$. However:
+\[
+\frac{d(Be^t)}{dt} - Be^t = Be^t - Be^t = 0 \neq e^t.
+\]
+This fails because $e^t$ is already a solution of the homogeneous equation!
+
+\item \stage{STAGE Y (Why we need a different ansatz):}
+When the forcing term is a solution of the homogeneous equation, we have \textbf{resonance}. The standard method (from ODE theory) is to multiply by $t$: try $f_1^{(\text{part})} = Bte^t$.
+
+\item \stage{STAGE Z (Try the modified ansatz):}
+Let $f_1^{(\text{part})} = Bte^t$ where $B$ is to be determined.
+\end{itemize}
+
+\subsection*{Determine the Particular Solution}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (Compute derivatives):}
+\[
+f_1^{(\text{part})} = Bte^t
+\]
+Using the product rule:
+\[
+\frac{df_1^{(\text{part})}}{dt} = B\frac{d}{dt}(te^t) = B(e^t + te^t) = B(1 + t)e^t.
+\]
+
+\item \stage{STAGE Y (Substitute into the ODE):}
+\[
+\frac{df_1^{(\text{part})}}{dt} - f_1^{(\text{part})} = B(1 + t)e^t - Bte^t = Be^t + Bte^t - Bte^t = Be^t.
+\]
+
+\item \stage{STAGE Z (Match the forcing term):}
+We need $Be^t = e^t$, so $B = 1$. Thus:
+\[
+f_1^{(\text{part})}(t) = te^t.
+\]
+\end{itemize}
+
+\subsection*{General Solution for $f_1$}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (Combine solutions):}
+\[
+f_1(t) = Ae^t + te^t = (A + t)e^t.
+\]
+
+\item \stage{STAGE Y (Apply initial condition $f_1(0) = 0$):}
+\[
+f_1(0) = (A + 0)e^0 = A = 0.
+\]
+
+\item \stage{STAGE Z (First-order correction):}
+\[
+\boxed{f_1(t) = te^t}
+\]
+\end{itemize}
+
+\subsection*{Verification}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (Check the ODE):}
+\[
+\frac{df_1}{dt} = \frac{d}{dt}(te^t) = e^t + te^t = (1 + t)e^t
+\]
+\[
+\frac{df_1}{dt} - f_1 = (1 + t)e^t - te^t = e^t. \quad \checkmark
+\]
+
+\item \stage{STAGE Y (Check the initial condition):}
+\[
+f_1(0) = 0 \cdot e^0 = 0. \quad \checkmark
+\]
+
+\item \stage{STAGE Z (Confidence):}
+The solution is verified. We now have both terms for our two-term expansion.
+\end{itemize}
+
+\section{Step 8: Assemble the Two-Term Expansion}
+
+\subsection*{The Final Answer}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (Combine the results):}
+Substituting $f_0(t) = e^t$ and $f_1(t) = te^t$ into our expansion:
+\[
+f(t, \epsilon) = f_0(t) + \epsilon f_1(t) + O(\epsilon^2) = e^t + \epsilon te^t + O(\epsilon^2).
+\]
+Factoring:
+\[
+\boxed{f(t, \epsilon) = e^t(1 + \epsilon t) + O(\epsilon^2)}
+\]
+
+\item \stage{STAGE Y (What this result means):}
+For small $\epsilon$ and not-too-large $t$, the solution is approximately $e^t(1 + \epsilon t)$. The leading behavior is exponential growth $e^t$ (from the unperturbed problem), with a correction that grows linearly in both $\epsilon$ and $t$.
+
+\item \stage{STAGE Z (Validity of the expansion):}
+The expansion is uniformly valid as long as $\epsilon t \ll 1$, i.e., for $t \ll 1/\epsilon$. For times $t = O(1/\epsilon)$, the correction term becomes comparable to the leading term, and higher-order terms may be needed (this is related to the discussion of secular terms in Section 7.1 of the lecture notes).
+\end{itemize}
+
+\section{Step 9: Physical and Mathematical Interpretation}
+
+\subsection*{Behavior of the Solution}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (Analyzing the structure):}
+\begin{itemize}
+\item The unperturbed solution $f_0(t) = e^t$ grows exponentially.
+\item The correction $\epsilon f_1(t) = \epsilon te^t$ also grows exponentially, but with an additional factor of $t$.
+\item For fixed small $\epsilon$, as $t$ increases, eventually $\epsilon te^t$ becomes non-negligible compared to $e^t$.
+\end{itemize}
+
+\item \stage{STAGE Y (Why the expansion might break down):}
+When $\epsilon t = O(1)$, i.e., $t = O(1/\epsilon)$, the two terms are of the same order, and the perturbation series is no longer a valid approximation. This is a characteristic feature of secular growth (Section 7.1).
+
+\item \stage{STAGE Z (When to trust the result):}
+For $t \ll 1/\epsilon$ and $\epsilon \ll 1$, the two-term expansion is accurate and uniformly valid.
+\end{itemize}
+
+\subsection*{Comparison with the Original Problem}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (The nonlinear term's effect):}
+The original ODE has $\epsilon f^2 e^{-t}$ on the right-hand side. For the unperturbed solution $f_0 = e^t$, this term is:
+\[
+\epsilon f_0^2 e^{-t} = \epsilon e^{2t} e^{-t} = \epsilon e^t,
+\]
+which is precisely the forcing term in the equation for $f_1$.
+
+\item \stage{STAGE Y (Why the correction has this form):}
+The nonlinearity $f^2$ amplifies the growth: the solution grows like $e^t$, so $f^2 \sim e^{2t}$, but the factor $e^{-t}$ moderates this to $e^t$. The net effect is captured in the correction term $\epsilon te^t$.
+
+\item \stage{STAGE Z (Physical insight):}
+If this ODE modeled a physical process (e.g., population growth with a time-varying interaction term), the $\epsilon te^t$ term represents a cumulative effect that grows both with time and the strength of the interaction ($\epsilon$).
+\end{itemize}
+
+\section{Verification Checklist}
+
+Following the standards of thoroughness demonstrated in the lecture notes and reference solutions:
+
+\begin{enumerate}[leftmargin=*]
+\item[$\checkmark$] \textbf{Problem type identified}: Regular perturbation (Section 5.1)
+\item[$\checkmark$] \textbf{Expansion ansatz justified}: Power series in $\epsilon$
+\item[$\checkmark$] \textbf{Terms collected systematically}: By powers of $\epsilon$
+\item[$\checkmark$] \textbf{Initial conditions distributed}: $f_0(0) = 1$, $f_1(0) = 0$
+\item[$\checkmark$] \textbf{$O(1)$ equation solved}: $f_0(t) = e^t$
+\item[$\checkmark$] \textbf{$O(\epsilon)$ equation solved}: $f_1(t) = te^t$
+\item[$\checkmark$] \textbf{Resonance handled correctly}: Used $te^t$ ansatz for particular solution
+\item[$\checkmark$] \textbf{Each solution verified}: Checked ODE and initial conditions
+\item[$\checkmark$] \textbf{Final answer assembled}: $f(t, \epsilon) = e^t(1 + \epsilon t) + O(\epsilon^2)$
+\item[$\checkmark$] \textbf{Validity discussed}: Expansion valid for $t \ll 1/\epsilon$
+\end{enumerate}
+
+\vspace{1em}
+\begin{center}
+\fbox{%
+\parbox{0.9\textwidth}{%
+\textbf{Final Two-Term Expansion:}
+\[
+f(t, \epsilon) = e^t(1 + \epsilon t) + O(\epsilon^2), \quad \epsilon \ll 1, \quad t \ll 1/\epsilon.
+\]
+}
+}
+\end{center}
+
+\end{document}

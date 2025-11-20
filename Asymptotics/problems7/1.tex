@@ -1,0 +1,297 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage{inputenc}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{enumitem}
+\usepackage{xcolor}
+
+% Custom environments for pedagogical structure
+\newtheoremstyle{problem}
+  {10pt}{10pt}{\normalfont}{}{\bfseries}{.}{.5em}{}
+\theoremstyle{problem}
+\newtheorem{problem}{Problem}
+
+\newenvironment{strategy}{\par\noindent\textbf{Strategy:}\itshape}{\par}
+\newenvironment{justification}{\par\noindent\textbf{Justification:}\itshape}{\par}
+\newenvironment{technique}{\par\noindent\textbf{Technique:}\itshape}{\par}
+
+\title{Asymptotics Problem 7.1: Complete Pedagogical Solution}
+\author{WKB Method --- Elimination of First Derivative}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\begin{problem}
+Consider the ordinary differential equation
+\[
+u''(x) + p(x)u'(x) + q(x)u(x) = 0.
+\]
+Set $u(x) = f(x)y(x)$ and find a function $f(x)$ such that the resulting ODE for $y(x)$ has no term in $y'(x)$.
+\end{problem}
+
+\section*{Solution: Step-by-Step Atomic Breakdown}
+
+\subsection*{Step 1: Understanding the Problem}
+
+\begin{strategy}
+We are given a second-order linear ODE with non-constant coefficients. Our goal is to perform a transformation that simplifies the equation by eliminating the first derivative term. This is a standard technique in asymptotic analysis and is particularly important for:
+\begin{itemize}[leftmargin=*]
+\item Connecting boundary layer problems to WKB-type equations (as noted in Lecture Notes \S6.3.1, equation (377))
+\item Simplifying ODEs before applying the WKB approximation
+\item Converting equations into a form amenable to asymptotic analysis
+\end{itemize}
+\end{strategy}
+
+\begin{justification}
+Why do we want to eliminate the first derivative term? From the lecture notes \S6.3, we learned that the WKB method works most naturally on equations of the form $\varepsilon^2 y'' + q(x)y = 0$. If we encounter an equation with a $y'$ term, we need to transform it away first. This transformation reveals the underlying oscillatory or exponential structure of solutions.
+\end{justification}
+
+\subsection*{Step 2: Setting Up the Transformation}
+
+\noindent\textbf{What we do:} We substitute $u(x) = f(x)y(x)$ into the original ODE.
+
+\begin{justification}
+This substitution is called a \emph{dependent variable transformation}. We're expressing the unknown function $u(x)$ as a product of:
+\begin{itemize}
+\item A known (to-be-determined) function $f(x)$ that will absorb the unwanted $y'$ term
+\item A new unknown function $y(x)$ that will satisfy a simpler ODE
+\end{itemize}
+This is analogous to an integrating factor in first-order ODEs, but here we seek to change the structure of a second-order equation.
+\end{justification}
+
+\subsection*{Step 3: Computing the Required Derivatives}
+
+\noindent\textbf{What we need:} To substitute $u = fy$ into the ODE, we need $u'$ and $u''$.
+
+\subsubsection*{Step 3a: First Derivative}
+
+\begin{technique}
+Apply the product rule: If $u = f \cdot y$, then
+\[
+u' = \frac{d}{dx}(f \cdot y) = f' y + f y'.
+\]
+\end{technique}
+
+\noindent This is straightforward differentiation. We obtain:
+\[
+u'(x) = f'(x)y(x) + f(x)y'(x).
+\]
+
+\subsubsection*{Step 3b: Second Derivative}
+
+\begin{technique}
+We differentiate $u' = f'y + fy'$ using the product rule on each term:
+\begin{align*}
+u'' &= \frac{d}{dx}(f'y + fy')\\
+&= \frac{d}{dx}(f'y) + \frac{d}{dx}(fy')\\
+&= (f''y + f'y') + (f'y' + fy'')\\
+&= f''y + 2f'y' + fy''.
+\end{align*}
+\end{technique}
+
+\noindent Therefore:
+\[
+u''(x) = f''(x)y(x) + 2f'(x)y'(x) + f(x)y''(x).
+\]
+
+\begin{justification}
+Notice the structure: The second derivative $u''$ produces three terms involving $y$, $y'$, and $y''$. The term $2f'y'$ is particularly important --- this is where we'll have leverage to eliminate the first derivative from the transformed equation.
+\end{justification}
+
+\subsection*{Step 4: Substituting into the Original ODE}
+
+\noindent\textbf{What we do:} Substitute $u$, $u'$, and $u''$ into $u'' + pu' + qu = 0$.
+
+\begin{align*}
+u'' + p(x)u' + q(x)u &= 0\\
+\bigl[f''y + 2f'y' + fy''\bigr] + p(x)\bigl[f'y + fy'\bigr] + q(x)\bigl[fy\bigr] &= 0.
+\end{align*}
+
+\noindent Expanding the middle term:
+\[
+f''y + 2f'y' + fy'' + pf'y + pfy' + qfy = 0.
+\]
+
+\subsection*{Step 5: Collecting Terms by Derivative Order}
+
+\begin{technique}
+Group terms according to which derivative of $y$ they contain: $y''$, $y'$, or $y$. This reveals the structure of the transformed ODE.
+\end{technique}
+
+\noindent\textbf{Grouping by $y$ and its derivatives:}
+\begin{align*}
+\text{Coefficient of } y'': &\quad f\\
+\text{Coefficient of } y': &\quad 2f' + pf\\
+\text{Coefficient of } y: &\quad f'' + pf' + qf
+\end{align*}
+
+\noindent Therefore, the equation becomes:
+\[
+f \cdot y'' + (2f' + pf) \cdot y' + (f'' + pf' + qf) \cdot y = 0.
+\]
+
+\subsection*{Step 6: Converting to Standard Form}
+
+\noindent\textbf{What we do:} Divide through by $f(x)$ (assuming $f(x) \neq 0$) to obtain:
+\[
+y'' + \left(\frac{2f'}{f} + p\right) y' + \left(\frac{f''}{f} + p\frac{f'}{f} + q\right) y = 0.
+\]
+
+\begin{justification}
+Dividing by $f$ gives us the standard form of a second-order ODE with the coefficient of $y''$ equal to 1. This makes it easier to see what condition on $f$ will eliminate the $y'$ term.
+\end{justification}
+
+\subsection*{Step 7: Imposing the Condition to Eliminate $y'$}
+
+\noindent\textbf{The Key Step:} We want the coefficient of $y'$ to vanish.
+
+\begin{strategy}
+Set the coefficient of $y'$ equal to zero:
+\[
+\frac{2f'}{f} + p = 0.
+\]
+This is a first-order ODE for $f(x)$ that we can solve.
+\end{strategy}
+
+\begin{justification}
+Why does this work? If the coefficient of $y'$ is zero, then the transformed ODE contains only $y''$ and $y$ terms, which is exactly what we want. This is a necessary and sufficient condition for eliminating the first derivative.
+\end{justification}
+
+\subsection*{Step 8: Solving for $f(x)$}
+
+\noindent\textbf{What we need to solve:}
+\[
+\frac{2f'}{f} + p(x) = 0 \quad \Longrightarrow \quad \frac{2f'}{f} = -p(x).
+\]
+
+\begin{technique}
+This is a separable first-order ODE. We can write:
+\[
+\frac{f'}{f} = -\frac{p(x)}{2}.
+\]
+Recall that $\frac{d}{dx}\ln|f| = \frac{f'}{f}$, so:
+\[
+\frac{d}{dx}\ln|f| = -\frac{p(x)}{2}.
+\]
+\end{technique}
+
+\noindent Integrating both sides with respect to $x$:
+\[
+\ln|f(x)| = -\frac{1}{2}\int p(x)\,dx + C,
+\]
+where $C$ is a constant of integration.
+
+\noindent Exponentiating both sides:
+\[
+|f(x)| = \exp\left(-\frac{1}{2}\int p(x)\,dx + C\right) = e^C \cdot \exp\left(-\frac{1}{2}\int p(x)\,dx\right).
+\]
+
+\noindent Since $e^C$ is just a positive constant, and we can absorb it (we only need one particular function $f$, not the general solution with arbitrary constants), we write:
+\[
+f(x) = \exp\left(-\frac{1}{2}\int p(x)\,dx\right).
+\]
+
+\begin{justification}
+We drop the absolute value and the arbitrary constant because:
+\begin{itemize}
+\item We only need \emph{one} function $f(x)$ that eliminates the $y'$ term, not a family of solutions
+\item The constant would factor out of the entire ODE and can be absorbed into $y(x)$
+\item The exponential is always positive, so $|f| = f$
+\end{itemize}
+\end{justification}
+
+\subsection*{Step 9: Verifying the Result}
+
+\noindent\textbf{Check:} Let's verify that with $f(x) = \exp\left(-\frac{1}{2}\int p(x)\,dx\right)$, we have $2f'/f + p = 0$.
+
+\begin{technique}
+Differentiate $f$ using the chain rule:
+\[
+f'(x) = \exp\left(-\frac{1}{2}\int p(x)\,dx\right) \cdot \left(-\frac{1}{2}p(x)\right) = -\frac{p(x)}{2} \cdot f(x).
+\]
+\end{technique}
+
+\noindent Therefore:
+\[
+\frac{f'}{f} = -\frac{p(x)}{2} \quad \Longrightarrow \quad \frac{2f'}{f} = -p(x) \quad \Longrightarrow \quad \frac{2f'}{f} + p(x) = 0. \quad \checkmark
+\]
+
+\subsection*{Step 10: The Transformed ODE for $y(x)$}
+
+\noindent With the $y'$ term eliminated, the ODE for $y(x)$ becomes:
+\[
+y''(x) + \left(\frac{f''}{f} + p\frac{f'}{f} + q\right) y(x) = 0.
+\]
+
+\begin{technique}
+Let's simplify the coefficient of $y$. We know:
+\begin{itemize}
+\item $\frac{f'}{f} = -\frac{p}{2}$
+\item $\frac{f''}{f}$ can be computed by differentiating $f'/f$
+\end{itemize}
+\end{technique}
+
+\noindent Computing $f''/f$: Differentiate $f' = -\frac{p}{2}f$:
+\begin{align*}
+f'' &= -\frac{p'}{2}f - \frac{p}{2}f'\\
+&= -\frac{p'}{2}f - \frac{p}{2}\left(-\frac{p}{2}f\right)\\
+&= -\frac{p'}{2}f + \frac{p^2}{4}f.
+\end{align*}
+
+\noindent Therefore:
+\[
+\frac{f''}{f} = -\frac{p'}{2} + \frac{p^2}{4}.
+\]
+
+\noindent The coefficient of $y$ becomes:
+\begin{align*}
+\frac{f''}{f} + p\frac{f'}{f} + q &= \left(-\frac{p'}{2} + \frac{p^2}{4}\right) + p\left(-\frac{p}{2}\right) + q\\
+&= -\frac{p'}{2} + \frac{p^2}{4} - \frac{p^2}{2} + q\\
+&= -\frac{p'}{2} - \frac{p^2}{4} + q.
+\end{align*}
+
+\subsection*{Final Answer}
+
+\begin{center}
+\fbox{\begin{minipage}{0.9\textwidth}
+\textbf{The function $f(x)$ that eliminates the first derivative term is:}
+\[
+\boxed{f(x) = \exp\left(-\frac{1}{2}\int p(x)\,dx\right)}
+\]
+
+\textbf{The transformed ODE for $y(x)$ is:}
+\[
+\boxed{y''(x) + \left(q(x) - \frac{p'(x)}{2} - \frac{p(x)^2}{4}\right)y(x) = 0}
+\]
+\end{minipage}}
+\end{center}
+
+\subsection*{Connection to the Lecture Notes}
+
+\begin{justification}
+This result appears in the lecture notes \S6.3.1, equation (377). There, the transformation $y(x) = \exp\left(-\frac{1}{2\varepsilon}\int p(s)\,ds\right)z(x)$ is used to eliminate the first derivative from:
+\[
+\varepsilon y'' + p(x)y' + q(x)y = 0,
+\]
+yielding:
+\[
+\varepsilon^2 z'' + \left(-\frac{p^2}{4} - \frac{p'}{2} + q\right)z = 0.
+\]
+This confirms that our transformation is correct and shows its importance in connecting boundary layer problems to WKB-type equations.
+\end{justification}
+
+\subsection*{Physical Interpretation}
+
+\begin{justification}
+The transformation $u = fy$ with $f = \exp\left(-\frac{1}{2}\int p\,dx\right)$ has a physical meaning:
+\begin{itemize}
+\item The function $f(x)$ acts as an amplitude modulation factor
+\item It absorbs the damping or growth encoded in the $p(x)u'$ term
+\item What remains in $y(x)$ is the purely oscillatory or exponential behavior determined by the effective potential $q - p'/2 - p^2/4$
+\item This is why the transformation is essential before applying WKB: it separates amplitude effects from phase effects
+\end{itemize}
+\end{justification}
+
+\end{document}

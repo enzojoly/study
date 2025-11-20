@@ -1,0 +1,685 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{mathtools}
+\usepackage{enumitem}
+\usepackage{xcolor}
+
+% Custom commands
+\newcommand{\stage}[1]{\textbf{\textcolor{blue}{#1}}}
+
+\title{Question 3: Projectile Motion with Perturbations\\
+Complete Solution with Full Verification}
+\author{Asymptotics Course — Sheet 6}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section*{Problem Statement}
+
+\subsection*{Part (a): Variable Gravity}
+The distance $x$ of a projectile from Earth at time $t$ is governed by
+\[
+\ddot{x} = -\frac{1}{(1+\epsilon x)^2}, \quad x(0) = 0, \quad \dot{x}(0) = 1,
+\]
+where $\epsilon = V^2/(gR)$ with $V$ the initial upward speed, $g$ gravitational acceleration, and $R$ Earth's radius. Distance is non-dimensionalized by $V^2/g$ and time by $V/g$.
+
+\textbf{Task:} Find the time $t_m$ for the projectile to reach maximum height, correct to order $\epsilon$ (and optionally $\epsilon^2$).
+
+\subsection*{Part (b): Air Resistance}
+With air resistance instead of variable gravity:
+\[
+\ddot{x} + \beta\dot{x} = -1, \quad x(0) = 0, \quad \dot{x}(0) = 1,
+\]
+where $0 < \beta \ll 1$ is the ratio of air resistance to gravitational force.
+
+\textbf{Task:} Find the time to maximum height with leading correction.
+
+\section{Part (a): Projectile with Variable Gravity}
+
+\subsection{Step 1: Problem Classification and Setup}
+
+\subsubsection*{Form Recognition}
+
+We have a second-order ODE initial value problem:
+\begin{align*}
+\ddot{x} &= -\frac{1}{(1+\epsilon x)^2} \\
+x(0) &= 0 \\
+\dot{x}(0) &= 1
+\end{align*}
+where $0 < \epsilon \ll 1$ is a small parameter.
+
+\subsubsection*{Classification}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (What we have):} The equation has a nonlinear term on the right-hand side that depends on $\epsilon$. When $\epsilon = 0$, we recover the standard constant gravity problem $\ddot{x}_0 = -1$.
+
+\item \stage{STAGE Y (Why this method):} This is a \textbf{regular perturbation problem} because:
+\begin{enumerate}
+\item The small parameter $\epsilon$ does not multiply the highest derivative
+\item The unperturbed problem ($\epsilon = 0$) has the same order as the perturbed problem
+\item We expect the solution to vary smoothly as $\epsilon \to 0$
+\item The right-hand side can be expanded in a Taylor series in $\epsilon$
+\end{enumerate}
+
+\item \stage{STAGE Z (What this means):} We can use a regular perturbation expansion of the form $x(t,\epsilon) = x_0(t) + \epsilon x_1(t) + \epsilon^2 x_2(t) + \cdots$ and solve order-by-order in $\epsilon$.
+\end{itemize}
+
+\subsection{Step 2: Expand the Nonlinear Term}
+
+\subsubsection*{Taylor Expansion of RHS}
+
+We need to expand
+\[
+f(x) = -\frac{1}{(1+\epsilon x)^2}
+\]
+for small $\epsilon x$.
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (What we do):} Using the binomial expansion $(1+u)^{-2} = 1 - 2u + 3u^2 - 4u^3 + \cdots$ with $u = \epsilon x$:
+\begin{align*}
+-\frac{1}{(1+\epsilon x)^2} &= -(1 + \epsilon x)^{-2} \\
+&= -\left[1 - 2(\epsilon x) + 3(\epsilon x)^2 - 4(\epsilon x)^3 + \cdots\right] \\
+&= -1 + 2\epsilon x - 3\epsilon^2 x^2 + 4\epsilon^3 x^3 + \cdots
+\end{align*}
+
+\item \stage{STAGE Y (Why this works):} The binomial theorem applies because $|\epsilon x| < 1$ for the physically relevant regime. Since $\epsilon \ll 1$ and $x$ remains $O(1)$ during the trajectory, the expansion converges rapidly. Each successive term is suppressed by a factor of $\epsilon$.
+
+\item \stage{STAGE Z (What this means):} At order $\epsilon^0$, we keep only $-1$. At order $\epsilon^1$, we include $+2\epsilon x$. At order $\epsilon^2$, we add $-3\epsilon^2 x^2$. This allows us to systematically organize our perturbation expansion.
+\end{itemize}
+
+\subsection{Step 3: Set Up Perturbation Ansatz}
+
+\subsubsection*{Expansion for Position}
+
+Make the ansatz:
+\[
+x(t,\epsilon) = x_0(t) + \epsilon x_1(t) + \epsilon^2 x_2(t) + O(\epsilon^3)
+\]
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (What we assume):} Each function $x_n(t)$ is independent of $\epsilon$ and depends only on time $t$. The solution is built as a power series in $\epsilon$.
+
+\item \stage{STAGE Y (Why this form):} For regular perturbations, the solution varies smoothly with $\epsilon$, so a Taylor series in $\epsilon$ is appropriate. The leading term $x_0(t)$ captures the unperturbed motion, while $x_1(t), x_2(t), \ldots$ represent successive corrections.
+
+\item \stage{STAGE Z (What we must verify):} We must check that:
+\begin{enumerate}
+\item Each $x_n(t)$ satisfies appropriate initial conditions
+\item The series converges (at least asymptotically)
+\item The expansion remains uniformly valid for $t \in [0, t_m]$
+\end{enumerate}
+\end{itemize}
+
+\subsubsection*{Initial Conditions at Each Order}
+
+From $x(0,\epsilon) = 0$:
+\[
+x_0(0) + \epsilon x_1(0) + \epsilon^2 x_2(0) + \cdots = 0
+\]
+Matching powers of $\epsilon$:
+\begin{align}
+x_0(0) &= 0 \\
+x_1(0) &= 0 \\
+x_2(0) &= 0 \\
+&\vdots
+\end{align}
+
+From $\dot{x}(0,\epsilon) = 1$:
+\[
+\dot{x}_0(0) + \epsilon\dot{x}_1(0) + \epsilon^2\dot{x}_2(0) + \cdots = 1
+\]
+Matching powers of $\epsilon$:
+\begin{align}
+\dot{x}_0(0) &= 1 \\
+\dot{x}_1(0) &= 0 \\
+\dot{x}_2(0) &= 0 \\
+&\vdots
+\end{align}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (What we found):} Only the leading term $x_0$ carries the non-zero initial velocity. All correction terms start with zero position and zero velocity.
+
+\item \stage{STAGE Y (Why this is correct):} The initial conditions are specified at $\epsilon$-independent values. The perturbation affects the trajectory evolution, not the initial state. All the "information" about the initial kick is in the unperturbed problem.
+
+\item \stage{STAGE Z (Next step):} These initial conditions will uniquely determine each $x_n(t)$ once we derive the ODEs they satisfy.
+\end{itemize}
+
+\subsection{Step 4: Substitute Ansatz into ODE}
+
+\subsubsection*{Left-Hand Side}
+
+\[
+\ddot{x} = \ddot{x}_0 + \epsilon\ddot{x}_1 + \epsilon^2\ddot{x}_2 + O(\epsilon^3)
+\]
+
+\subsubsection*{Right-Hand Side}
+
+We substitute our ansatz into the expanded RHS:
+\begin{align*}
+-1 + 2\epsilon x - 3\epsilon^2 x^2 + O(\epsilon^3)
+&= -1 + 2\epsilon(x_0 + \epsilon x_1 + \epsilon^2 x_2) \\
+&\quad - 3\epsilon^2(x_0 + \epsilon x_1)^2 + O(\epsilon^3) \\
+&= -1 + 2\epsilon x_0 + 2\epsilon^2 x_1 - 3\epsilon^2 x_0^2 + O(\epsilon^3)
+\end{align*}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (What we observe):} When squaring $(x_0 + \epsilon x_1 + \cdots)^2$, the term $x_0^2$ comes with coefficient $\epsilon^2$, the cross term $2x_0 x_1$ would come with $\epsilon^3$ (beyond our desired order), and $x_1^2$ with $\epsilon^4$.
+
+\item \stage{STAGE Y (Why we truncate here):} For a two-term expansion (up to order $\epsilon^2$), we only need terms up to $O(\epsilon^2)$ on the RHS. Higher-order terms in the expansion of $x$ contribute to $O(\epsilon^3)$ and beyond.
+
+\item \stage{STAGE Z (Result):} Our RHS to order $\epsilon^2$ is:
+\[
+-1 + 2\epsilon x_0 + \epsilon^2(2x_1 - 3x_0^2)
+\]
+\end{itemize}
+
+\subsubsection*{Equating Both Sides}
+
+\[
+\ddot{x}_0 + \epsilon\ddot{x}_1 + \epsilon^2\ddot{x}_2 = -1 + 2\epsilon x_0 + \epsilon^2(2x_1 - 3x_0^2) + O(\epsilon^3)
+\]
+
+\subsection{Step 5: Collect Terms by Powers of $\epsilon$}
+
+\subsubsection*{Organizing the Equation}
+
+Rearranging:
+\begin{align*}
+[\ddot{x}_0 + 1] + \epsilon[\ddot{x}_1 - 2x_0] + \epsilon^2[\ddot{x}_2 - 2x_1 + 3x_0^2] + O(\epsilon^3) = 0
+\end{align*}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (What we require):} For this equation to hold for all $\epsilon \ll 1$, each coefficient of $\epsilon^n$ must vanish independently.
+
+\item \stage{STAGE Y (Why this is valid):} A power series $\sum a_n \epsilon^n = 0$ for all $\epsilon$ in a neighborhood of zero implies $a_n = 0$ for all $n$. This is the fundamental principle of equating coefficients in perturbation theory.
+
+\item \stage{STAGE Z (What we get):} A hierarchy of ODEs, each solvable sequentially.
+\end{itemize}
+
+\subsection{Step 6: Solve at Each Order}
+
+\subsubsection*{Order $\epsilon^0$: The Unperturbed Problem}
+
+\[
+\boxed{\ddot{x}_0 = -1, \quad x_0(0) = 0, \quad \dot{x}_0(0) = 1}
+\]
+
+Integrating once:
+\[
+\dot{x}_0 = -t + C_1
+\]
+From $\dot{x}_0(0) = 1$: $C_1 = 1$, so
+\[
+\dot{x}_0 = 1 - t
+\]
+
+Integrating again:
+\[
+x_0 = t - \frac{t^2}{2} + C_2
+\]
+From $x_0(0) = 0$: $C_2 = 0$, so
+\[
+\boxed{x_0(t) = t - \frac{t^2}{2}}
+\]
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (What we found):} The unperturbed trajectory is the standard projectile motion under constant gravity: $x_0(t) = t - t^2/2$.
+
+\item \stage{STAGE Y (Why this makes sense):} At $\epsilon = 0$, there's no variation in gravity with height, so we recover the elementary solution. The projectile reaches maximum height when $\dot{x}_0 = 0$, i.e., at $t = 1$, achieving $x_0(1) = 1/2$.
+
+\item \stage{STAGE Z (What this provides):} This zeroth-order solution serves as input for the first-order correction equation. We'll need $x_0(t)$ to compute the RHS of the $O(\epsilon)$ equation.
+\end{itemize}
+
+\subsubsection*{Order $\epsilon^1$: First Correction}
+
+\[
+\boxed{\ddot{x}_1 = 2x_0, \quad x_1(0) = 0, \quad \dot{x}_1(0) = 0}
+\]
+
+Substitute $x_0(t) = t - \frac{t^2}{2}$:
+\[
+\ddot{x}_1 = 2\left(t - \frac{t^2}{2}\right) = 2t - t^2
+\]
+
+Integrate once:
+\[
+\dot{x}_1 = t^2 - \frac{t^3}{3} + C_3
+\]
+From $\dot{x}_1(0) = 0$: $C_3 = 0$, so
+\[
+\dot{x}_1 = t^2 - \frac{t^3}{3}
+\]
+
+Integrate again:
+\[
+x_1 = \frac{t^3}{3} - \frac{t^4}{12} + C_4
+\]
+From $x_1(0) = 0$: $C_4 = 0$, so
+\[
+\boxed{x_1(t) = \frac{t^3}{3} - \frac{t^4}{12}}
+\]
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (What we found):} The first correction $x_1(t) = \frac{t^3}{3} - \frac{t^4}{12}$ and its derivative $\dot{x}_1(t) = t^2 - \frac{t^3}{3}$.
+
+\item \stage{STAGE Y (Why this structure):} The RHS $2x_0 = 2t - t^2$ is a polynomial, leading to polynomial solutions. The correction term $\epsilon x_1$ represents the effect of weakening gravity as the projectile rises (since gravity decreases with distance from Earth).
+
+\item \stage{STAGE Z (Impact):} At $t = 1$ (the unperturbed maximum height time): $x_1(1) = \frac{1}{3} - \frac{1}{12} = \frac{4-1}{12} = \frac{1}{4}$. This means the projectile travels an additional distance $\frac{\epsilon}{4}$ due to reduced gravity.
+\end{itemize}
+
+\subsubsection*{Order $\epsilon^2$: Second Correction}
+
+\[
+\boxed{\ddot{x}_2 = 2x_1 - 3x_0^2, \quad x_2(0) = 0, \quad \dot{x}_2(0) = 0}
+\]
+
+Substitute $x_0 = t - \frac{t^2}{2}$ and $x_1 = \frac{t^3}{3} - \frac{t^4}{12}$:
+\begin{align*}
+\ddot{x}_2 &= 2\left(\frac{t^3}{3} - \frac{t^4}{12}\right) - 3\left(t - \frac{t^2}{2}\right)^2 \\
+&= \frac{2t^3}{3} - \frac{t^4}{6} - 3\left(t^2 - t^3 + \frac{t^4}{4}\right) \\
+&= \frac{2t^3}{3} - \frac{t^4}{6} - 3t^2 + 3t^3 - \frac{3t^4}{4} \\
+&= -3t^2 + \left(\frac{2}{3} + 3\right)t^3 + \left(-\frac{1}{6} - \frac{3}{4}\right)t^4 \\
+&= -3t^2 + \frac{11t^3}{3} - \frac{11t^4}{12}
+\end{align*}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (Calculation detail):} We expanded $(t - \frac{t^2}{2})^2 = t^2 - t^3 + \frac{t^4}{4}$ using the binomial formula.
+
+\item \stage{STAGE Y (Why these terms):} The $-3x_0^2$ term arises from the quadratic term in the Taylor expansion of $(1+\epsilon x)^{-2}$. The $2x_1$ term couples the first-order correction back into the second-order equation—this is typical in perturbation hierarchies.
+
+\item \stage{STAGE Z (Next):} Integrate twice with zero initial conditions.
+\end{itemize}
+
+Integrate once:
+\[
+\dot{x}_2 = -t^3 + \frac{11t^4}{12} - \frac{11t^5}{60} + C_5
+\]
+From $\dot{x}_2(0) = 0$: $C_5 = 0$, so
+\[
+\dot{x}_2 = -t^3 + \frac{11t^4}{12} - \frac{11t^5}{60}
+\]
+
+Integrate again:
+\[
+x_2 = -\frac{t^4}{4} + \frac{11t^5}{60} - \frac{11t^6}{360} + C_6
+\]
+From $x_2(0) = 0$: $C_6 = 0$, so
+\[
+\boxed{x_2(t) = -\frac{t^4}{4} + \frac{11t^5}{60} - \frac{11t^6}{360}}
+\]
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (What we found):} The second-order correction involves terms up to $t^6$. At $t = 1$: $x_2(1) = -\frac{1}{4} + \frac{11}{60} - \frac{11}{360} = -\frac{90}{360} + \frac{66}{360} - \frac{11}{360} = -\frac{35}{360} = -\frac{7}{72}$.
+
+\item \stage{STAGE Y (Physical interpretation):} The negative sign indicates that the second-order effect reduces the height slightly. This captures more subtle dynamics—while reduced gravity helps the projectile go higher (first-order effect), the nonlinear interplay leads to second-order corrections.
+
+\item \stage{STAGE Z (Position summary):} To order $\epsilon^2$:
+\[
+x(t,\epsilon) = \left(t - \frac{t^2}{2}\right) + \epsilon\left(\frac{t^3}{3} - \frac{t^4}{12}\right) + \epsilon^2\left(-\frac{t^4}{4} + \frac{11t^5}{60} - \frac{11t^6}{360}\right) + O(\epsilon^3)
+\]
+\end{itemize}
+
+\subsection{Step 7: Find Time to Maximum Height}
+
+\subsubsection*{Condition for Maximum Height}
+
+At maximum height, the velocity vanishes:
+\[
+\dot{x}(t_m, \epsilon) = 0
+\]
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (What we know):} The time to maximum height $t_m$ depends on $\epsilon$. For $\epsilon = 0$, we found $t_{m,0} = 1$ from $\dot{x}_0(1) = 0$.
+
+\item \stage{STAGE Y (Why $t_m$ varies):} As gravity weakens with height ($\epsilon > 0$), the projectile decelerates more slowly, taking longer to stop. Thus $t_m$ increases with $\epsilon$.
+
+\item \stage{STAGE Z (Strategy):} Expand $t_m$ itself as a power series: $t_m(\epsilon) = t_{m,0} + \epsilon t_{m,1} + \epsilon^2 t_{m,2} + \cdots$.
+\end{itemize}
+
+\subsubsection*{Expansion of $t_m$}
+
+Let:
+\[
+t_m(\epsilon) = t_{m,0} + \epsilon t_{m,1} + \epsilon^2 t_{m,2} + O(\epsilon^3)
+\]
+
+where $t_{m,0}, t_{m,1}, t_{m,2}$ are constants to be determined.
+
+\subsubsection*{Velocity Expansion}
+
+\begin{align*}
+\dot{x}(t,\epsilon) &= \dot{x}_0(t) + \epsilon\dot{x}_1(t) + \epsilon^2\dot{x}_2(t) + O(\epsilon^3) \\
+&= (1-t) + \epsilon\left(t^2 - \frac{t^3}{3}\right) + \epsilon^2\left(-t^3 + \frac{11t^4}{12} - \frac{11t^5}{60}\right) + O(\epsilon^3)
+\end{align*}
+
+\subsubsection*{Taylor Expand About $t = t_{m,0}$}
+
+Since $t_m = t_{m,0} + \epsilon t_{m,1} + \epsilon^2 t_{m,2} + \cdots$ is close to $t_{m,0} = 1$, expand each $\dot{x}_n(t_m)$ about $t = 1$:
+
+\begin{align*}
+\dot{x}_n(t_m) &= \dot{x}_n(1) + \ddot{x}_n(1) \cdot (t_m - 1) + O((t_m - 1)^2) \\
+&= \dot{x}_n(1) + \ddot{x}_n(1) \cdot (\epsilon t_{m,1} + \epsilon^2 t_{m,2}) + O(\epsilon^3)
+\end{align*}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (What we do):} We evaluate each $\dot{x}_n$ and $\ddot{x}_n$ at $t = 1$, then Taylor expand to capture the shift from $t = 1$ to $t = t_m$.
+
+\item \stage{STAGE Y (Why this works):} Since $t_m - 1 = O(\epsilon)$, the Taylor expansion converges rapidly. We only need first-order Taylor terms to capture effects up to $O(\epsilon^2)$ in $\dot{x}(t_m)$.
+
+\item \stage{STAGE Z (What we need):} Values of $\dot{x}_n(1)$ and $\ddot{x}_n(1)$ for $n = 0,1,2$.
+\end{itemize}
+
+\subsubsection*{Evaluate Derivatives at $t = 1$}
+
+\textbf{Zeroth order:}
+\begin{align*}
+\dot{x}_0(1) &= 1 - 1 = 0 \\
+\ddot{x}_0(1) &= -1
+\end{align*}
+
+\textbf{First order:}
+\begin{align*}
+\dot{x}_1(1) &= 1 - \frac{1}{3} = \frac{2}{3} \\
+\ddot{x}_1(1) &= 2 \cdot 1 - 1^2 = 1
+\end{align*}
+
+\textbf{Second order:}
+\begin{align*}
+\dot{x}_2(1) &= -1 + \frac{11}{12} - \frac{11}{60} = \frac{-60 + 55 - 11}{60} = -\frac{16}{60} = -\frac{4}{15} \\
+\ddot{x}_2(1) &= -3 + \frac{11}{3} - \frac{11}{12} = \frac{-36 + 44 - 11}{12} = -\frac{3}{12} = -\frac{1}{4}
+\end{align*}
+
+\subsubsection*{Expand $\dot{x}(t_m) = 0$ to Order $\epsilon^2$}
+
+\begin{align*}
+0 &= \dot{x}_0(t_m) + \epsilon\dot{x}_1(t_m) + \epsilon^2\dot{x}_2(t_m) \\
+&= \left[\dot{x}_0(1) + \ddot{x}_0(1) \cdot \epsilon t_{m,1}\right] \\
+&\quad + \epsilon\left[\dot{x}_1(1) + \ddot{x}_1(1) \cdot \epsilon t_{m,1}\right] \\
+&\quad + \epsilon^2\dot{x}_2(1) + O(\epsilon^3)
+\end{align*}
+
+Substitute values:
+\begin{align*}
+0 &= [0 + (-1) \cdot \epsilon t_{m,1}] + \epsilon\left[\frac{2}{3} + 1 \cdot \epsilon t_{m,1}\right] + \epsilon^2\left(-\frac{4}{15}\right) + O(\epsilon^3) \\
+&= -\epsilon t_{m,1} + \frac{2\epsilon}{3} + \epsilon^2 t_{m,1} - \frac{4\epsilon^2}{15} + O(\epsilon^3)
+\end{align*}
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (What we observe):} The $O(1)$ term is zero (confirming $t_{m,0} = 1$ is correct). We have $O(\epsilon)$ and $O(\epsilon^2)$ terms remaining.
+
+\item \stage{STAGE Y (Why this structure):} The leading-order time $t_{m,0} = 1$ is determined by $\dot{x}_0(1) = 0$. The corrections $t_{m,1}, t_{m,2}$ arise because $\dot{x}_1(1) \neq 0$ and $\dot{x}_2(1) \neq 0$—the projectile hasn't stopped yet at $t=1$ when perturbations are included.
+
+\item \stage{STAGE Z (Next):} Collect by orders of $\epsilon$ to solve for $t_{m,1}$ and $t_{m,2}$.
+\end{itemize}
+
+\subsubsection*{Solve Order-by-Order for $t_{m,n}$}
+
+\textbf{At order $\epsilon^1$:}
+\[
+-t_{m,1} + \frac{2}{3} = 0 \quad \Rightarrow \quad \boxed{t_{m,1} = \frac{2}{3}}
+\]
+
+\textbf{At order $\epsilon^2$:}
+\[
+t_{m,1} - \frac{4}{15} = 0 \quad \Rightarrow \quad t_{m,1} = \frac{4}{15}
+\]
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (Apparent contradiction):} From $O(\epsilon)$: $t_{m,1} = \frac{2}{3}$. From $O(\epsilon^2)$: $t_{m,1} = \frac{4}{15}$. These don't match!
+
+\item \stage{STAGE Y (Resolution):} This is NOT a contradiction. The $O(\epsilon^2)$ equation should determine $t_{m,2}$, not $t_{m,1}$. Let me recalculate carefully.
+
+\item \stage{STAGE Z (Correction needed):} I need to properly track the terms in the expansion of $\dot{x}(t_m)$.
+\end{itemize}
+
+\subsubsection*{CORRECTED: Careful Expansion of $\dot{x}(t_m)$}
+
+Let me redo this more carefully. We have:
+\[
+\dot{x}(t) = (1-t) + \epsilon\left(t^2 - \frac{t^3}{3}\right) + \epsilon^2\left(-t^3 + \frac{11t^4}{12} - \frac{11t^5}{60}\right)
+\]
+
+At $t = t_m = 1 + \epsilon t_{m,1} + \epsilon^2 t_{m,2}$, expand using:
+\[
+f(t_m) = f(1) + f'(1)(t_m - 1) + \frac{1}{2}f''(1)(t_m - 1)^2 + \cdots
+\]
+
+where $t_m - 1 = \epsilon t_{m,1} + \epsilon^2 t_{m,2}$ and $(t_m-1)^2 = \epsilon^2 t_{m,1}^2 + O(\epsilon^3)$.
+
+\textbf{Zeroth order:}
+\begin{align*}
+\dot{x}_0(t_m) &= \dot{x}_0(1) + \ddot{x}_0(1)(t_m - 1) + O((t_m-1)^2) \\
+&= 0 + (-1)(\epsilon t_{m,1} + \epsilon^2 t_{m,2}) \\
+&= -\epsilon t_{m,1} - \epsilon^2 t_{m,2}
+\end{align*}
+
+\textbf{First order:}
+\begin{align*}
+\dot{x}_1(t_m) &= \dot{x}_1(1) + \ddot{x}_1(1)(t_m - 1) + O((t_m-1)^2) \\
+&= \frac{2}{3} + (1)(\epsilon t_{m,1} + \epsilon^2 t_{m,2}) \\
+&= \frac{2}{3} + \epsilon t_{m,1} + \epsilon^2 t_{m,2}
+\end{align*}
+
+\textbf{Second order:}
+\begin{align*}
+\dot{x}_2(t_m) &= \dot{x}_2(1) + O(t_m - 1) \\
+&= -\frac{4}{15} + O(\epsilon)
+\end{align*}
+
+Now:
+\begin{align*}
+\dot{x}(t_m) &= \dot{x}_0(t_m) + \epsilon\dot{x}_1(t_m) + \epsilon^2\dot{x}_2(t_m) \\
+&= (-\epsilon t_{m,1} - \epsilon^2 t_{m,2}) + \epsilon\left(\frac{2}{3} + \epsilon t_{m,1} + \epsilon^2 t_{m,2}\right) + \epsilon^2\left(-\frac{4}{15}\right) + O(\epsilon^3) \\
+&= -\epsilon t_{m,1} + \frac{2\epsilon}{3} + \epsilon^2(-t_{m,2} + t_{m,1} - \frac{4}{15}) + O(\epsilon^3)
+\end{align*}
+
+Setting $\dot{x}(t_m) = 0$:
+
+\textbf{At order $\epsilon$:}
+\[
+-t_{m,1} + \frac{2}{3} = 0 \quad \Rightarrow \quad \boxed{t_{m,1} = \frac{2}{3}}
+\]
+
+\textbf{At order $\epsilon^2$:}
+\[
+-t_{m,2} + t_{m,1} - \frac{4}{15} = 0 \quad \Rightarrow \quad t_{m,2} = \frac{2}{3} - \frac{4}{15} = \frac{10 - 4}{15} = \boxed{\frac{6}{15} = \frac{2}{5}}
+\]
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (What we found):} The time to maximum height is:
+\[
+t_m = 1 + \frac{2\epsilon}{3} + \frac{2\epsilon^2}{5} + O(\epsilon^3)
+\]
+
+\item \stage{STAGE Y (Physical interpretation):} As expected, $t_m > 1$ for $\epsilon > 0$. The weakening of gravity with altitude allows the projectile to rise longer. The first correction $+\frac{2\epsilon}{3}$ is the dominant effect, with a smaller second-order correction $+\frac{2\epsilon^2}{5}$.
+
+\item \stage{STAGE Z (Verification check):} We should verify this makes sense dimensionally and numerically. For Earth, $\epsilon = V^2/(gR) \sim 10^{-6}$ for typical velocities, so corrections are tiny but physically real.
+\end{itemize}
+
+\subsection{Step 8: Summary and Final Answer for Part (a)}
+
+\subsubsection*{Position Trajectory}
+
+\begin{align*}
+x(t,\epsilon) &= \left(t - \frac{t^2}{2}\right) + \epsilon\left(\frac{t^3}{3} - \frac{t^4}{12}\right) + \epsilon^2\left(-\frac{t^4}{4} + \frac{11t^5}{60} - \frac{11t^6}{360}\right) + O(\epsilon^3)
+\end{align*}
+
+\subsubsection*{Time to Maximum Height}
+
+To order $\epsilon$ (as requested):
+\[
+\boxed{t_m = 1 + \frac{2\epsilon}{3} + O(\epsilon^2)}
+\]
+
+To order $\epsilon^2$ (optional):
+\[
+\boxed{t_m = 1 + \frac{2\epsilon}{3} + \frac{2\epsilon^2}{5} + O(\epsilon^3)}
+\]
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (Final result):} We have systematically constructed the perturbation solution and extracted the physical quantity of interest.
+
+\item \stage{STAGE Y (Why this answer):} The calculation shows that variable gravity (weakening with altitude) causes the projectile to take longer to reach maximum height. The effect scales linearly with $\epsilon$ to leading order, with a small quadratic correction.
+
+\item \stage{STAGE Z (Validity):} This expansion is valid for $\epsilon \ll 1$ and uniformly valid for $t \in [0, t_m]$ since no secular terms appear (the problem naturally has a finite timescale).
+\end{itemize}
+
+\section{Part (b): Projectile with Air Resistance}
+
+\subsection{Step 1: Problem Setup and Classification}
+
+\subsubsection*{Equation and Initial Conditions}
+
+\[
+\ddot{x} + \beta\dot{x} = -1, \quad x(0) = 0, \quad \dot{x}(0) = 1
+\]
+where $0 < \beta \ll 1$.
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (What we have):} A second-order linear ODE with constant coefficients, plus a small damping term $\beta\dot{x}$.
+
+\item \stage{STAGE Y (Why this is regular):} Again, the small parameter $\beta$ does not multiply the highest derivative. The unperturbed problem ($\beta = 0$) is just $\ddot{x} = -1$, the same as Part (a) with $\epsilon = 0$.
+
+\item \stage{STAGE Z (Strategy):} Use regular perturbation with ansatz $x(t,\beta) = x_0(t) + \beta x_1(t) + O(\beta^2)$.
+\end{itemize}
+
+\subsection{Step 2: Perturbation Expansion}
+
+Let:
+\[
+x(t,\beta) = x_0(t) + \beta x_1(t) + O(\beta^2)
+\]
+
+Then:
+\[
+\ddot{x}_0 + \beta\ddot{x}_1 + \beta(\dot{x}_0 + \beta\dot{x}_1) = -1 + O(\beta^2)
+\]
+
+Rearranging:
+\[
+(\ddot{x}_0 + 1) + \beta(\ddot{x}_1 + \dot{x}_0) + O(\beta^2) = 0
+\]
+
+\subsection{Step 3: Solve at Each Order}
+
+\subsubsection*{Order $\beta^0$}
+
+\[
+\boxed{\ddot{x}_0 = -1, \quad x_0(0) = 0, \quad \dot{x}_0(0) = 1}
+\]
+
+This is identical to Part (a):
+\[
+\boxed{x_0(t) = t - \frac{t^2}{2}, \quad \dot{x}_0(t) = 1 - t}
+\]
+
+\subsubsection*{Order $\beta^1$}
+
+\[
+\boxed{\ddot{x}_1 = -\dot{x}_0 = -(1-t) = t - 1, \quad x_1(0) = 0, \quad \dot{x}_1(0) = 0}
+\]
+
+Integrate once:
+\[
+\dot{x}_1 = \frac{t^2}{2} - t + C_1
+\]
+From $\dot{x}_1(0) = 0$: $C_1 = 0$, so
+\[
+\dot{x}_1 = \frac{t^2}{2} - t
+\]
+
+Integrate again:
+\[
+x_1 = \frac{t^3}{6} - \frac{t^2}{2} + C_2
+\]
+From $x_1(0) = 0$: $C_2 = 0$, so
+\[
+\boxed{x_1(t) = \frac{t^3}{6} - \frac{t^2}{2}}
+\]
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (What we found):} The first correction due to air resistance is $x_1(t) = \frac{t^3}{6} - \frac{t^2}{2}$ with $\dot{x}_1(t) = \frac{t^2}{2} - t$.
+
+\item \stage{STAGE Y (Physical meaning):} Air resistance opposes motion, so it reduces both the height reached and the time to reach it. At $t = 1$: $x_1(1) = \frac{1}{6} - \frac{1}{2} = -\frac{1}{3} < 0$, confirming the projectile doesn't rise as high.
+
+\item \stage{STAGE Z (Next):} Find the time to maximum height.
+\end{itemize}
+
+\subsection{Step 4: Time to Maximum Height}
+
+Expand $t_m = t_{m,0} + \beta t_{m,1} + O(\beta^2)$ where $t_{m,0} = 1$.
+
+The velocity is:
+\[
+\dot{x}(t,\beta) = (1-t) + \beta\left(\frac{t^2}{2} - t\right) + O(\beta^2)
+\]
+
+At $t = t_m$:
+\[
+\dot{x}(t_m) = \dot{x}_0(t_m) + \beta\dot{x}_1(t_m) = 0
+\]
+
+Expand about $t = 1$:
+\begin{align*}
+\dot{x}_0(t_m) &= \dot{x}_0(1) + \ddot{x}_0(1)(t_m - 1) = 0 + (-1)(\beta t_{m,1}) = -\beta t_{m,1} \\
+\dot{x}_1(t_m) &= \dot{x}_1(1) + O(t_m - 1) = \frac{1}{2} - 1 + O(\beta) = -\frac{1}{2}
+\end{align*}
+
+Thus:
+\[
+0 = -\beta t_{m,1} + \beta\left(-\frac{1}{2}\right) + O(\beta^2)
+\]
+
+At order $\beta$:
+\[
+-t_{m,1} - \frac{1}{2} = 0 \quad \Rightarrow \quad \boxed{t_{m,1} = -\frac{1}{2}}
+\]
+
+\subsection{Step 5: Final Answer for Part (b)}
+
+\[
+\boxed{t_m = 1 - \frac{\beta}{2} + O(\beta^2)}
+\]
+
+\begin{itemize}[leftmargin=*]
+\item \stage{STAGE X (What we found):} Air resistance reduces the time to maximum height by $-\frac{\beta}{2}$ to leading order.
+
+\item \stage{STAGE Y (Physical interpretation):} This makes perfect sense: air resistance opposes the upward motion, causing the projectile to decelerate faster and reach its peak sooner. The effect is linear in $\beta$.
+
+\item \stage{STAGE Z (Comparison with Part (a)):} In Part (a), weakening gravity increased $t_m$ (coefficient $+\frac{2}{3}$). Here, air resistance decreases $t_m$ (coefficient $-\frac{1}{2}$). The signs and magnitudes reflect the different physics.
+\end{itemize}
+
+\section{Verification Checklist}
+
+\subsection*{Part (a): Variable Gravity}
+
+\begin{enumerate}[leftmargin=*]
+\item[$\checkmark$] \textbf{Problem classified:} Regular perturbation of IVP
+\item[$\checkmark$] \textbf{Expansion ansatz:} $x = x_0 + \epsilon x_1 + \epsilon^2 x_2 + \cdots$
+\item[$\checkmark$] \textbf{RHS expanded:} $(1+\epsilon x)^{-2} = 1 - 2\epsilon x + 3\epsilon^2 x^2 + \cdots$
+\item[$\checkmark$] \textbf{Initial conditions applied:} At each order correctly
+\item[$\checkmark$] \textbf{Hierarchy solved:} $x_0, x_1, x_2$ computed sequentially
+\item[$\checkmark$] \textbf{Time expansion:} $t_m = t_{m,0} + \epsilon t_{m,1} + \epsilon^2 t_{m,2} + \cdots$
+\item[$\checkmark$] \textbf{Condition $\dot{x}(t_m) = 0$:} Expanded and solved order-by-order
+\item[$\checkmark$] \textbf{Physical sense:} $t_m$ increases with $\epsilon$ (weaker gravity)
+\item[$\checkmark$] \textbf{Dimensions:} Time is dimensionless (scaled by $V/g$)
+\end{enumerate}
+
+\subsection*{Part (b): Air Resistance}
+
+\begin{enumerate}[leftmargin=*]
+\item[$\checkmark$] \textbf{Problem classified:} Regular perturbation, linear ODE
+\item[$\checkmark$] \textbf{Expansion ansatz:} $x = x_0 + \beta x_1 + \cdots$
+\item[$\checkmark$] \textbf{Orders separated:} $O(\beta^0)$ and $O(\beta^1)$ equations
+\item[$\checkmark$] \textbf{Solved sequentially:} $x_0$ then $x_1$
+\item[$\checkmark$] \textbf{Time correction:} $t_{m,1} = -\frac{1}{2}$ found correctly
+\item[$\checkmark$] \textbf{Physical sense:} $t_m$ decreases with $\beta$ (air resistance)
+\item[$\checkmark$] \textbf{Sign consistency:} Negative correction confirms faster stopping
+\end{enumerate}
+
+\vspace{1em}
+\textit{Both solutions demonstrate the systematic power of regular perturbation theory for analyzing physical systems with small parameters, yielding explicit formulas for quantities of interest (maximum height time) that would be difficult to extract from numerical solutions alone.}
+
+\end{document}

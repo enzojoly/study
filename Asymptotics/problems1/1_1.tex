@@ -109,320 +109,39 @@ for each unperturbed solution $x_0$.
 
 \textit{What we assume:} For the root near $x_0 = 1$, we write:
 \[
-x(\epsilon) = 1 + x_1\epsilon + x_2\epsilon^2 + x_3\epsilon^3 + O(\epsilon^4).
+x(\epsilon) = 1 + x_1\epsilon + O(\epsilon^2).
 \]
 
-\textit{Why this form:} This is the standard Taylor-type expansion around the unperturbed solution $x_0 = 1$. The coefficients $x_1, x_2, x_3, \ldots$ are constants (independent of $\epsilon$) to be determined by substituting into the original equation and matching coefficients of like powers of $\epsilon$.
-
-\textit{What we seek:} We want to find $x_1$ and $x_2$ to obtain a ``two-term expansion'' (meaning up to order $\epsilon^2$):
-\[
-x(\epsilon) = 1 + x_1\epsilon + x_2\epsilon^2 + O(\epsilon^3).
-\]
-
-\textbf{Step 2.2: Substitute the ansatz into the equation.}
+\textbf{Step 2.2: Substitute into the equation.}
 
 \textit{Original equation:}
 \[
 (x-1)(x-2)(x-3) + \epsilon = 0.
 \]
 
-\textit{Substitution:} Replace $x$ with $1 + x_1\epsilon + x_2\epsilon^2 + \cdots$:
-\[
-\left[(1 + x_1\epsilon + x_2\epsilon^2 + \cdots) - 1\right] \cdot \left[(1 + x_1\epsilon + x_2\epsilon^2 + \cdots) - 2\right] \cdot \left[(1 + x_1\epsilon + x_2\epsilon^2 + \cdots) - 3\right] + \epsilon = 0.
-\]
-
-\textit{Simplify each factor:}
+\textit{Substitution:} Replace $x$ with $1 + x_1\epsilon + \cdots$:
 \begin{align*}
-\text{First factor:} & \quad (1 + x_1\epsilon + x_2\epsilon^2 + \cdots) - 1 = x_1\epsilon + x_2\epsilon^2 + O(\epsilon^3), \\
-\text{Second factor:} & \quad (1 + x_1\epsilon + x_2\epsilon^2 + \cdots) - 2 = -1 + x_1\epsilon + x_2\epsilon^2 + O(\epsilon^3), \\
-\text{Third factor:} & \quad (1 + x_1\epsilon + x_2\epsilon^2 + \cdots) - 3 = -2 + x_1\epsilon + x_2\epsilon^2 + O(\epsilon^3).
+\text{First factor:} & \quad (x - 1) = x_1\epsilon + O(\epsilon^2), \\
+\text{Second factor:} & \quad (x - 2) = -1 + x_1\epsilon + O(\epsilon^2), \\
+\text{Third factor:} & \quad (x - 3) = -2 + x_1\epsilon + O(\epsilon^2).
 \end{align*}
 
-\textit{Why we simplify:} We must express everything in powers of $\epsilon$ so we can systematically collect coefficients.
+\textbf{Step 2.3: Expand the product.}
 
-\textbf{Step 2.3: Expand the product of three factors.}
-
-\textit{What we must compute:}
+Multiplying the second and third factors first:
 \[
-\left[x_1\epsilon + x_2\epsilon^2 + O(\epsilon^3)\right] \cdot \left[-1 + x_1\epsilon + x_2\epsilon^2 + O(\epsilon^3)\right] \cdot \left[-2 + x_1\epsilon + x_2\epsilon^2 + O(\epsilon^3)\right].
+(-1 + x_1\epsilon)(-2 + x_1\epsilon) = 2 - 3x_1\epsilon + O(\epsilon^2).
 \]
 
-\textit{Strategy:} Multiply systematically, keeping only terms up to $O(\epsilon^2)$ since we need a two-term expansion.
-
-\textit{Step 2.3.1: Multiply the second and third factors first.}
-
+Now multiply by the first factor:
 \[
-\left[-1 + x_1\epsilon + x_2\epsilon^2\right] \cdot \left[-2 + x_1\epsilon + x_2\epsilon^2\right].
+(x_1\epsilon)(2 - 3x_1\epsilon + \cdots) = 2x_1\epsilon + O(\epsilon^2).
 \]
 
-\textit{Constant term:} $(-1) \cdot (-2) = 2$.
-
-\textit{Coefficient of $\epsilon$:}
-\[
-(-1)(x_1\epsilon) + (x_1\epsilon)(-2) = -x_1\epsilon - 2x_1\epsilon = -3x_1\epsilon.
-\]
-
-\textit{Coefficient of $\epsilon^2$:}
-\[
-(-1)(x_2\epsilon^2) + (x_1\epsilon)(x_1\epsilon) + (x_2\epsilon^2)(-2) = -x_2\epsilon^2 + x_1^2\epsilon^2 - 2x_2\epsilon^2 = (x_1^2 - 3x_2)\epsilon^2.
-\]
-
-\textit{Result:}
-\[
-\left[-1 + x_1\epsilon + x_2\epsilon^2\right] \cdot \left[-2 + x_1\epsilon + x_2\epsilon^2\right] = 2 - 3x_1\epsilon + (x_1^2 - 3x_2)\epsilon^2 + O(\epsilon^3).
-\]
-
-\textit{Step 2.3.2: Multiply by the first factor.}
+\textbf{Step 2.4: Apply the equation.}
 
 \[
-\left[x_1\epsilon + x_2\epsilon^2\right] \cdot \left[2 - 3x_1\epsilon + (x_1^2 - 3x_2)\epsilon^2\right].
-\]
-
-\textit{Coefficient of $\epsilon^1$:} $(x_1\epsilon)(2) = 2x_1\epsilon$.
-
-\textit{Coefficient of $\epsilon^2$:}
-\[
-(x_1\epsilon)(-3x_1\epsilon) + (x_2\epsilon^2)(2) = -3x_1^2\epsilon^2 + 2x_2\epsilon^2 = (-3x_1^2 + 2x_2)\epsilon^2.
-\]
-
-\textit{Coefficient of $\epsilon^3$:} (We'll track this for completeness but won't need it)
-\[
-(x_1\epsilon)(x_1^2 - 3x_2)\epsilon^2 + (x_2\epsilon^2)(-3x_1\epsilon) = O(\epsilon^3).
-\]
-
-\textit{Result:}
-\[
-(x-1)(x-2)(x-3) = 2x_1\epsilon + (-3x_1^2 + 2x_2)\epsilon^2 + O(\epsilon^3).
-\]
-
-\textbf{Step 2.4: Include the $+\epsilon$ term.}
-
-\textit{Full equation:}
-\[
-2x_1\epsilon + (-3x_1^2 + 2x_2)\epsilon^2 + O(\epsilon^3) + \epsilon = 0.
-\]
-
-\textit{Combine like terms:}
-\[
-(2x_1 + 1)\epsilon + (-3x_1^2 + 2x_2)\epsilon^2 + O(\epsilon^3) = 0.
-\]
-
-\textbf{Step 2.5: Apply the fundamental principle of power series.}
-
-\textit{Principle:} A power series $\sum_{n=0}^{\infty} a_n\epsilon^n = 0$ for all small $\epsilon$ if and only if every coefficient $a_n = 0$.
-
-\textit{Why this works:} Power series representations are unique. If the series equals zero identically (for all $\epsilon$ in a neighborhood), then each coefficient must vanish.
-
-\textit{Application:} We set the coefficient of each power of $\epsilon$ to zero independently.
-
-\textbf{Step 2.6: Solve at $O(\epsilon)$.}
-
-\textit{Equation:} Coefficient of $\epsilon^1 = 0$:
-\[
-2x_1 + 1 = 0.
-\]
-
-\textit{Solve:}
-\[
-2x_1 = -1 \implies x_1 = -\frac{1}{2}.
-\]
-
-\textit{Interpretation:} The first-order correction to $x_0 = 1$ is $x_1\epsilon = -\frac{1}{2}\epsilon$. This tells us the solution moves in the negative direction (decreases) as $\epsilon$ increases from zero.
-
-\textbf{Step 2.7: Solve at $O(\epsilon^2)$.}
-
-\textit{Equation:} Coefficient of $\epsilon^2 = 0$:
-\[
--3x_1^2 + 2x_2 = 0.
-\]
-
-\textit{Substitute known value:} We found $x_1 = -\frac{1}{2}$, so:
-\[
--3\left(-\frac{1}{2}\right)^2 + 2x_2 = 0.
-\]
-
-\textit{Compute:}
-\[
--3 \cdot \frac{1}{4} + 2x_2 = 0.
-\]
-\[
--\frac{3}{4} + 2x_2 = 0.
-\]
-
-\textit{Solve:}
-\[
-2x_2 = \frac{3}{4} \implies x_2 = \frac{3}{8}.
-\]
-
-\textit{Interpretation:} The second-order correction is $x_2\epsilon^2 = \frac{3}{8}\epsilon^2$, which is positive. This means the solution curves back slightly in the positive direction at higher order.
-
-\textbf{Step 2.8: Write the final two-term expansion.}
-
-\textit{Combining results:}
-\[
-x(\epsilon) = 1 + x_1\epsilon + x_2\epsilon^2 + O(\epsilon^3) = 1 - \frac{1}{2}\epsilon + \frac{3}{8}\epsilon^2 + O(\epsilon^3).
-\]
-
-\textit{Final answer for root near $x_0 = 1$:}
-\[
-\boxed{x(\epsilon) = 1 - \frac{1}{2}\epsilon + \frac{3}{8}\epsilon^2 + O(\epsilon^3)}.
-\]
-
-\subsubsection*{Phase III: Solution Near $x_0 = 2$}
-
-\textbf{Step 3.1: Make the expansion ansatz.}
-
-\textit{What we assume:}
-\[
-x(\epsilon) = 2 + x_1\epsilon + x_2\epsilon^2 + O(\epsilon^3).
-\]
-
-\textit{Why this form:} Same reasoning as before—standard expansion around the unperturbed solution $x_0 = 2$.
-
-\textbf{Step 3.2: Substitute into the equation.}
-
-\textit{Original equation:}
-\[
-(x-1)(x-2)(x-3) + \epsilon = 0.
-\]
-
-\textit{Substitution:} $x = 2 + x_1\epsilon + x_2\epsilon^2 + \cdots$
-
-\textit{Simplify each factor:}
-\begin{align*}
-x - 1 &= (2 + x_1\epsilon + x_2\epsilon^2 + \cdots) - 1 = 1 + x_1\epsilon + x_2\epsilon^2 + O(\epsilon^3), \\
-x - 2 &= (2 + x_1\epsilon + x_2\epsilon^2 + \cdots) - 2 = x_1\epsilon + x_2\epsilon^2 + O(\epsilon^3), \\
-x - 3 &= (2 + x_1\epsilon + x_2\epsilon^2 + \cdots) - 3 = -1 + x_1\epsilon + x_2\epsilon^2 + O(\epsilon^3).
-\end{align*}
-
-\textbf{Step 3.3: Expand the product.}
-
-\textit{First multiply the first and third factors:}
-\[
-(1 + x_1\epsilon + x_2\epsilon^2) \cdot (-1 + x_1\epsilon + x_2\epsilon^2).
-\]
-
-\textit{Constant term:} $(1)(-1) = -1$.
-
-\textit{Coefficient of $\epsilon$:} $(1)(x_1\epsilon) + (x_1\epsilon)(-1) = x_1\epsilon - x_1\epsilon = 0$.
-
-\textit{Coefficient of $\epsilon^2$:}
-\[
-(1)(x_2\epsilon^2) + (x_1\epsilon)(x_1\epsilon) + (x_2\epsilon^2)(-1) = x_2\epsilon^2 + x_1^2\epsilon^2 - x_2\epsilon^2 = x_1^2\epsilon^2.
-\]
-
-\textit{Result:}
-\[
-(x-1)(x-3) = -1 + x_1^2\epsilon^2 + O(\epsilon^3).
-\]
-
-\textit{Now multiply by the middle factor:}
-\[
-(x-1)(x-2)(x-3) = (x_1\epsilon + x_2\epsilon^2) \cdot (-1 + x_1^2\epsilon^2).
-\]
-
-\textit{Coefficient of $\epsilon^1$:} $(x_1\epsilon)(-1) = -x_1\epsilon$.
-
-\textit{Coefficient of $\epsilon^2$:} $(x_2\epsilon^2)(-1) = -x_2\epsilon^2$.
-
-\textit{Result:}
-\[
-(x-1)(x-2)(x-3) = -x_1\epsilon - x_2\epsilon^2 + O(\epsilon^3).
-\]
-
-\textbf{Step 3.4: Include the $+\epsilon$ term.}
-
-\textit{Full equation:}
-\[
--x_1\epsilon - x_2\epsilon^2 + O(\epsilon^3) + \epsilon = 0.
-\]
-
-\textit{Combine:}
-\[
-(-x_1 + 1)\epsilon - x_2\epsilon^2 + O(\epsilon^3) = 0.
-\]
-
-\textbf{Step 3.5: Extract coefficients.}
-
-\textit{At $O(\epsilon)$:}
-\[
--x_1 + 1 = 0 \implies x_1 = 1.
-\]
-
-\textit{At $O(\epsilon^2)$:}
-\[
--x_2 = 0 \implies x_2 = 0.
-\]
-
-\textit{Interpretation:} The root near $x = 2$ moves linearly with $\epsilon$ (to first order) with no second-order correction.
-
-\textbf{Step 3.6: Final answer for root near $x_0 = 2$:}
-\[
-\boxed{x(\epsilon) = 2 + \epsilon + O(\epsilon^3)}.
-\]
-
-\subsubsection*{Phase IV: Solution Near $x_0 = 3$}
-
-\textbf{Step 4.1: Make the expansion ansatz.}
-
-\[
-x(\epsilon) = 3 + x_1\epsilon + x_2\epsilon^2 + O(\epsilon^3).
-\]
-
-\textbf{Step 4.2: Substitute and simplify.}
-
-\textit{Factors become:}
-\begin{align*}
-x - 1 &= 2 + x_1\epsilon + x_2\epsilon^2 + O(\epsilon^3), \\
-x - 2 &= 1 + x_1\epsilon + x_2\epsilon^2 + O(\epsilon^3), \\
-x - 3 &= x_1\epsilon + x_2\epsilon^2 + O(\epsilon^3).
-\end{align*}
-
-\textbf{Step 4.3: Expand the product.}
-
-\textit{First multiply:}
-\[
-(2 + x_1\epsilon + x_2\epsilon^2)(1 + x_1\epsilon + x_2\epsilon^2) = 2 + 3x_1\epsilon + (2x_2 + x_1 + 2x_1^2)\epsilon^2 + O(\epsilon^3).
-\]
-
-\textit{Why:}
-\begin{itemize}
-\item Constant: $2 \cdot 1 = 2$
-\item $O(\epsilon)$: $2(x_1\epsilon) + (x_1\epsilon)(1) = 3x_1\epsilon$
-\item $O(\epsilon^2)$: $2(x_2\epsilon^2) + (x_1\epsilon)(x_1\epsilon) + (x_2\epsilon^2)(1) = (2x_2 + x_1^2 + x_2)\epsilon^2$... wait, let me recalculate.
-\end{itemize}
-
-Actually, let me be more careful:
-\[
-(2 + x_1\epsilon)(1 + x_1\epsilon) = 2 + 2x_1\epsilon + x_1\epsilon + x_1^2\epsilon^2 = 2 + 3x_1\epsilon + x_1^2\epsilon^2.
-\]
-
-Now add the $x_2\epsilon^2$ terms from both factors:
-\[
-2(x_2\epsilon^2) + 1(x_2\epsilon^2) = 3x_2\epsilon^2.
-\]
-
-So:
-\[
-(2 + x_1\epsilon + x_2\epsilon^2)(1 + x_1\epsilon + x_2\epsilon^2) = 2 + 3x_1\epsilon + (x_1^2 + 3x_2)\epsilon^2 + O(\epsilon^3).
-\]
-
-\textit{Now multiply by the third factor:}
-\[
-(x-1)(x-2)(x-3) = (x_1\epsilon + x_2\epsilon^2)(2 + 3x_1\epsilon + (x_1^2 + 3x_2)\epsilon^2).
-\]
-
-\textit{Coefficient of $\epsilon$:} $(x_1\epsilon)(2) = 2x_1\epsilon$.
-
-\textit{Coefficient of $\epsilon^2$:} $(x_1\epsilon)(3x_1\epsilon) + (x_2\epsilon^2)(2) = 3x_1^2\epsilon^2 + 2x_2\epsilon^2 = (3x_1^2 + 2x_2)\epsilon^2$.
-
-\textbf{Step 4.4: Add $+\epsilon$ and solve.}
-
-\[
-2x_1\epsilon + (3x_1^2 + 2x_2)\epsilon^2 + \epsilon = 0.
-\]
-\[
-(2x_1 + 1)\epsilon + (3x_1^2 + 2x_2)\epsilon^2 = 0.
+2x_1\epsilon + O(\epsilon^2) + \epsilon = 0 \implies (2x_1 + 1)\epsilon + O(\epsilon^2) = 0.
 \]
 
 \textit{At $O(\epsilon)$:}
@@ -430,23 +149,76 @@ So:
 2x_1 + 1 = 0 \implies x_1 = -\frac{1}{2}.
 \]
 
-\textit{At $O(\epsilon^2)$:}
+\textbf{Final answer for root near $x_0 = 1$:}
 \[
-3x_1^2 + 2x_2 = 0 \implies 3 \cdot \frac{1}{4} + 2x_2 = 0 \implies \frac{3}{4} + 2x_2 = 0 \implies x_2 = -\frac{3}{8}.
+\boxed{x(\epsilon) = 1 - \frac{1}{2}\epsilon + O(\epsilon^2)}.
 \]
 
-\textbf{Step 4.5: Final answer for root near $x_0 = 3$:}
+\subsubsection*{Phase III: Solution Near $x_0 = 2$}
+
+\textbf{Ansatz:} $x(\epsilon) = 2 + x_1\epsilon + O(\epsilon^2)$.
+
+\textbf{Factors:}
+\begin{align*}
+(x - 1) &= 1 + x_1\epsilon + O(\epsilon^2), \\
+(x - 2) &= x_1\epsilon + O(\epsilon^2), \\
+(x - 3) &= -1 + x_1\epsilon + O(\epsilon^2).
+\end{align*}
+
+\textbf{Product:}
 \[
-\boxed{x(\epsilon) = 3 - \frac{1}{2}\epsilon - \frac{3}{8}\epsilon^2 + O(\epsilon^3)}.
+(1 + x_1\epsilon)(-1 + x_1\epsilon) = -1 + O(\epsilon^2).
+\]
+\[
+(x_1\epsilon)(-1) = -x_1\epsilon.
+\]
+
+\textbf{Equation:}
+\[
+-x_1\epsilon + \epsilon = 0 \implies (-x_1 + 1)\epsilon = 0 \implies x_1 = 1.
+\]
+
+\textbf{Final answer for root near $x_0 = 2$:}
+\[
+\boxed{x(\epsilon) = 2 + \epsilon + O(\epsilon^2)}.
+\]
+
+\subsubsection*{Phase IV: Solution Near $x_0 = 3$}
+
+\textbf{Ansatz:} $x(\epsilon) = 3 + x_1\epsilon + O(\epsilon^2)$.
+
+\textbf{Factors:}
+\begin{align*}
+(x - 1) &= 2 + x_1\epsilon + O(\epsilon^2), \\
+(x - 2) &= 1 + x_1\epsilon + O(\epsilon^2), \\
+(x - 3) &= x_1\epsilon + O(\epsilon^2).
+\end{align*}
+
+\textbf{Product:}
+\[
+(2 + x_1\epsilon)(1 + x_1\epsilon) = 2 + 3x_1\epsilon + O(\epsilon^2).
+\]
+\[
+(x_1\epsilon)(2 + 3x_1\epsilon) = 2x_1\epsilon + O(\epsilon^2).
+\]
+
+\textbf{Equation:}
+\[
+2x_1\epsilon + \epsilon = 0 \implies (2x_1 + 1)\epsilon = 0 \implies x_1 = -\frac{1}{2}.
+\]
+
+\textbf{Final answer for root near $x_0 = 3$:}
+\[
+\boxed{x(\epsilon) = 3 - \frac{1}{2}\epsilon + O(\epsilon^2)}.
 \]
 
 \subsubsection*{Summary for Problem 1(a)}
 
 The three roots of $(x-1)(x-2)(x-3) + \epsilon = 0$ are:
 \begin{align*}
-x_1(\epsilon) &= 1 - \frac{1}{2}\epsilon + \frac{3}{8}\epsilon^2 + O(\epsilon^3), \\
-x_2(\epsilon) &= 2 + \epsilon + O(\epsilon^3), \\
-x_3(\epsilon) &= 3 - \frac{1}{2}\epsilon - \frac{3}{8}\epsilon^2 + O(\epsilon^3).
+x_1(\epsilon) &= 1 - \frac{1}{2}\epsilon + O(\epsilon^2), \\
+x_2(\epsilon) &= 2 + \epsilon + O(\epsilon^2), \\
+x_3(\epsilon) &= 3 - \frac{1}{2}\epsilon + O(\epsilon^2).
 \end{align*}
 
 \newpage
@@ -472,8 +244,6 @@ x^2(x + 1) = \epsilon.
 
 \textit{Form:} This has the structure $F(x) = \epsilon$ where $F(x) = x^2(x+1)$ is a cubic polynomial.
 
-\textit{Why this form matters:} The right-hand side is the small parameter $\epsilon$, suggesting we look at the unperturbed equation $F(x) = 0$.
-
 \textbf{Step 1.2: Solve the unperturbed equation.}
 
 \textit{Setting $\epsilon = 0$:}
@@ -491,33 +261,21 @@ x + 1 = 0 \implies x = -1 \text{ (simple root)}.
 
 \textit{Critical observation:} The unperturbed equation has a \textbf{degenerate root} at $x = 0$ (multiplicity 2).
 
-\textbf{Step 1.3: Assess degeneracy implications.}
+\textbf{Step 1.3: Classify the problem.}
 
-\textit{Theory from Lecture Notes Section 2.3:}
-``In cases where unperturbed solutions are degenerate, their behavior as $\epsilon \to 0$ may sometimes not be captured by a power series expansion of integer powers.''
+\textit{Conclusion:} This is a \textbf{singular perturbation problem with non-integer power expansions} (as discussed in Lecture Notes Section 2.3).
 
-\textit{Why degeneracy matters:}
-\begin{itemize}
-\item The perturbed equation (cubic) has 3 roots total.
-\item The unperturbed equation appears to have only 2 distinct roots ($x=0$ and $x=-1$).
-\item But counting multiplicity, we have 3 roots: $x=0$ (twice) and $x=-1$ (once).
-\item As $\epsilon$ becomes non-zero, the double root at $x=0$ will typically \textbf{split} into two distinct roots.
-\item These two roots may not admit integer power expansions; instead, they often require \textbf{fractional power expansions} like $x(\epsilon) = c_1\epsilon^\alpha + c_2\epsilon^{2\alpha} + \cdots$ for some $\alpha \in (0,1)$.
-\end{itemize}
-
-\textbf{Step 1.4: Classify the problem.}
-
-\textit{Conclusion:} This is a \textbf{problem with non-integer power expansions} (as discussed in Lecture Notes Section 2.3).
+\textit{Key insight from the lecture notes:} ``In cases where unperturbed solutions are degenerate, their behavior as $\epsilon \to 0$ may sometimes not be captured by a power series expansion of integer powers.''
 
 \textit{Strategy:}
 \begin{enumerate}
 \item Find the regular solution near $x = -1$ using standard integer power expansion.
-\item Find the singular solutions near $x = 0$ using fractional power expansion.
+\item Find the singular solutions near $x = 0$ using fractional power expansion with exponent determined by dominant balance.
 \end{enumerate}
 
 \subsubsection*{Phase II: Regular Solution Near $x_0 = -1$}
 
-\textbf{Step 2.1: Why we expect a regular solution here.}
+\textbf{Step 2.1: Justification for regular expansion.}
 
 \textit{Observation:} $x = -1$ is a \textbf{simple root} of the unperturbed equation.
 
@@ -533,445 +291,554 @@ x(\epsilon) = -1 + x_1\epsilon + x_2\epsilon^2 + O(\epsilon^3).
 
 \textit{Original equation:} $x^3 + x^2 - \epsilon = 0$.
 
-\textit{Substitute:} $x = -1 + x_1\epsilon + x_2\epsilon^2 + \cdots$
-
-\textit{Compute $x^2$:}
+\textit{Compute $x^2$ and $x^3$:}
 \begin{align*}
-x^2 &= (-1 + x_1\epsilon + x_2\epsilon^2)^2 \\
-&= 1 - 2x_1\epsilon + (x_1^2 - 2x_2)\epsilon^2 + O(\epsilon^3).
+x^2 &= (-1 + x_1\epsilon + \cdots)^2 = 1 - 2x_1\epsilon + O(\epsilon^2), \\
+x^3 &= (-1 + x_1\epsilon + \cdots)^3 = -1 + 3x_1\epsilon + O(\epsilon^2).
 \end{align*}
 
-\textit{Why:} Using $(a+b)^2 = a^2 + 2ab + b^2$ with $a = -1$, $b = x_1\epsilon + x_2\epsilon^2$:
-\begin{itemize}
-\item $a^2 = 1$
-\item $2ab = 2(-1)(x_1\epsilon + x_2\epsilon^2) = -2x_1\epsilon - 2x_2\epsilon^2$
-\item $b^2 = (x_1\epsilon)^2 + \text{higher order} = x_1^2\epsilon^2 + O(\epsilon^3)$
-\end{itemize}
-
-\textit{Compute $x^3$:}
-\begin{align*}
-x^3 &= x \cdot x^2 = (-1 + x_1\epsilon + x_2\epsilon^2)[1 - 2x_1\epsilon + (x_1^2 - 2x_2)\epsilon^2] \\
-&= -1 + 2x_1\epsilon - (x_1^2 - 2x_2)\epsilon^2 + x_1\epsilon - 2x_1^2\epsilon^2 + O(\epsilon^3) \\
-&= -1 + 3x_1\epsilon + (-x_1^2 + 2x_2 - 2x_1^2)\epsilon^2 + O(\epsilon^3) \\
-&= -1 + 3x_1\epsilon + (-3x_1^2 + 2x_2)\epsilon^2 + O(\epsilon^3).
-\end{align*}
-
-\textbf{Step 2.4: Combine $x^3 + x^2$.}
-
-\begin{align*}
-x^3 + x^2 &= [-1 + 3x_1\epsilon + (-3x_1^2 + 2x_2)\epsilon^2] + [1 - 2x_1\epsilon + (x_1^2 - 2x_2)\epsilon^2] \\
-&= x_1\epsilon + (-3x_1^2 + 2x_2 + x_1^2 - 2x_2)\epsilon^2 + O(\epsilon^3) \\
-&= x_1\epsilon - 2x_1^2\epsilon^2 + O(\epsilon^3).
-\end{align*}
-
-\textbf{Step 2.5: Set equal to $\epsilon$.}
+\textbf{Step 2.4: Combine and solve.}
 
 \[
-x_1\epsilon - 2x_1^2\epsilon^2 + O(\epsilon^3) = \epsilon.
+x^3 + x^2 = (-1 + 3x_1\epsilon) + (1 - 2x_1\epsilon) + O(\epsilon^2) = x_1\epsilon + O(\epsilon^2).
 \]
 
-\textit{Rearrange:}
+Setting equal to $\epsilon$:
 \[
-(x_1 - 1)\epsilon - 2x_1^2\epsilon^2 + O(\epsilon^3) = 0.
+x_1\epsilon + O(\epsilon^2) = \epsilon.
 \]
-
-\textbf{Step 2.6: Solve order by order.}
 
 \textit{At $O(\epsilon)$:}
 \[
-x_1 - 1 = 0 \implies x_1 = 1.
+x_1 = 1.
 \]
 
-\textit{At $O(\epsilon^2)$:}
+\textbf{Final answer for regular root:}
 \[
--2x_1^2 = 0 \implies -2(1)^2 = -2 \neq 0.
+\boxed{x(\epsilon) = -1 + \epsilon + O(\epsilon^2)}.
 \]
 
-\textit{Wait, this seems inconsistent. Let me recalculate more carefully.}
-
-Actually, going back: if $x_1 = 1$, then at $O(\epsilon^2)$ we should get an equation for $x_2$. Let me redo the $x^3$ calculation with proper bookkeeping.
-
-\textit{More careful calculation of $x^3$:}
-
-Let me use the binomial expansion more systematically:
-\[
-x = -1 + x_1\epsilon + x_2\epsilon^2.
-\]
-
-\[
-x^2 = 1 - 2x_1\epsilon - 2x_2\epsilon^2 + x_1^2\epsilon^2 = 1 - 2x_1\epsilon + (x_1^2 - 2x_2)\epsilon^2.
-\]
-
-\[
-x^3 = (-1 + x_1\epsilon + x_2\epsilon^2)^3.
-\]
-
-Using the multinomial theorem or expanding systematically:
-\[
-x^3 = -1 + 3x_1\epsilon + 3x_2\epsilon^2 - 3x_1^2\epsilon^2 = -1 + 3x_1\epsilon + (3x_2 - 3x_1^2)\epsilon^2 + O(\epsilon^3).
-\]
-
-\textit{Therefore:}
-\[
-x^3 + x^2 = -1 + 3x_1\epsilon + (3x_2 - 3x_1^2)\epsilon^2 + 1 - 2x_1\epsilon + (x_1^2 - 2x_2)\epsilon^2 = x_1\epsilon + (x_2 - 2x_1^2)\epsilon^2.
-\]
-
-\textit{Setting equal to $\epsilon$:}
-\[
-x_1\epsilon + (x_2 - 2x_1^2)\epsilon^2 = \epsilon.
-\]
-
-\textit{At $O(\epsilon)$:} $x_1 = 1$.
-
-\textit{At $O(\epsilon^2)$:} $x_2 - 2x_1^2 = 0 \implies x_2 = 2(1)^2 = 2$.
-
-\textbf{Step 2.7: Write the final answer.}
-
-\[
-\boxed{x(\epsilon) = -1 + \epsilon + 2\epsilon^2 + O(\epsilon^3)}.
-\]
-
-\subsubsection*{Phase III: Singular Solutions Near $x_0 = 0$}
+\subsubsection*{Phase III: Singular Solutions Near $x_0 = 0$ (Double Root)}
 
 \textbf{Step 3.1: Why we need fractional powers.}
 
 \textit{Key observation:} The unperturbed root $x = 0$ is degenerate (double root).
 
-\textit{Theory from Lecture Notes (Section 2.3, Example Eq. 17):} For the equation $(1-\epsilon)x^2 - 2x + 1 = 0$ with a degenerate unperturbed root, the solution required fractional powers: $x(\epsilon) = x_0 + x_1\epsilon^{1/2} + x_2\epsilon + \cdots$.
-
-\textit{Strategy:} We will assume a fractional power expansion and determine the correct exponent $\alpha$ by dominant balance.
+\textit{Theory from Lecture Notes (Section 2.3):} For degenerate roots, we use the ansatz
+\[
+x = x_1\epsilon^\alpha + x_2\epsilon^{2\alpha} + \cdots
+\]
+where $\alpha > 0$ is determined by \textbf{dominant balance analysis}.
 
 \textbf{Step 3.2: Make the fractional power ansatz.}
 
-\textit{General form:}
 \[
-x(\epsilon) = x_0 + x_1\epsilon^\alpha + x_2\epsilon^{2\alpha} + x_3\epsilon^{3\alpha} + \cdots,
-\]
-where $\alpha > 0$ is to be determined, and $x_0 = 0$ (since we're expanding near the degenerate root).
-
-\textit{Simplified ansatz:}
-\[
-x(\epsilon) = x_1\epsilon^\alpha + x_2\epsilon^{2\alpha} + x_3\epsilon^{3\alpha} + \cdots
+x(\epsilon) = x_1\epsilon^\alpha + x_2\epsilon^{2\alpha} + \cdots
 \]
 
 \textbf{Step 3.3: Substitute into the equation.}
 
 \textit{Original equation:} $x^3 + x^2 = \epsilon$.
 
-\textit{Compute $x^2$:}
-\[
-x^2 = (x_1\epsilon^\alpha + x_2\epsilon^{2\alpha} + \cdots)^2 = x_1^2\epsilon^{2\alpha} + 2x_1x_2\epsilon^{3\alpha} + O(\epsilon^{4\alpha}).
-\]
-
-\textit{Compute $x^3$:}
-\[
-x^3 = (x_1\epsilon^\alpha + x_2\epsilon^{2\alpha} + \cdots)^3 = x_1^3\epsilon^{3\alpha} + 3x_1^2x_2\epsilon^{4\alpha} + O(\epsilon^{5\alpha}).
-\]
+\textit{Compute powers of $x$:}
+\begin{align*}
+x^2 &= x_1^2\epsilon^{2\alpha} + 2x_1x_2\epsilon^{3\alpha} + O(\epsilon^{4\alpha}), \\
+x^3 &= x_1^3\epsilon^{3\alpha} + 3x_1^2x_2\epsilon^{4\alpha} + O(\epsilon^{5\alpha}).
+\end{align*}
 
 \textit{Sum:}
 \[
-x^3 + x^2 = x_1^3\epsilon^{3\alpha} + x_1^2\epsilon^{2\alpha} + O(\epsilon^{3\alpha}, \epsilon^{4\alpha}).
+x^3 + x^2 = x_1^2\epsilon^{2\alpha} + x_1^3\epsilon^{3\alpha} + 2x_1x_2\epsilon^{3\alpha} + O(\epsilon^{4\alpha}).
 \]
 
 \textbf{Step 3.4: Determine $\alpha$ by dominant balance.}
 
-\textit{Equation becomes:}
+\textit{The fundamental principle:} We must balance the left-hand side against $\epsilon$ on the right-hand side. The leading term on the left must match $\epsilon$ in order of magnitude.
+
+\textit{Comparison of terms:}
+\begin{itemize}
+\item $x^2$ term: $x_1^2\epsilon^{2\alpha}$
+\item $x^3$ term: $x_1^3\epsilon^{3\alpha}$
+\item RHS: $\epsilon$
+\end{itemize}
+
+\textit{Since $\alpha > 0$, we have $2\alpha < 3\alpha$, so $\epsilon^{2\alpha} \gg \epsilon^{3\alpha}$ as $\epsilon \to 0$.}
+
+\textit{Therefore, the dominant term on the LHS is $x_1^2\epsilon^{2\alpha}$.}
+
+\textit{Dominant balance condition:} The dominant term must balance the RHS:
 \[
-x_1^3\epsilon^{3\alpha} + x_1^2\epsilon^{2\alpha} = \epsilon.
+x_1^2\epsilon^{2\alpha} \sim \epsilon.
 \]
 
-\textit{Dominant balance analysis:} We need to determine which terms balance at leading order.
+\textit{Matching powers of $\epsilon$:}
+\[
+2\alpha = 1 \implies \boxed{\alpha = \frac{1}{2}}.
+\]
 
-\textit{Case 1: Assume $x_1^3\epsilon^{3\alpha} \sim \epsilon$.}
+\textit{Verification of consistency:} With $\alpha = 1/2$:
+\begin{itemize}
+\item $x^2 \sim \epsilon^1$ (leading order, balances RHS)
+\item $x^3 \sim \epsilon^{3/2}$ (subdominant, since $3/2 > 1$)
+\end{itemize}
+This is consistent: the $x^3$ term is indeed smaller than the $x^2$ term.
 
-This gives $3\alpha = 1 \implies \alpha = 1/3$.
+\textbf{Step 3.5: Solve at $O(\epsilon)$ (leading order).}
 
-Then $x_1^2\epsilon^{2\alpha} = x_1^2\epsilon^{2/3}$.
-
-\textit{Check consistency:} Is $\epsilon^{2/3} = o(\epsilon)$ as $\epsilon \to 0$? No! In fact, $\epsilon^{2/3} \gg \epsilon$ as $\epsilon \to 0$.
-
-So the term $x_1^2\epsilon^{2/3}$ would actually \textbf{dominate} the $\epsilon$ on the right-hand side. This means our assumption that $x_1^3\epsilon^{3\alpha}$ dominates is inconsistent.
-
-\textit{Case 2: Assume $x_1^2\epsilon^{2\alpha} \sim \epsilon$.}
-
-This gives $2\alpha = 1 \implies \alpha = 1/2$.
-
-Then $x_1^3\epsilon^{3\alpha} = x_1^3\epsilon^{3/2}$.
-
-\textit{Check consistency:} Is $\epsilon^{3/2} = o(\epsilon)$ as $\epsilon \to 0$? Yes! Since $\epsilon^{3/2} = \epsilon \cdot \epsilon^{1/2} \to 0$ faster than $\epsilon$.
-
-So the $x_1^3\epsilon^{3/2}$ term is subdominant and can be neglected at leading order.
-
-\textit{But wait:} If $x_1^2\epsilon^{2\alpha} \sim \epsilon$ with $\alpha = 1/2$, then:
+With $\alpha = 1/2$, the leading-order equation is:
 \[
 x_1^2\epsilon = \epsilon \implies x_1^2 = 1 \implies x_1 = \pm 1.
 \]
 
-And we'd have $x_1^3\epsilon^{3/2}$ as a higher-order term. But actually, for this to work, we need $x_1^2 \neq 0$, which is satisfied.
+\textit{Interpretation:} The double root at $x = 0$ splits into two roots, one going as $+\epsilon^{1/2}$ and one as $-\epsilon^{1/2}$.
 
-Actually, let me reconsider more carefully. With $\alpha = 1/2$:
+\textbf{Step 3.6: Find the next-order correction.}
+
+\textit{Ansatz with known leading order:}
 \[
-x^3 + x^2 = x_1^3\epsilon^{3/2} + x_1^2\epsilon + O(\epsilon^{3/2}).
+x = \pm\epsilon^{1/2} + x_2\epsilon + O(\epsilon^{3/2}).
 \]
 
-At leading order $O(\epsilon)$:
+\textit{Compute $x^2$ and $x^3$ to higher order:}
+
+For $x = x_1\epsilon^{1/2} + x_2\epsilon$ with $x_1 = \pm 1$:
+\begin{align*}
+x^2 &= x_1^2\epsilon + 2x_1x_2\epsilon^{3/2} + O(\epsilon^2) = \epsilon + 2x_1x_2\epsilon^{3/2} + O(\epsilon^2), \\
+x^3 &= x_1^3\epsilon^{3/2} + 3x_1^2x_2\epsilon^2 + O(\epsilon^{5/2}) = x_1^3\epsilon^{3/2} + O(\epsilon^2).
+\end{align*}
+
+\textit{Note:} We used $x_1^2 = 1$ in simplifying $x^2$.
+
+\textit{Sum:}
 \[
-x_1^2\epsilon = \epsilon \implies x_1^2 = 1.
-\]
-
-But this seems too simple. Let me try $\alpha = 1/3$ more carefully.
-
-\textit{Case 1 revisited: $\alpha = 1/3$.}
-
-\[
-x^3 + x^2 = x_1^3\epsilon + x_1^2\epsilon^{2/3} + \text{higher order}.
-\]
-
-For $\epsilon \to 0$, we have $\epsilon^{2/3} \gg \epsilon$, so the dominant term is $x_1^2\epsilon^{2/3}$.
-
-Setting $x_1^2\epsilon^{2/3} \sim \epsilon$ gives $\epsilon^{2/3} \sim \epsilon / x_1^2$, which means $\epsilon^{-1/3} \sim x_1^{-2}$, or $x_1^2 \sim \epsilon^{1/3}$. But $x_1$ should be a constant, not dependent on $\epsilon$. This is inconsistent.
-
-\textit{Correct approach:} The dominant balance is between $x_1^3\epsilon^{3\alpha}$ and $\epsilon$ on the right, with $x_1^2\epsilon^{2\alpha}$ being a higher-order correction.
-
-\textit{Therefore:} $3\alpha = 1 \implies \alpha = 1/3$.
-
-At leading order:
-\[
-x_1^3\epsilon = \epsilon \implies x_1^3 = 1 \implies x_1 = 1, \omega, \omega^2,
-\]
-where $\omega = e^{2\pi i/3} = -\frac{1}{2} + \frac{\sqrt{3}}{2}i$ and $\omega^2 = e^{4\pi i/3} = -\frac{1}{2} - \frac{\sqrt{3}}{2}i$ are the complex cube roots of unity.
-
-\textbf{Step 3.5: Find the leading-order solutions.}
-
-\textit{Three solutions:}
-\[
-x^{(1)}(\epsilon) = \epsilon^{1/3} + O(\epsilon^{2/3}), \quad \text{(real)}
-\]
-\[
-x^{(2)}(\epsilon) = \omega \epsilon^{1/3} + O(\epsilon^{2/3}), \quad \text{(complex)}
-\]
-\[
-x^{(3)}(\epsilon) = \omega^2 \epsilon^{1/3} + O(\epsilon^{2/3}). \quad \text{(complex)}
-\]
-
-\textbf{Step 3.6: Find the next-order correction (for the real root).}
-
-\textit{Ansatz:}
-\[
-x(\epsilon) = \epsilon^{1/3} + x_2\epsilon^{2/3} + O(\epsilon).
-\]
-
-\textit{Substitute:}
-\[
-x^2 = \epsilon^{2/3} + 2\epsilon^{1/3} \cdot x_2\epsilon^{2/3} + O(\epsilon^{4/3}) = \epsilon^{2/3} + 2x_2\epsilon + O(\epsilon^{4/3}).
-\]
-
-\[
-x^3 = \epsilon + 3\epsilon^{2/3} \cdot x_2\epsilon^{2/3} + O(\epsilon^{5/3}) = \epsilon + 3x_2\epsilon^{4/3} + O(\epsilon^{5/3}).
-\]
-
-\[
-x^3 + x^2 = \epsilon + \epsilon^{2/3} + 2x_2\epsilon + O(\epsilon^{4/3}).
+x^3 + x^2 = \epsilon + x_1^3\epsilon^{3/2} + 2x_1x_2\epsilon^{3/2} + O(\epsilon^2).
 \]
 
 \textit{Setting equal to $\epsilon$:}
 \[
-\epsilon + \epsilon^{2/3} + 2x_2\epsilon = \epsilon.
+\epsilon + (x_1^3 + 2x_1x_2)\epsilon^{3/2} + O(\epsilon^2) = \epsilon.
 \]
 
-\textit{At $O(\epsilon^{2/3})$:}
+\textit{At $O(\epsilon^{3/2})$:}
 \[
-1 + 2x_2\epsilon^{1/3} = 0.
+x_1^3 + 2x_1x_2 = 0 \implies x_2 = -\frac{x_1^3}{2x_1} = -\frac{x_1^2}{2} = -\frac{1}{2}.
 \]
 
-Wait, this doesn't look right. Let me recalculate systematically.
+\textit{Key observation:} The coefficient $x_2 = -1/2$ is the same for both branches ($x_1 = +1$ and $x_1 = -1$).
 
-\textit{More careful calculation:}
-
-With $x = \epsilon^{1/3} + x_2\epsilon^{2/3}$:
+\textbf{Step 3.7: Final answers for singular roots.}
 
 \[
-x^2 = (\epsilon^{1/3})^2 + 2\epsilon^{1/3}(x_2\epsilon^{2/3}) + (x_2\epsilon^{2/3})^2 = \epsilon^{2/3} + 2x_2\epsilon + x_2^2\epsilon^{4/3}.
-\]
-
-\[
-x^3 = (\epsilon^{1/3})^3 + 3(\epsilon^{1/3})^2(x_2\epsilon^{2/3}) + 3\epsilon^{1/3}(x_2\epsilon^{2/3})^2 + (x_2\epsilon^{2/3})^3.
+\boxed{x(\epsilon) = +\epsilon^{1/2} - \frac{1}{2}\epsilon + O(\epsilon^{3/2})},
 \]
 \[
-= \epsilon + 3\epsilon^{2/3} \cdot x_2\epsilon^{2/3} + 3\epsilon^{1/3} \cdot x_2^2\epsilon^{4/3} + x_2^3\epsilon^2.
+\boxed{x(\epsilon) = -\epsilon^{1/2} - \frac{1}{2}\epsilon + O(\epsilon^{3/2})}.
 \]
+
+\subsubsection*{Summary for Problem 1(b)}
+
+The three roots of $x^3 + x^2 - \epsilon = 0$ are:
+
+\begin{enumerate}
+\item \textbf{Regular root} (from simple root at $x = -1$):
 \[
-= \epsilon + 3x_2\epsilon^{4/3} + 3x_2^2\epsilon^{5/3} + x_2^3\epsilon^2.
+x(\epsilon) = -1 + \epsilon + O(\epsilon^2).
 \]
 
+\item \textbf{Singular roots} (from double root at $x = 0$):
 \[
-x^3 + x^2 = \epsilon + \epsilon^{2/3} + 2x_2\epsilon + 3x_2\epsilon^{4/3} + O(\epsilon^{4/3}).
+x(\epsilon) = \pm\epsilon^{1/2} - \frac{1}{2}\epsilon + O(\epsilon^{3/2}).
 \]
+\end{enumerate}
 
-\textit{For this to equal $\epsilon$:}
-
-At $O(\epsilon^{2/3})$: $1 = 0$, which is a contradiction!
-
-\textit{Resolution:} The term $\epsilon^{2/3}$ must be balanced. Let me reconsider by including this term explicitly from the start.
-
-Actually, at $O(\epsilon^{2/3})$, we have $x^2 = \epsilon^{2/3} + \cdots$, which gives a contribution of $\epsilon^{2/3}$ to $x^3 + x^2$. For this to equal $\epsilon$ (with no $\epsilon^{2/3}$ term on the RHS), we need to cancel this term at the next order.
-
-Let me try: $x = \epsilon^{1/3} + x_2\epsilon^{2/3} + x_3\epsilon + \cdots$.
-
-At $O(\epsilon^{2/3})$:
-\[
-x^2 = \epsilon^{2/3} + \text{(higher order)}.
-\]
-
-So we get a $+\epsilon^{2/3}$ contribution from $x^2$, but the RHS is just $\epsilon$ with no $\epsilon^{2/3}$ term. This means we need:
-\[
-\epsilon^{2/3} + (\text{contribution from } x^3) = 0 \quad \text{at } O(\epsilon^{2/3}).
-\]
-
-But $x^3 = (\epsilon^{1/3})^3 + \cdots = \epsilon + \cdots$, which doesn't have an $O(\epsilon^{2/3})$ term either!
-
-\textit{Conclusion:} There's a mismatch. Let me reconsider the dominant balance.
-
-Actually, I think the issue is that near $x = 0$, both $x^3$ and $x^2$ are small, but we need to balance them against $\epsilon$. The correct dominant balance is:
-
-For small $x$, if $x^3 \sim \epsilon$, then $x \sim \epsilon^{1/3}$.
-At this scale, $x^2 \sim \epsilon^{2/3} \ll \epsilon$.
-
-So the dominant balance at leading order is:
-\[
-x^3 \sim \epsilon, \quad x^2 = O(\epsilon^{2/3}) \text{ (subleading)}.
-\]
-
-This gives $x_1 = 1$ and $x(\epsilon) = \epsilon^{1/3} + \text{corrections}$.
-
-For the next term, set $x = \epsilon^{1/3}(1 + y)$ where $y$ is small:
-\[
-x^3 + x^2 = \epsilon(1+y)^3 + \epsilon^{2/3}(1+y)^2 = \epsilon.
-\]
-
-Expanding:
-\[
-\epsilon(1 + 3y + 3y^2 + y^3) + \epsilon^{2/3}(1 + 2y + y^2) = \epsilon.
-\]
-
-\[
-\epsilon + 3\epsilon y + \epsilon^{2/3} + 2\epsilon^{2/3}y = \epsilon + O(\epsilon y, \epsilon^{2/3}y).
-\]
-
-At $O(\epsilon^{2/3})$:
-\[
-\epsilon^{2/3}(1 + 2y) + 3\epsilon y = 0.
-\]
-
-If $y \sim \epsilon^\beta$ for some $\beta > 0$, then:
-- The term $\epsilon^{2/3} \cdot 2y \sim \epsilon^{2/3 + \beta}$
-- The term $3\epsilon y \sim \epsilon^{1+\beta}$
-
-For balance, we need $2/3 = 1 + \beta$, giving $\beta = -1/3 < 0$, which doesn't make sense.
-
-Alternatively, if $\epsilon^{2/3} \sim 3\epsilon y$, then $y \sim \epsilon^{-1/3}$, which also doesn't work.
-
-\textit{Correct interpretation:} At $O(\epsilon^{2/3})$, we simply have:
-\[
-1 = 0 \text{ (from the coefficient of } \epsilon^{2/3}).
-\]
-
-This seems to suggest that the expansion doesn't work as written. However, I believe the resolution is that for the real root $x = \epsilon^{1/3}$, the next correction enters at $O(\epsilon^{2/3})$ to \textbf{cancel} the unwanted $\epsilon^{2/3}$ term.
-
-Let me try $x = \epsilon^{1/3} - \frac{1}{3}\epsilon^{2/3} + \cdots$:
-
-\[
-x^2 = \epsilon^{2/3} - \frac{2}{3}\epsilon = \epsilon^{2/3}(1 - \frac{2}{3}\epsilon^{1/3}) + O(\epsilon^{4/3}).
-\]
-
-\[
-x^3 = \epsilon - \epsilon^{4/3} + O(\epsilon^{5/3}).
-\]
-
-\[
-x^3 + x^2 = \epsilon + \epsilon^{2/3} - \frac{2}{3}\epsilon + O(\epsilon^{4/3}) = \epsilon(1 - \frac{2}{3}) + \epsilon^{2/3} = \frac{1}{3}\epsilon + \epsilon^{2/3}.
-\]
-
-Hmm, this still doesn't equal $\epsilon$.
-
-\textit{Alternative approach:} Use the lecture notes' example more directly. For Eq. (17) in Section 2.3:
-\[
-(1-\epsilon)x^2 - 2x + 1 = 0,
-\]
-with a degenerate unperturbed root at $x = 1$, the expansion was:
-\[
-x(\epsilon) = 1 \pm \epsilon^{1/2} + \epsilon + \cdots
-\]
-
-For our problem, perhaps the expansion structure is:
-\[
-x(\epsilon) = c_1\epsilon^{1/3} - \frac{c_1^2}{3}\epsilon^{2/3} + O(\epsilon).
-\]
-
-With $c_1 = 1$:
-\[
-\boxed{x(\epsilon) = \epsilon^{1/3} - \frac{1}{3}\epsilon^{2/3} + O(\epsilon).}
-\]
-
-\textit{For the complex roots:}
-\[
-\boxed{x(\epsilon) = \omega\epsilon^{1/3} - \frac{\omega^2}{3}\epsilon^{2/3} + O(\epsilon)},
-\]
-\[
-\boxed{x(\epsilon) = \omega^2\epsilon^{1/3} - \frac{\omega}{3}\epsilon^{2/3} + O(\epsilon)}.
-\]
-
-(Due to length constraints, I'll provide a briefer treatment of 1(c) and 1(d).)
+\textit{Physical interpretation:} The double root at $x = 0$ undergoes a ``splitting'' into two distinct roots when $\epsilon \neq 0$, with the separation growing as $2\epsilon^{1/2}$ for small $\epsilon$.
 
 \newpage
 \section*{Problem 1(c)}
 
-For $\epsilon \ll 1$, obtain two-term expansions for the solutions of $\epsilon x^3 + x^2 + 2x + 1 = 0$.
+\subsection*{Problem Statement}
 
-\textbf{Brief Solution:}
-
-Unperturbed equation ($\epsilon = 0$): $x^2 + 2x + 1 = (x+1)^2 = 0 \implies x = -1$ (double root).
-
-This is a singular perturbation problem. The perturbed equation is cubic (3 roots) but unperturbed has only 1 distinct root (with multiplicity 2).
-
-\textbf{Regular solution:} Try $x = -1 + x_1\epsilon + \cdots$ — this fails (gives $0 = -\epsilon$ contradiction).
-
-\textbf{Singular solution:} By dominant balance, try $x \sim -1/\epsilon$.
-Let $x = -1/\epsilon + x_0 + \cdots$:
-
-At $O(1/\epsilon^2)$: balance checks.
-At $O(1/\epsilon)$: $x_0 = -2$.
-
+For $\epsilon \ll 1$, obtain two-term expansions for the solutions of
 \[
-\boxed{x(\epsilon) = -\frac{1}{\epsilon} - 2 + O(\epsilon)}.
+\epsilon x^3 + x^2 + 2x + 1 = 0.
 \]
 
-The other two roots require further analysis (likely involving the quadratic formula for the reduced problem).
+\subsection*{Complete Solution}
+
+\subsubsection*{Phase I: Problem Classification}
+
+\textbf{Step 1.1: Examine the equation structure.}
+
+\textit{What we observe:} The small parameter $\epsilon$ multiplies the highest-degree term $x^3$.
+
+\textit{Why this matters:} When $\epsilon$ multiplies the highest power, setting $\epsilon = 0$ reduces the degree of the polynomial. This is a hallmark of a \textbf{singular perturbation problem}.
+
+\textbf{Step 1.2: Solve the unperturbed equation.}
+
+\textit{Setting $\epsilon = 0$:}
+\[
+x^2 + 2x + 1 = 0 \implies (x + 1)^2 = 0 \implies x = -1 \text{ (double root)}.
+\]
+
+\textit{Critical observations:}
+\begin{itemize}
+\item The unperturbed equation (quadratic) has only 2 roots (both equal to $-1$).
+\item The perturbed equation (cubic) has 3 roots.
+\item One root must ``come from infinity'' as $\epsilon \to 0$ --- this is the hallmark of a singular perturbation.
+\item The double root at $x = -1$ suggests non-integer power expansions for the roots near $-1$.
+\end{itemize}
+
+\textbf{Step 1.3: Strategy.}
+
+We will find:
+\begin{enumerate}
+\item Two roots near $x = -1$ (from the double root) using fractional power expansion.
+\item One root going to infinity as $\epsilon \to 0$ (the singular root) using dominant balance.
+\end{enumerate}
+
+\subsubsection*{Phase II: Roots Near $x_0 = -1$ (Double Root)}
+
+\textbf{Step 2.1: Motivation for fractional powers.}
+
+\textit{Theory:} Since $x = -1$ is a double root of the unperturbed equation, we expect the perturbation to split this into two distinct roots. Based on Lecture Notes Section 2.3 (see Eq. (17)--(20)), we try an expansion of the form:
+\[
+x = -1 + x_1\epsilon^{1/2} + x_2\epsilon + \cdots
+\]
+
+\textbf{Step 2.2: Substitute the ansatz.}
+
+\textit{Original equation:} $\epsilon x^3 + x^2 + 2x + 1 = 0$.
+
+\textit{Let} $x = -1 + x_1\epsilon^{1/2} + x_2\epsilon + \cdots$
+
+\textit{Compute each term:}
+
+\textit{Term 1: $\epsilon x^3$}
+\begin{align*}
+x^3 &= (-1 + x_1\epsilon^{1/2} + x_2\epsilon + \cdots)^3 \\
+&= -1 + 3x_1\epsilon^{1/2} + O(\epsilon).
+\end{align*}
+Therefore:
+\[
+\epsilon x^3 = \epsilon(-1 + 3x_1\epsilon^{1/2} + \cdots) = -\epsilon + O(\epsilon^{3/2}).
+\]
+
+\textit{Term 2: $x^2$}
+\begin{align*}
+x^2 &= (-1 + x_1\epsilon^{1/2} + x_2\epsilon)^2 \\
+&= 1 - 2x_1\epsilon^{1/2} + (x_1^2 - 2x_2)\epsilon + O(\epsilon^{3/2}).
+\end{align*}
+
+\textit{Term 3: $2x$}
+\[
+2x = 2(-1 + x_1\epsilon^{1/2} + x_2\epsilon + \cdots) = -2 + 2x_1\epsilon^{1/2} + 2x_2\epsilon + O(\epsilon^{3/2}).
+\]
+
+\textit{Term 4: $+1$}
+\[
++1.
+\]
+
+\textbf{Step 2.3: Collect terms by order.}
+
+\[
+\epsilon x^3 + x^2 + 2x + 1 = [1 - 2 + 1] + [-2x_1 + 2x_1]\epsilon^{1/2} + [-1 + x_1^2 - 2x_2 + 2x_2]\epsilon + O(\epsilon^{3/2}).
+\]
+
+\textit{Simplify:}
+\begin{itemize}
+\item $O(1)$: $1 - 2 + 1 = 0$ \checkmark (automatically satisfied)
+\item $O(\epsilon^{1/2})$: $-2x_1 + 2x_1 = 0$ \checkmark (automatically satisfied)
+\item $O(\epsilon)$: $-1 + x_1^2 - 2x_2 + 2x_2 = -1 + x_1^2 = 0$
+\end{itemize}
+
+\textbf{Step 2.4: Solve the balance equations.}
+
+\textit{At $O(\epsilon)$:}
+\[
+x_1^2 - 1 = 0 \implies x_1^2 = 1 \implies x_1 = \pm 1.
+\]
+
+\textbf{Step 2.5: Final answers for roots near $x = -1$.}
+
+\[
+\boxed{x(\epsilon) = -1 + \epsilon^{1/2} + O(\epsilon) = -1 + \sqrt{\epsilon} + O(\epsilon)},
+\]
+\[
+\boxed{x(\epsilon) = -1 - \epsilon^{1/2} + O(\epsilon) = -1 - \sqrt{\epsilon} + O(\epsilon)}.
+\]
+
+\subsubsection*{Phase III: Singular Root Going to Infinity}
+
+\textbf{Step 3.1: Physical intuition.}
+
+\textit{The perturbed equation is cubic (3 roots), but the unperturbed is quadratic (2 roots). Where does the third root ``go'' as $\epsilon \to 0$?}
+
+\textit{Answer:} It must go to infinity. As $\epsilon \to 0$, one root escapes to $\pm\infty$.
+
+\textbf{Step 3.2: Dominant balance analysis.}
+
+\textit{For large $|x|$, compare terms in $\epsilon x^3 + x^2 + 2x + 1 = 0$:}
+\begin{itemize}
+\item $\epsilon x^3$: grows as $|x|^3$
+\item $x^2$: grows as $|x|^2$
+\item $2x$: grows as $|x|$
+\item $1$: constant
+\end{itemize}
+
+\textit{For very large $|x|$, the dominant terms are $\epsilon x^3$ and $x^2$. The terms $2x$ and $1$ become negligible.}
+
+\textit{Dominant balance:}
+\[
+\epsilon x^3 + x^2 \approx 0 \implies \epsilon x^3 \sim -x^2 \implies x \sim -\frac{1}{\epsilon}.
+\]
+
+\textbf{Step 3.3: Make the ansatz for the singular root.}
+
+Based on the dominant balance, we try:
+\[
+x = -\frac{1}{\epsilon} + x_0 + x_1\epsilon + \cdots
+\]
+
+\textbf{Step 3.4: Substitute and expand.}
+
+\textit{Compute $x^2$:}
+\begin{align*}
+x^2 &= \left(-\frac{1}{\epsilon} + x_0 + \cdots\right)^2 = \frac{1}{\epsilon^2} - \frac{2x_0}{\epsilon} + x_0^2 + O(1).
+\end{align*}
+
+\textit{Compute $x^3$:}
+\begin{align*}
+x^3 &= \left(-\frac{1}{\epsilon} + x_0 + \cdots\right)^3 = -\frac{1}{\epsilon^3} + \frac{3x_0}{\epsilon^2} - \frac{3x_0^2}{\epsilon} + x_0^3 + O(\epsilon).
+\end{align*}
+
+\textit{Compute $\epsilon x^3$:}
+\[
+\epsilon x^3 = -\frac{1}{\epsilon^2} + \frac{3x_0}{\epsilon} - 3x_0^2 + O(\epsilon).
+\]
+
+\textit{Compute $2x$:}
+\[
+2x = -\frac{2}{\epsilon} + 2x_0 + O(\epsilon).
+\]
+
+\textbf{Step 3.5: Collect terms.}
+
+\[
+\epsilon x^3 + x^2 + 2x + 1 = \left(-\frac{1}{\epsilon^2} + \frac{1}{\epsilon^2}\right) + \left(\frac{3x_0}{\epsilon} - \frac{2x_0}{\epsilon} - \frac{2}{\epsilon}\right) + O(1).
+\]
+
+\textit{At $O(\epsilon^{-2})$:}
+\[
+-\frac{1}{\epsilon^2} + \frac{1}{\epsilon^2} = 0. \quad \checkmark
+\]
+
+\textit{At $O(\epsilon^{-1})$:}
+\[
+\frac{3x_0 - 2x_0 - 2}{\epsilon} = \frac{x_0 - 2}{\epsilon} = 0 \implies x_0 = 2.
+\]
+
+\textbf{Step 3.6: Final answer for singular root.}
+
+\[
+\boxed{x(\epsilon) = -\frac{1}{\epsilon} + 2 + O(\epsilon)}.
+\]
+
+\subsubsection*{Summary for Problem 1(c)}
+
+The three roots of $\epsilon x^3 + x^2 + 2x + 1 = 0$ are:
+
+\begin{enumerate}
+\item \textbf{Two roots from the double root at $x = -1$:}
+\[
+x(\epsilon) = -1 \pm \epsilon^{1/2} + O(\epsilon).
+\]
+
+\item \textbf{Singular root (goes to $-\infty$ as $\epsilon \to 0$):}
+\[
+x(\epsilon) = -\frac{1}{\epsilon} + 2 + O(\epsilon).
+\]
+\end{enumerate}
 
 \newpage
 \section*{Problem 1(d)}
 
+\subsection*{Problem Statement}
+
 For $\epsilon \ll 1$, obtain a two-term expansion for the solution near $x = 0$ of
 \[
-\sqrt{2}\sin(x + \pi/4) - 1 - x + \frac{1}{2}x^2 = -\frac{1}{6}\epsilon.
+\sqrt{2}\sin\left(x + \frac{\pi}{4}\right) - 1 - x + \frac{1}{2}x^2 = -\frac{1}{6}\epsilon.
 \]
 
-\textbf{Brief Solution:}
+\subsection*{Complete Solution}
 
-Using $\sqrt{2}\sin(x + \pi/4) = \sin x + \cos x$, the equation becomes:
+\subsubsection*{Phase I: Simplification and Taylor Expansion}
+
+\textbf{Step 1.1: Expand the left-hand side for small $x$.}
+
+\textit{The key insight:} We are looking for solutions near $x = 0$, so we should Taylor expand the LHS around $x = 0$.
+
+\textit{Use the angle addition formula:}
 \[
-\sin x + \cos x - 1 - x + \frac{x^2}{2} + \frac{\epsilon}{6} = 0.
+\sqrt{2}\sin\left(x + \frac{\pi}{4}\right) = \sqrt{2}\left[\sin x \cos\frac{\pi}{4} + \cos x \sin\frac{\pi}{4}\right] = \sqrt{2}\left[\frac{\sin x}{\sqrt{2}} + \frac{\cos x}{\sqrt{2}}\right] = \sin x + \cos x.
 \]
 
-Taylor expand near $x = 0$:
+\textit{Taylor expand $\sin x$ and $\cos x$:}
+\begin{align*}
+\sin x &= x - \frac{x^3}{6} + \frac{x^5}{120} - \cdots, \\
+\cos x &= 1 - \frac{x^2}{2} + \frac{x^4}{24} - \cdots.
+\end{align*}
+
+\textit{Therefore:}
 \[
-x - \frac{x^3}{6} + 1 - \frac{x^2}{2} - 1 - x + \frac{x^2}{2} + \frac{\epsilon}{6} = -\frac{x^3}{6} + \frac{\epsilon}{6} = 0.
+\sin x + \cos x = 1 + x - \frac{x^2}{2} - \frac{x^3}{6} + O(x^4).
 \]
 
-Thus $x^3 = \epsilon$, giving $x \sim \epsilon^{1/3}$.
+\textbf{Step 1.2: Substitute into the equation.}
+
+\textit{LHS of equation:}
+\begin{align*}
+&\sqrt{2}\sin\left(x + \frac{\pi}{4}\right) - 1 - x + \frac{1}{2}x^2 \\
+&= (\sin x + \cos x) - 1 - x + \frac{1}{2}x^2 \\
+&= \left(1 + x - \frac{x^2}{2} - \frac{x^3}{6} + O(x^4)\right) - 1 - x + \frac{1}{2}x^2 \\
+&= 1 + x - \frac{x^2}{2} - \frac{x^3}{6} - 1 - x + \frac{x^2}{2} + O(x^4) \\
+&= -\frac{x^3}{6} + \frac{x^4}{24} + O(x^5).
+\end{align*}
+
+\textit{Remarkable cancellation:} The constant terms, $x$ terms, and $x^2$ terms all cancel exactly!
+
+\textbf{Step 1.3: Write the simplified equation.}
+
+The equation becomes:
+\[
+-\frac{x^3}{6} + \frac{x^4}{24} + O(x^5) = -\frac{\epsilon}{6}.
+\]
+
+Multiply through by $-6$:
+\[
+x^3 - \frac{x^4}{4} + O(x^5) = \epsilon.
+\]
+
+\subsubsection*{Phase II: Leading-Order Solution}
+
+\textbf{Step 2.1: Dominant balance for leading order.}
+
+\textit{For small $x$, compare terms:}
+\begin{itemize}
+\item $x^3$: leading term
+\item $x^4/4$: subdominant (since $x^4 \ll x^3$ for small $x$)
+\end{itemize}
+
+\textit{Leading-order balance:}
+\[
+x^3 \approx \epsilon \implies x \approx \epsilon^{1/3}.
+\]
+
+\textbf{Step 2.2: Leading-order solution.}
 
 \[
-\boxed{x(\epsilon) = \epsilon^{1/3} + O(\epsilon^{2/3})}.
+x_0 = \epsilon^{1/3}.
 \]
+
+\textit{Verification:} With $x \sim \epsilon^{1/3}$, we have $x^4 \sim \epsilon^{4/3}$, which is indeed $o(\epsilon)$ as $\epsilon \to 0$. So neglecting $x^4$ at leading order is justified.
+
+\subsubsection*{Phase III: Next-Order Correction}
+
+\textbf{Step 3.1: Make the ansatz for next order.}
+
+We seek:
+\[
+x = \epsilon^{1/3} + \alpha\epsilon^\beta + \cdots
+\]
+where $\beta > 1/3$ (since this is a correction to the leading term) and $\alpha$ is a constant to be determined.
+
+\textbf{Step 3.2: Substitute and expand.}
+
+\textit{Let} $x = \epsilon^{1/3} + \alpha\epsilon^\beta$ with $\beta > 1/3$.
+
+\textit{Compute $x^3$:}
+\begin{align*}
+x^3 &= (\epsilon^{1/3} + \alpha\epsilon^\beta)^3 \\
+&= \epsilon + 3\epsilon^{2/3}(\alpha\epsilon^\beta) + 3\epsilon^{1/3}(\alpha\epsilon^\beta)^2 + (\alpha\epsilon^\beta)^3 \\
+&= \epsilon + 3\alpha\epsilon^{2/3 + \beta} + O(\epsilon^{1/3 + 2\beta}).
+\end{align*}
+
+\textit{Compute $x^4$:}
+\begin{align*}
+x^4 &= (\epsilon^{1/3})^4 + 4(\epsilon^{1/3})^3(\alpha\epsilon^\beta) + \cdots \\
+&= \epsilon^{4/3} + 4\alpha\epsilon^{1+\beta} + \cdots.
+\end{align*}
+
+\textit{Therefore:}
+\[
+x^3 - \frac{x^4}{4} = \epsilon + 3\alpha\epsilon^{2/3+\beta} - \frac{\epsilon^{4/3}}{4} + O(\text{higher order}).
+\]
+
+\textbf{Step 3.3: Balance the equation.}
+
+The equation is:
+\[
+x^3 - \frac{x^4}{4} + O(x^5) = \epsilon.
+\]
+
+Substituting:
+\[
+\epsilon + 3\alpha\epsilon^{2/3+\beta} - \frac{\epsilon^{4/3}}{4} + \cdots = \epsilon.
+\]
+
+\textit{The $\epsilon$ terms cancel. We need to balance the remaining terms.}
+
+\textit{The next largest terms are:}
+\begin{itemize}
+\item $3\alpha\epsilon^{2/3+\beta}$
+\item $-\frac{1}{4}\epsilon^{4/3}$
+\end{itemize}
+
+\textit{For these to balance:}
+\[
+\frac{2}{3} + \beta = \frac{4}{3} \implies \beta = \frac{2}{3}.
+\]
+
+\textit{With $\beta = 2/3$:}
+\[
+3\alpha\epsilon^{4/3} - \frac{1}{4}\epsilon^{4/3} = 0 \implies 3\alpha = \frac{1}{4} \implies \alpha = \frac{1}{12}.
+\]
+
+\textbf{Step 3.4: Final answer.}
+
+\[
+\boxed{x(\epsilon) = \epsilon^{1/3} + \frac{1}{12}\epsilon^{2/3} + o(\epsilon^{2/3})}.
+\]
+
+\subsubsection*{Verification}
+
+\textit{Let's verify the first few terms of our expansion.}
+
+With $x = \epsilon^{1/3} + \frac{1}{12}\epsilon^{2/3}$:
+
+\begin{align*}
+x^3 &= \left(\epsilon^{1/3}\right)^3 + 3\left(\epsilon^{1/3}\right)^2 \cdot \frac{1}{12}\epsilon^{2/3} + O(\epsilon^{5/3}) \\
+&= \epsilon + \frac{1}{4}\epsilon^{4/3} + O(\epsilon^{5/3}).
+\end{align*}
+
+\begin{align*}
+x^4 &= \left(\epsilon^{1/3}\right)^4 + O(\epsilon^{5/3}) = \epsilon^{4/3} + O(\epsilon^{5/3}).
+\end{align*}
+
+\begin{align*}
+x^3 - \frac{x^4}{4} &= \epsilon + \frac{1}{4}\epsilon^{4/3} - \frac{1}{4}\epsilon^{4/3} + O(\epsilon^{5/3}) \\
+&= \epsilon + O(\epsilon^{5/3}).
+\end{align*}
+
+This equals $\epsilon$ to the required order. \checkmark
+
+\subsubsection*{Summary for Problem 1(d)}
+
+The solution near $x = 0$ of $\sqrt{2}\sin(x + \pi/4) - 1 - x + \frac{1}{2}x^2 = -\frac{\epsilon}{6}$ is:
+\[
+x(\epsilon) = \epsilon^{1/3} + \frac{1}{12}\epsilon^{2/3} + o(\epsilon^{2/3}) \quad \text{as } \epsilon \to 0.
+\]
+
+\textit{Key insight:} The remarkable cancellation of lower-order terms in the Taylor expansion of the LHS leads to the dominant balance $x^3 \sim \epsilon$, giving the unusual scaling $x \sim \epsilon^{1/3}$.
 
 \end{document}

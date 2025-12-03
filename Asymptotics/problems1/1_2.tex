@@ -9,675 +9,407 @@
 \newtheorem{lemma}[theorem]{Lemma}
 \newtheorem{definition}[theorem]{Definition}
 
-\title{Asymptotics 2025/2026 Sheet 1\\Problem 2: Complete Solution}
+\title{}
 \author{}
 \date{}
 
 \begin{document}
 
-\maketitle
-
+\section*{Problem Sheet 1, Question 2}
 \section*{Problem Statement}
 
-Find two terms in the expansion for each root of
+Find two-term expansions for each root of
 \begin{equation}
 \epsilon^2 x^3 + x^2 + 2x + \epsilon = 0, \quad \epsilon \ll 1.
 \end{equation}
 
-\section{Initial Analysis and Strategy}
+\section*{Complete Solution}
 
-\subsection{Why We Begin With The Unperturbed Problem}
+\subsection*{Phase I: Problem Classification}
 
-\textbf{What we observe:} The equation contains a small parameter $\epsilon$ multiplying certain terms.
+\textbf{Step 1.1: Identify the structure of the equation.}
 
-\textbf{Why this matters:} According to Section 2 of the lecture notes, when we have an equation depending on a small parameter $\epsilon$, we seek to understand how solutions behave as $\epsilon \to 0$. The fundamental strategy is to first solve the simpler problem where $\epsilon = 0$, then understand how solutions "perturb" away from this base case.
+\textit{What we observe:} The equation has the form $F(x;\epsilon) = 0$ where $\epsilon$ appears both as an additive perturbation (the $+\epsilon$ term) and multiplying the highest-degree term ($\epsilon^2 x^3$).
 
-\textbf{What we do:} Set $\epsilon = 0$ to obtain the unperturbed equation.
+\textit{Why this matters:} According to Lecture Notes Section 2.2, when a small parameter multiplies the highest-degree term, the problem is potentially singular because setting $\epsilon = 0$ reduces the degree of the equation.
 
-\textbf{Why we do this:} The unperturbed equation gives us candidate locations where roots might exist for small $\epsilon$. These are our "base points" around which we'll construct expansions.
+\textbf{Step 1.2: Solve the unperturbed equation.}
 
-\subsection{The Unperturbed Equation}
-
-Setting $\epsilon = 0$ in equation (1):
-\begin{equation}
-x^2 + 2x = 0.
-\end{equation}
-
-\textbf{What we have:} A quadratic equation.
-
-\textbf{Why we factor:} Factoring reveals the structure of solutions clearly.
-\begin{equation}
-x(x + 2) = 0.
-\end{equation}
-
-\textbf{What this tells us:} The unperturbed equation has exactly two solutions:
-\begin{equation}
-x_0 = 0 \quad \text{and} \quad x_0 = -2.
-\end{equation}
-
-\subsection{Critical Observation: Order Reduction}
-
-\textbf{What we notice:} The original equation (1) is cubic (degree 3), but the unperturbed equation (2) is quadratic (degree 2).
-
-\textbf{Why this is significant:} This is the hallmark of a \textbf{singular perturbation problem}. From Section 2.2 of the notes:
-
-\begin{quote}
-\textit{Singular perturbation problem: The perturbed and unperturbed problem differ in an essential way: Not all solutions of the perturbed problem can be expressed as an expansion around the unperturbed solution(s).}
-\end{quote}
-
-\textbf{What this means concretely:}
-\begin{itemize}
-\item The perturbed equation has 3 roots (it's cubic)
-\item The unperturbed equation has 2 roots
-\item Therefore, at least one root of the perturbed equation must behave in a qualitatively different way as $\epsilon \to 0$
-\end{itemize}
-
-\textbf{What we expect:}
-\begin{itemize}
-\item Some roots will be "regular" - approaching the unperturbed roots smoothly
-\item At least one root will be "singular" - either going to infinity, or requiring non-standard expansions
-\end{itemize}
-
-\subsection{Strategy: The Two-Pronged Approach}
-
-\textbf{Our plan:}
-\begin{enumerate}
-\item \textbf{Regular solutions:} Try standard power series expansions $x = x_0 + x_1\epsilon + x_2\epsilon^2 + \cdots$ around each unperturbed root $x_0 \in \{0, -2\}$
-\item \textbf{Singular solution:} If we don't get all three roots from step 1, perform dominant balance analysis to find the "missing" root
-\end{enumerate}
-
-\section{Finding Regular Solutions}
-
-\subsection{Expansion Method Framework}
-
-\textbf{The general approach (from Section 2.1.1):}
-
-For each unperturbed solution $x_0$, we make the ansatz:
-\begin{equation}
-x(\epsilon) = x_0 + x_1\epsilon + x_2\epsilon^2 + x_3\epsilon^3 + \cdots
-\end{equation}
-
-\textbf{Why this form:} We assume the solution depends smoothly on $\epsilon$, so a Taylor series in $\epsilon$ is natural. The coefficients $x_1, x_2, x_3, \ldots$ are constants to be determined.
-
-\textbf{The key principle:} After substitution, we collect terms by powers of $\epsilon$. For the equation to hold for all small $\epsilon$, each power of $\epsilon$ must vanish independently.
-
-\textbf{Why powers must vanish independently:} If
+\textit{Setting $\epsilon = 0$:}
 \[
-a_0 + a_1\epsilon + a_2\epsilon^2 + \cdots = 0
+x^2 + 2x = x(x + 2) = 0.
 \]
-for all small $\epsilon$, then setting $\epsilon = 0$ gives $a_0 = 0$. Dividing by $\epsilon$ and taking $\epsilon \to 0$ gives $a_1 = 0$, and so forth.
 
-\subsection{Attempt 1: Regular Solution Near $x_0 = 0$}
+\textit{Solutions of unperturbed equation:}
+\[
+x_0^{(1)} = 0, \quad x_0^{(2)} = -2.
+\]
 
-\textbf{Our ansatz:}
-\begin{equation}
-x = 0 + x_1\epsilon + x_2\epsilon^2 + x_3\epsilon^3 + \cdots = x_1\epsilon + x_2\epsilon^2 + x_3\epsilon^3 + \cdots
-\end{equation}
+\textbf{Step 1.3: Count degrees of freedom.}
 
-\textbf{Why we start here:} $x_0 = 0$ is simpler algebraically (fewer terms to track).
-
-\subsubsection{Substituting Into The Original Equation}
-
-We substitute (6) into (1):
-\begin{equation}
-\epsilon^2(x_1\epsilon + x_2\epsilon^2 + \cdots)^3 + (x_1\epsilon + x_2\epsilon^2 + \cdots)^2 + 2(x_1\epsilon + x_2\epsilon^2 + \cdots) + \epsilon = 0.
-\end{equation}
-
-\textbf{What we need to do:} Expand each term and collect by powers of $\epsilon$.
-
-\subsubsection{Expanding The Cubic Term}
-
-\textbf{The cubic term:}
-\begin{align}
-\epsilon^2(x_1\epsilon + x_2\epsilon^2 + \cdots)^3 &= \epsilon^2 \cdot \epsilon^3(x_1 + x_2\epsilon + \cdots)^3 \\
-&= \epsilon^5(x_1^3 + 3x_1^2x_2\epsilon + \cdots)
-\end{align}
-
-\textbf{Why we can ignore this:} The leading power is $\epsilon^5$. Since we're finding the first two terms (coefficients of $\epsilon$ and $\epsilon^2$), terms starting at $\epsilon^5$ won't affect our calculation.
-
-\textbf{What we write:}
-\begin{equation}
-\epsilon^2 x^3 = O(\epsilon^5).
-\end{equation}
-
-\subsubsection{Expanding The Quadratic Term}
-
-\textbf{The quadratic term:}
-\begin{align}
-(x_1\epsilon + x_2\epsilon^2 + x_3\epsilon^3 + \cdots)^2 &= x_1^2\epsilon^2 + 2x_1x_2\epsilon^3 + (x_2^2 + 2x_1x_3)\epsilon^4 + \cdots
-\end{align}
-
-\textbf{Why each term appears:}
+\textit{What we observe:}
 \begin{itemize}
-\item $x_1^2\epsilon^2$: from $(x_1\epsilon)^2$
-\item $2x_1x_2\epsilon^3$: from $2(x_1\epsilon)(x_2\epsilon^2)$
-\item Higher order terms involve more products
+\item The perturbed equation (1) is cubic (degree 3), so it has 3 roots.
+\item The unperturbed equation is quadratic (degree 2), with only 2 roots.
 \end{itemize}
 
-\textbf{What we retain:} For two-term accuracy, we need up to $\epsilon^2$:
-\begin{equation}
-x^2 = x_1^2\epsilon^2 + O(\epsilon^3).
-\end{equation}
+\textit{Why this matters:} The mismatch in the number of roots confirms this is a \textbf{singular perturbation problem}. One root must ``escape to infinity'' as $\epsilon \to 0$.
 
-\subsubsection{The Linear Term}
+\textbf{Step 1.4: Classify the problem.}
 
-\textbf{The linear term:}
-\begin{equation}
-2x = 2x_1\epsilon + 2x_2\epsilon^2 + 2x_3\epsilon^3 + \cdots
-\end{equation}
+\textit{Conclusion:} This is a \textbf{singular perturbation problem}.
 
-\textbf{Why this is straightforward:} Linear terms don't mix - each power of $\epsilon$ stays separate.
+\textit{Method to use:}
+\begin{enumerate}
+\item For the two roots near finite values: use standard expansion method (Section 2.1.1)
+\item For the ``missing'' third root: use dominant balance analysis (Section 2.2.2)
+\end{enumerate}
 
-\subsubsection{Collecting All Terms}
+\subsection*{Phase II: Solution Near $x_0 = 0$}
 
-\textbf{The full equation becomes:}
-\begin{equation}
-O(\epsilon^5) + x_1^2\epsilon^2 + 2x_1\epsilon + 2x_2\epsilon^2 + \epsilon + O(\epsilon^3) = 0.
-\end{equation}
+\textbf{Step 2.1: Make the expansion ansatz.}
 
-\textbf{Grouping by powers of $\epsilon$:}
-\begin{equation}
-(2x_1 + 1)\epsilon + (x_1^2 + 2x_2)\epsilon^2 + O(\epsilon^3) = 0.
-\end{equation}
+\textit{What we assume:} Since $x \to 0$ as $\epsilon \to 0$, and there is no constant term from the unperturbed root, we write:
+\[
+x(\epsilon) = a_1\epsilon + a_2\epsilon^2 + O(\epsilon^3).
+\]
 
-\subsubsection{Solving Order By Order}
+\textbf{Step 2.2: Substitute into the equation.}
 
-\textbf{At $O(\epsilon)$: The coefficient of $\epsilon$ must vanish}
-\begin{equation}
-2x_1 + 1 = 0.
-\end{equation}
+\textit{The cubic term:}
+\[
+\epsilon^2 x^3 = \epsilon^2(a_1\epsilon + \cdots)^3 = a_1^3\epsilon^5 + O(\epsilon^6).
+\]
+This is $O(\epsilon^5)$, negligible at the orders we need.
 
-\textbf{Why this must be zero:} For the equation to hold for all small $\epsilon > 0$, we can't have a non-zero coefficient of $\epsilon$ (it would dominate as $\epsilon \to 0$).
+\textit{The quadratic term:}
+\[
+x^2 = (a_1\epsilon + a_2\epsilon^2 + \cdots)^2 = a_1^2\epsilon^2 + 2a_1a_2\epsilon^3 + O(\epsilon^4).
+\]
 
-\textbf{Solving:}
-\begin{equation}
-x_1 = -\frac{1}{2}.
-\end{equation}
+\textit{The linear term:}
+\[
+2x = 2a_1\epsilon + 2a_2\epsilon^2 + O(\epsilon^3).
+\]
 
-\textbf{What this means:} The leading correction to $x = 0$ is negative, pushing the root toward negative values.
+\textit{The constant term:} $\epsilon$.
 
-\textbf{At $O(\epsilon^2)$: The coefficient of $\epsilon^2$ must vanish}
-\begin{equation}
-x_1^2 + 2x_2 = 0.
-\end{equation}
+\textbf{Step 2.3: Collect terms by powers of $\epsilon$.}
 
-\textbf{Why we can solve this now:} We know $x_1 = -\frac{1}{2}$ from the previous order, so we can substitute:
-\begin{equation}
-\left(-\frac{1}{2}\right)^2 + 2x_2 = 0.
-\end{equation}
-\begin{equation}
-\frac{1}{4} + 2x_2 = 0.
-\end{equation}
-\begin{equation}
-x_2 = -\frac{1}{8}.
-\end{equation}
+Adding all terms:
+\[
+\underbrace{(2a_1 + 1)}_{O(\epsilon)}\epsilon + \underbrace{(a_1^2 + 2a_2)}_{O(\epsilon^2)}\epsilon^2 + O(\epsilon^3) = 0.
+\]
 
-\textbf{What this tells us:} The $O(\epsilon^2)$ correction is also negative, continuing the trend.
+For this to hold for all small $\epsilon$, each coefficient must vanish.
 
-\subsubsection{First Root: The Result}
+\textbf{Step 2.4: Solve order by order.}
 
-\textbf{Our first root:}
-\begin{equation}
-\boxed{x_1(\epsilon) = -\frac{1}{2}\epsilon - \frac{1}{8}\epsilon^2 + O(\epsilon^3)}.
-\end{equation}
+\textit{At $O(\epsilon)$:}
+\[
+2a_1 + 1 = 0 \implies a_1 = -\frac{1}{2}.
+\]
 
-\textbf{Physical interpretation:} Starting from $x = 0$, the perturbation pushes the root in the negative direction, with corrections of order $\epsilon$ and $\epsilon^2$.
+\textit{At $O(\epsilon^2)$:}
+\[
+a_1^2 + 2a_2 = 0 \implies \frac{1}{4} + 2a_2 = 0 \implies a_2 = -\frac{1}{8}.
+\]
 
-\subsection{Attempt 2: Regular Solution Near $x_0 = -2$}
+\textbf{Final answer for root near $x_0 = 0$:}
+\[
+\boxed{x^{(1)}(\epsilon) = -\frac{1}{2}\epsilon - \frac{1}{8}\epsilon^2 + O(\epsilon^3)}.
+\]
 
-\textbf{Our ansatz:}
-\begin{equation}
-x = -2 + x_1\epsilon + x_2\epsilon^2 + x_3\epsilon^3 + \cdots
-\end{equation}
+\subsection*{Phase III: Solution Near $x_0 = -2$}
 
-\textbf{Why we try this:} The second unperturbed root is $x_0 = -2$, and we expect a regular expansion around it.
+\textbf{Step 3.1: Make the expansion ansatz.}
 
-\subsubsection{Substituting Into The Original Equation}
+\textit{What we assume:} Since $x \to -2$ as $\epsilon \to 0$:
+\[
+x(\epsilon) = -2 + b_1\epsilon + O(\epsilon^2).
+\]
 
-We substitute (20) into (1):
-\begin{multline}
-\epsilon^2(-2 + x_1\epsilon + x_2\epsilon^2 + \cdots)^3 + (-2 + x_1\epsilon + x_2\epsilon^2 + \cdots)^2 \\
-+ 2(-2 + x_1\epsilon + x_2\epsilon^2 + \cdots) + \epsilon = 0.
-\end{multline}
+\textbf{Step 3.2: Substitute into the equation.}
 
-\subsubsection{Expanding The Cubic Term}
-
-\textbf{Using the binomial expansion:}
-\begin{align}
-(-2 + x_1\epsilon + x_2\epsilon^2 + \cdots)^3 &= (-2)^3 + 3(-2)^2(x_1\epsilon) + \cdots \\
-&= -8 + 12x_1\epsilon + O(\epsilon^2).
-\end{align}
-
-\textbf{Why we stop here:} For two-term accuracy, we only need up to $O(\epsilon^2)$ in the final equation. The cubic term is multiplied by $\epsilon^2$, so:
-\begin{equation}
-\epsilon^2 \cdot (-8 + 12x_1\epsilon + \cdots) = -8\epsilon^2 + 12x_1\epsilon^3 + \cdots
-\end{equation}
-
-\textbf{What we retain:}
-\begin{equation}
+\textit{The cubic term:}
+\[
+x^3 = (-2 + b_1\epsilon + \cdots)^3 = -8 + 12b_1\epsilon + O(\epsilon^2).
+\]
+\[
 \epsilon^2 x^3 = -8\epsilon^2 + O(\epsilon^3).
-\end{equation}
+\]
 
-\subsubsection{Expanding The Quadratic Term}
+\textit{The quadratic term:}
+\[
+x^2 = (-2)^2 + 2(-2)(b_1\epsilon) + O(\epsilon^2) = 4 - 4b_1\epsilon + O(\epsilon^2).
+\]
 
-\textbf{Using binomial expansion:}
-\begin{align}
-(-2 + x_1\epsilon + x_2\epsilon^2 + \cdots)^2 &= (-2)^2 + 2(-2)(x_1\epsilon) + 2(-2)(x_2\epsilon^2) + (x_1\epsilon)^2 + \cdots \\
-&= 4 - 4x_1\epsilon - 4x_2\epsilon^2 + x_1^2\epsilon^2 + O(\epsilon^3) \\
-&= 4 - 4x_1\epsilon + (x_1^2 - 4x_2)\epsilon^2 + O(\epsilon^3).
-\end{align}
+\textit{The linear term:}
+\[
+2x = -4 + 2b_1\epsilon + O(\epsilon^2).
+\]
 
-\textbf{Why each term:}
-\begin{itemize}
-\item $4 = (-2)^2$: the zeroth order term
-\item $-4x_1\epsilon = 2(-2)(x_1\epsilon)$: cross term from binomial
-\item $-4x_2\epsilon^2 = 2(-2)(x_2\epsilon^2)$: cross term with $x_2$
-\item $x_1^2\epsilon^2 = (x_1\epsilon)^2$: square of the first correction
-\end{itemize}
+\textit{The constant term:} $\epsilon$.
 
-\subsubsection{The Linear Term}
+\textbf{Step 3.3: Collect terms by powers of $\epsilon$.}
 
-\textbf{Straightforward expansion:}
-\begin{equation}
-2x = 2(-2 + x_1\epsilon + x_2\epsilon^2 + \cdots) = -4 + 2x_1\epsilon + 2x_2\epsilon^2 + \cdots
-\end{equation}
+Adding all terms:
+\[
+\underbrace{(4 - 4)}_{O(1)} + \underbrace{(-4b_1 + 2b_1 + 1)}_{O(\epsilon)}\epsilon + O(\epsilon^2) = 0.
+\]
 
-\subsubsection{Collecting All Terms}
+\textbf{Step 3.4: Solve order by order.}
 
-\textbf{The full equation:}
-\begin{equation}
--8\epsilon^2 + [4 - 4x_1\epsilon + (x_1^2 - 4x_2)\epsilon^2] + [-4 + 2x_1\epsilon + 2x_2\epsilon^2] + \epsilon + O(\epsilon^3) = 0.
-\end{equation}
-
-\textbf{Why we group by powers:} This is the standard method to extract coefficients systematically.
-
-\textbf{Collecting constant terms:}
-\begin{equation}
+\textit{At $O(1)$:}
+\[
 4 - 4 = 0. \quad \checkmark
-\end{equation}
+\]
+This confirms $x_0 = -2$ is a root of the unperturbed equation.
 
-\textbf{Why this must work:} We chose $x_0 = -2$ because it's a root of the unperturbed equation, so the $O(1)$ terms must cancel.
+\textit{At $O(\epsilon)$:}
+\[
+-4b_1 + 2b_1 + 1 = 0 \implies -2b_1 + 1 = 0 \implies b_1 = \frac{1}{2}.
+\]
 
-\textbf{Collecting $O(\epsilon)$ terms:}
-\begin{equation}
--4x_1 + 2x_1 + 1 = 0.
-\end{equation}
-\begin{equation}
--2x_1 + 1 = 0.
-\end{equation}
-\begin{equation}
-x_1 = \frac{1}{2}.
-\end{equation}
+\textbf{Final answer for root near $x_0 = -2$:}
+\[
+\boxed{x^{(2)}(\epsilon) = -2 + \frac{1}{2}\epsilon + O(\epsilon^2)}.
+\]
 
-\textbf{What this means:} The perturbation pushes the root at $x = -2$ in the positive direction (toward zero).
+\textit{Note:} For a two-term expansion, the two terms are $-2$ and $\frac{1}{2}\epsilon$.
 
-\textbf{Collecting $O(\epsilon^2)$ terms:}
-\begin{equation}
--8 + x_1^2 - 4x_2 + 2x_2 = 0.
-\end{equation}
-\begin{equation}
--8 + \left(\frac{1}{2}\right)^2 - 2x_2 = 0.
-\end{equation}
-\begin{equation}
--8 + \frac{1}{4} - 2x_2 = 0.
-\end{equation}
-\begin{equation}
--2x_2 = 8 - \frac{1}{4} = \frac{31}{4}.
-\end{equation}
-\begin{equation}
-x_2 = -\frac{31}{8}.
-\end{equation}
+\subsection*{Phase IV: Singular Solution via Dominant Balance}
 
-\textbf{What this tells us:} The $O(\epsilon^2)$ correction is negative, partially offsetting the positive $O(\epsilon)$ correction.
+\textbf{Step 4.1: Why dominant balance is needed.}
 
-\subsubsection{Second Root: The Result}
+\textit{The situation:} We have found 2 roots, but a cubic equation has 3 roots. The third root cannot be found by expanding around any finite unperturbed value---it must escape to infinity as $\epsilon \to 0$.
 
-\textbf{Our second root:}
-\begin{equation}
-\boxed{x_2(\epsilon) = -2 + \frac{1}{2}\epsilon - \frac{31}{8}\epsilon^2 + O(\epsilon^3)}.
-\end{equation}
+\textit{The question:} How does this root scale with $\epsilon$? That is, what power of $\epsilon$ describes its size?
 
-\section{Finding The Singular Solution}
+\textbf{Step 4.2: The dominant balance principle.}
 
-\subsection{Why We Need To Continue}
+\textit{Key insight:} For an equation to be satisfied, terms cannot simply ``blow up'' to infinity---they must \textbf{cancel}. When $|x| \to \infty$, at least two terms must be of the same order of magnitude and opposite in sign, while all other terms are smaller (subdominant).
 
-\textbf{What we have found so far:} Two roots.
-
-\textbf{What we need:} Three roots (the equation is cubic).
-
-\textbf{Conclusion:} There must be a third root that doesn't fit the regular expansion pattern around $x_0 = 0$ or $x_0 = -2$.
-
-\subsection{Dominant Balance Analysis}
-
-\textbf{The method (from Section 2.2.2):}
-
-When regular expansions fail, we use dominant balance to determine which terms in the equation balance each other as $\epsilon \to 0$, revealing the scaling of the "missing" root.
-
-\textbf{The three steps:}
+\textit{The method:} Assume the singular root scales as
+\[
+x \sim \epsilon^{-\alpha} \quad \text{for some } \alpha > 0.
+\]
+Then determine $\alpha$ by requiring that:
 \begin{enumerate}
-\item Assume which terms balance
-\item Solve for the implied scaling
-\item Check consistency
+\item[(i)] At least two terms have the same order in $\epsilon$ (they balance).
+\item[(ii)] These balanced terms are the \textbf{largest} terms in the equation.
+\item[(iii)] All other terms are smaller (subdominant).
 \end{enumerate}
 
-\subsubsection{The Original Equation Structure}
+\textbf{Step 4.3: Compute the order of each term.}
 
-Our equation:
-\begin{equation}
+\textit{The equation:}
+\[
 \epsilon^2 x^3 + x^2 + 2x + \epsilon = 0.
-\end{equation}
+\]
 
-\textbf{Four terms, four possible sizes:}
+\textit{With $x = O(\epsilon^{-\alpha})$, compute the $\epsilon$-order of each term.}
+
+\textit{The rule:} If $x = O(\epsilon^{-\alpha})$, then $x^n = O(\epsilon^{-n\alpha})$ (powers multiply). For a general term $\epsilon^m x^n$:
+\[
+\epsilon^m x^n = O(\epsilon^m) \cdot O(\epsilon^{-n\alpha}) = O(\epsilon^{m - n\alpha}).
+\]
+
+\textit{Applying this rule to each term:}
+\begin{align*}
+\epsilon^2 x^3 &= O(\epsilon^2) \cdot O(\epsilon^{-3\alpha}) = O(\epsilon^{2-3\alpha}), \\
+x^2 &= O(\epsilon^{-2\alpha}), \\
+2x &= O(\epsilon^{-\alpha}), \\
+\epsilon &= O(\epsilon^1).
+\end{align*}
+
+\textbf{Step 4.4: Determine which terms can balance.}
+
+\textit{Systematic analysis:} For large $|x|$ (i.e., $\alpha > 0$), rank the terms from largest to smallest. The exponent of $\epsilon$ determines size: \textbf{more negative = larger}.
+
+\begin{center}
+\begin{tabular}{c|c|c}
+\textbf{Term} & \textbf{Order} & \textbf{Exponent} \\
+\hline
+$\epsilon^2 x^3$ & $O(\epsilon^{2-3\alpha})$ & $2-3\alpha$ \\
+$x^2$ & $O(\epsilon^{-2\alpha})$ & $-2\alpha$ \\
+$2x$ & $O(\epsilon^{-\alpha})$ & $-\alpha$ \\
+$\epsilon$ & $O(\epsilon)$ & $1$
+\end{tabular}
+\end{center}
+
+\textit{For the two largest terms to balance:} Set their exponents equal. The natural candidates are $\epsilon^2 x^3$ and $x^2$ (both involve powers of $x$):
+\[
+2 - 3\alpha = -2\alpha \implies \alpha = 2.
+\]
+
+\textbf{Step 4.5: Verify the balance is consistent.}
+
+\textit{With $\alpha = 2$, compute all exponents:}
+\begin{align*}
+\epsilon^2 x^3 &= O(\epsilon^{2-6}) = O(\epsilon^{-4}), \\
+x^2 &= O(\epsilon^{-4}), \\
+2x &= O(\epsilon^{-2}), \\
+\epsilon &= O(\epsilon).
+\end{align*}
+
+\textit{Check the hierarchy:}
+\[
+\underbrace{O(\epsilon^{-4})}_{\epsilon^2 x^3,\, x^2} \gg \underbrace{O(\epsilon^{-2})}_{2x} \gg \underbrace{O(\epsilon)}_{\epsilon}.
+\]
+
+\textit{Conclusion:} The balance $\epsilon^2 x^3 \sim x^2$ is \textbf{consistent}---these are indeed the two largest terms, and $2x$ and $\epsilon$ are subdominant. The scaling $x \sim \epsilon^{-2}$ is correct.
+
+\textbf{Step 4.6: Extract the leading coefficient.}
+
+\textit{From the dominant balance:}
+\[
+\epsilon^2 x^3 + x^2 \approx 0 \implies x^2(\epsilon^2 x + 1) = 0.
+\]
+
+Since $x \neq 0$ for this root:
+\[
+\epsilon^2 x + 1 = 0 \implies x = -\frac{1}{\epsilon^2}.
+\]
+
+\textbf{Step 4.7: Find the next-order correction.}
+
+\textit{Ansatz:} Based on dominant balance, write:
+\[
+x = -\frac{1}{\epsilon^2} + c_0 + O(\epsilon),
+\]
+where $c_0$ is a constant to be determined.
+
+\textit{Substitute and expand each term:}
+
+\textit{Compute $x^3$:}
+\[
+x^3 = \left(-\frac{1}{\epsilon^2} + c_0\right)^3 = -\frac{1}{\epsilon^6} + \frac{3c_0}{\epsilon^4} - \frac{3c_0^2}{\epsilon^2} + c_0^3.
+\]
+
+\textit{Compute $\epsilon^2 x^3$:}
+\[
+\epsilon^2 x^3 = -\frac{1}{\epsilon^4} + \frac{3c_0}{\epsilon^2} - 3c_0^2 + O(\epsilon^2).
+\]
+
+\textit{Compute $x^2$:}
+\[
+x^2 = \frac{1}{\epsilon^4} - \frac{2c_0}{\epsilon^2} + c_0^2.
+\]
+
+\textit{Compute $2x$:}
+\[
+2x = -\frac{2}{\epsilon^2} + 2c_0.
+\]
+
+\textbf{Step 4.8: Collect terms by powers of $\epsilon$.}
+
+Adding all terms:
+\[
+\underbrace{\left(-\frac{1}{\epsilon^4} + \frac{1}{\epsilon^4}\right)}_{O(\epsilon^{-4})} + \underbrace{\left(\frac{3c_0 - 2c_0 - 2}{\epsilon^2}\right)}_{O(\epsilon^{-2})} + \underbrace{(-3c_0^2 + c_0^2 + 2c_0)}_{O(1)} + O(\epsilon) = 0.
+\]
+
+\textbf{Step 4.9: Solve order by order.}
+
+\textit{At $O(\epsilon^{-4})$:}
+\[
+-\frac{1}{\epsilon^4} + \frac{1}{\epsilon^4} = 0. \quad \checkmark
+\]
+This confirms the leading term $-1/\epsilon^2$ is correct.
+
+\textit{At $O(\epsilon^{-2})$:}
+\[
+\frac{3c_0 - 2c_0 - 2}{\epsilon^2} = \frac{c_0 - 2}{\epsilon^2} = 0 \implies c_0 = 2.
+\]
+
+\textbf{Final answer for singular root:}
+\[
+\boxed{x^{(3)}(\epsilon) = -\frac{1}{\epsilon^2} + 2 + O(\epsilon)}.
+\]
+
+\subsection*{Summary}
+
+The three roots of $\epsilon^2 x^3 + x^2 + 2x + \epsilon = 0$ are:
+
+\begin{align*}
+x^{(1)}(\epsilon) &= -\frac{1}{2}\epsilon - \frac{1}{8}\epsilon^2 + O(\epsilon^3), \\[0.5em]
+x^{(2)}(\epsilon) &= -2 + \frac{1}{2}\epsilon + O(\epsilon^2), \\[0.5em]
+x^{(3)}(\epsilon) &= -\frac{1}{\epsilon^2} + 2 + O(\epsilon).
+\end{align*}
+
+\textit{Classification:}
 \begin{itemize}
-\item $\epsilon^2 x^3$: depends on both $\epsilon$ and $x$
-\item $x^2$: depends only on $x$
-\item $2x$: depends only on $x$
-\item $\epsilon$: depends only on $\epsilon$
+\item Root 1: Regular solution near $x_0 = 0$. Two terms: $-\frac{1}{2}\epsilon$ and $-\frac{1}{8}\epsilon^2$.
+\item Root 2: Regular solution near $x_0 = -2$. Two terms: $-2$ and $+\frac{1}{2}\epsilon$.
+\item Root 3: Singular solution (escapes to $-\infty$ as $\epsilon \to 0$). Two terms: $-\frac{1}{\epsilon^2}$ and $+2$.
 \end{itemize}
 
-\subsubsection{Scenario 1: Large Negative $x$}
+\subsection*{General Method: Finding Singular Roots via Dominant Balance}
 
-\textbf{Hypothesis:} The missing root satisfies $|x| \gg 1$ as $\epsilon \to 0$.
+For any polynomial equation where $\epsilon \to 0$ causes the degree to drop (losing roots to infinity):
 
-\textbf{Why we consider this:} If $x$ is large, different terms might dominate.
-
-\textbf{Size estimates for $x \to -\infty$:}
-\begin{itemize}
-\item $\epsilon^2 x^3 \sim -\epsilon^2|x|^3$ (large, negative)
-\item $x^2 \sim |x|^2$ (large, positive)
-\item $2x \sim -2|x|$ (large, negative)
-\item $\epsilon$ (small, positive)
-\end{itemize}
-
-\textbf{Which terms could balance?}
-
-\paragraph{Balance Attempt 1: $\epsilon^2 x^3 \sim x^2$}
-
-\textbf{The balance equation:}
-\begin{equation}
-\epsilon^2 x^3 \sim x^2 \implies \epsilon^2 x \sim 1 \implies x \sim \frac{1}{\epsilon^2}.
-\end{equation}
-
-\textbf{Check other terms:}
-\begin{itemize}
-\item $2x \sim \frac{2}{\epsilon^2}$: This is $O(1/\epsilon^2)$, same size as $x^2$
-\item $\epsilon$: This is $O(\epsilon)$, much smaller
-\end{itemize}
-
-\textbf{Problem:} The terms $x^2$ and $2x$ are both $O(1/\epsilon^2)$, so they would both be important. But they have the same sign structure for large $x$, so we need to check more carefully.
-
-For $x = c/\epsilon^2$ with $c > 0$:
-\begin{itemize}
-\item $\epsilon^2 x^3 = \epsilon^2 \cdot \frac{c^3}{\epsilon^6} = \frac{c^3}{\epsilon^4}$
-\item $x^2 = \frac{c^2}{\epsilon^4}$
-\item $2x = \frac{2c}{\epsilon^2}$
-\end{itemize}
-
-\textbf{Observation:} The first two terms are $O(1/\epsilon^4)$ while $2x$ is only $O(1/\epsilon^2)$.
-
-\textbf{But wait:} Let's check if they can balance:
-\begin{equation}
-\frac{c^3}{\epsilon^4} + \frac{c^2}{\epsilon^4} \sim 0 \implies c^3 + c^2 = 0 \implies c^2(c + 1) = 0.
-\end{equation}
-
-This gives $c = 0$ (not large) or $c = -1$ (contradicts $c > 0$).
-
-\textbf{Conclusion:} This balance doesn't work cleanly.
-
-\paragraph{Balance Attempt 2: $\epsilon^2 x^3 \sim 2x$}
-
-\textbf{The balance equation:}
-\begin{equation}
-\epsilon^2 x^3 \sim 2x \implies \epsilon^2 x^2 \sim 2 \implies x^2 \sim \frac{2}{\epsilon^2} \implies x \sim \pm\frac{\sqrt{2}}{\epsilon}.
-\end{equation}
-
-\textbf{Check other terms with $x \sim -\sqrt{2}/\epsilon$ (choosing negative):}
-\begin{itemize}
-\item $\epsilon^2 x^3 \sim \epsilon^2 \cdot \frac{-2\sqrt{2}}{\epsilon^3} = \frac{-2\sqrt{2}}{\epsilon}$
-\item $2x \sim \frac{-2\sqrt{2}}{\epsilon}$: Same order! $\checkmark$
-\item $x^2 \sim \frac{2}{\epsilon^2}$: Larger by factor $1/\epsilon$
-\item $\epsilon$: Much smaller
-\end{itemize}
-
-\textbf{Problem:} The $x^2$ term is larger than our balanced terms, so it can't be neglected.
-
-\textbf{Conclusion:} This balance doesn't work either.
-
-\paragraph{Balance Attempt 3: $x^2 \sim 2x$}
-
-\textbf{The balance equation:}
-\begin{equation}
-x^2 \sim 2x \implies x \sim 2.
-\end{equation}
-
-\textbf{Why this is wrong:} $x = O(1)$ doesn't give us a singular solution - we'd just get the regular solutions we already found.
-
-\paragraph{Balance Attempt 4: $x^2 \sim \epsilon$}
-
-\textbf{The balance equation:}
-\begin{equation}
-x^2 \sim \epsilon \implies x \sim \pm\sqrt{\epsilon}.
-\end{equation}
-
-\textbf{Check other terms with $x \sim \sqrt{\epsilon}$:}
-\begin{itemize}
-\item $\epsilon^2 x^3 \sim \epsilon^2 \cdot \epsilon^{3/2} = \epsilon^{7/2}$: Much smaller
-\item $x^2 \sim \epsilon$: Balanced $\checkmark$
-\item $2x \sim 2\sqrt{\epsilon}$: Larger by factor $1/\sqrt{\epsilon}$
-\item $\epsilon$: Balanced $\checkmark$
-\end{itemize}
-
-\textbf{Problem:} The $2x$ term dominates, so this balance fails.
-
-\paragraph{Balance Attempt 5: $2x \sim \epsilon$}
-
-\textbf{The balance equation:}
-\begin{equation}
-2x \sim \epsilon \implies x \sim \frac{\epsilon}{2}.
-\end{equation}
-
-\textbf{Check other terms:}
-\begin{itemize}
-\item $\epsilon^2 x^3 \sim \epsilon^2 \cdot \epsilon^3 = \epsilon^5$: Much smaller
-\item $x^2 \sim \epsilon^2$: Smaller by factor $\epsilon$
-\item $2x \sim \epsilon$: Balanced $\checkmark$
-\item $\epsilon$: Balanced $\checkmark$
-\end{itemize}
-
-\textbf{Balancing terms:}
-\begin{equation}
-x^2 + 2x + \epsilon \approx 0 \implies 2x + \epsilon \approx 0 \implies x \approx -\frac{\epsilon}{2}.
-\end{equation}
-
-\textbf{This is consistent!} The subdominant term $x^2 \sim \epsilon^2$ is indeed much smaller.
-
-\subsubsection{Constructing The Singular Solution}
-
-\textbf{Our ansatz (motivated by dominant balance):}
-\begin{equation}
-x = -\frac{\epsilon}{2} + x_1\epsilon^2 + x_2\epsilon^3 + \cdots
-\end{equation}
-
-\textbf{Why this form:}
-\begin{itemize}
-\item The leading term is $-\epsilon/2$ from dominant balance
-\item We don't include an $O(1)$ term because that would change the balance
-\item The next correction should be $O(\epsilon^2)$ (the size of the neglected $x^2$ term)
-\end{itemize}
-
-\subsubsection{Substituting The Ansatz}
-
-Into equation (1):
-\begin{equation}
-\epsilon^2\left(-\frac{\epsilon}{2} + x_1\epsilon^2\right)^3 + \left(-\frac{\epsilon}{2} + x_1\epsilon^2\right)^2 + 2\left(-\frac{\epsilon}{2} + x_1\epsilon^2\right) + \epsilon = 0.
-\end{equation}
-
-\textbf{Cubic term:}
-\begin{equation}
-\epsilon^2 \cdot \left(-\frac{\epsilon}{2}\right)^3 + \cdots = \epsilon^2 \cdot \frac{-\epsilon^3}{8} + \cdots = -\frac{\epsilon^5}{8} + O(\epsilon^6).
-\end{equation}
-
-\textbf{Why we can ignore:} This is $O(\epsilon^5)$, far smaller than $\epsilon^2$.
-
-\textbf{Quadratic term:}
-\begin{align}
-\left(-\frac{\epsilon}{2} + x_1\epsilon^2\right)^2 &= \frac{\epsilon^2}{4} - 2 \cdot \frac{\epsilon}{2} \cdot x_1\epsilon^2 + x_1^2\epsilon^4 \\
-&= \frac{\epsilon^2}{4} - x_1\epsilon^3 + O(\epsilon^4).
-\end{align}
-
-\textbf{Linear term:}
-\begin{equation}
-2\left(-\frac{\epsilon}{2} + x_1\epsilon^2\right) = -\epsilon + 2x_1\epsilon^2.
-\end{equation}
-
-\textbf{Collecting everything:}
-\begin{equation}
-\frac{\epsilon^2}{4} + 2x_1\epsilon^2 - \epsilon + \epsilon + O(\epsilon^3) = 0.
-\end{equation}
-
-\textbf{Simplifying:}
-\begin{equation}
-\left(\frac{1}{4} + 2x_1\right)\epsilon^2 + O(\epsilon^3) = 0.
-\end{equation}
-
-\textbf{At $O(\epsilon^2)$:}
-\begin{equation}
-\frac{1}{4} + 2x_1 = 0 \implies x_1 = -\frac{1}{8}.
-\end{equation}
-
-\subsubsection{Third Root: The Result}
-
-\textbf{Our third root:}
-\begin{equation}
-\boxed{x_3(\epsilon) = -\frac{1}{2}\epsilon - \frac{1}{8}\epsilon^2 + O(\epsilon^3)}.
-\end{equation}
-
-\textbf{Wait - this is identical to $x_1(\epsilon)$!}
-
-\subsection{Resolution: The Roots Are Distinct But Close}
-
-\textbf{What happened:} Both the regular expansion near $x_0 = 0$ and the singular balance $2x \sim \epsilon$ give the same two-term expansion!
-
-\textbf{Why this makes sense:} For $x = O(\epsilon)$, the distinction between "starting from 0" and "being determined by balance" becomes subtle. The root is actually evolving continuously from $x = 0$ as $\epsilon$ increases from 0.
-
-\textbf{The actual situation:} We have only found \textbf{two distinct roots} to two-term accuracy:
 \begin{enumerate}
-\item $x_1(\epsilon) = -\frac{1}{2}\epsilon - \frac{1}{8}\epsilon^2 + O(\epsilon^3)$
-\item $x_2(\epsilon) = -2 + \frac{1}{2}\epsilon - \frac{31}{8}\epsilon^2 + O(\epsilon^3)$
+\item \textbf{Assume scaling:} Let $x \sim \epsilon^{-\alpha}$ for unknown $\alpha > 0$.
+
+\item \textbf{Compute orders:} For each term $\epsilon^m x^n$, apply the rule:
+\[
+\epsilon^m x^n = O(\epsilon^{m - n\alpha}).
+\]
+The exponent $m - n\alpha$ determines the size of the term.
+
+\item \textbf{Find $\alpha$:} Set the exponents of the two largest terms equal and solve for $\alpha$. Terms are ``largest'' when their exponent is most negative.
+
+\item \textbf{Verify consistency:} Confirm these two terms are indeed the largest (most negative exponent), and all others are subdominant (less negative or positive exponent).
+
+\item \textbf{Extract leading behavior:} From the balanced terms, solve for the leading coefficient of $x$.
+
+\item \textbf{Iterate:} Substitute $x = (\text{leading}) + c_0 + \cdots$ and collect terms to find corrections.
 \end{enumerate}
 
-\textbf{Where is the third root?}
+This method works for \textbf{any} singular perturbation problem where roots escape to infinity, regardless of the specific equation.
 
-\subsection{Finding The True Third Root}
+\subsection*{Verification}
 
-\textbf{Reconsider the structure:} The equation can be rewritten as:
-\begin{equation}
-\epsilon^2 x^3 = -x^2 - 2x - \epsilon = -(x^2 + 2x + \epsilon).
-\end{equation}
+\textbf{Verification of Root 1:}
 
-\textbf{For very large $|x|$:} If $x \to -\infty$, then $\epsilon^2x^3 \to -\infty$ (large negative), while the RHS $\to +\infty$ (large positive). So there must be a balance.
+Substitute $x = -\frac{1}{2}\epsilon - \frac{1}{8}\epsilon^2$ into $\epsilon^2 x^3 + x^2 + 2x + \epsilon$:
+\begin{align*}
+\epsilon^2 x^3 &= O(\epsilon^5), \\
+x^2 &= \frac{\epsilon^2}{4} + \frac{\epsilon^3}{8} + O(\epsilon^4), \\
+2x &= -\epsilon - \frac{\epsilon^2}{4}, \\
+\epsilon &= \epsilon.
+\end{align*}
 
-\textbf{New attempt: $\epsilon^2 x^3 + x^2 \sim 0$}
+Sum: $\frac{\epsilon^2}{4} - \frac{\epsilon^2}{4} - \epsilon + \epsilon + O(\epsilon^3) = O(\epsilon^3)$. \checkmark
 
-This gives:
-\begin{equation}
-x^2(\epsilon^2 x + 1) \sim 0 \implies x \sim -\frac{1}{\epsilon^2}.
-\end{equation}
+\textbf{Verification of Root 2:}
 
-\textbf{Check:} For $x = -1/\epsilon^2$:
-\begin{itemize}
-\item $\epsilon^2 x^3 = \epsilon^2 \cdot \frac{-1}{\epsilon^6} = -\frac{1}{\epsilon^4}$
-\item $x^2 = \frac{1}{\epsilon^4}$: Same magnitude! $\checkmark$
-\item $2x = -\frac{2}{\epsilon^2}$: Smaller by factor $\epsilon^2$
-\item $\epsilon$: Much smaller
-\end{itemize}
+Substitute $x = -2 + \frac{1}{2}\epsilon$ into the equation:
+\begin{align*}
+\epsilon^2 x^3 &= -8\epsilon^2 + O(\epsilon^3), \\
+x^2 &= 4 - 2\epsilon + O(\epsilon^2), \\
+2x &= -4 + \epsilon, \\
+\epsilon &= \epsilon.
+\end{align*}
 
-\textbf{The balance works!}
+Sum: $(4-4) + (-2\epsilon + \epsilon + \epsilon) + O(\epsilon^2) = O(\epsilon^2)$. \checkmark
 
-\subsubsection{Expansion For The Large Root}
+\textbf{Verification of Root 3:}
 
-\textbf{Ansatz:}
-\begin{equation}
-x = -\frac{1}{\epsilon^2} + \frac{x_1}{\epsilon} + x_0 + x_1'\epsilon + \cdots
-\end{equation}
+Substitute $x = -\frac{1}{\epsilon^2} + 2$ into the equation:
+\begin{align*}
+\epsilon^2 x^3 &= -\frac{1}{\epsilon^4} + \frac{6}{\epsilon^2} - 12 + O(\epsilon^2), \\
+x^2 &= \frac{1}{\epsilon^4} - \frac{4}{\epsilon^2} + 4, \\
+2x &= -\frac{2}{\epsilon^2} + 4, \\
+\epsilon &= \epsilon.
+\end{align*}
 
-\textbf{Why we include $1/\epsilon$ term:} The neglected $2x$ term is $O(1/\epsilon^2)$ when $x = O(1/\epsilon^2)$, suggesting corrections at intermediate powers.
+At $O(\epsilon^{-4})$: $-\frac{1}{\epsilon^4} + \frac{1}{\epsilon^4} = 0$. \checkmark
 
-Actually, let's be more systematic. Write:
-\begin{equation}
-x = -\frac{1}{\epsilon^2} + y,
-\end{equation}
-where $y = o(1/\epsilon^2)$ as $\epsilon \to 0$.
+At $O(\epsilon^{-2})$: $\frac{6}{\epsilon^2} - \frac{4}{\epsilon^2} - \frac{2}{\epsilon^2} = 0$. \checkmark
 
-\textbf{Substituting:}
-\begin{multline}
-\epsilon^2\left(-\frac{1}{\epsilon^2} + y\right)^3 + \left(-\frac{1}{\epsilon^2} + y\right)^2 + 2\left(-\frac{1}{\epsilon^2} + y\right) + \epsilon = 0.
-\end{multline}
+At $O(1)$: $-12 + 4 + 4 = -4 \neq 0$.
 
-\textbf{Expanding the cubic:}
-\begin{align}
-\left(-\frac{1}{\epsilon^2} + y\right)^3 &= -\frac{1}{\epsilon^6} + 3 \cdot \frac{1}{\epsilon^4} \cdot y - 3 \cdot \frac{1}{\epsilon^2} \cdot y^2 + y^3.
-\end{align}
-
-So:
-\begin{equation}
-\epsilon^2 x^3 = -\frac{1}{\epsilon^4} + \frac{3y}{\epsilon^2} - 3y^2 + \epsilon^2 y^3.
-\end{equation}
-
-\textbf{The quadratic:}
-\begin{equation}
-x^2 = \frac{1}{\epsilon^4} - \frac{2y}{\epsilon^2} + y^2.
-\end{equation}
-
-\textbf{The linear:}
-\begin{equation}
-2x = -\frac{2}{\epsilon^2} + 2y.
-\end{equation}
-
-\textbf{Full equation:}
-\begin{equation}
-\left[-\frac{1}{\epsilon^4} + \frac{3y}{\epsilon^2}\right] + \left[\frac{1}{\epsilon^4} - \frac{2y}{\epsilon^2}\right] + \left[-\frac{2}{\epsilon^2} + 2y\right] + \epsilon + \text{higher order} = 0.
-\end{equation}
-
-\textbf{At $O(1/\epsilon^4)$:} $-1 + 1 = 0$ $\checkmark$
-
-\textbf{At $O(1/\epsilon^2)$:}
-\begin{equation}
-3y - 2y - 2 = 0 \implies y = 2.
-\end{equation}
-
-\textbf{So to leading order:}
-\begin{equation}
-x = -\frac{1}{\epsilon^2} + 2 + O(\epsilon).
-\end{equation}
-
-\textbf{For the next term,} substitute $y = 2 + z$ where $z = O(\epsilon)$:
-\begin{equation}
-\frac{y}{\epsilon^2} - 2 + 2y + \epsilon - 3y^2 + O(\epsilon^2) = 0.
-\end{equation}
-
-This becomes intricate, but the key point is established.
-
-\subsubsection{Third Root: Final Form}
-
-\begin{equation}
-\boxed{x_3(\epsilon) = -\frac{1}{\epsilon^2} + 2 + O(\epsilon)}.
-\end{equation}
-
-\section{Final Answer: All Three Roots}
-
-\textbf{The complete solution to Problem 2:}
-
-\begin{align}
-\boxed{x_1(\epsilon)} &= \boxed{-\frac{1}{2}\epsilon - \frac{1}{8}\epsilon^2 + O(\epsilon^3)} \\[0.5em]
-\boxed{x_2(\epsilon)} &= \boxed{-2 + \frac{1}{2}\epsilon - \frac{31}{8}\epsilon^2 + O(\epsilon^3)} \\[0.5em]
-\boxed{x_3(\epsilon)} &= \boxed{-\frac{1}{\epsilon^2} + 2 + O(\epsilon)}
-\end{align}
-
-\textbf{Summary:}
-\begin{itemize}
-\item Two roots are $O(\epsilon)$ and $O(1)$ respectively - regular solutions
-\item One root is $O(1/\epsilon^2)$ - a singular solution that escapes to $-\infty$ as $\epsilon \to 0$
-\end{itemize}
+The $O(1)$ residual confirms we need higher-order corrections beyond the two-term expansion. \checkmark
 
 \end{document}

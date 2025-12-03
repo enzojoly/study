@@ -102,14 +102,14 @@ Thus:
 
 \textbf{The WKB solution:}
 \begin{equation}
-y(x) = \frac{A}{|q(x)|^{1/4}}\exp\left(\frac{i}{\eps}\int^x \sqrt{q(s)}\,\dd s\right) + \frac{B}{|q(x)|^{1/4}}\exp\left(-\frac{i}{\eps}\int^x \sqrt{q(s)}\,\dd s\right)
+y(x) = \frac{A}{[q(x)]^{1/4}}\exp\left(\frac{i}{\eps}\int^x \sqrt{q(s)}\,\dd s\right) + \frac{B}{[q(x)]^{1/4}}\exp\left(-\frac{i}{\eps}\int^x \sqrt{q(s)}\,\dd s\right)
 \end{equation}
 
 where $A$ and $B$ are constants to be determined by boundary conditions.
 
 \textbf{Alternative form:} Using Euler's formula, this can be rewritten as:
 \begin{equation}
-y(x) = \frac{C}{|q(x)|^{1/4}}\cos\left(\frac{1}{\eps}\int^x \sqrt{q(s)}\,\dd s + \phi\right)
+y(x) = \frac{C}{[q(x)]^{1/4}}\cos\left(\frac{1}{\eps}\int^x \sqrt{q(s)}\,\dd s + \phi\right)
 \end{equation}
 
 where $C$ and $\phi$ are constants related to $A$ and $B$.
@@ -132,7 +132,7 @@ where $C$ and $\phi$ are constants related to $A$ and $B$.
 
 \textbf{The amplitude factor:} The amplitude prefactor is:
 \begin{equation}
-|q(x)|^{-1/4} = \left(\frac{1}{x^2}\right)^{-1/4} = x^{1/2}
+[q(x)]^{-1/4} = \left(\frac{1}{x^2}\right)^{-1/4} = x^{1/2}
 \end{equation}
 
 \subsection*{Step 5: Write the Explicit WKB Solution}
@@ -219,7 +219,7 @@ y(e) = D\sqrt{e}\sin\left(\frac{\log e}{\eps}\right) = 0
 
 \subsection*{Step 8: State the WKB Eigenvalue Prediction}
 
-\textbf{What have we found?} The WKB approximation predicts the eigenvalues are:
+\textbf{What have we found?} The leading-order WKB approximation predicts the eigenvalues are:
 \begin{equation}
 \boxed{\lambda_n^{\text{WKB}} = n\pi, \quad n = 1, 2, 3, \ldots}
 \end{equation}
@@ -306,20 +306,27 @@ This is the \textbf{characteristic equation}.
 \alpha = \frac{1 \pm \sqrt{1 - 4\lambda^2}}{2}
 \end{equation}
 
-\textbf{For large $\lambda$:} When $\lambda^2 \gg 1$, we have $1 - 4\lambda^2 < 0$, so:
+\textbf{For large $\lambda$:} When $\lambda^2 > 1/4$, we have $1 - 4\lambda^2 < 0$, so:
 \begin{equation}
-\alpha = \frac{1 \pm \sqrt{-4\lambda^2 + 1}}{2} = \frac{1 \pm i\sqrt{4\lambda^2 - 1}}{2}
+\alpha = \frac{1 \pm \sqrt{-(4\lambda^2 - 1)}}{2} = \frac{1 \pm i\sqrt{4\lambda^2 - 1}}{2}
 \end{equation}
 
-\textbf{For large $\lambda$:}
+\textbf{Defining $\mu$:} Let us define
 \begin{equation}
-\alpha \approx \frac{1 \pm i\sqrt{4\lambda^2}}{2} = \frac{1 \pm 2i\lambda}{2} = \frac{1}{2} \pm i\lambda
+\mu := \sqrt{\lambda^2 - \frac{1}{4}}
+\end{equation}
+
+Then $\sqrt{4\lambda^2 - 1} = 2\mu$, and:
+\begin{equation}
+\alpha = \frac{1 \pm 2i\mu}{2} = \frac{1}{2} \pm i\mu
 \end{equation}
 
 \textbf{The two roots:}
 \begin{equation}
-\alpha_1 = \frac{1}{2} + i\lambda, \quad \alpha_2 = \frac{1}{2} - i\lambda
+\alpha_1 = \frac{1}{2} + i\mu, \quad \alpha_2 = \frac{1}{2} - i\mu
 \end{equation}
+
+\textbf{Critical observation:} Note that $\mu = \sqrt{\lambda^2 - 1/4} \neq \lambda$. This distinction is crucial for finding the exact eigenvalues.
 
 \subsection*{Step 13: Write the General Exact Solution}
 
@@ -329,28 +336,28 @@ This is the \textbf{characteristic equation}.
 
 \textbf{The general solution:}
 \begin{equation}
-y(x) = Ax^{\alpha_1} + Bx^{\alpha_2} = Ax^{\frac{1}{2} + i\lambda} + Bx^{\frac{1}{2} - i\lambda}
+y(x) = Ax^{\alpha_1} + Bx^{\alpha_2} = Ax^{\frac{1}{2} + i\mu} + Bx^{\frac{1}{2} - i\mu}
 \end{equation}
 
 \textbf{Factoring out common power:}
 \begin{equation}
-y(x) = \sqrt{x}\left(Ax^{i\lambda} + Bx^{-i\lambda}\right)
+y(x) = \sqrt{x}\left(Ax^{i\mu} + Bx^{-i\mu}\right)
 \end{equation}
 
-\textbf{Converting to trigonometric form:} Using $x^{i\lambda} = e^{i\lambda\log x}$ and Euler's formula:
+\textbf{Converting to trigonometric form:} Using $x^{i\mu} = e^{i\mu\log x}$ and Euler's formula:
 \begin{align}
-x^{i\lambda} &= \cos(\lambda\log x) + i\sin(\lambda\log x) \\
-x^{-i\lambda} &= \cos(\lambda\log x) - i\sin(\lambda\log x)
+x^{i\mu} &= \cos(\mu\log x) + i\sin(\mu\log x) \\
+x^{-i\mu} &= \cos(\mu\log x) - i\sin(\mu\log x)
 \end{align}
 
 For real solutions:
 \begin{equation}
-y(x) = \sqrt{x}\left[C\cos(\lambda\log x) + D\sin(\lambda\log x)\right]
+y(x) = \sqrt{x}\left[C\cos(\mu\log x) + D\sin(\mu\log x)\right]
 \end{equation}
 
-where $C$ and $D$ are real constants.
+where $C$ and $D$ are real constants and $\mu = \sqrt{\lambda^2 - 1/4}$.
 
-\textbf{Comparison with WKB:} Notice this is \emph{exactly} the same form as the WKB solution we found! The difference is that this is the \emph{exact} solution, not an approximation.
+\textbf{Comparison with WKB:} The WKB solution has the form $\sqrt{x}\sin(\lambda\log x)$, while the exact solution has $\sqrt{x}\sin(\mu\log x)$ where $\mu = \sqrt{\lambda^2 - 1/4}$. These are \emph{not} the same!
 
 \subsection*{Step 14: Apply Boundary Conditions to Find Exact Eigenvalues}
 
@@ -360,280 +367,325 @@ where $C$ and $D$ are real constants.
 
 \textbf{First boundary condition, $y(1) = 0$:}
 \begin{equation}
-y(1) = \sqrt{1}\left[C\cos(\lambda\log 1) + D\sin(\lambda\log 1)\right] = C\cos(0) + D\sin(0) = C = 0
+y(1) = \sqrt{1}\left[C\cos(\mu\log 1) + D\sin(\mu\log 1)\right] = C\cos(0) + D\sin(0) = C = 0
 \end{equation}
 
 So $C = 0$ and:
 \begin{equation}
-y(x) = D\sqrt{x}\sin(\lambda\log x)
+y(x) = D\sqrt{x}\sin(\mu\log x)
 \end{equation}
 
 \textbf{Second boundary condition, $y(e) = 0$:}
 \begin{equation}
-y(e) = D\sqrt{e}\sin(\lambda\log e) = D\sqrt{e}\sin(\lambda) = 0
+y(e) = D\sqrt{e}\sin(\mu\log e) = D\sqrt{e}\sin(\mu) = 0
 \end{equation}
 
 For non-trivial solutions ($D \neq 0$):
 \begin{equation}
-\sin(\lambda) = 0
+\sin(\mu) = 0
 \end{equation}
 
 \textbf{Solution:}
 \begin{equation}
-\lambda = n\pi, \quad n = 1, 2, 3, \ldots
+\mu = n\pi, \quad n = 1, 2, 3, \ldots
 \end{equation}
 
-\subsection*{Step 15: State the Exact Eigenvalues and Compare}
+\subsection*{Step 15: Convert from $\mu$ to $\lambda$}
 
-\textbf{What have we found?} The exact eigenvalues are:
+\textbf{What are we doing?} We use the relation $\mu = \sqrt{\lambda^2 - 1/4}$ to find the exact eigenvalues $\lambda_n$.
+
+\textbf{Why?} The boundary condition determines $\mu_n = n\pi$, but the problem asks for $\lambda_n$.
+
+\textbf{From $\mu_n = n\pi$:}
 \begin{equation}
-\boxed{\lambda_n^{\text{exact}} = n\pi, \quad n = 1, 2, 3, \ldots}
+\sqrt{\lambda_n^2 - \frac{1}{4}} = n\pi
 \end{equation}
 
-\textbf{Comparison with WKB:}
+\textbf{Squaring both sides:}
+\begin{equation}
+\lambda_n^2 - \frac{1}{4} = n^2\pi^2
+\end{equation}
+
+\textbf{Solving for $\lambda_n$:}
+\begin{equation}
+\lambda_n^2 = n^2\pi^2 + \frac{1}{4}
+\end{equation}
+
+\begin{equation}
+\boxed{\lambda_n^{\text{exact}} = \sqrt{n^2\pi^2 + \frac{1}{4}}, \quad n = 1, 2, 3, \ldots}
+\end{equation}
+
+\subsection*{Step 16: Compare WKB and Exact Eigenvalues}
+
+\textbf{What have we found?} Let us compare the two sets of eigenvalues:
+
 \begin{align}
 \lambda_n^{\text{WKB}} &= n\pi \\
-\lambda_n^{\text{exact}} &= n\pi
+\lambda_n^{\text{exact}} &= \sqrt{n^2\pi^2 + \frac{1}{4}}
 \end{align}
 
-\textbf{Remarkable result:} The WKB approximation gives the \emph{exact} eigenvalues, not just an approximation!
+\textbf{Key observation:} The WKB and exact eigenvalues are \emph{not} identical! There is a discrepancy.
 
+\textbf{Expanding the exact eigenvalue for large $n$:}
+\begin{align}
+\lambda_n^{\text{exact}} &= \sqrt{n^2\pi^2 + \frac{1}{4}} = n\pi\sqrt{1 + \frac{1}{4n^2\pi^2}} \\
+&= n\pi\left(1 + \frac{1}{8n^2\pi^2} - \frac{1}{128n^4\pi^4} + O(n^{-6})\right) \\
+&= n\pi + \frac{1}{8n\pi} + O(n^{-3})
+\end{align}
+
+\textbf{The discrepancy:}
 \begin{equation}
-\boxed{\lambda_n^{\text{WKB}} = \lambda_n^{\text{exact}}}
+\boxed{\Delta\lambda_n = \lambda_n^{\text{exact}} - \lambda_n^{\text{WKB}} = \frac{1}{8n\pi} + O(n^{-3})}
 \end{equation}
+
+\textbf{This is an $O(1/\lambda)$ correction}, which is consistent with the WKB approximation being accurate to leading order but not exact.
 
 \section*{Part D: Analysis of the Results}
 
-\subsection*{Step 16: Answer Question (i) -- Why is WKB Exact?}
+\subsection*{Step 17: Answer Question (i) -- Are the Discrepancies Consistent?}
 
-\textbf{What are we being asked?} Part (i) asks: "Are the discrepancies between them consistent with the approximation made? If so, explain briefly why."
+\textbf{What are we being asked?} Part (i) asks: ``Are the discrepancies between them consistent with the approximation made? If so, explain briefly why.''
 
-\textbf{Key observation:} There are \emph{no} discrepancies -- the WKB and exact eigenvalues agree perfectly!
+\textbf{Answer: Yes, the discrepancies are consistent with the WKB approximation.}
 
-\textbf{Why does this happen?} We must analyze the structure of $q(x) = 1/x^2$ in light of what we learned in Question 4.
-
-\textbf{Recall from Question 4:} The WKB solution is exact when $q(x) = C(ax+b)^4$ for constants $C$, $a$, $b$.
-
-\textbf{Testing our $q(x)$:} We have $q(x) = 1/x^2 = x^{-2}$. This is \emph{not} of the form $(ax+b)^4$.
-
-\textbf{But wait -- there's more to check:} The condition from Question 4 was that higher-order corrections $p_2, p_3, \ldots$ should vanish. Let's check if this happens for $q(x) = x^{-2}$.
-
-\textbf{Computing $p_2$:} From Question 4, Step 6, the condition for $p_2 = 0$ is:
-\begin{equation}
-4q''(x)q(x) - 3[q'(x)]^2 = 0
-\end{equation}
-
-For $q(x) = x^{-2}$:
-\begin{align}
-q'(x) &= -2x^{-3} \\
-q''(x) &= 6x^{-4}
-\end{align}
-
-\textbf{Checking the condition:}
-\begin{align}
-4q''q - 3(q')^2 &= 4(6x^{-4})(x^{-2}) - 3(-2x^{-3})^2 \\
-&= 24x^{-6} - 3(4x^{-6}) \\
-&= 24x^{-6} - 12x^{-6} \\
-&= 12x^{-6} \neq 0
-\end{align}
-
-\textbf{Puzzle:} The condition $4q''q - 3(q')^2 = 0$ is \emph{not} satisfied! So why is the WKB solution exact?
-
-\subsection*{Step 17: Deeper Analysis -- The Special Role of Eigenvalue Problems}
-
-\textbf{What's going on?} There's a subtlety here related to the fact that we have an \emph{eigenvalue problem}, not just a boundary value problem.
-
-\textbf{Key insight:} The WKB solution gave us:
-\begin{equation}
-y_{\text{WKB}}(x) = \sqrt{x}\sin(\lambda\log x)
-\end{equation}
-
-The exact solution is:
-\begin{equation}
-y_{\text{exact}}(x) = \sqrt{x}\sin(\lambda\log x)
-\end{equation}
-
-\textbf{They are identical!} The WKB approximation, including the amplitude factor $q(x)^{-1/4} = x^{1/2}$, happens to capture the exact solution for this particular problem.
-
-\textbf{Why does this happen?} Looking at the WKB expansion on page 68:
-\begin{equation}
-y_\pm(x) = \frac{A_\pm}{|q(x)|^{1/4}}\exp\left(\pm\frac{i}{\eps}\int^x \sqrt{q(s)}\,\dd s\right)
-\end{equation}
-
-For $q(x) = x^{-2}$:
-\begin{align}
-|q(x)|^{-1/4} &= x^{1/2} \\
-\int^x \sqrt{q(s)}\,\dd s &= \int^x s^{-1}\,\dd s = \log x
-\end{align}
-
-The phase $\exp(i\lambda\log x) = x^{i\lambda}$ combined with the amplitude $x^{1/2}$ gives $x^{1/2 + i\lambda}$, which is \emph{exactly} the solution to the Euler equation with characteristic root $\alpha = 1/2 + i\lambda$.
-
-\textbf{The resolution:} For this particular $q(x) = x^{-2}$, the WKB solution at leading order (including the $p_0$ and $p_1$ terms) happens to be an exact solution of the ODE. Even though higher corrections $p_2 \neq 0$ would exist in principle, they don't contribute because the two-term WKB solution already solves the equation exactly.
-
-\textbf{Answer to part (i):}
-
-\emph{There are no discrepancies between the WKB and exact eigenvalues. They agree perfectly. This is consistent with the approximation made because:}
+\textbf{Explanation:}
 
 \begin{enumerate}
-\item \emph{The ODE with $q(x) = 1/x^2$ is an Euler equation, which has exact power-law solutions.}
-\item \emph{The WKB ansatz $y \sim q(x)^{-1/4}\exp(\pm i\lambda\int\sqrt{q}\,\dd x)$ with $q = x^{-2}$ gives $y \sim x^{1/2}x^{\pm i\lambda}$, which matches the exact form $y = x^{1/2 \pm i\lambda}$.}
-\item \emph{The structure of this particular $q(x)$ means the WKB approximation (including amplitude and phase) captures the exact solution, not just the leading order behavior.}
-\item \emph{The eigenvalue condition depends only on the phase accumulation $\int_1^e \sqrt{q}\,\dd x = \log e = 1$, and this is computed exactly in the WKB method, giving $\lambda = n\pi$ exactly.}
+\item \textbf{The WKB method is an asymptotic approximation for large $\lambda$.} The leading-order WKB solution captures the behavior as $\lambda \to \infty$ but includes errors of relative order $O(1/\lambda)$.
+
+\item \textbf{The discrepancy $\Delta\lambda_n = 1/(8n\pi) + O(n^{-3})$ is indeed $O(1/\lambda)$.} Since $\lambda_n \sim n\pi$, we have:
+\begin{equation}
+\frac{\Delta\lambda_n}{\lambda_n} \sim \frac{1/(8n\pi)}{n\pi} = \frac{1}{8n^2\pi^2} = O(\lambda^{-2})
+\end{equation}
+This is a small relative error that vanishes as $\lambda \to \infty$, exactly as expected for a leading-order asymptotic approximation.
+
+\item \textbf{The source of the discrepancy:} The characteristic equation gives $\mu = \sqrt{\lambda^2 - 1/4}$, not $\mu = \lambda$. The WKB method effectively approximates $\mu \approx \lambda$ for large $\lambda$, which introduces an error of order $O(1/\lambda)$.
+
+\item \textbf{Physical interpretation:} The $1/4$ term in $\lambda^2 - 1/4$ arises from the amplitude modulation factor $q(x)^{-1/4} = x^{1/2}$ in the WKB solution. This amplitude factor contributes to the effective phase of the exact solution, but the leading-order WKB eigenvalue condition only accounts for the explicit phase integral $\int\sqrt{q}\,\dd x$.
 \end{enumerate}
+
+\textbf{Conclusion for part (i):} The discrepancy $\Delta\lambda_n = O(1/n)$ is fully consistent with the leading-order WKB approximation, which is accurate to $O(1)$ in $\lambda$ but not beyond.
 
 \subsection*{Step 18: Answer Question (ii) -- Will More WKB Terms Help?}
 
 \textbf{What are we being asked?} Part (ii) asks whether including higher-order WKB corrections will give a better result for the eigenvalues.
 
-\textbf{The answer is NO.} Since the WKB approximation already gives the exact eigenvalues, including more terms cannot improve the result.
+\textbf{Answer: Yes, including the next WKB correction gives a better result.}
 
-\textbf{But let's verify this formally:} We should determine what the next correction term looks like and confirm it doesn't change the eigenvalues.
+\textbf{Let us demonstrate this explicitly.}
 
-\subsection*{Step 19: Determine the Form of the Next WKB Correction}
+\subsection*{Step 19: The Higher-Order WKB Expansion}
 
-\textbf{What are we doing?} We explicitly compute the next term in the WKB expansion, which comes from the $O(\eps)$ correction.
+\textbf{What are we doing?} We include the next term in the WKB expansion to improve the eigenvalue estimate.
 
-\textbf{Why?} This demonstrates that even though higher corrections exist in the general WKB expansion, they don't affect the eigenvalue calculation for this problem.
+\textbf{Why?} The leading-order WKB gave eigenvalues accurate to $O(1)$. The next correction should capture the $O(1/\lambda)$ term.
 
-\textbf{Recall from Section 6.3.2:} The full WKB expansion (without derivation, page 68) includes:
+\textbf{Recall from Section 6.3.2:} The WKB expansion for $p = S'$ is:
 \begin{equation}
-S(x,\eps) = \frac{1}{\eps}S_0(x) + S_1(x) + \eps S_2(x) + \cdots
+p(x,\eps) = \frac{1}{\eps}p_0(x) + p_1(x) + \eps p_2(x) + \cdots
 \end{equation}
 
-where we've already used:
+where:
 \begin{align}
-S_0(x) &= \pm i\int^x \sqrt{q(s)}\,\dd s = \pm i\log x \\
-S_1(x) &= -\frac{1}{4}\log|q(x)| = -\frac{1}{4}\log(x^{-2}) = \frac{1}{2}\log x
+p_0 &= \pm i\sqrt{q} = \pm \frac{i}{x} \\
+p_1 &= -\frac{q'}{4q} = -\frac{-2x^{-3}}{4x^{-2}} = \frac{1}{2x}
 \end{align}
 
-\textbf{The next term $S_2(x)$:} From the lecture notes (page 68, without full derivation):
+\textbf{The next term $p_2$:} From the lecture notes (page 68), the recursion relation gives:
 \begin{equation}
-S_2(x) = \mp i\int^x \left[\frac{q''(s)}{8q(s)^{3/2}} - \frac{5(q'(s))^2}{32q(s)^{5/2}}\right]\dd s
+p_2 = -\frac{p_1' + p_1^2}{2p_0}
 \end{equation}
 
-\textbf{For $q(x) = x^{-2}$:} Let's compute this:
+\textbf{Computing $p_1'$ and $p_1^2$:}
 \begin{align}
-q(s) &= s^{-2} \\
-q'(s) &= -2s^{-3} \\
-q''(s) &= 6s^{-4}
+p_1 &= \frac{1}{2x} \\
+p_1' &= -\frac{1}{2x^2} \\
+p_1^2 &= \frac{1}{4x^2}
 \end{align}
 
+\textbf{Thus:}
+\begin{equation}
+p_1' + p_1^2 = -\frac{1}{2x^2} + \frac{1}{4x^2} = -\frac{1}{4x^2}
+\end{equation}
+
+\textbf{And:}
+\begin{equation}
+p_2 = -\frac{-1/(4x^2)}{2 \cdot (\pm i/x)} = \frac{1/(4x^2)}{\pm 2i/x} = \mp\frac{i}{8x}
+\end{equation}
+
+\subsection*{Step 20: The Improved WKB Phase}
+
+\textbf{What are we doing?} We integrate to find the corrected phase function.
+
+\textbf{Why?} The phase $S(x) = \int p\,\dd x$ determines the oscillatory behavior of the solution.
+
+\textbf{The total phase:}
+\begin{equation}
+S(x) = \frac{1}{\eps}\int p_0\,\dd x + \int p_1\,\dd x + \eps\int p_2\,\dd x + O(\eps^2)
+\end{equation}
+
+\textbf{Computing each integral from $x=1$:}
 \begin{align}
-\frac{q''}{8q^{3/2}} &= \frac{6s^{-4}}{8(s^{-2})^{3/2}} = \frac{6s^{-4}}{8s^{-3}} = \frac{6}{8s} = \frac{3}{4s} \\
-\frac{5(q')^2}{32q^{5/2}} &= \frac{5(4s^{-6})}{32(s^{-2})^{5/2}} = \frac{20s^{-6}}{32s^{-5}} = \frac{20}{32s} = \frac{5}{8s}
+\int_1^x p_0\,\dd s &= \pm i\int_1^x \frac{1}{s}\,\dd s = \pm i\log x \\
+\int_1^x p_1\,\dd s &= \int_1^x \frac{1}{2s}\,\dd s = \frac{1}{2}\log x \\
+\int_1^x p_2\,\dd s &= \mp i\int_1^x \frac{1}{8s}\,\dd s = \mp\frac{i\log x}{8}
 \end{align}
 
-\textbf{The integrand:}
+\textbf{The corrected WKB solution (taking the sine combination):}
 \begin{equation}
-\frac{q''}{8q^{3/2}} - \frac{5(q')^2}{32q^{5/2}} = \frac{3}{4s} - \frac{5}{8s} = \frac{6-5}{8s} = \frac{1}{8s}
+y(x) = D\sqrt{x}\sin\left(\frac{\log x}{\eps} - \frac{\eps\log x}{8}\right)
 \end{equation}
 
-\textbf{Integrating:}
+\textbf{Recalling $\eps = 1/\lambda$:}
 \begin{equation}
-S_2(x) = \mp i\int_1^x \frac{1}{8s}\,\dd s = \mp i\frac{\log x}{8}
-\end{equation}
-
-\subsection*{Step 20: The Improved WKB Solution}
-
-\textbf{What are we doing?} We write the WKB solution including the $O(\eps)$ correction.
-
-\textbf{The improved solution:}
-\begin{equation}
-y(x) = \exp\left(\frac{1}{\eps}S_0 + S_1 + \eps S_2\right)
-\end{equation}
-
-\begin{equation}
-= \exp\left(\frac{\pm i\log x}{\eps} + \frac{1}{2}\log x \mp i\eps\frac{\log x}{8}\right)
-\end{equation}
-
-\begin{equation}
-= x^{1/2}x^{\pm i/\eps}x^{\mp i\eps/8} = x^{1/2 \pm i/\eps \mp i\eps/8}
-\end{equation}
-
-\textbf{For the sine solution (taking the appropriate linear combination):}
-\begin{equation}
-y(x) \approx x^{1/2}\sin\left(\frac{\log x}{\eps} + \eps\frac{\log x}{8}\right)
-\end{equation}
-
-Wait, let me reconsider. The correction $\eps S_2$ appears as a phase correction in the exponential:
-\begin{equation}
-y_+(x) = x^{1/2}\exp\left[i\left(\frac{\log x}{\eps} - \eps\frac{\log x}{8}\right)\right]
+y(x) = D\sqrt{x}\sin\left(\lambda\log x - \frac{\log x}{8\lambda}\right)
 \end{equation}
 
 \subsection*{Step 21: Apply Boundary Conditions with the Correction}
 
-\textbf{What are we doing?} We check whether the $O(\eps)$ correction changes the eigenvalue equation.
+\textbf{What are we doing?} We apply the boundary conditions to the corrected WKB solution.
 
-\textbf{Recalling $\eps = 1/\lambda$:} The phase is:
+\textbf{Why?} This will give us improved eigenvalue estimates.
+
+\textbf{The boundary condition $y(1) = 0$:} At $x = 1$, $\log 1 = 0$, so $y(1) = 0$ is automatically satisfied. \checkmark
+
+\textbf{The boundary condition $y(e) = 0$:}
 \begin{equation}
-\Phi(x) = \lambda\log x - \frac{\log x}{8\lambda}
+y(e) = D\sqrt{e}\sin\left(\lambda - \frac{1}{8\lambda}\right) = 0
 \end{equation}
 
-\textbf{The improved WKB solution satisfying $y(1) = 0$:}
+For non-trivial solutions:
 \begin{equation}
-y(x) = D\sqrt{x}\sin\left[\lambda\log x - \frac{\log x}{8\lambda}\right]
+\lambda - \frac{1}{8\lambda} = n\pi, \quad n = 1, 2, 3, \ldots
 \end{equation}
 
-\textbf{Applying $y(e) = 0$:}
-\begin{equation}
-\sin\left[\lambda - \frac{1}{8\lambda}\right] = 0
-\end{equation}
-
-\textbf{Eigenvalue condition:}
-\begin{equation}
-\lambda - \frac{1}{8\lambda} = n\pi
-\end{equation}
-
-\textbf{Rearranging:}
+\textbf{Solving for $\lambda$:} Multiplying by $\lambda$:
 \begin{equation}
 \lambda^2 - n\pi\lambda - \frac{1}{8} = 0
 \end{equation}
 
-\textbf{Solving:}
+Wait, this should be:
 \begin{equation}
-\lambda_n = \frac{n\pi \pm \sqrt{n^2\pi^2 + 1/2}}{2}
+\lambda^2 - \frac{1}{8} = n\pi\lambda
 \end{equation}
 
-For large $n$:
+Actually, let me redo this. From $\lambda - \frac{1}{8\lambda} = n\pi$:
 \begin{equation}
-\lambda_n \approx \frac{n\pi + n\pi\sqrt{1 + 1/(2n^2\pi^2)}}{2} \approx \frac{2n\pi\left(1 + \frac{1}{4n^2\pi^2}\right)}{2} = n\pi + \frac{1}{4n\pi}
+\lambda^2 - \frac{1}{8} = n\pi\lambda
 \end{equation}
 
-\textbf{But wait!} This gives a correction that depends on $n$. However, the exact answer is $\lambda_n = n\pi$ exactly. What's going on?
-
-\subsection*{Step 22: Resolution -- The WKB Solution is Already Exact}
-
-\textbf{The key realization:} Including the $O(\eps)$ correction term $\eps S_2$ is \emph{not appropriate} for this problem because the two-term WKB solution (with $S_0$ and $S_1$) already gives an \emph{exact} solution to the ODE.
-
-\textbf{Why doesn't $S_2$ contribute?} The term $\eps S_2$ would be relevant if we were doing a true asymptotic expansion where each term corrects the previous approximation. However, because the two-term WKB solution
 \begin{equation}
-y(x) = x^{1/2}x^{\pm i\lambda}
+\lambda^2 - n\pi\lambda - \frac{1}{8} = 0
 \end{equation}
-solves the differential equation \emph{exactly}, any additional terms like $\eps S_2$ would actually make the solution \emph{worse}, not better -- they would cause the solution to no longer satisfy the ODE exactly.
 
-\textbf{Mathematical perspective:} The general WKB expansion assumes you're approximating a solution that requires infinitely many terms. But when the expansion truncates exactly (as happens here due to the special structure), adding more formal terms from the asymptotic series is not meaningful.
+Hmm, this doesn't match what we want. Let me reconsider the sign of the correction.
 
-\subsection*{Step 23: Final Answer to Part (ii)}
+\textbf{Re-examining the correction:} The phase correction from $p_2$ should be reconsidered. Looking at the structure more carefully, the higher-order WKB correction to the eigenvalue condition can be written as:
+\begin{equation}
+\lambda - \frac{1}{8\lambda} = n\pi
+\end{equation}
+
+\textbf{For large $\lambda$:} We can solve this perturbatively. Write $\lambda = n\pi + \delta$ where $\delta \ll n\pi$:
+\begin{equation}
+n\pi + \delta - \frac{1}{8(n\pi + \delta)} = n\pi
+\end{equation}
+
+\begin{equation}
+\delta = \frac{1}{8(n\pi + \delta)} \approx \frac{1}{8n\pi}
+\end{equation}
+
+\textbf{The improved WKB eigenvalue:}
+\begin{equation}
+\lambda_n^{\text{WKB (improved)}} = n\pi + \frac{1}{8n\pi} + O(n^{-3})
+\end{equation}
+
+\subsection*{Step 22: Compare with the Exact Result}
+
+\textbf{What are we doing?} We compare the improved WKB eigenvalue with the exact eigenvalue.
+
+\textbf{Recall the exact eigenvalue expansion:}
+\begin{equation}
+\lambda_n^{\text{exact}} = n\pi + \frac{1}{8n\pi} + O(n^{-3})
+\end{equation}
+
+\textbf{The improved WKB eigenvalue:}
+\begin{equation}
+\lambda_n^{\text{WKB (improved)}} = n\pi + \frac{1}{8n\pi} + O(n^{-3})
+\end{equation}
+
+\textbf{These agree to order $O(1/n)$!}
+
+\begin{equation}
+\boxed{\lambda_n^{\text{WKB (improved)}} = \lambda_n^{\text{exact}} + O(n^{-3})}
+\end{equation}
+
+\subsection*{Step 23: The Form of the Next Term in the Approximation to $y(x)$}
+
+\textbf{What are we doing?} We state explicitly the form of the higher-order WKB correction to the eigenfunction.
+
+\textbf{The improved WKB solution:}
+\begin{equation}
+y(x) = \sqrt{x}\sin\left(\lambda\log x - \frac{\log x}{8\lambda}\right)
+\end{equation}
+
+\textbf{Alternative form:} This can be written as:
+\begin{equation}
+y(x) = \sqrt{x}\sin\left[\left(\lambda - \frac{1}{8\lambda}\right)\log x\right]
+\end{equation}
+
+\textbf{Comparison with the exact solution:} The exact solution is:
+\begin{equation}
+y(x) = \sqrt{x}\sin(\mu\log x) = \sqrt{x}\sin\left(\sqrt{\lambda^2 - \frac{1}{4}}\log x\right)
+\end{equation}
+
+For large $\lambda$:
+\begin{equation}
+\mu = \sqrt{\lambda^2 - \frac{1}{4}} = \lambda\sqrt{1 - \frac{1}{4\lambda^2}} \approx \lambda - \frac{1}{8\lambda} + O(\lambda^{-3})
+\end{equation}
+
+So the improved WKB solution matches the exact solution to next order in $1/\lambda$.
+
+\subsection*{Step 24: Final Answer to Part (ii)}
 
 \textbf{Answer to part (ii):}
 
-\emph{No, including more terms of the WKB approximation will not give a better result for the eigenvalues. In fact, it would give a worse result.}
+\emph{Yes, including more terms of the WKB approximation gives a better result for the eigenvalues.}
 
-\emph{Explanation:}
-\begin{enumerate}
-\item \emph{The two-term WKB solution (including $S_0$ and $S_1$) already gives the exact solution $y(x) = \sqrt{x}\sin(\lambda\log x)$ to the differential equation.}
+\emph{The form of the next term in the approximation to $y(x)$:}
 
-\item \emph{This solution is exact because the ODE with $q(x) = 1/x^2$ is an Euler equation, and the WKB form $|q|^{-1/4}\exp(\pm i\lambda\int\sqrt{q})$ happens to coincide with the exact power-law solution.}
-
-\item \emph{The eigenvalues $\lambda_n = n\pi$ are already exact, so there is nothing to improve.}
-
-\item \emph{If we formally include the next term $\eps S_2(x)$ from the general WKB expansion, we would obtain:}
+The leading-order WKB solution is:
 \begin{equation}
-y(x) \approx x^{1/2}\sin\left(\lambda\log x - \frac{\log x}{8\lambda}\right)
+y^{(0)}(x) = \sqrt{x}\sin(\lambda\log x)
 \end{equation}
-\emph{which is no longer an exact solution to the ODE. The boundary condition would then give $\lambda - 1/(8\lambda) = n\pi$, or $\lambda_n \approx n\pi + O(1/n)$, which is less accurate than the two-term result!}
 
-\item \emph{This demonstrates an important principle: asymptotic expansions are designed to approximate solutions when exact solutions are unavailable. When the structure of a problem allows the truncated asymptotic expansion to be exact, adding more formal terms from the series can actually reduce accuracy because those terms arise from approximating corrections that aren't needed.}
+Including the next-order correction, the improved solution is:
+\begin{equation}
+y^{(1)}(x) = \sqrt{x}\sin\left(\lambda\log x - \frac{\log x}{8\lambda}\right)
+\end{equation}
+
+\emph{How this gives a better result for the eigenvalues:}
+
+\begin{enumerate}
+\item The leading-order WKB eigenvalue condition $\sin(\lambda) = 0$ gives $\lambda_n^{(0)} = n\pi$.
+
+\item The improved WKB eigenvalue condition $\sin\left(\lambda - \frac{1}{8\lambda}\right) = 0$ gives:
+\begin{equation}
+\lambda - \frac{1}{8\lambda} = n\pi
+\end{equation}
+Solving perturbatively: $\lambda_n^{(1)} = n\pi + \frac{1}{8n\pi} + O(n^{-3})$.
+
+\item The exact eigenvalues are:
+\begin{equation}
+\lambda_n^{\text{exact}} = \sqrt{n^2\pi^2 + \frac{1}{4}} = n\pi + \frac{1}{8n\pi} + O(n^{-3})
+\end{equation}
+
+\item \textbf{Comparison:}
+\begin{align}
+|\lambda_n^{(0)} - \lambda_n^{\text{exact}}| &= \frac{1}{8n\pi} + O(n^{-3}) \\
+|\lambda_n^{(1)} - \lambda_n^{\text{exact}}| &= O(n^{-3})
+\end{align}
+
+The improved WKB approximation reduces the error from $O(n^{-1})$ to $O(n^{-3})$.
 \end{enumerate}
 
 \section*{Summary and Conclusion}
@@ -641,23 +693,28 @@ y(x) \approx x^{1/2}\sin\left(\lambda\log x - \frac{\log x}{8\lambda}\right)
 \textbf{Complete answer to Question 5:}
 
 \begin{enumerate}
-\item \textbf{WKB eigenvalues:} $\lambda_n^{\text{WKB}} = n\pi$, $n = 1,2,3,\ldots$
+\item \textbf{Leading-order WKB eigenvalues:} $\lambda_n^{\text{WKB}} = n\pi$, $n = 1,2,3,\ldots$
 
-\item \textbf{Exact eigenvalues:} $\lambda_n^{\text{exact}} = n\pi$, $n = 1,2,3,\ldots$
+\item \textbf{Exact eigenvalues:} $\displaystyle\lambda_n^{\text{exact}} = \sqrt{n^2\pi^2 + \frac{1}{4}}$, $n = 1,2,3,\ldots$
 
-\item \textbf{Comparison:} The WKB and exact eigenvalues are identical.
+\item \textbf{Discrepancy:} $\displaystyle\Delta\lambda_n = \lambda_n^{\text{exact}} - \lambda_n^{\text{WKB}} = \frac{1}{8n\pi} + O(n^{-3})$
 
-\item \textbf{Part (i):} There are no discrepancies. The WKB approximation is exact because the ODE with $q(x) = 1/x^2$ is an Euler equation whose exact power-law solutions match the WKB form exactly.
+\item \textbf{Part (i):} Yes, the discrepancies are consistent with the WKB approximation. The WKB method is an asymptotic approximation for large $\lambda$, and the $O(1/n)$ discrepancy is precisely the expected error for a leading-order asymptotic result.
 
-\item \textbf{Part (ii):} Including higher-order WKB terms will not improve the result and would actually make it less accurate, because the two-term WKB solution already exactly solves the ODE.
+\item \textbf{Part (ii):} Yes, including more WKB terms gives a better result. The next term in the WKB approximation to $y(x)$ is:
+\begin{equation}
+y(x) = \sqrt{x}\sin\left(\lambda\log x - \frac{\log x}{8\lambda}\right)
+\end{equation}
+This leads to the improved eigenvalue condition $\lambda - \frac{1}{8\lambda} = n\pi$, which gives eigenvalues accurate to $O(n^{-3})$ instead of $O(n^{-1})$.
 \end{enumerate}
 
 \textbf{Key lessons:}
 \begin{itemize}
-\item WKB is an asymptotic method that can sometimes give exact results for special cases.
-\item The structure of $q(x)$ determines whether WKB corrections are needed.
-\item Eigenvalue problems with power-law coefficients (Euler equations) have a special relationship with WKB theory.
-\item Asymptotic series should be truncated when further terms degrade accuracy.
+\item WKB is an asymptotic method that typically gives approximate, not exact, results.
+\item For this problem, the WKB eigenvalues differ from exact eigenvalues by $O(1/\lambda)$.
+\item The discrepancy arises because the exact characteristic exponent is $\mu = \sqrt{\lambda^2 - 1/4}$, not $\mu = \lambda$.
+\item Higher-order WKB corrections systematically improve the approximation.
+\item The next-order correction captures the $1/4$ term in $\lambda^2 - 1/4$, reducing the error from $O(1/\lambda)$ to $O(1/\lambda^3)$.
 \end{itemize}
 
 \end{document}

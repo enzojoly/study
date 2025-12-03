@@ -1,104 +1,229 @@
 \documentclass[11pt]{article}
-\usepackage{amsmath}
-\usepackage{amssymb}
-\usepackage{geometry}
-\geometry{a4paper, margin=1in}
-
-\title{Asymptotics Problem 2(e)}
-\author{}
-\date{}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[margin=1in]{geometry}
 
 \begin{document}
-\maketitle
 
-\section*{Problem 2(e)}
-Find the leading asymptotic behaviour as $X \to \infty$ of:
-$$I(X) = \int_{-1}^{\infty} \sqrt{1+t}\, \cos(Xt^2)\, e^{X(t-t^3/3)}\, dt$$
+\section*{Solution 5.2(e)}
 
-\section*{Solution}
+\textbf{Problem:} Find the asymptotic behavior of
+\[
+I(X) = \int_{-1}^{\infty} \sqrt{1+t}\, \cos(Xt^2)\, e^{X(t - t^3/3)}\, dt
+\]
+as $X \to \infty$.
 
-\subsection*{Step 1: Identify the integral structure}
+\bigskip
 
-We have a complex integral that can be written as:
-$$I(X) = \int_{-1}^{\infty} f(t)\, e^{X\phi(t)}\, dt$$
+\textbf{Solution:}
 
-where the effective exponent combines both real and oscillatory parts. Note that:
+\textbf{Step 1: Recast as the real part of a complex integral.}
+
+We write the integral in complex form by expressing $\cos(Xt^2) = \text{Re}[e^{iXt^2}]$:
+\[
+I(X) = \text{Re} \int_{-1}^{\infty} \sqrt{1+z}\, e^{X(z + iz^2 - z^3/3)}\, dz.
+\]
+
+Define the phase function:
+\[
+\Phi(z) = z + iz^2 - \frac{z^3}{3}.
+\]
+
+Thus:
+\[
+I(X) = \text{Re} \int_{-1}^{\infty} \sqrt{1+z}\, e^{X\Phi(z)}\, dz.
+\]
+
+\textbf{Step 2: Find the saddle points.}
+
+The derivative of the phase function is:
+\[
+\Phi'(z) = 1 + 2iz - z^2 = -(z^2 - 2iz - 1) = -(z - i)^2.
+\]
+
+Setting $\Phi'(z) = 0$:
+\[
+-(z - i)^2 = 0 \implies z = i.
+\]
+
+This is a saddle point of \textbf{order two} (a double root), which means $\Phi'(i) = 0$ and $\Phi''(i) = 0$, but $\Phi'''(i) \neq 0$.
+
+We verify:
+\[
+\Phi''(z) = 2i - 2z \implies \Phi''(i) = 2i - 2i = 0.
+\]
+\[
+\Phi'''(z) = -2 \implies \Phi'''(i) = -2 \neq 0.
+\]
+
+\textbf{Step 3: Evaluate $\Phi(z)$ at the saddle point.}
+
+At $z = i$:
+\[
+\Phi(i) = i + i(i)^2 - \frac{(i)^3}{3} = i + i(-1) - \frac{-i}{3} = i - i + \frac{i}{3} = \frac{i}{3}.
+\]
+
+\textbf{Step 4: Determine the steepest descent paths through $z = i$.}
+
+The real and imaginary parts of $\Phi(z)$ for $z = x + iy$ are:
+\[
+\Phi(x + iy) = \left(-\frac{x^3}{3} + xy^2 - 2xy + x\right) + i\left(\frac{(y-1)^3}{3} - x^2(y-1) + \frac{1}{3}\right).
+\]
+
+More directly, expanding around the saddle point:
+\[
+\Phi(z) = \Phi(i) + \frac{\Phi'''(i)}{6}(z - i)^3 + O((z-i)^4) = \frac{i}{3} - \frac{1}{3}(z - i)^3 + O((z-i)^4).
+\]
+
+The steepest descent/ascent contours through $z = i$ are determined by $\text{Im}[\Phi(z)] = \text{Im}[\Phi(i)] = \frac{1}{3}$.
+
+For a saddle point of order two (where the first non-vanishing derivative is the third), the steepest contours consist of \textbf{three lines} meeting at equal angles of $120°$ at the saddle point. These alternate between steepest descent and steepest ascent paths.
+
+From the condition $\text{Im}[\Phi(z)] = \frac{1}{3}$, the steepest contours are:
 \begin{itemize}
-    \item $f(t) = \sqrt{1+t}\, \cos(Xt^2)$
-    \item The real part of the exponent: $u(t) = t - \frac{t^3}{3}$
-    \item Oscillatory factor: $\cos(Xt^2)$
+    \item $y = 1$ (the horizontal line through $z = i$)
+    \item $y = \sqrt{3}x + 1$ (line at angle $60°$ from horizontal)
+    \item $y = -\sqrt{3}x + 1$ (line at angle $-60°$ from horizontal, i.e., $120°$)
 \end{itemize}
 
-\subsection*{Step 2: Locate the critical point}
-
-Since $\cos(Xt^2)$ remains bounded and oscillatory, the dominant contribution comes from the maximum of the real part $u(t) = t - \frac{t^3}{3}$ on the integration domain $[-1, \infty)$.
-
-Find stationary points:
-$$u'(t) = 1 - t^2 = 0 \implies t = \pm 1$$
-
-Evaluate $u(t)$ at critical points and boundaries:
-\begin{align*}
-u(-1) &= -1 - \frac{(-1)^3}{3} = -1 + \frac{1}{3} = -\frac{2}{3}\\
-u(1) &= 1 - \frac{1}{3} = \frac{2}{3} \quad \text{(maximum)}\\
-\lim_{t \to \infty} u(t) &= -\infty
-\end{align*}
-
-Check second derivative at $t = 1$:
-$$u''(t) = -2t \implies u''(1) = -2 < 0$$
-
-Therefore, $t = 1$ is a **maximum** of $u(t)$ and will give the dominant contribution as $X \to \infty$.
-
-\subsection*{Step 3: Apply Laplace's method near the maximum}
-
-Near $t = 1$, expand $u(t)$:
-\begin{align*}
-u(t) &= u(1) + u'(1)(t-1) + \frac{1}{2}u''(1)(t-1)^2 + O((t-1)^3)\\
-&= \frac{2}{3} + 0 + \frac{1}{2}(-2)(t-1)^2 + O((t-1)^3)\\
-&= \frac{2}{3} - (t-1)^2 + O((t-1)^3)
-\end{align*}
-
-Evaluate other functions at $t = 1$:
-\begin{align*}
-\sqrt{1+t}\big|_{t=1} &= \sqrt{2}\\
-\cos(Xt^2)\big|_{t=1} &= \cos(X)
-\end{align*}
-
-For the oscillatory term, near $t = 1$:
-$$t^2 = 1 + 2(t-1) + (t-1)^2 \implies \cos(Xt^2) \approx \cos(X + 2X(t-1) + X(t-1)^2)$$
-
-To leading order as $X \to \infty$, we can approximate $\cos(Xt^2) \approx \cos(X)$ near the maximum.
-
-\subsection*{Step 4: Set up the Laplace approximation}
-
-Substitute $s = t - 1$, so $t = s + 1$ and $dt = ds$. The integration limits become $s \in [-2, \infty)$.
-
-$$I(X) \sim \int_{-2}^{\infty} \sqrt{2}\, \cos(X)\, e^{X(2/3 - s^2)}\, ds$$
-
-Factor out constants:
-$$I(X) \sim \sqrt{2}\, e^{2X/3}\, \cos(X) \int_{-2}^{\infty} e^{-Xs^2}\, ds$$
-
-\subsection*{Step 5: Evaluate the Gaussian integral}
-
-For large $X$, the integrand $e^{-Xs^2}$ decays rapidly away from $s = 0$. The contribution from $s < -2$ is exponentially small, so we can extend the lower limit to $-\infty$:
-
-$$\int_{-2}^{\infty} e^{-Xs^2}\, ds \sim \int_{-\infty}^{\infty} e^{-Xs^2}\, ds = \sqrt{\frac{\pi}{X}}$$
-
-\subsection*{Step 6: Final result}
-
-Combining all terms:
-$$I(X) \sim \sqrt{2}\, e^{2X/3}\, \cos(X) \cdot \sqrt{\frac{\pi}{X}}$$
-
-\begin{center}
-\boxed{
-I(X) \sim \sqrt{\frac{2\pi}{X}}\, e^{2X/3}\, \cos(X) \quad \text{as } X \to \infty
-}
-\end{center}
-
-The leading asymptotic behaviour has:
+Examining the real part $\text{Re}[\Phi(z)]$ along these curves determines which are descent and which are ascent:
 \begin{itemize}
-    \item Exponential growth: $e^{2X/3}$ (from the maximum of $u(t)$ at $t=1$)
-    \item Algebraic decay: $X^{-1/2}$ (from the Gaussian integral near the maximum)
-    \item Oscillation: $\cos(X)$ (from the $\cos(Xt^2)$ factor evaluated at $t=1$)
+    \item Along $y = 1$, $x > 0$: This is a steepest \textbf{descent} curve.
+    \item Along $y = \sqrt{3}x + 1$, $x < 0$: This is also a steepest \textbf{descent} curve.
+    \item The remaining directions are steepest ascent curves.
 \end{itemize}
+
+\textbf{Step 5: Deform the integration contour.}
+
+The original contour is the real axis from $z = -1$ to $z = +\infty$. We need to deform this contour to pass through the saddle point at $z = i$ along steepest descent paths.
+
+The deformation proceeds as follows:
+\begin{enumerate}
+    \item Start at $z = -1$ and follow the steepest descent path determined by $\text{Im}[\Phi(z)] = \text{Im}[\Phi(-1)] = 1$ into the third quadrant until it approaches the asymptote $y = \sqrt{3}x + 1$.
+    \item This asymptote is itself a steepest descent path of the saddle point $z = i$, so we follow it to reach $z = i$.
+    \item From $z = i$, we follow the steepest descent path along $y = 1$, $x > 0$ (i.e., the line $\text{Im}(z) = 1$) to infinity.
+\end{enumerate}
+
+The contributions from paths far from the saddle point are subdominant. The leading asymptotic contribution comes from the vicinity of the saddle point $z = i$.
+
+\textbf{Step 6: Evaluate the contribution from the saddle point.}
+
+For an order-two saddle point (where $\Phi'''(z_0) \neq 0$ is the first non-vanishing derivative), the local behavior is:
+\[
+\Phi(z) \approx \Phi(i) + \frac{\Phi'''(i)}{6}(z - i)^3 = \frac{i}{3} - \frac{1}{3}(z - i)^3.
+\]
+
+\textbf{Contribution from the path $y = 1$, $x > 0$:}
+
+Along this path, set $z = i + s$ where $s \in [0, \infty)$ is real. Then:
+\[
+\Phi(z) \approx \frac{i}{3} - \frac{s^3}{3}.
+\]
+
+The amplitude function at the saddle is:
+\[
+\sqrt{1 + i} = (1 + i)^{1/2} = 2^{1/4} e^{i\pi/8}.
+\]
+
+The integral contribution from this path is:
+\[
+I_1(X) \sim \text{Re}\left[\sqrt{1+i} \int_0^{\infty} e^{X(i/3 - s^3/3)}\, ds\right] = \text{Re}\left[2^{1/4} e^{i\pi/8} e^{iX/3} \int_0^{\infty} e^{-Xs^3/3}\, ds\right].
+\]
+
+Using the substitution $t = Xs^3/3$, so $s = (3t/X)^{1/3}$ and $ds = \frac{1}{3}(3/X)^{1/3} t^{-2/3}\, dt$:
+\[
+\int_0^{\infty} e^{-Xs^3/3}\, ds = \frac{1}{3}\left(\frac{3}{X}\right)^{1/3} \int_0^{\infty} t^{-2/3} e^{-t}\, dt = \frac{3^{1/3}}{3 X^{1/3}} \Gamma\left(\frac{1}{3}\right) = \frac{\Gamma(1/3)}{3^{2/3} X^{1/3}}.
+\]
+
+Thus:
+\[
+I_1(X) \sim \text{Re}\left[\frac{2^{1/4} \Gamma(1/3)}{3^{2/3} X^{1/3}} e^{i(X/3 + \pi/8)}\right].
+\]
+
+\textbf{Contribution from the path $y = \sqrt{3}x + 1$, $x < 0$:}
+
+Along this path, set $z = i + e^{-2\pi i/3} s$ where $s \in [0, \infty)$ is real (note the direction is into the third quadrant). Then:
+\[
+(z - i)^3 = e^{-2\pi i} s^3 = s^3.
+\]
+
+So:
+\[
+\Phi(z) \approx \frac{i}{3} - \frac{s^3}{3}.
+\]
+
+The integral contribution is:
+\[
+I_2(X) \sim \text{Re}\left[\sqrt{1+i} \int_{\infty}^{0} e^{X(i/3 - s^3/3)} e^{-2\pi i/3}\, ds\right] = -\text{Re}\left[2^{1/4} e^{i\pi/8} e^{-2\pi i/3} e^{iX/3} \int_0^{\infty} e^{-Xs^3/3}\, ds\right].
+\]
+
+Thus:
+\[
+I_2(X) \sim -\text{Re}\left[\frac{2^{1/4} \Gamma(1/3)}{3^{2/3} X^{1/3}} e^{i(X/3 + \pi/8 - 2\pi/3)}\right].
+\]
+
+\textbf{Step 7: Combine the contributions.}
+
+The total asymptotic contribution is:
+\[
+I(X) = I_1(X) + I_2(X) \sim \frac{2^{1/4} \Gamma(1/3)}{3^{2/3} X^{1/3}} \text{Re}\left[e^{i(X/3 + \pi/8)} - e^{i(X/3 + \pi/8 - 2\pi/3)}\right].
+\]
+
+Let $\theta = X/3 + \pi/8$. Then:
+\[
+e^{i\theta} - e^{i(\theta - 2\pi/3)} = e^{i\theta}\left(1 - e^{-2\pi i/3}\right).
+\]
+
+Now:
+\[
+1 - e^{-2\pi i/3} = 1 - \left(-\frac{1}{2} - \frac{\sqrt{3}}{2}i\right) = \frac{3}{2} + \frac{\sqrt{3}}{2}i = \sqrt{3}\left(\frac{\sqrt{3}}{2} + \frac{1}{2}i\right) = \sqrt{3}\, e^{i\pi/6}.
+\]
+
+Therefore:
+\[
+e^{i\theta} - e^{i(\theta - 2\pi/3)} = \sqrt{3}\, e^{i(\theta + \pi/6)} = \sqrt{3}\, e^{i(X/3 + \pi/8 + \pi/6)}.
+\]
+
+Simplifying the phase:
+\[
+\frac{\pi}{8} + \frac{\pi}{6} = \frac{3\pi + 4\pi}{24} = \frac{7\pi}{24}.
+\]
+
+So:
+\[
+I(X) \sim \frac{2^{1/4} \Gamma(1/3)}{3^{2/3} X^{1/3}} \cdot \sqrt{3} \cdot \text{Re}\left[e^{i(X/3 + 7\pi/24)}\right] = \frac{2^{1/4} \sqrt{3}\, \Gamma(1/3)}{3^{2/3} X^{1/3}} \cos\left(\frac{X}{3} + \frac{7\pi}{24}\right).
+\]
+
+\textbf{Step 8: Simplify the coefficient.}
+
+\[
+\frac{\sqrt{3}}{3^{2/3}} = \frac{3^{1/2}}{3^{2/3}} = 3^{1/2 - 2/3} = 3^{-1/6} = \frac{1}{3^{1/6}}.
+\]
+
+Therefore, the coefficient becomes:
+\[
+\frac{2^{1/4} \Gamma(1/3)}{3^{1/6} X^{1/3}}.
+\]
+
+\textbf{Step 9: Final result.}
+
+\[
+\boxed{I(X) \sim \frac{2^{1/4} \Gamma(1/3)}{3^{1/6} X^{1/3}} \cos\left(\frac{X}{3} + \frac{7\pi}{24}\right) \quad \text{as } X \to \infty.}
+\]
+
+\bigskip
+
+\textbf{Remarks:}
+
+\begin{enumerate}
+    \item \textbf{Order of the saddle point:} The saddle point at $z = i$ is of order two because $\Phi'(i) = \Phi''(i) = 0$ but $\Phi'''(i) = -2 \neq 0$. This is sometimes called a ``monkey saddle'' or a degenerate saddle point.
+
+    \item \textbf{Asymptotic order:} For a standard (order-one) saddle point, the asymptotic expansion gives $O(X^{-1/2})$ behavior. For an order-two saddle point, the expansion instead gives $O(X^{-1/3})$ behavior, which decays more slowly. This is reflected in the appearance of $X^{1/3}$ in the denominator and $\Gamma(1/3)$ from the integral $\int_0^\infty t^{-2/3} e^{-t}\, dt$.
+
+    \item \textbf{Phase of the oscillation:} The argument of the cosine is $X/3 + 7\pi/24$, not $X$ as one might naively expect. The factor of $1/3$ comes from the value $\text{Im}[\Phi(i)] = 1/3$, and the constant phase shift $7\pi/24$ arises from combining the phase of $\sqrt{1+i} = 2^{1/4} e^{i\pi/8}$ with the geometric factor $e^{i\pi/6}$ from the steepest descent analysis.
+
+    \item \textbf{Why the naive approach fails:} Treating this as a standard Laplace integral with a maximum at $t = 1$ (or any other point on the real axis) would give incorrect results because the $\cos(Xt^2)$ term creates rapid oscillations that fundamentally change the character of the integral. The proper treatment requires the method of steepest descent in the complex plane.
+
+    \item \textbf{Numerical value:} For reference, $\Gamma(1/3) \approx 2.6789$, $2^{1/4} \approx 1.1892$, and $3^{1/6} \approx 1.2009$, so the coefficient $\frac{2^{1/4}\Gamma(1/3)}{3^{1/6}} \approx 2.653$.
+\end{enumerate}
 
 \end{document}

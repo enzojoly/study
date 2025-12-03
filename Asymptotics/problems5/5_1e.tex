@@ -1,134 +1,120 @@
-\documentclass[12pt]{article}
-\usepackage{amsmath}
-\usepackage{amssymb}
-\usepackage{geometry}
-\geometry{a4paper, margin=1in}
-
-\title{Solution to Problem 1(e)}
-\author{Asymptotics Problem Sheet 5}
-\date{}
+\documentclass[11pt]{article}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[margin=1in]{geometry}
 
 \begin{document}
 
-\maketitle
+\section*{Solution 5.1(e)}
 
-\section*{Problem Statement}
-Find the leading asymptotic behaviour as $X \to \infty$ of:
-$$I(X) = \int_0^\pi \sin(X\cos(t))\, e^{-t^2}\, dt$$
+\textbf{Problem:} Find the asymptotic behavior of
+\[
+I(X) = \int_0^{\pi} \sin(X \cos t)\, e^{-t^2}\, dt
+\]
+as $X \to \infty$.
 
-\section*{Solution}
+\bigskip
 
-\subsection*{Step 1: Express the sine function using complex exponentials}
+\textbf{Solution:}
 
-Using the identity $\sin(\theta) = \frac{e^{i\theta} - e^{-i\theta}}{2i}$, we write:
-$$I(X) = \int_0^\pi \frac{e^{iX\cos(t)} - e^{-iX\cos(t)}}{2i} e^{-t^2}\, dt$$
+\textbf{Step 1: Express as imaginary part of complex integral.}
 
-$$= \frac{1}{2i}\left[\int_0^\pi e^{-t^2}e^{iX\cos(t)}\, dt - \int_0^\pi e^{-t^2}e^{-iX\cos(t)}\, dt\right]$$
+We write the integral in complex exponential form:
+\[
+I(X) = \operatorname{Im} \int_0^{\pi} e^{-t^2} e^{iX \cos t}\, dt.
+\]
 
-$$= \frac{1}{2i}\left[I_1(X) - I_2(X)\right]$$
+\textbf{Step 2: Identify the phase function and locate stationary points.}
 
-where:
-\begin{align}
-I_1(X) &= \int_0^\pi e^{-t^2}e^{iX\cos(t)}\, dt\\
-I_2(X) &= \int_0^\pi e^{-t^2}e^{-iX\cos(t)}\, dt
-\end{align}
+The phase function is $\Phi(t) = \cos t$, with derivatives:
+\[
+\Phi'(t) = -\sin t, \qquad \Phi''(t) = -\cos t.
+\]
 
-\subsection*{Step 2: Analyze $I_1(X)$ using the method of stationary phase}
+The stationary points occur where $\Phi'(t) = 0$, i.e., where $\sin t = 0$. Within the integration interval $[0, \pi]$, this gives stationary points at the two endpoints:
+\[
+t = 0 \quad \text{and} \quad t = \pi.
+\]
 
-For $I_1(X)$, we have:
+\textbf{Step 3: Evaluate the phase function at stationary points.}
+
+At the endpoints:
+\begin{align*}
+\Phi(0) &= \cos 0 = 1, \qquad &\Phi''(0) &= -\cos 0 = -1, \\
+\Phi(\pi) &= \cos \pi = -1, \qquad &\Phi''(\pi) &= -\cos \pi = 1.
+\end{align*}
+
+\textbf{Step 4: Apply the stationary phase formula for boundary stationary points.}
+
+For a stationary point at an endpoint $t = c$ of the integration interval, the contribution to the integral is half that of an interior stationary point. The asymptotic contribution from an endpoint stationary point is given by:
+\[
+\frac{1}{2} \sqrt{\frac{2\pi i}{X |\Phi''(c)|}} \, e^{\pm i\pi/4} \, f(c) \, e^{iX\Phi(c)},
+\]
+where the sign in the exponential $e^{\pm i\pi/4}$ depends on the sign of $\Phi''(c)$, and $f(t) = e^{-t^2}$ is the amplitude function.
+
+\textbf{Step 5: Compute the contribution from $t = 0$.}
+
+At $t = 0$:
 \begin{itemize}
-\item $f(t) = e^{-t^2}$
-\item $\phi(t) = \cos(t)$
+    \item $f(0) = e^{0} = 1$
+    \item $\Phi(0) = 1$
+    \item $\Phi''(0) = -1 < 0$
 \end{itemize}
 
-\textbf{Finding stationary points:}
+The contribution is:
+\[
+\frac{1}{2} \sqrt{\frac{2\pi i}{X \cdot 1}} \cdot e^{-i\pi/4} \cdot 1 \cdot e^{iX} = \frac{1}{2} \sqrt{\frac{2\pi}{X}} \cdot e^{i\pi/4} \cdot e^{-i\pi/4} \cdot e^{iX} = \frac{1}{2} \sqrt{\frac{2\pi}{X}} \, e^{iX}.
+\]
 
-Computing the derivative:
-$$\phi'(t) = -\sin(t)$$
+More carefully, using $\sqrt{i} = e^{i\pi/4}$ and accounting for $\Phi''(0) = -1$:
+\[
+\sqrt{\frac{i}{\Phi''(0)}} = \sqrt{\frac{i}{-1}} = \sqrt{-i} = e^{-i\pi/4}.
+\]
 
-Setting $\phi'(t) = 0$ gives:
-$$-\sin(t) = 0 \implies t = 0 \text{ or } t = \pi$$
+Thus the contribution from $t = 0$ is:
+\[
+I_0(X) \sim \frac{1}{2} \sqrt{\frac{2\pi}{X}} \, e^{-i\pi/4} \, e^{iX} = \frac{1}{2} \sqrt{\frac{2\pi}{X}} \, e^{i(X - \pi/4)}.
+\]
 
-Both solutions are at the \textbf{boundary} of the integration interval $[0,\pi]$. There are \textbf{no interior stationary points}.
+\textbf{Step 6: Compute the contribution from $t = \pi$.}
 
-\subsection*{Step 3: Analyze boundary stationary points}
+At $t = \pi$:
+\begin{itemize}
+    \item $f(\pi) = e^{-\pi^2}$
+    \item $\Phi(\pi) = -1$
+    \item $\Phi''(\pi) = 1 > 0$
+\end{itemize}
 
-According to Section 4.3.2 of the lecture notes, when stationary points occur at the boundary, we apply the stationary phase formula with a factor of $1/2$.
+Using $\sqrt{i/\Phi''(\pi)} = \sqrt{i} = e^{i\pi/4}$:
+\[
+I_\pi(X) \sim \frac{1}{2} \sqrt{\frac{2\pi}{X}} \, e^{i\pi/4} \, e^{-\pi^2} \, e^{-iX} = \frac{1}{2} \sqrt{\frac{2\pi}{X}} \, e^{-\pi^2} \, e^{-i(X - \pi/4)}.
+\]
 
-\textbf{At $t = 0$:}
-\begin{align}
-\phi(0) &= \cos(0) = 1\\
-\phi'(0) &= 0\\
-\phi''(0) &= -\cos(0) = -1 < 0\\
-f(0) &= e^{0} = 1
-\end{align}
+\textbf{Step 7: Combine contributions from both endpoints.}
 
-Since $\phi''(0) \neq 0$, this is a non-degenerate stationary point. From equation (235) in the notes, with $n = 2$ and $\phi''(c) < 0$, we use the factor $e^{-i\pi/4}$.
+The total asymptotic contribution is:
+\begin{align*}
+\int_0^{\pi} e^{-t^2} e^{iX \cos t}\, dt &\sim I_0(X) + I_\pi(X) \\
+&= \frac{1}{2} \sqrt{\frac{2\pi}{X}} \left[ e^{i(X - \pi/4)} + e^{-\pi^2} e^{-i(X - \pi/4)} \right].
+\end{align*}
 
-The contribution from $t = 0$ is:
-$$\text{Contribution}_0 = \frac{1}{2}\sqrt{\frac{2\pi i}{X|\phi''(0)|}} f(0)e^{iX\phi(0)}e^{-i\pi/4}$$
+\textbf{Step 8: Extract the imaginary part.}
 
-$$= \frac{1}{2}\sqrt{\frac{2\pi i}{X}} \cdot 1 \cdot e^{iX} \cdot e^{-i\pi/4}$$
+Taking the imaginary part:
+\begin{align*}
+I(X) &= \operatorname{Im} \left\{ \frac{1}{2} \sqrt{\frac{2\pi}{X}} \left[ e^{i(X - \pi/4)} + e^{-\pi^2} e^{-i(X - \pi/4)} \right] \right\} \\
+&= \frac{1}{2} \sqrt{\frac{2\pi}{X}} \left[ \sin\left(X - \frac{\pi}{4}\right) - e^{-\pi^2} \sin\left(X - \frac{\pi}{4}\right) \right] \\
+&= \frac{1}{2} \sqrt{\frac{2\pi}{X}} \left(1 - e^{-\pi^2}\right) \sin\left(X - \frac{\pi}{4}\right).
+\end{align*}
 
-Using $\sqrt{i} = e^{i\pi/4}$:
-$$= \frac{1}{2}\sqrt{\frac{2\pi}{X}} e^{i\pi/4} \cdot e^{iX} \cdot e^{-i\pi/4} = \frac{1}{2}\sqrt{\frac{2\pi}{X}} e^{iX}$$
+\textbf{Step 9: Final result.}
 
-\textbf{At $t = \pi$:}
-\begin{align}
-\phi(\pi) &= \cos(\pi) = -1\\
-\phi'(\pi) &= 0\\
-\phi''(\pi) &= -\cos(\pi) = 1 > 0\\
-f(\pi) &= e^{-\pi^2}
-\end{align}
+Therefore, the asymptotic behavior is:
+\[
+\boxed{I(X) \sim \sqrt{\frac{\pi}{2X}} \sin\left(X - \frac{\pi}{4}\right) \left(1 - e^{-\pi^2}\right) \quad \text{as } X \to \infty.}
+\]
 
-Since $\phi''(\pi) > 0$, we use the factor $e^{i\pi/4}$:
-$$\text{Contribution}_\pi = \frac{1}{2}\sqrt{\frac{2\pi}{X}} e^{-\pi^2} e^{-iX} e^{i\pi/4}$$
+\bigskip
 
-\subsection*{Step 4: Determine the dominant contribution to $I_1(X)$}
-
-For large $X$, the term $e^{-\pi^2} \approx 1.8 \times 10^{-5}$ is exponentially small. Therefore:
-$$I_1(X) \sim \frac{1}{2}\sqrt{\frac{2\pi}{X}} e^{iX} \quad \text{as } X \to \infty$$
-
-\subsection*{Step 5: Analyze $I_2(X)$}
-
-For $I_2(X)$, we have $\phi(t) = -\cos(t)$, so:
-\begin{align}
-\phi'(t) &= \sin(t) = 0 \text{ at } t = 0, \pi\\
-\phi''(t) &= \cos(t)
-\end{align}
-
-\textbf{At $t = 0$:}
-$$\phi(0) = -1, \quad \phi''(0) = 1 > 0, \quad f(0) = 1$$
-$$\text{Contribution}_0 = \frac{1}{2}\sqrt{\frac{2\pi}{X}} e^{-iX} e^{i\pi/4}$$
-
-\textbf{At $t = \pi$:}
-$$\phi(\pi) = 1, \quad \phi''(\pi) = -1 < 0, \quad f(\pi) = e^{-\pi^2}$$
-$$\text{Contribution}_\pi = \frac{1}{2}\sqrt{\frac{2\pi}{X}} e^{-\pi^2} e^{iX} e^{-i\pi/4}$$
-
-The dominant contribution is:
-$$I_2(X) \sim \frac{1}{2}\sqrt{\frac{2\pi}{X}} e^{-iX} e^{i\pi/4} \quad \text{as } X \to \infty$$
-
-\subsection*{Step 6: Combine the results}
-
-$$I(X) = \frac{1}{2i}[I_1(X) - I_2(X)]$$
-
-$$\sim \frac{1}{2i} \cdot \frac{1}{2}\sqrt{\frac{2\pi}{X}}\left[e^{iX} - e^{-iX}e^{i\pi/4}\right]$$
-
-$$= \frac{1}{4i}\sqrt{\frac{2\pi}{X}}\left[e^{iX} - e^{-iX}e^{i\pi/4}\right]$$
-
-Using $e^{i\pi/4} = \frac{1+i}{\sqrt{2}}$:
-$$= \frac{1}{4i}\sqrt{\frac{2\pi}{X}}\left[e^{iX} - e^{-iX}\frac{1+i}{\sqrt{2}}\right]$$
-
-$$= \frac{1}{4i}\sqrt{\frac{2\pi}{X}}\left[e^{iX} - \frac{e^{-iX}}{\sqrt{2}} - \frac{ie^{-iX}}{\sqrt{2}}\right]$$
-
-Using $e^{iX} - e^{-iX} = 2i\sin(X)$ and $e^{iX} + e^{-iX} = 2\cos(X)$, and after simplification:
-
-$$I(X) \sim \sqrt{\frac{\pi}{2X}} \sin\left(X - \frac{\pi}{4}\right) \quad \text{as } X \to \infty$$
-
-\section*{Final Answer}
-
-$$\boxed{I(X) \sim \sqrt{\frac{\pi}{2X}} \sin\left(X - \frac{\pi}{4}\right) \quad \text{as } X \to \infty}$$
-
-The leading order behaviour is $O(X^{-1/2})$, arising from the contributions of the two stationary points at the boundaries $t = 0$ and $t = \pi$.
+\textbf{Remark:} Although $e^{-\pi^2} \approx 5.2 \times 10^{-5}$ is numerically small, the factor $(1 - e^{-\pi^2})$ is $O(1)$ as $X \to \infty$ and must be retained in the asymptotic expression. Both endpoint stationary points contribute at the same asymptotic order $O(X^{-1/2})$, and their interference produces this factor. The amplitude $e^{-t^2}$ evaluates to $1$ at $t = 0$ and to $e^{-\pi^2}$ at $t = \pi$, giving rise to the difference in contributions.
 
 \end{document}

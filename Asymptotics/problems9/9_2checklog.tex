@@ -1,0 +1,628 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage{inputenc}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{enumitem}
+\usepackage{xcolor}
+
+% Custom environments for pedagogical structure
+\newtheoremstyle{problem}
+  {10pt}{10pt}{\normalfont}{}{\bfseries}{.}{.5em}{}
+\theoremstyle{problem}
+\newtheorem{problem}{Problem}
+
+\newenvironment{strategy}{\par\noindent\textbf{Strategy:}\itshape}{\par}
+\newenvironment{justification}{\par\noindent\textbf{Justification:}\itshape}{\par}
+\newenvironment{technique}{\par\noindent\textbf{Technique:}\itshape}{\par}
+\newenvironment{reflection}{\par\noindent\textbf{Reflection:}\itshape}{\par}
+\newenvironment{keyconcept}{\par\noindent\textbf{Key Concept:}\itshape}{\par}
+
+\title{Asymptotics Problem 9.2: Complete Pedagogical Solution}
+\author{Multiple Scales Method for the Lightly Damped Oscillator to Second Order}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\begin{problem}
+For the lightly damped linear oscillator
+\[
+\ddot{x} + 2\varepsilon\dot{x} + \omega^2 x = 0
+\]
+\begin{enumerate}[(a)]
+\item Use multiple-scale analysis to find the solution in second order, i.e.\ go one order beyond what was done in the lecture.
+\item Compare your result with the exact solution.
+\end{enumerate}
+Initial conditions: $x(0) = 1$, $\dot{x}(0) = 0$.
+\end{problem}
+
+\section*{Solution: Step-by-Step Atomic Breakdown}
+
+\subsection*{Step 1: Understanding the Physical Problem}
+
+\begin{strategy}
+This is the canonical example of the multiple scales method from Lecture Notes \S7.1.2, equations (394)--(406). The damped harmonic oscillator exhibits two distinct time scales:
+\begin{itemize}[leftmargin=*]
+\item \textbf{Fast oscillations} with period $\sim 2\pi/\omega$
+\item \textbf{Slow amplitude decay} with time scale $\sim 1/\varepsilon$
+\end{itemize}
+A regular perturbation expansion fails because it produces secular terms that grow like $t$, invalidating the expansion for $t = O(1/\varepsilon)$.
+\end{strategy}
+
+\begin{justification}
+Why does regular perturbation fail? If we try $x = x_0 + \varepsilon x_1 + \cdots$ with $x_0 = \cos(\omega t)$, the $O(\varepsilon)$ equation becomes $\ddot{x}_1 + \omega^2 x_1 = -2\dot{x}_0 = 2\omega\sin(\omega t)$. The right-hand side $\sin(\omega t)$ is a solution of the homogeneous equation, producing a secular term $t\cos(\omega t)$ in $x_1$. This is precisely the resonance phenomenon described in Lecture Notes \S7.1.1, equation (393).
+\end{justification}
+
+\subsection*{Step 2: The Exact Solution (For Later Comparison)}
+
+\noindent Before applying multiple scales, let us record the exact solution for comparison in part (b).
+
+\begin{technique}
+For the ODE $\ddot{x} + 2\varepsilon\dot{x} + \omega^2 x = 0$, try $x = e^{mt}$:
+\[
+m^2 + 2\varepsilon m + \omega^2 = 0.
+\]
+Using the quadratic formula:
+\[
+m = -\varepsilon \pm \sqrt{\varepsilon^2 - \omega^2} = -\varepsilon \pm i\sqrt{\omega^2 - \varepsilon^2}.
+\]
+\end{technique}
+
+\noindent The general solution is:
+\[
+x(t) = e^{-\varepsilon t}\left[A\cos\left(t\sqrt{\omega^2 - \varepsilon^2}\right) + B\sin\left(t\sqrt{\omega^2 - \varepsilon^2}\right)\right].
+\]
+
+\noindent Applying initial conditions $x(0) = 1$ and $\dot{x}(0) = 0$:
+
+\noindent From $x(0) = 1$: $A = 1$.
+
+\noindent From $\dot{x}(0) = 0$: Differentiating and setting $t = 0$ gives $B = \frac{\varepsilon}{\sqrt{\omega^2 - \varepsilon^2}}$.
+
+\begin{center}
+\fbox{\begin{minipage}{0.9\textwidth}
+\textbf{Exact Solution:}
+\[
+x(t) = e^{-\varepsilon t}\cos\left(t\sqrt{\omega^2 - \varepsilon^2}\right) + \frac{\varepsilon}{\sqrt{\omega^2 - \varepsilon^2}}e^{-\varepsilon t}\sin\left(t\sqrt{\omega^2 - \varepsilon^2}\right)
+\]
+\end{minipage}}
+\end{center}
+
+\subsection*{Step 3: Setting Up the Multiple Scales Framework}
+
+\subsubsection*{Step 3a: Defining the Time Scales}
+
+\noindent We introduce two time variables:
+\begin{align*}
+t_0 &= t \quad \text{(fast time scale --- captures oscillations)}\\
+t_1 &= \varepsilon t \quad \text{(slow time scale --- captures amplitude decay)}
+\end{align*}
+
+\begin{justification}
+The oscillations occur on the $O(1)$ time scale with frequency $\omega$, so $t_0 = t$ is the natural fast variable. The damping causes the amplitude to decay on the time scale $1/\varepsilon$; when $t = O(1/\varepsilon)$, we have $t_1 = \varepsilon t = O(1)$. This is the standard two-scale setup from Lecture Notes \S7.1.2.
+\end{justification}
+
+\subsubsection*{Step 3b: Transforming Derivatives}
+
+\noindent Treating $x = x(t_0, t_1)$ with both variables independent:
+\[
+\frac{d}{dt} = \frac{\partial}{\partial t_0} + \varepsilon\frac{\partial}{\partial t_1}.
+\]
+
+\noindent For the second derivative, we apply this operator twice:
+\begin{align*}
+\frac{d^2}{dt^2} &= \left(\frac{\partial}{\partial t_0} + \varepsilon\frac{\partial}{\partial t_1}\right)^2\\
+&= \frac{\partial^2}{\partial t_0^2} + 2\varepsilon\frac{\partial^2}{\partial t_0\partial t_1} + \varepsilon^2\frac{\partial^2}{\partial t_1^2}.
+\end{align*}
+
+\begin{center}
+\fbox{\begin{minipage}{0.85\textwidth}
+\textbf{Derivative Transformations:}
+\begin{align*}
+\frac{d}{dt} &= \frac{\partial}{\partial t_0} + \varepsilon\frac{\partial}{\partial t_1}\\[6pt]
+\frac{d^2}{dt^2} &= \frac{\partial^2}{\partial t_0^2} + 2\varepsilon\frac{\partial^2}{\partial t_0\partial t_1} + \varepsilon^2\frac{\partial^2}{\partial t_1^2}
+\end{align*}
+\end{minipage}}
+\end{center}
+
+\subsection*{Step 4: Transforming the ODE}
+
+\noindent\textbf{Original ODE:} $\ddot{x} + 2\varepsilon\dot{x} + \omega^2 x = 0$.
+
+\noindent Substituting the derivative transformations:
+\begin{align*}
+&\left(\frac{\partial^2}{\partial t_0^2} + 2\varepsilon\frac{\partial^2}{\partial t_0\partial t_1} + \varepsilon^2\frac{\partial^2}{\partial t_1^2}\right)x + 2\varepsilon\left(\frac{\partial}{\partial t_0} + \varepsilon\frac{\partial}{\partial t_1}\right)x + \omega^2 x = 0.
+\end{align*}
+
+\noindent Expanding and collecting by powers of $\varepsilon$:
+\[
+\frac{\partial^2 x}{\partial t_0^2} + \omega^2 x + 2\varepsilon\left(\frac{\partial^2 x}{\partial t_0\partial t_1} + \frac{\partial x}{\partial t_0}\right) + \varepsilon^2\left(\frac{\partial^2 x}{\partial t_1^2} + 2\frac{\partial x}{\partial t_1}\right) = 0.
+\]
+
+\subsection*{Step 5: Expanding $x$ in Powers of $\varepsilon$}
+
+\noindent We expand:
+\[
+x(t_0, t_1) = x_0(t_0, t_1) + \varepsilon x_1(t_0, t_1) + \varepsilon^2 x_2(t_0, t_1) + O(\varepsilon^3).
+\]
+
+\noindent Each $x_n$ depends on both time scales.
+
+\subsection*{Step 6: Transforming Initial Conditions}
+
+\noindent At $t = 0$: $t_0 = 0$ and $t_1 = 0$.
+
+\noindent\textbf{Condition $x(0) = 1$:}
+\[
+x_0(0,0) + \varepsilon x_1(0,0) + \varepsilon^2 x_2(0,0) + \cdots = 1.
+\]
+Therefore:
+\begin{align*}
+x_0(0,0) &= 1,\\
+x_n(0,0) &= 0 \quad \text{for } n \geq 1.
+\end{align*}
+
+\noindent\textbf{Condition $\dot{x}(0) = 0$:}
+
+\noindent Using $\frac{dx}{dt} = \frac{\partial x}{\partial t_0} + \varepsilon\frac{\partial x}{\partial t_1}$:
+\[
+\frac{\partial x_0}{\partial t_0}(0,0) + \varepsilon\left(\frac{\partial x_1}{\partial t_0}(0,0) + \frac{\partial x_0}{\partial t_1}(0,0)\right) + O(\varepsilon^2) = 0.
+\]
+Therefore:
+\begin{align*}
+\frac{\partial x_0}{\partial t_0}(0,0) &= 0,\\
+\frac{\partial x_1}{\partial t_0}(0,0) &= -\frac{\partial x_0}{\partial t_1}(0,0).
+\end{align*}
+
+\subsection*{Step 7: The $O(1)$ Problem}
+
+\noindent At order $\varepsilon^0$:
+\[
+\frac{\partial^2 x_0}{\partial t_0^2} + \omega^2 x_0 = 0.
+\]
+
+\noindent With initial conditions: $x_0(0,0) = 1$ and $\frac{\partial x_0}{\partial t_0}(0,0) = 0$.
+
+\subsubsection*{Step 7a: Solving the Leading-Order Equation}
+
+\begin{technique}
+This is the simple harmonic oscillator equation in $t_0$, with $t_1$ as a parameter. The general solution is:
+\[
+x_0(t_0, t_1) = A(t_1)\cos(\omega t_0) + B(t_1)\sin(\omega t_0),
+\]
+where $A(t_1)$ and $B(t_1)$ are undetermined functions of the slow time.
+\end{technique}
+
+\subsubsection*{Step 7b: Applying Initial Conditions}
+
+\noindent From $x_0(0,0) = 1$:
+\[
+A(0)\cos(0) + B(0)\sin(0) = A(0) = 1.
+\]
+
+\noindent From $\frac{\partial x_0}{\partial t_0}(0,0) = 0$:
+\[
+\frac{\partial x_0}{\partial t_0} = -\omega A(t_1)\sin(\omega t_0) + \omega B(t_1)\cos(\omega t_0).
+\]
+At $(0,0)$: $\omega B(0) = 0$, so $B(0) = 0$.
+
+\begin{center}
+\fbox{\begin{minipage}{0.85\textwidth}
+\textbf{Leading-Order Solution:}
+\[
+x_0(t_0, t_1) = A(t_1)\cos(\omega t_0) + B(t_1)\sin(\omega t_0)
+\]
+with $A(0) = 1$ and $B(0) = 0$.
+\end{minipage}}
+\end{center}
+
+\subsection*{Step 8: The $O(\varepsilon)$ Problem}
+
+\noindent At order $\varepsilon^1$:
+\[
+\frac{\partial^2 x_1}{\partial t_0^2} + \omega^2 x_1 = -2\frac{\partial^2 x_0}{\partial t_0\partial t_1} - 2\frac{\partial x_0}{\partial t_0}.
+\]
+
+\subsubsection*{Step 8a: Computing the Right-Hand Side}
+
+\noindent\textbf{First term:} $\frac{\partial x_0}{\partial t_0}$
+\[
+\frac{\partial x_0}{\partial t_0} = -\omega A\sin(\omega t_0) + \omega B\cos(\omega t_0).
+\]
+
+\noindent\textbf{Second term:} $\frac{\partial^2 x_0}{\partial t_0\partial t_1}$
+\[
+\frac{\partial^2 x_0}{\partial t_0\partial t_1} = \frac{\partial}{\partial t_1}\left(\frac{\partial x_0}{\partial t_0}\right) = -\omega\frac{dA}{dt_1}\sin(\omega t_0) + \omega\frac{dB}{dt_1}\cos(\omega t_0).
+\]
+
+\noindent\textbf{The complete RHS:}
+\begin{align*}
+\text{RHS} &= -2\left(-\omega\frac{dA}{dt_1}\sin(\omega t_0) + \omega\frac{dB}{dt_1}\cos(\omega t_0)\right) - 2\left(-\omega A\sin(\omega t_0) + \omega B\cos(\omega t_0)\right)\\
+&= 2\omega\sin(\omega t_0)\left(\frac{dA}{dt_1} + A\right) - 2\omega\cos(\omega t_0)\left(\frac{dB}{dt_1} + B\right).
+\end{align*}
+
+\subsubsection*{Step 8b: Identifying Secular Terms}
+
+\begin{keyconcept}
+\textbf{Secularity Condition for Oscillators} (Lecture Notes \S7.1.2): For the equation $\frac{\partial^2 x_1}{\partial t_0^2} + \omega^2 x_1 = f(t_0, t_1)$, secular terms arise from any component of $f$ that is proportional to $\sin(\omega t_0)$ or $\cos(\omega t_0)$---the homogeneous solutions. To eliminate secular growth, we must set the coefficients of these resonant terms to zero.
+\end{keyconcept}
+
+\noindent The RHS contains:
+\begin{itemize}
+\item Coefficient of $\sin(\omega t_0)$: $2\omega\left(\frac{dA}{dt_1} + A\right)$
+\item Coefficient of $\cos(\omega t_0)$: $-2\omega\left(\frac{dB}{dt_1} + B\right)$
+\end{itemize}
+
+\noindent Both are resonant with the homogeneous equation.
+
+\subsubsection*{Step 8c: Eliminating Secular Terms}
+
+\noindent Setting both coefficients to zero:
+\begin{align}
+\frac{dA}{dt_1} + A &= 0, \label{eq:A}\\
+\frac{dB}{dt_1} + B &= 0. \label{eq:B}
+\end{align}
+
+\subsubsection*{Step 8d: Solving for $A(t_1)$ and $B(t_1)$}
+
+\noindent\textbf{Equation for $A$:} $\frac{dA}{dt_1} = -A$ with $A(0) = 1$.
+\[
+A(t_1) = e^{-t_1}.
+\]
+
+\noindent\textbf{Equation for $B$:} $\frac{dB}{dt_1} = -B$ with $B(0) = 0$.
+\[
+B(t_1) = 0.
+\]
+
+\begin{center}
+\fbox{\begin{minipage}{0.7\textwidth}
+\textbf{Slow-Time Functions (First Order):}
+\[
+A(t_1) = e^{-t_1}, \quad B(t_1) = 0
+\]
+\end{minipage}}
+\end{center}
+
+\subsubsection*{Step 8e: Solving for $x_1$}
+
+\noindent With secular terms eliminated, the RHS is zero:
+\[
+\frac{\partial^2 x_1}{\partial t_0^2} + \omega^2 x_1 = 0.
+\]
+
+\noindent The general solution is:
+\[
+x_1(t_0, t_1) = C(t_1)\cos(\omega t_0) + D(t_1)\sin(\omega t_0),
+\]
+where $C(t_1)$ and $D(t_1)$ are new undetermined functions.
+
+\subsubsection*{Step 8f: Initial Conditions for $x_1$}
+
+\noindent From $x_1(0,0) = 0$:
+\[
+C(0) = 0.
+\]
+
+\noindent From $\frac{\partial x_1}{\partial t_0}(0,0) = -\frac{\partial x_0}{\partial t_1}(0,0)$:
+
+\noindent We need $\frac{\partial x_0}{\partial t_1}$:
+\[
+\frac{\partial x_0}{\partial t_1} = \frac{dA}{dt_1}\cos(\omega t_0) + \frac{dB}{dt_1}\sin(\omega t_0).
+\]
+At $(0,0)$: $\frac{\partial x_0}{\partial t_1}(0,0) = \frac{dA}{dt_1}(0) = -A(0) = -1$.
+
+\noindent And $\frac{\partial x_1}{\partial t_0} = -\omega C\sin(\omega t_0) + \omega D\cos(\omega t_0)$.
+
+\noindent At $(0,0)$: $\omega D(0) = -(-1) = 1$, so $D(0) = \frac{1}{\omega}$.
+
+\begin{center}
+\fbox{\begin{minipage}{0.7\textwidth}
+\textbf{Initial Conditions for $x_1$:}
+\[
+C(0) = 0, \quad D(0) = \frac{1}{\omega}
+\]
+\end{minipage}}
+\end{center}
+
+\subsection*{Step 9: The $O(\varepsilon^2)$ Problem}
+
+\noindent At order $\varepsilon^2$:
+\[
+\frac{\partial^2 x_2}{\partial t_0^2} + \omega^2 x_2 = -2\frac{\partial^2 x_1}{\partial t_0\partial t_1} - 2\frac{\partial x_1}{\partial t_0} - \frac{\partial^2 x_0}{\partial t_1^2} - 2\frac{\partial x_0}{\partial t_1}.
+\]
+
+\subsubsection*{Step 9a: Computing Terms Involving $x_0$}
+
+\noindent With $A(t_1) = e^{-t_1}$ and $B(t_1) = 0$, we have $x_0 = e^{-t_1}\cos(\omega t_0)$.
+
+\noindent\textbf{Term:} $\frac{\partial x_0}{\partial t_1}$
+\[
+\frac{\partial x_0}{\partial t_1} = -e^{-t_1}\cos(\omega t_0).
+\]
+
+\noindent\textbf{Term:} $\frac{\partial^2 x_0}{\partial t_1^2}$
+\[
+\frac{\partial^2 x_0}{\partial t_1^2} = e^{-t_1}\cos(\omega t_0).
+\]
+
+\noindent\textbf{Contribution from $x_0$ terms:}
+\[
+-\frac{\partial^2 x_0}{\partial t_1^2} - 2\frac{\partial x_0}{\partial t_1} = -e^{-t_1}\cos(\omega t_0) - 2(-e^{-t_1}\cos(\omega t_0)) = e^{-t_1}\cos(\omega t_0).
+\]
+
+\subsubsection*{Step 9b: Computing Terms Involving $x_1$}
+
+\noindent With $x_1 = C(t_1)\cos(\omega t_0) + D(t_1)\sin(\omega t_0)$:
+
+\noindent\textbf{Term:} $\frac{\partial x_1}{\partial t_0}$
+\[
+\frac{\partial x_1}{\partial t_0} = -\omega C\sin(\omega t_0) + \omega D\cos(\omega t_0).
+\]
+
+\noindent\textbf{Term:} $\frac{\partial^2 x_1}{\partial t_0\partial t_1}$
+\[
+\frac{\partial^2 x_1}{\partial t_0\partial t_1} = -\omega\frac{dC}{dt_1}\sin(\omega t_0) + \omega\frac{dD}{dt_1}\cos(\omega t_0).
+\]
+
+\noindent\textbf{Contribution from $x_1$ terms:}
+\begin{align*}
+-2\frac{\partial^2 x_1}{\partial t_0\partial t_1} - 2\frac{\partial x_1}{\partial t_0} &= -2\left(-\omega\frac{dC}{dt_1}\sin(\omega t_0) + \omega\frac{dD}{dt_1}\cos(\omega t_0)\right)\\
+&\quad - 2\left(-\omega C\sin(\omega t_0) + \omega D\cos(\omega t_0)\right)\\
+&= 2\omega\sin(\omega t_0)\left(\frac{dC}{dt_1} + C\right) - 2\omega\cos(\omega t_0)\left(\frac{dD}{dt_1} + D\right).
+\end{align*}
+
+\subsubsection*{Step 9c: The Complete RHS of the $O(\varepsilon^2)$ Equation}
+
+\begin{align*}
+\text{RHS} &= 2\omega\sin(\omega t_0)\left(\frac{dC}{dt_1} + C\right) - 2\omega\cos(\omega t_0)\left(\frac{dD}{dt_1} + D\right) + e^{-t_1}\cos(\omega t_0).
+\end{align*}
+
+\noindent Grouping by trigonometric functions:
+\begin{align*}
+\text{RHS} &= 2\omega\left(\frac{dC}{dt_1} + C\right)\sin(\omega t_0) + \left(e^{-t_1} - 2\omega\left(\frac{dD}{dt_1} + D\right)\right)\cos(\omega t_0).
+\end{align*}
+
+\subsubsection*{Step 9d: Eliminating Secular Terms at $O(\varepsilon^2)$}
+
+\noindent To avoid secular terms, both coefficients must vanish:
+
+\noindent\textbf{Coefficient of $\sin(\omega t_0)$:}
+\[
+\frac{dC}{dt_1} + C = 0, \quad C(0) = 0.
+\]
+Solution: $C(t_1) = 0$.
+
+\noindent\textbf{Coefficient of $\cos(\omega t_0)$:}
+\[
+e^{-t_1} - 2\omega\left(\frac{dD}{dt_1} + D\right) = 0.
+\]
+\[
+\frac{dD}{dt_1} + D = \frac{e^{-t_1}}{2\omega}, \quad D(0) = \frac{1}{\omega}.
+\]
+
+\subsubsection*{Step 9e: Solving for $D(t_1)$}
+
+\begin{technique}
+This is a first-order linear ODE: $\frac{dD}{dt_1} + D = \frac{e^{-t_1}}{2\omega}$.
+
+The integrating factor is $\mu(t_1) = e^{t_1}$.
+
+Multiply through: $e^{t_1}\frac{dD}{dt_1} + e^{t_1}D = \frac{1}{2\omega}$.
+
+The LHS is $\frac{d}{dt_1}(e^{t_1}D)$.
+
+Integrate: $e^{t_1}D = \frac{t_1}{2\omega} + K$.
+
+Therefore: $D(t_1) = \frac{t_1}{2\omega}e^{-t_1} + Ke^{-t_1}$.
+\end{technique}
+
+\noindent Applying $D(0) = \frac{1}{\omega}$:
+\[
+D(0) = 0 + K = \frac{1}{\omega} \quad \Longrightarrow \quad K = \frac{1}{\omega}.
+\]
+
+\noindent Therefore:
+\[
+D(t_1) = \frac{1}{\omega}e^{-t_1} + \frac{t_1}{2\omega}e^{-t_1} = \frac{e^{-t_1}}{\omega}\left(1 + \frac{t_1}{2}\right).
+\]
+
+\begin{center}
+\fbox{\begin{minipage}{0.75\textwidth}
+\textbf{Slow-Time Functions (Second Order):}
+\[
+C(t_1) = 0, \quad D(t_1) = \frac{1}{\omega}e^{-t_1} + \frac{t_1}{2\omega}e^{-t_1}
+\]
+\end{minipage}}
+\end{center}
+
+\subsection*{Step 10: Assembling the Complete Solution}
+
+\subsubsection*{Step 10a: The Solution in Terms of $t_0$ and $t_1$}
+
+\noindent We have:
+\begin{align*}
+x_0(t_0, t_1) &= e^{-t_1}\cos(\omega t_0),\\
+x_1(t_0, t_1) &= D(t_1)\sin(\omega t_0) = \left(\frac{1}{\omega}e^{-t_1} + \frac{t_1}{2\omega}e^{-t_1}\right)\sin(\omega t_0).
+\end{align*}
+
+\noindent The approximation through $O(\varepsilon)$ is:
+\[
+x(t_0, t_1) = x_0 + \varepsilon x_1 + O(\varepsilon^2).
+\]
+
+\subsubsection*{Step 10b: Converting to the Original Variable $t$}
+
+\noindent Substituting $t_0 = t$ and $t_1 = \varepsilon t$:
+\begin{align*}
+x(t) &= e^{-\varepsilon t}\cos(\omega t) + \varepsilon\left(\frac{1}{\omega}e^{-\varepsilon t} + \frac{\varepsilon t}{2\omega}e^{-\varepsilon t}\right)\sin(\omega t) + O(\varepsilon^2)\\
+&= e^{-\varepsilon t}\cos(\omega t) + \frac{\varepsilon}{\omega}e^{-\varepsilon t}\sin(\omega t) + \frac{\varepsilon^2 t}{2\omega}e^{-\varepsilon t}\sin(\omega t) + O(\varepsilon^2).
+\end{align*}
+
+\begin{center}
+\fbox{\begin{minipage}{0.9\textwidth}
+\textbf{Multiple Scales Approximation (Second Order):}
+\[
+x(t) = e^{-\varepsilon t}\cos(\omega t) + \left(\frac{\varepsilon}{\omega} + \frac{\varepsilon^2 t}{2\omega}\right)e^{-\varepsilon t}\sin(\omega t) + O(\varepsilon^2)
+\]
+\end{minipage}}
+\end{center}
+
+\subsection*{Step 11: Comparison with the Exact Solution}
+
+\subsubsection*{Step 11a: Expanding the Exact Solution}
+
+\noindent The exact solution is:
+\[
+x_{\text{exact}}(t) = e^{-\varepsilon t}\cos\left(t\sqrt{\omega^2 - \varepsilon^2}\right) + \frac{\varepsilon}{\sqrt{\omega^2 - \varepsilon^2}}e^{-\varepsilon t}\sin\left(t\sqrt{\omega^2 - \varepsilon^2}\right).
+\]
+
+\begin{technique}
+We need to expand $\sqrt{\omega^2 - \varepsilon^2}$ and the trigonometric functions for small $\varepsilon$.
+
+First, expand $\sqrt{\omega^2 - \varepsilon^2}$:
+\[
+\sqrt{\omega^2 - \varepsilon^2} = \omega\sqrt{1 - \frac{\varepsilon^2}{\omega^2}} = \omega\left(1 - \frac{\varepsilon^2}{2\omega^2} + O(\varepsilon^4)\right) = \omega - \frac{\varepsilon^2}{2\omega} + O(\varepsilon^4).
+\]
+\end{technique}
+
+\subsubsection*{Step 11b: Expanding the Coefficient}
+
+\noindent The coefficient of the sine term:
+\[
+\frac{\varepsilon}{\sqrt{\omega^2 - \varepsilon^2}} = \frac{\varepsilon}{\omega - \frac{\varepsilon^2}{2\omega} + O(\varepsilon^4)} = \frac{\varepsilon}{\omega}\left(1 - \frac{\varepsilon^2}{2\omega^2}\right)^{-1} = \frac{\varepsilon}{\omega}\left(1 + \frac{\varepsilon^2}{2\omega^2} + O(\varepsilon^4)\right).
+\]
+To order $\varepsilon^2$:
+\[
+\frac{\varepsilon}{\sqrt{\omega^2 - \varepsilon^2}} = \frac{\varepsilon}{\omega} + O(\varepsilon^3).
+\]
+
+\subsubsection*{Step 11c: Expanding the Trigonometric Arguments}
+
+\noindent The argument of the trig functions is:
+\[
+t\sqrt{\omega^2 - \varepsilon^2} = t\left(\omega - \frac{\varepsilon^2}{2\omega}\right) + O(\varepsilon^4) = \omega t - \frac{\varepsilon^2 t}{2\omega} + O(\varepsilon^4).
+\]
+
+\noindent Using Taylor expansions around $\omega t$:
+\begin{align*}
+\cos\left(\omega t - \frac{\varepsilon^2 t}{2\omega}\right) &= \cos(\omega t)\cos\left(\frac{\varepsilon^2 t}{2\omega}\right) + \sin(\omega t)\sin\left(\frac{\varepsilon^2 t}{2\omega}\right)\\
+&= \cos(\omega t)\left(1 + O(\varepsilon^4)\right) + \sin(\omega t)\left(\frac{\varepsilon^2 t}{2\omega} + O(\varepsilon^4)\right)\\
+&= \cos(\omega t) + \frac{\varepsilon^2 t}{2\omega}\sin(\omega t) + O(\varepsilon^4).
+\end{align*}
+
+\begin{align*}
+\sin\left(\omega t - \frac{\varepsilon^2 t}{2\omega}\right) &= \sin(\omega t)\cos\left(\frac{\varepsilon^2 t}{2\omega}\right) - \cos(\omega t)\sin\left(\frac{\varepsilon^2 t}{2\omega}\right)\\
+&= \sin(\omega t) - \frac{\varepsilon^2 t}{2\omega}\cos(\omega t) + O(\varepsilon^4).
+\end{align*}
+
+\subsubsection*{Step 11d: Assembling the Expanded Exact Solution}
+
+\begin{align*}
+x_{\text{exact}}(t) &= e^{-\varepsilon t}\left[\cos(\omega t) + \frac{\varepsilon^2 t}{2\omega}\sin(\omega t)\right]\\
+&\quad + \frac{\varepsilon}{\omega}e^{-\varepsilon t}\left[\sin(\omega t) - \frac{\varepsilon^2 t}{2\omega}\cos(\omega t)\right] + O(\varepsilon^3)\\
+&= e^{-\varepsilon t}\cos(\omega t) + \frac{\varepsilon}{\omega}e^{-\varepsilon t}\sin(\omega t) + \frac{\varepsilon^2 t}{2\omega}e^{-\varepsilon t}\sin(\omega t) + O(\varepsilon^3).
+\end{align*}
+
+\subsubsection*{Step 11e: Comparison}
+
+\noindent\textbf{Multiple scales result:}
+\[
+x_{\text{MS}}(t) = e^{-\varepsilon t}\cos(\omega t) + \frac{\varepsilon}{\omega}e^{-\varepsilon t}\sin(\omega t) + \frac{\varepsilon^2 t}{2\omega}e^{-\varepsilon t}\sin(\omega t) + O(\varepsilon^2).
+\]
+
+\noindent\textbf{Expanded exact solution:}
+\[
+x_{\text{exact}}(t) = e^{-\varepsilon t}\cos(\omega t) + \frac{\varepsilon}{\omega}e^{-\varepsilon t}\sin(\omega t) + \frac{\varepsilon^2 t}{2\omega}e^{-\varepsilon t}\sin(\omega t) + O(\varepsilon^3).
+\]
+
+\begin{center}
+\fbox{\begin{minipage}{0.9\textwidth}
+\textbf{Conclusion:} The multiple scales approximation through second order \textbf{exactly matches} the expansion of the exact solution through order $\varepsilon^2$. The methods agree term by term!
+\end{minipage}}
+\end{center}
+
+\subsection*{Step 12: Discussion of the Secular Term}
+
+\begin{reflection}
+The term $\frac{\varepsilon^2 t}{2\omega}e^{-\varepsilon t}\sin(\omega t)$ in our solution appears to be a secular term because of the factor of $t$. However, this is \textbf{not} a problematic secular term because:
+
+\begin{enumerate}
+\item The factor $e^{-\varepsilon t}$ dominates for large $t$, ensuring the entire term decays.
+
+\item This term arises from the expansion of the exact frequency $\sqrt{\omega^2 - \varepsilon^2} \approx \omega - \frac{\varepsilon^2}{2\omega}$. The exact solution oscillates at a slightly different frequency, and expanding this frequency shift produces apparent secular terms.
+
+\item From Lecture Notes \S7.1.2, the solution notes that to avoid this secular term, we would need to introduce a third time scale $t_2 = \varepsilon^2 t$ or modify the fast time scale to $t_0 = \delta(\varepsilon)t$ where $\delta$ captures the frequency correction.
+\end{enumerate}
+
+The appearance of this secular term at $O(\varepsilon^2)$ indicates the limitation of the two-scale expansion. For longer times or higher accuracy, additional slow time scales would be needed.
+\end{reflection}
+
+\subsection*{Final Summary}
+
+\begin{center}
+\fbox{\begin{minipage}{0.95\textwidth}
+\textbf{Complete Solution for Problem 9.2:}
+
+\vspace{0.3cm}
+\textbf{Given:} $\ddot{x} + 2\varepsilon\dot{x} + \omega^2 x = 0$ with $x(0) = 1$, $\dot{x}(0) = 0$.
+
+\vspace{0.2cm}
+\textbf{Time scales:} $t_0 = t$ (fast), $t_1 = \varepsilon t$ (slow).
+
+\vspace{0.2cm}
+\textbf{Leading order ($O(1)$):}
+\[
+x_0 = A(t_1)\cos(\omega t_0) + B(t_1)\sin(\omega t_0)
+\]
+
+\textbf{Secularity conditions at $O(\varepsilon)$:}
+\[
+A(t_1) = e^{-t_1}, \quad B(t_1) = 0
+\]
+
+\textbf{First correction ($O(\varepsilon)$):}
+\[
+x_1 = C(t_1)\cos(\omega t_0) + D(t_1)\sin(\omega t_0)
+\]
+
+\textbf{Secularity conditions at $O(\varepsilon^2)$:}
+\[
+C(t_1) = 0, \quad D(t_1) = \frac{1}{\omega}e^{-t_1} + \frac{t_1}{2\omega}e^{-t_1}
+\]
+
+\vspace{0.2cm}
+\textbf{Second-order approximation:}
+\[
+x(t) = e^{-\varepsilon t}\cos(\omega t) + \left(\frac{\varepsilon}{\omega} + \frac{\varepsilon^2 t}{2\omega}\right)e^{-\varepsilon t}\sin(\omega t)
+\]
+
+\vspace{0.2cm}
+\textbf{Exact solution:}
+\[
+x(t) = e^{-\varepsilon t}\cos(t\sqrt{\omega^2-\varepsilon^2}) + \frac{\varepsilon}{\sqrt{\omega^2-\varepsilon^2}}e^{-\varepsilon t}\sin(t\sqrt{\omega^2-\varepsilon^2})
+\]
+
+\vspace{0.2cm}
+\textbf{Verification:} Expanding the exact solution to $O(\varepsilon^2)$ reproduces the multiple scales result exactly.
+\end{minipage}}
+\end{center}
+
+\subsection*{Connection to Lecture Notes}
+
+\begin{reflection}
+This problem extends the analysis in Lecture Notes \S7.1.2, equations (394)--(406), which covers the damped oscillator to first order. The key additional insights from going to second order are:
+
+\begin{enumerate}
+\item \textbf{Secularity conditions propagate:} At each order, new undetermined functions appear, and secularity conditions at the next order determine them.
+
+\item \textbf{Frequency corrections appear at $O(\varepsilon^2)$:} The exact frequency $\sqrt{\omega^2 - \varepsilon^2}$ differs from $\omega$ by $O(\varepsilon^2)$. This correction manifests as the secular-looking term $\varepsilon^2 t$ in our expansion.
+
+\item \textbf{Limitations of two-scale expansions:} As noted in the solutions, the secular term at $O(\varepsilon^2)$ could be removed by introducing a modified fast time scale that incorporates the frequency correction. This would require $t_0 = \delta(\varepsilon)t$ with $\delta = \omega - \frac{\varepsilon^2}{2\omega} + O(\varepsilon^4)$.
+
+\item \textbf{Physical interpretation:} The $e^{-\varepsilon t}$ decay captures amplitude attenuation, while the modified frequency $\sqrt{\omega^2 - \varepsilon^2}$ shows that damping also slightly reduces the oscillation frequency.
+\end{enumerate}
+\end{reflection}
+
+\end{document}

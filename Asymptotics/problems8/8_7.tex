@@ -1,0 +1,525 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage{inputenc}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{enumitem}
+\usepackage{xcolor}
+
+% Custom environments for pedagogical structure
+\newtheoremstyle{problem}
+  {10pt}{10pt}{\normalfont}{}{\bfseries}{.}{.5em}{}
+\theoremstyle{problem}
+\newtheorem{problem}{Problem}
+
+\newenvironment{strategy}{\par\noindent\textbf{Strategy:}\itshape}{\par}
+\newenvironment{justification}{\par\noindent\textbf{Justification:}\itshape}{\par}
+\newenvironment{technique}{\par\noindent\textbf{Technique:}\itshape}{\par}
+\newenvironment{reflection}{\par\noindent\textbf{Reflection:}\itshape}{\par}
+\newenvironment{keyconcept}{\par\noindent\textbf{Key Concept:}\itshape}{\par}
+
+\title{Asymptotics Problem 8.7: Complete Pedagogical Solution}
+\author{Interior Layer Analysis via Matched Asymptotic Expansions}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\begin{problem}
+Find an asymptotic expansion to leading order for the solution $y(x)$ to
+\[
+\varepsilon y'' + xy' + xy = 0, \quad \text{in } -1 < x < 1 \text{ for } \varepsilon \to 0
+\]
+with $y(-1) = e$ and $y(1) = 2e^{-1}$, given that the solution has an `interior layer'.
+\end{problem}
+
+\section*{Solution: Step-by-Step Atomic Breakdown}
+
+\subsection*{Step 1: Identifying Problem Type and Layer Location}
+
+\begin{strategy}
+We have a singularly perturbed second-order linear ODE of the form $\varepsilon y'' + p(x)y' + q(x)y = 0$. We must:
+\begin{enumerate}[leftmargin=*]
+\item Identify where layers can occur by analysing the coefficient $p(x)$
+\item Construct outer solutions in regions away from the layer
+\item Construct an inner solution valid near the layer
+\item Match these solutions using Prandtl's matching rule
+\item Form a composite solution
+\end{enumerate}
+\end{strategy}
+
+\noindent\textbf{What we have:} The ODE is
+\[
+\varepsilon y'' + xy' + xy = 0,
+\]
+so we identify $p(x) = x$ and $q(x) = x$.
+
+\begin{justification}
+From the general theory of boundary layers (Lecture Notes \S6.2.1, equations (340)--(353)), the sign of $p(x)$ at the boundaries determines where boundary layers can occur:
+\begin{itemize}
+\item At $x = -1$: $p(-1) = -1 < 0$. This means if we tried a boundary layer at $x = -1$, the inner solution would grow exponentially as we move into the domain, preventing matching.
+\item At $x = 1$: $p(1) = 1 > 0$. This means if we tried a boundary layer at $x = 1$, the inner solution would again grow exponentially into the domain.
+\end{itemize}
+Since neither boundary can support a boundary layer, yet the outer equation cannot satisfy both boundary conditions (as we shall verify), the layer must occur at an \textbf{interior point} where $p(x) = 0$.
+\end{justification}
+
+\noindent The coefficient $p(x) = x$ vanishes at $x = 0$. This is where the interior layer is located.
+
+\begin{keyconcept}
+An \textbf{interior layer} occurs at a point $x_0$ inside the domain where the coefficient $p(x)$ vanishes. Unlike boundary layers (which occur at domain endpoints), interior layers separate the domain into two regions, each requiring its own outer solution. The interior layer acts as a transition zone connecting these outer solutions. This is described in Lecture Notes \S6.2.2, equations (354)--(356).
+\end{keyconcept}
+
+\subsection*{Step 2: Constructing the Outer Solutions}
+
+\noindent\textbf{Goal:} Find the leading-order outer solutions valid in $x < 0$ and $x > 0$, away from the interior layer at $x = 0$.
+
+\subsubsection*{Step 2a: Deriving the Outer Equation}
+
+\begin{technique}
+To obtain the outer expansion, we neglect the $\varepsilon$-dependent term in the ODE. This is justified because in the outer region (away from rapid transitions), the solution varies on the $O(1)$ length scale, so $y'' = O(1)$ and thus $\varepsilon y'' = O(\varepsilon) \ll O(1)$.
+\end{technique}
+
+\noindent Setting $\varepsilon = 0$ in the original ODE gives the leading-order outer equation:
+\[
+xy'_0 + xy_0 = 0.
+\]
+
+\noindent For $x \neq 0$, we can divide by $x$ to obtain:
+\[
+y'_0 + y_0 = 0.
+\]
+
+\subsubsection*{Step 2b: Solving the Outer Equation}
+
+\noindent This is a first-order linear ODE. Separating variables:
+\[
+\frac{dy_0}{y_0} = -dx.
+\]
+
+\noindent Integrating both sides:
+\[
+\ln|y_0| = -x + C'.
+\]
+
+\noindent Exponentiating:
+\[
+y_0(x) = ae^{-x},
+\]
+where $a$ is an arbitrary constant.
+
+\begin{justification}
+This general solution is valid for $x \neq 0$. Since the interior layer at $x = 0$ separates the domain into two regions, we need different constants for the left ($x < 0$) and right ($x > 0$) outer solutions. Each outer solution must satisfy its respective boundary condition.
+\end{justification}
+
+\subsubsection*{Step 2c: Left Outer Solution ($x < 0$)}
+
+\noindent We denote the left outer solution by $y_{0,a}(x)$. Applying the boundary condition at $x = -1$:
+\[
+y_{0,a}(-1) = e.
+\]
+
+\noindent Substituting $y_{0,a}(x) = ae^{-x}$:
+\[
+ae^{-(-1)} = ae^{1} = e.
+\]
+
+\noindent Solving for $a$:
+\[
+a = 1.
+\]
+
+\noindent Therefore, the \textbf{left outer solution} is:
+\[
+\boxed{y_{0,a}(x) = e^{-x}, \quad x < 0}
+\]
+
+\subsubsection*{Step 2d: Right Outer Solution ($x > 0$)}
+
+\noindent We denote the right outer solution by $y_{0,b}(x)$. Applying the boundary condition at $x = 1$:
+\[
+y_{0,b}(1) = 2e^{-1}.
+\]
+
+\noindent Substituting $y_{0,b}(x) = ae^{-x}$:
+\[
+ae^{-1} = 2e^{-1}.
+\]
+
+\noindent Solving for $a$:
+\[
+a = 2.
+\]
+
+\noindent Therefore, the \textbf{right outer solution} is:
+\[
+\boxed{y_{0,b}(x) = 2e^{-x}, \quad x > 0}
+\]
+
+\subsubsection*{Step 2e: Verification of Inconsistency}
+
+\begin{justification}
+Notice that the two outer solutions have different limits as $x \to 0$:
+\begin{align*}
+\lim_{x \to 0^-} y_{0,a}(x) &= e^{0} = 1,\\
+\lim_{x \to 0^+} y_{0,b}(x) &= 2e^{0} = 2.
+\end{align*}
+These limits do not match! This discontinuity confirms that an interior layer at $x = 0$ is necessary to connect the two outer solutions. The inner solution must smoothly transition from $y \to 1$ on the left to $y \to 2$ on the right.
+\end{justification}
+
+\subsection*{Step 3: Setting Up the Inner Problem}
+
+\noindent\textbf{Goal:} Derive the inner equation valid in a neighbourhood of $x = 0$ of width $O(\delta(\varepsilon))$, where $\delta \to 0$ as $\varepsilon \to 0$.
+
+\subsubsection*{Step 3a: Introducing the Inner Variable}
+
+\begin{technique}
+For an interior layer at $x = 0$, we introduce a rescaled ``inner'' variable:
+\[
+X = \frac{x}{\delta},
+\]
+where $\delta = \delta(\varepsilon)$ is the boundary layer width to be determined. We also define the inner solution:
+\[
+Y(X) = y(x) = y(\delta X).
+\]
+\end{technique}
+
+\subsubsection*{Step 3b: Transforming Derivatives}
+
+\noindent We need to express the derivatives of $y$ in terms of derivatives of $Y$.
+
+\noindent Since $x = \delta X$:
+\[
+\frac{dy}{dx} = \frac{dY}{dX} \cdot \frac{dX}{dx} = \frac{1}{\delta}\frac{dY}{dX} = \frac{1}{\delta}Y'.
+\]
+
+\noindent Similarly:
+\[
+\frac{d^2y}{dx^2} = \frac{d}{dx}\left(\frac{1}{\delta}Y'\right) = \frac{1}{\delta^2}Y''.
+\]
+
+\subsubsection*{Step 3c: Substituting into the ODE}
+
+\noindent The original equation $\varepsilon y'' + xy' + xy = 0$ becomes:
+\[
+\varepsilon \cdot \frac{1}{\delta^2}Y'' + (\delta X) \cdot \frac{1}{\delta}Y' + (\delta X) \cdot Y = 0.
+\]
+
+\noindent Simplifying:
+\[
+\frac{\varepsilon}{\delta^2}Y'' + XY' + \delta XY = 0.
+\]
+
+\subsection*{Step 4: Dominant Balance to Determine Layer Width}
+
+\noindent\textbf{Goal:} Determine the scaling $\delta(\varepsilon)$ by requiring the most important terms in the inner equation to balance.
+
+\subsubsection*{Step 4a: Identifying Terms}
+
+\noindent Our transformed equation is:
+\[
+\frac{\varepsilon}{\delta^2}Y'' + XY' + \delta XY = 0.
+\]
+
+\noindent The three terms have coefficients:
+\begin{itemize}
+\item Term 1 ($Y''$): coefficient $\varepsilon/\delta^2$
+\item Term 2 ($XY'$): coefficient $1$
+\item Term 3 ($XY$): coefficient $\delta$
+\end{itemize}
+
+\subsubsection*{Step 4b: Comparing Term Sizes}
+
+\begin{justification}
+We seek a \textit{distinguished limit} where the leading terms balance. Since $\delta \to 0$ as $\varepsilon \to 0$, we have:
+\begin{itemize}
+\item The third term $\delta XY$ is \textbf{smaller} than the second term $XY'$ (since $\delta \ll 1$).
+\item For a distinguished limit, the first term $(\varepsilon/\delta^2)Y''$ must balance the second term $XY'$.
+\end{itemize}
+\end{justification}
+
+\noindent Setting the coefficients of the first two terms equal:
+\[
+\frac{\varepsilon}{\delta^2} = 1.
+\]
+
+\noindent Solving for $\delta$:
+\[
+\delta^2 = \varepsilon \implies \boxed{\delta = \sqrt{\varepsilon}}
+\]
+
+\begin{keyconcept}
+The interior layer has width $O(\sqrt{\varepsilon})$, not $O(\varepsilon)$ as in standard boundary layers. This is a consequence of the coefficient $p(x) = x$ vanishing linearly at $x = 0$. From Lecture Notes \S6.2.2, when $p(x_0) = 0$ and $p'(x_0) \neq 0$, the boundary layer width is $\delta = \sqrt{\varepsilon}$ rather than $\delta = \varepsilon$.
+\end{keyconcept}
+
+\subsubsection*{Step 4c: Verifying Neglected Term}
+
+\noindent With $\delta = \sqrt{\varepsilon}$, check that the third term is indeed negligible:
+\[
+\text{Third term coefficient} = \delta = \sqrt{\varepsilon} \to 0 \text{ as } \varepsilon \to 0. \quad \checkmark
+\]
+
+\subsection*{Step 5: Solving the Leading-Order Inner Equation}
+
+\noindent\textbf{Goal:} Solve for the leading-order inner solution $Y_0(X)$.
+
+\subsubsection*{Step 5a: The Inner ODE}
+
+\noindent With $\delta = \sqrt{\varepsilon}$, neglecting the $O(\delta)$ term, the leading-order inner equation is:
+\[
+Y''_0 + XY'_0 = 0.
+\]
+
+\subsubsection*{Step 5b: Reducing the Order}
+
+\begin{technique}
+This is a second-order ODE with no explicit $Y_0$ term. We can reduce the order by setting $P = Y'_0$:
+\[
+P' + XP = 0.
+\]
+\end{technique}
+
+\subsubsection*{Step 5c: Solving for $P = Y'_0$}
+
+\noindent Separating variables:
+\[
+\frac{dP}{P} = -X\,dX.
+\]
+
+\noindent Integrating:
+\[
+\ln|P| = -\frac{X^2}{2} + C_1.
+\]
+
+\noindent Exponentiating:
+\[
+P = Y'_0 = A\exp\left(-\frac{X^2}{2}\right),
+\]
+where $A$ is an arbitrary constant.
+
+\subsubsection*{Step 5d: Integrating to Find $Y_0$}
+
+\noindent Integrating $Y'_0$:
+\[
+Y_0(X) = A\int_0^X \exp\left(-\frac{s^2}{2}\right)ds + B,
+\]
+where $B$ is another integration constant, and we have chosen the lower limit of integration as $0$ for convenience.
+
+\noindent Therefore, the \textbf{general inner solution} is:
+\[
+\boxed{Y_0(X) = A\int_0^X \exp\left(-\frac{s^2}{2}\right)ds + B}
+\]
+
+\subsection*{Step 6: Matching the Inner and Outer Solutions}
+
+\noindent\textbf{Goal:} Determine the constants $A$ and $B$ by requiring that the inner solution matches the outer solutions as $X \to \pm\infty$.
+
+\subsubsection*{Step 6a: Prandtl's Matching Rule}
+
+\begin{technique}
+Prandtl's matching rule states that the inner limit of the outer solution must equal the outer limit of the inner solution. For an interior layer, we have two matching conditions:
+\begin{align*}
+\text{Left matching:} \quad &\lim_{x \to 0^-} y_{0,a}(x) = \lim_{X \to -\infty} Y_0(X),\\
+\text{Right matching:} \quad &\lim_{x \to 0^+} y_{0,b}(x) = \lim_{X \to +\infty} Y_0(X).
+\end{align*}
+\end{technique}
+
+\subsubsection*{Step 6b: Computing the Outer Limits}
+
+\noindent From Step 2:
+\begin{align*}
+\lim_{x \to 0^-} y_{0,a}(x) &= \lim_{x \to 0^-} e^{-x} = e^0 = 1,\\
+\lim_{x \to 0^+} y_{0,b}(x) &= \lim_{x \to 0^+} 2e^{-x} = 2e^0 = 2.
+\end{align*}
+
+\subsubsection*{Step 6c: Computing the Inner Limits}
+
+\noindent For the inner solution $Y_0(X) = A\int_0^X e^{-s^2/2}ds + B$, we need the limits as $X \to \pm\infty$.
+
+\begin{technique}
+Recall the Gaussian integral:
+\[
+\int_0^\infty e^{-s^2/2}ds = \sqrt{\frac{\pi}{2}}.
+\]
+By symmetry of the Gaussian:
+\[
+\int_0^{-\infty} e^{-s^2/2}ds = -\int_{-\infty}^0 e^{-s^2/2}ds = -\sqrt{\frac{\pi}{2}}.
+\]
+\end{technique}
+
+\noindent Therefore:
+\begin{align*}
+\lim_{X \to -\infty} Y_0(X) &= A \cdot \left(-\sqrt{\frac{\pi}{2}}\right) + B = B - A\sqrt{\frac{\pi}{2}},\\
+\lim_{X \to +\infty} Y_0(X) &= A \cdot \sqrt{\frac{\pi}{2}} + B = B + A\sqrt{\frac{\pi}{2}}.
+\end{align*}
+
+\subsubsection*{Step 6d: Applying the Matching Conditions}
+
+\noindent\textbf{Left matching} ($X \to -\infty$, matching with left outer solution):
+\[
+B - A\sqrt{\frac{\pi}{2}} = 1. \tag{M1}
+\]
+
+\noindent\textbf{Right matching} ($X \to +\infty$, matching with right outer solution):
+\[
+B + A\sqrt{\frac{\pi}{2}} = 2. \tag{M2}
+\]
+
+\subsubsection*{Step 6e: Solving for $A$ and $B$}
+
+\noindent Adding equations (M1) and (M2):
+\[
+2B = 1 + 2 = 3 \implies \boxed{B = \frac{3}{2}}
+\]
+
+\noindent Subtracting (M1) from (M2):
+\[
+2A\sqrt{\frac{\pi}{2}} = 2 - 1 = 1 \implies A = \frac{1}{2\sqrt{\pi/2}} = \frac{1}{\sqrt{2\pi}}.
+\]
+
+\[
+\boxed{A = \frac{1}{\sqrt{2\pi}}}
+\]
+
+\subsubsection*{Step 6f: The Matched Inner Solution}
+
+\noindent Substituting $A$ and $B$ into the inner solution:
+\[
+Y_0(X) = \frac{1}{\sqrt{2\pi}}\int_0^X \exp\left(-\frac{s^2}{2}\right)ds + \frac{3}{2}.
+\]
+
+\begin{technique}
+This can be written in terms of the error function. Recall:
+\[
+\text{erf}(z) = \frac{2}{\sqrt{\pi}}\int_0^z e^{-t^2}dt.
+\]
+With the substitution $t = s/\sqrt{2}$, we have $dt = ds/\sqrt{2}$, so:
+\[
+\int_0^X e^{-s^2/2}ds = \sqrt{2}\int_0^{X/\sqrt{2}} e^{-t^2}dt = \sqrt{2} \cdot \frac{\sqrt{\pi}}{2}\text{erf}\left(\frac{X}{\sqrt{2}}\right) = \sqrt{\frac{\pi}{2}}\text{erf}\left(\frac{X}{\sqrt{2}}\right).
+\]
+\end{technique}
+
+\noindent Therefore:
+\[
+Y_0(X) = \frac{1}{\sqrt{2\pi}} \cdot \sqrt{\frac{\pi}{2}}\text{erf}\left(\frac{X}{\sqrt{2}}\right) + \frac{3}{2} = \frac{1}{2}\text{erf}\left(\frac{X}{\sqrt{2}}\right) + \frac{3}{2}.
+\]
+
+\noindent The matched inner solution is:
+\[
+\boxed{Y_0(X) = \frac{3}{2} + \frac{1}{2}\text{erf}\left(\frac{X}{\sqrt{2}}\right)}
+\]
+
+\subsection*{Step 7: Constructing the Composite Solution}
+
+\noindent\textbf{Goal:} Form a uniformly valid composite solution across the entire domain $-1 < x < 1$.
+
+\subsubsection*{Step 7a: Standard Composite Formula}
+
+\begin{keyconcept}
+For problems with a single boundary or interior layer, the standard composite solution is:
+\[
+y_c(x) = y_{\text{outer}}(x) + Y_{\text{inner}}\left(\frac{x}{\delta}\right) - (\text{common limit}).
+\]
+However, for an interior layer with \textit{two} outer solutions, the situation is more subtle because neither outer solution vanishes in the region where the other is valid.
+\end{keyconcept}
+
+\subsubsection*{Step 7b: Special Form for Interior Layers}
+
+\begin{justification}
+From the solution to Problem 8.7 and as noted in the solutions, when we have two outer solutions that match to a single inner solution, the composite solution takes a special form. The key observation is that both outer solutions have the form $ae^{-x}$ for different values of $a$. The inner solution smoothly transitions between the left limit ($a=1$) and right limit ($a=2$).
+
+We can combine these by noting:
+\[
+y_c(x) = \left(\frac{3}{2} + \frac{1}{2}\text{erf}\left(\frac{x}{\sqrt{2\varepsilon}}\right)\right)e^{-x}.
+\]
+This works because:
+\begin{itemize}
+\item As $x \to -1$ (with $\varepsilon$ small): $\text{erf}(x/\sqrt{2\varepsilon}) \to -1$, so $y_c \to (3/2 - 1/2)e^{-x} = e^{-x} = y_{0,a}(x)$. \checkmark
+\item As $x \to +1$ (with $\varepsilon$ small): $\text{erf}(x/\sqrt{2\varepsilon}) \to +1$, so $y_c \to (3/2 + 1/2)e^{-x} = 2e^{-x} = y_{0,b}(x)$. \checkmark
+\item Near $x = 0$: The solution transitions smoothly via the error function.
+\end{itemize}
+\end{justification}
+
+\subsubsection*{Step 7c: Final Composite Solution}
+
+\noindent The uniformly valid \textbf{composite solution} to leading order is:
+\[
+\boxed{y_c(x) = \left(\frac{3}{2} + \frac{1}{2}\text{erf}\left(\frac{x}{\sqrt{2\varepsilon}}\right)\right)e^{-x}}
+\]
+
+\subsection*{Step 8: Verification and Interpretation}
+
+\subsubsection*{Step 8a: Checking Boundary Conditions}
+
+\noindent\textbf{At $x = -1$:} For small $\varepsilon$, we have $x/\sqrt{2\varepsilon} = -1/\sqrt{2\varepsilon} \to -\infty$, so $\text{erf}(x/\sqrt{2\varepsilon}) \to -1$:
+\[
+y_c(-1) \approx \left(\frac{3}{2} - \frac{1}{2}\right)e^{-(-1)} = 1 \cdot e = e. \quad \checkmark
+\]
+
+\noindent\textbf{At $x = 1$:} For small $\varepsilon$, we have $x/\sqrt{2\varepsilon} = 1/\sqrt{2\varepsilon} \to +\infty$, so $\text{erf}(x/\sqrt{2\varepsilon}) \to +1$:
+\[
+y_c(1) \approx \left(\frac{3}{2} + \frac{1}{2}\right)e^{-1} = 2e^{-1}. \quad \checkmark
+\]
+
+\subsubsection*{Step 8b: Physical Interpretation}
+
+\begin{reflection}
+The solution exhibits the following behaviour:
+\begin{enumerate}
+\item \textbf{In the region $x < 0$ (away from $x = 0$):} The solution follows $y \approx e^{-x}$, an exponentially decaying function as $x$ increases.
+
+\item \textbf{In the region $x > 0$ (away from $x = 0$):} The solution follows $y \approx 2e^{-x}$, which has the same exponential decay but with twice the amplitude.
+
+\item \textbf{Near $x = 0$ (the interior layer):} The solution rapidly transitions from amplitude $1$ to amplitude $2$ over a narrow region of width $O(\sqrt{\varepsilon})$. This transition is mediated by the error function, which provides a smooth ``sigmoid-like'' interpolation.
+
+\item \textbf{The layer width $\delta = \sqrt{\varepsilon}$:} This is larger than the $O(\varepsilon)$ width of standard boundary layers because the coefficient $p(x) = x$ vanishes at the layer location. The linear vanishing of $p(x)$ leads to the square-root scaling, as predicted by dominant balance.
+\end{enumerate}
+\end{reflection}
+
+\subsection*{Final Summary}
+
+\begin{center}
+\fbox{\begin{minipage}{0.95\textwidth}
+\textbf{Complete Solution for Problem 8.7:}
+
+\vspace{0.3cm}
+\textbf{Given:} $\varepsilon y'' + xy' + xy = 0$ on $(-1,1)$ with $y(-1) = e$, $y(1) = 2e^{-1}$.
+
+\vspace{0.2cm}
+\textbf{Layer location:} Interior layer at $x = 0$ (where $p(x) = x$ vanishes).
+
+\vspace{0.2cm}
+\textbf{Layer width:} $\delta = \sqrt{\varepsilon}$ (determined by dominant balance).
+
+\vspace{0.2cm}
+\textbf{Left outer solution} ($x < 0$): $y_{0,a}(x) = e^{-x}$
+
+\vspace{0.2cm}
+\textbf{Right outer solution} ($x > 0$): $y_{0,b}(x) = 2e^{-x}$
+
+\vspace{0.2cm}
+\textbf{Inner solution:} $Y_0(X) = \dfrac{3}{2} + \dfrac{1}{2}\text{erf}\left(\dfrac{X}{\sqrt{2}}\right)$
+
+\vspace{0.2cm}
+\textbf{Composite solution:}
+\[
+y_c(x) = \left(\frac{3}{2} + \frac{1}{2}\text{erf}\left(\frac{x}{\sqrt{2\varepsilon}}\right)\right)e^{-x}
+\]
+\end{minipage}}
+\end{center}
+
+\subsection*{Connection to Lecture Notes}
+
+\begin{reflection}
+This problem illustrates several key concepts from the lecture notes:
+\begin{itemize}
+\item \textbf{\S6.2.2 (Singular points inside the domain):} The theory of interior layers when $p(x_0) = 0$ for some $x_0 \in (0,1)$.
+
+\item \textbf{\S6.2.1 (Matching problem for singular points):} The use of Prandtl's matching rule to connect inner and outer solutions.
+
+\item \textbf{Dominant balance (\S2.2.2):} The determination of layer width $\delta = \sqrt{\varepsilon}$ from requiring leading terms to balance.
+
+\item \textbf{Example 3 in \S6.2.3:} The lecture notes present a similar interior layer problem $\varepsilon y'' + \sin(x)y' + \sin(x)y = 0$ with $p(x) = \sin(x)$ vanishing at $x = 0$, leading to analogous analysis.
+\end{itemize}
+\end{reflection}
+
+\end{document}

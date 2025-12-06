@@ -1,0 +1,513 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage{inputenc}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{enumitem}
+\usepackage{xcolor}
+
+% Custom environments for pedagogical structure
+\newtheoremstyle{problem}
+  {10pt}{10pt}{\normalfont}{}{\bfseries}{.}{.5em}{}
+\theoremstyle{problem}
+\newtheorem{problem}{Problem}
+
+\newenvironment{strategy}{\par\noindent\textbf{Strategy:}\itshape}{\par}
+\newenvironment{justification}{\par\noindent\textbf{Justification:}\itshape}{\par}
+\newenvironment{technique}{\par\noindent\textbf{Technique:}\itshape}{\par}
+\newenvironment{reflection}{\par\noindent\textbf{Reflection:}\itshape}{\par}
+\newenvironment{keyconcept}{\par\noindent\textbf{Key Concept:}\itshape}{\par}
+
+\title{Asymptotics Problem 9.1: Complete Pedagogical Solution}
+\author{Multiple-Scale Method for First-Order Nonlinear ODEs}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\begin{problem}
+For the first-order nonlinear differential equation
+\[
+\frac{df}{dt} - f = \varepsilon f^2 e^{-t}
+\]
+with $\varepsilon \ll 1$ and initial condition $f(0) = 1$, determine an approximation by using the multiple-scale method. Show that the resulting expression is the exact solution.
+\end{problem}
+
+\section*{Solution: Step-by-Step Atomic Breakdown}
+
+\subsection*{Step 1: Understanding the Problem and Motivation for Multiple Scales}
+
+\begin{strategy}
+We have a first-order nonlinear ODE with a small parameter $\varepsilon$. Our task is to:
+\begin{enumerate}[leftmargin=*]
+\item Recognise why a regular perturbation expansion fails
+\item Apply the multiple-scale method to obtain a uniformly valid approximation
+\item Verify that the result is actually the exact solution
+\end{enumerate}
+\end{strategy}
+
+\subsubsection*{Step 1a: Why Regular Perturbation Fails}
+
+\begin{justification}
+This problem was treated by regular perturbation expansion on Problem Sheet 5, yielding:
+\[
+f(t) = e^t + \varepsilon t e^t + O(\varepsilon^2).
+\]
+This expansion is \textbf{not uniformly valid} because the second term $\varepsilon t e^t$ grows relative to the first term $e^t$. Specifically:
+\[
+\frac{\text{second term}}{\text{first term}} = \frac{\varepsilon t e^t}{e^t} = \varepsilon t.
+\]
+When $t > 1/\varepsilon$, the ``correction'' term exceeds the ``leading'' term, invalidating the asymptotic ordering. This is a \textbf{secular term} --- a term that grows unboundedly with time.
+\end{justification}
+
+\begin{keyconcept}
+\textbf{Secular terms} are terms in perturbative solutions that grow unboundedly at long times, breaking uniform convergence and invalidating the solution approach for $t = O(1/\varepsilon)$ or larger. The multiple-scale method systematically eliminates secular terms by allowing the solution's amplitude to vary on a slow time scale. This is discussed in Lecture Notes \S7.1.1, equations (393)--(405).
+\end{keyconcept}
+
+\subsubsection*{Step 1b: The Idea Behind Multiple Scales}
+
+\begin{justification}
+The multiple-scale method assumes that the solution depends on two (or more) time scales:
+\begin{itemize}
+\item A \textbf{fast time} $t_0 = t$ capturing the rapid dynamics (here, the exponential growth $\sim e^t$)
+\item A \textbf{slow time} $t_1 = \varepsilon t$ capturing the gradual modulation of the amplitude due to the $O(\varepsilon)$ perturbation
+\end{itemize}
+By treating these as independent variables and requiring that no secular terms appear at each order, we obtain conditions that determine the slow variation of the solution.
+\end{justification}
+
+\subsection*{Step 2: Setting Up the Multiple-Scale Framework}
+
+\noindent\textbf{Goal:} Reformulate the ODE by treating $f$ as a function of two independent time variables.
+
+\subsubsection*{Step 2a: Introducing Two Time Scales}
+
+\begin{technique}
+Define:
+\begin{align*}
+t_0 &= t \quad \text{(fast time)}\\
+t_1 &= \varepsilon t \quad \text{(slow time)}
+\end{align*}
+We now treat $f$ as a function of both: $f = f(t_0, t_1)$.
+\end{technique}
+
+\subsubsection*{Step 2b: Transforming the Time Derivative}
+
+\noindent By the chain rule, the total derivative with respect to $t$ becomes:
+\[
+\frac{d}{dt} = \frac{\partial}{\partial t_0}\frac{dt_0}{dt} + \frac{\partial}{\partial t_1}\frac{dt_1}{dt} = \frac{\partial}{\partial t_0} \cdot 1 + \frac{\partial}{\partial t_1} \cdot \varepsilon.
+\]
+
+\noindent Therefore:
+\[
+\boxed{\frac{d}{dt} = \frac{\partial}{\partial t_0} + \varepsilon\frac{\partial}{\partial t_1}}
+\]
+
+\begin{justification}
+This transformation is the key step of the multiple-scale method. By decomposing the time derivative, we separate the fast oscillation/growth (captured by $\partial/\partial t_0$) from the slow modulation (captured by $\varepsilon\,\partial/\partial t_1$). This appears in Lecture Notes \S7.1.2, equation (406).
+\end{justification}
+
+\subsubsection*{Step 2c: Transforming the ODE}
+
+\noindent The original ODE is:
+\[
+\frac{df}{dt} - f = \varepsilon f^2 e^{-t}.
+\]
+
+\noindent Substituting the derivative transformation and noting that $e^{-t} = e^{-t_0}$ (since $t = t_0$):
+\[
+\frac{\partial f}{\partial t_0} + \varepsilon\frac{\partial f}{\partial t_1} - f = \varepsilon f^2 e^{-t_0}.
+\]
+
+\noindent Rearranging:
+\[
+\boxed{\frac{\partial f}{\partial t_0} - f = \varepsilon f^2 e^{-t_0} - \varepsilon\frac{\partial f}{\partial t_1}}
+\]
+
+\subsection*{Step 3: Expanding in Powers of $\varepsilon$}
+
+\noindent\textbf{Goal:} Expand $f$ as a power series in $\varepsilon$ and solve order by order.
+
+\subsubsection*{Step 3a: The Expansion Ansatz}
+
+\begin{technique}
+Assume:
+\[
+f(t_0, t_1) = f_0(t_0, t_1) + \varepsilon f_1(t_0, t_1) + \varepsilon^2 f_2(t_0, t_1) + \cdots
+\]
+\end{technique}
+
+\subsubsection*{Step 3b: Expanding the Initial Condition}
+
+\noindent The initial condition $f(0) = 1$ becomes (at $t = 0$, we have $t_0 = 0$ and $t_1 = 0$):
+\[
+f_0(0, 0) + \varepsilon f_1(0, 0) + \cdots = 1.
+\]
+
+\noindent Matching powers of $\varepsilon$:
+\begin{align*}
+O(1): \quad &f_0(0, 0) = 1\\
+O(\varepsilon): \quad &f_1(0, 0) = 0\\
+&\vdots
+\end{align*}
+
+\subsubsection*{Step 3c: Substituting the Expansion into the ODE}
+
+\noindent Substituting $f = f_0 + \varepsilon f_1 + \cdots$ into the transformed ODE:
+\begin{align*}
+&\frac{\partial}{\partial t_0}(f_0 + \varepsilon f_1 + \cdots) - (f_0 + \varepsilon f_1 + \cdots)\\
+&\qquad = \varepsilon(f_0 + \varepsilon f_1 + \cdots)^2 e^{-t_0} - \varepsilon\frac{\partial}{\partial t_1}(f_0 + \varepsilon f_1 + \cdots).
+\end{align*}
+
+\noindent Expanding the square:
+\[
+(f_0 + \varepsilon f_1 + \cdots)^2 = f_0^2 + 2\varepsilon f_0 f_1 + O(\varepsilon^2).
+\]
+
+\noindent Collecting terms by powers of $\varepsilon$:
+\begin{align*}
+&\left(\frac{\partial f_0}{\partial t_0} - f_0\right) + \varepsilon\left(\frac{\partial f_1}{\partial t_0} - f_1\right) + O(\varepsilon^2)\\
+&\qquad = \varepsilon f_0^2 e^{-t_0} - \varepsilon\frac{\partial f_0}{\partial t_1} + O(\varepsilon^2).
+\end{align*}
+
+\subsection*{Step 4: Solving at Leading Order $O(1)$}
+
+\noindent\textbf{Goal:} Find $f_0(t_0, t_1)$.
+
+\subsubsection*{Step 4a: The $O(1)$ Equation}
+
+\noindent Equating $O(1)$ terms:
+\[
+\frac{\partial f_0}{\partial t_0} - f_0 = 0.
+\]
+
+\noindent With initial condition: $f_0(0, 0) = 1$.
+
+\subsubsection*{Step 4b: Solving the $O(1)$ Equation}
+
+\begin{technique}
+This is a first-order linear PDE in $t_0$, treating $t_1$ as a parameter. It has the form:
+\[
+\frac{\partial f_0}{\partial t_0} = f_0.
+\]
+The solution is:
+\[
+f_0(t_0, t_1) = A(t_1) e^{t_0},
+\]
+where $A(t_1)$ is an arbitrary function of the slow time $t_1$ (the ``constant'' of integration with respect to $t_0$).
+\end{technique}
+
+\subsubsection*{Step 4c: Applying the Initial Condition}
+
+\noindent At $t_0 = 0$, $t_1 = 0$:
+\[
+f_0(0, 0) = A(0) e^0 = A(0) = 1.
+\]
+
+\noindent Therefore: $A(0) = 1$.
+
+\begin{justification}
+The function $A(t_1)$ is not fully determined at this order --- we only know $A(0) = 1$. The full dependence $A(t_1)$ will be determined by the \textbf{solvability condition} at the next order: we require that no secular terms appear in $f_1$.
+\end{justification}
+
+\noindent The leading-order solution is:
+\[
+\boxed{f_0(t_0, t_1) = A(t_1) e^{t_0}, \quad A(0) = 1}
+\]
+
+\subsection*{Step 5: Solving at Order $O(\varepsilon)$ and Eliminating Secular Terms}
+
+\noindent\textbf{Goal:} Find $f_1$ and determine $A(t_1)$ by requiring no secular terms.
+
+\subsubsection*{Step 5a: The $O(\varepsilon)$ Equation}
+
+\noindent Equating $O(\varepsilon)$ terms:
+\[
+\frac{\partial f_1}{\partial t_0} - f_1 = f_0^2 e^{-t_0} - \frac{\partial f_0}{\partial t_1}.
+\]
+
+\subsubsection*{Step 5b: Substituting the Leading-Order Solution}
+
+\noindent We have $f_0 = A(t_1)e^{t_0}$. Computing each term on the RHS:
+\begin{align*}
+f_0^2 e^{-t_0} &= \left(A(t_1)e^{t_0}\right)^2 e^{-t_0} = A(t_1)^2 e^{2t_0} \cdot e^{-t_0} = A^2 e^{t_0},\\
+\frac{\partial f_0}{\partial t_1} &= \frac{\partial}{\partial t_1}\left(A(t_1)e^{t_0}\right) = \frac{dA}{dt_1} e^{t_0}.
+\end{align*}
+
+\noindent Therefore, the $O(\varepsilon)$ equation becomes:
+\[
+\frac{\partial f_1}{\partial t_0} - f_1 = A^2 e^{t_0} - \frac{dA}{dt_1} e^{t_0} = \left(A^2 - \frac{dA}{dt_1}\right) e^{t_0}.
+\]
+
+\subsubsection*{Step 5c: Identifying Secular Terms}
+
+\begin{keyconcept}
+The equation for $f_1$ has the form:
+\[
+\frac{\partial f_1}{\partial t_0} - f_1 = g(t_0, t_1).
+\]
+This is an inhomogeneous first-order linear ODE in $t_0$. The homogeneous equation $\partial f_1/\partial t_0 - f_1 = 0$ has solutions $\propto e^{t_0}$.
+
+A \textbf{secular term} arises when the inhomogeneity $g(t_0, t_1)$ is itself a solution of the homogeneous equation. In our case, the RHS is $\propto e^{t_0}$, which is exactly the homogeneous solution!
+
+From the theory of linear ODEs (variation of parameters), when the forcing matches a homogeneous solution, the particular solution grows by an extra factor of $t_0$:
+\[
+f_1 \sim t_0 e^{t_0} \quad \text{(secular term!)}.
+\]
+This would invalidate our asymptotic expansion for large $t_0$.
+\end{keyconcept}
+
+\subsubsection*{Step 5d: The Solvability Condition}
+
+\begin{technique}
+To prevent secular terms, we require the coefficient of $e^{t_0}$ on the RHS to vanish:
+\[
+A^2 - \frac{dA}{dt_1} = 0.
+\]
+This is the \textbf{solvability condition} (also called the ``secularity condition'').
+\end{technique}
+
+\begin{justification}
+The solvability condition ensures that the forcing term in the $O(\varepsilon)$ equation is not resonant with the homogeneous solution. This is the central mechanism of the multiple-scale method: by allowing the amplitude $A$ to vary slowly with $t_1$, we absorb what would otherwise be secular growth into a well-behaved slow modulation.
+\end{justification}
+
+\subsubsection*{Step 5e: Solving for $A(t_1)$}
+
+\noindent The solvability condition is:
+\[
+\frac{dA}{dt_1} = A^2.
+\]
+
+\noindent This is a separable ODE. Separating variables:
+\[
+\frac{dA}{A^2} = dt_1.
+\]
+
+\noindent Integrating both sides:
+\[
+-\frac{1}{A} = t_1 + C,
+\]
+where $C$ is a constant of integration.
+
+\noindent Solving for $A$:
+\[
+A(t_1) = -\frac{1}{t_1 + C} = \frac{1}{-t_1 - C}.
+\]
+
+\noindent Let us write this as:
+\[
+A(t_1) = \frac{1}{c - t_1},
+\]
+where $c = -C$ is a new constant.
+
+\subsubsection*{Step 5f: Applying the Initial Condition for $A$}
+
+\noindent We require $A(0) = 1$:
+\[
+A(0) = \frac{1}{c - 0} = \frac{1}{c} = 1 \implies c = 1.
+\]
+
+\noindent Therefore:
+\[
+\boxed{A(t_1) = \frac{1}{1 - t_1}}
+\]
+
+\subsection*{Step 6: Constructing the Leading-Order Multiple-Scale Solution}
+
+\noindent\textbf{Goal:} Write the complete first-order approximation.
+
+\subsubsection*{Step 6a: Combining Results}
+
+\noindent From the leading-order solution $f_0 = A(t_1)e^{t_0}$ with $A(t_1) = 1/(1-t_1)$:
+\[
+f_0(t_0, t_1) = \frac{1}{1 - t_1} e^{t_0}.
+\]
+
+\subsubsection*{Step 6b: Converting Back to Original Variable $t$}
+
+\noindent Recall $t_0 = t$ and $t_1 = \varepsilon t$. Substituting:
+\[
+f(t) \approx f_0(t, \varepsilon t) = \frac{1}{1 - \varepsilon t} e^{t}.
+\]
+
+\noindent The \textbf{multiple-scale approximation} is:
+\[
+\boxed{f(t) = \frac{e^t}{1 - \varepsilon t}}
+\]
+
+\subsection*{Step 7: Verifying This is the Exact Solution}
+
+\noindent\textbf{Goal:} Show that the multiple-scale result satisfies the original ODE exactly.
+
+\subsubsection*{Step 7a: Computing $df/dt$}
+
+\noindent Let $f(t) = \frac{e^t}{1 - \varepsilon t}$. Using the quotient rule:
+\[
+\frac{df}{dt} = \frac{\frac{d}{dt}(e^t) \cdot (1-\varepsilon t) - e^t \cdot \frac{d}{dt}(1-\varepsilon t)}{(1-\varepsilon t)^2}.
+\]
+
+\noindent Computing the derivatives:
+\begin{align*}
+\frac{d}{dt}(e^t) &= e^t,\\
+\frac{d}{dt}(1-\varepsilon t) &= -\varepsilon.
+\end{align*}
+
+\noindent Therefore:
+\[
+\frac{df}{dt} = \frac{e^t(1-\varepsilon t) - e^t(-\varepsilon)}{(1-\varepsilon t)^2} = \frac{e^t(1-\varepsilon t) + \varepsilon e^t}{(1-\varepsilon t)^2} = \frac{e^t(1-\varepsilon t + \varepsilon)}{(1-\varepsilon t)^2} = \frac{e^t}{(1-\varepsilon t)^2}.
+\]
+
+\subsubsection*{Step 7b: Computing $df/dt - f$}
+
+\begin{align*}
+\frac{df}{dt} - f &= \frac{e^t}{(1-\varepsilon t)^2} - \frac{e^t}{1-\varepsilon t}\\
+&= \frac{e^t}{(1-\varepsilon t)^2} - \frac{e^t(1-\varepsilon t)}{(1-\varepsilon t)^2}\\
+&= \frac{e^t - e^t(1-\varepsilon t)}{(1-\varepsilon t)^2}\\
+&= \frac{e^t - e^t + \varepsilon t e^t}{(1-\varepsilon t)^2}\\
+&= \frac{\varepsilon t e^t}{(1-\varepsilon t)^2}.
+\end{align*}
+
+\subsubsection*{Step 7c: Computing $\varepsilon f^2 e^{-t}$}
+
+\begin{align*}
+\varepsilon f^2 e^{-t} &= \varepsilon \left(\frac{e^t}{1-\varepsilon t}\right)^2 e^{-t}\\
+&= \varepsilon \cdot \frac{e^{2t}}{(1-\varepsilon t)^2} \cdot e^{-t}\\
+&= \frac{\varepsilon e^t}{(1-\varepsilon t)^2}.
+\end{align*}
+
+\subsubsection*{Step 7d: Comparing Both Sides}
+
+\noindent We need to check if $\frac{df}{dt} - f = \varepsilon f^2 e^{-t}$:
+\[
+\text{LHS} = \frac{\varepsilon t e^t}{(1-\varepsilon t)^2}, \quad \text{RHS} = \frac{\varepsilon e^t}{(1-\varepsilon t)^2}.
+\]
+
+\noindent Wait --- these are not equal! Let me recompute more carefully.
+
+\subsubsection*{Step 7e: Recomputing $df/dt - f$}
+
+\noindent Actually, let me redo this calculation:
+\begin{align*}
+\frac{df}{dt} &= \frac{d}{dt}\left(\frac{e^t}{1-\varepsilon t}\right) = \frac{e^t(1-\varepsilon t) + \varepsilon e^t}{(1-\varepsilon t)^2} = \frac{e^t[(1-\varepsilon t) + \varepsilon]}{(1-\varepsilon t)^2} = \frac{e^t[1 - \varepsilon t + \varepsilon]}{(1-\varepsilon t)^2}.
+\end{align*}
+
+\noindent Now:
+\begin{align*}
+\frac{df}{dt} - f &= \frac{e^t[1 - \varepsilon t + \varepsilon]}{(1-\varepsilon t)^2} - \frac{e^t}{1-\varepsilon t}\\
+&= \frac{e^t[1 - \varepsilon t + \varepsilon] - e^t(1-\varepsilon t)}{(1-\varepsilon t)^2}\\
+&= \frac{e^t[(1 - \varepsilon t + \varepsilon) - (1-\varepsilon t)]}{(1-\varepsilon t)^2}\\
+&= \frac{e^t \cdot \varepsilon}{(1-\varepsilon t)^2}\\
+&= \frac{\varepsilon e^t}{(1-\varepsilon t)^2}.
+\end{align*}
+
+\noindent And:
+\[
+\varepsilon f^2 e^{-t} = \varepsilon \cdot \frac{e^{2t}}{(1-\varepsilon t)^2} \cdot e^{-t} = \frac{\varepsilon e^t}{(1-\varepsilon t)^2}.
+\]
+
+\noindent Therefore:
+\[
+\frac{df}{dt} - f = \frac{\varepsilon e^t}{(1-\varepsilon t)^2} = \varepsilon f^2 e^{-t}. \quad \checkmark
+\]
+
+\subsubsection*{Step 7f: Checking the Initial Condition}
+
+\[
+f(0) = \frac{e^0}{1 - \varepsilon \cdot 0} = \frac{1}{1} = 1. \quad \checkmark
+\]
+
+\begin{center}
+\fbox{\begin{minipage}{0.9\textwidth}
+\textbf{Conclusion:} The multiple-scale approximation
+\[
+f(t) = \frac{e^t}{1 - \varepsilon t}
+\]
+is the \textbf{exact solution} to the original differential equation!
+\end{minipage}}
+\end{center}
+
+\subsection*{Step 8: Discussion and Physical Interpretation}
+
+\subsubsection*{Step 8a: Why the Multiple-Scale Method Gives the Exact Solution}
+
+\begin{reflection}
+In this particular problem, the multiple-scale method yields the exact solution because:
+\begin{enumerate}
+\item The solvability condition $dA/dt_1 = A^2$ captures the \textit{exact} nonlinear dynamics of the amplitude modulation
+\item The separation into fast ($e^{t_0}$) and slow ($A(t_1)$) components is \textit{exact} for this problem structure
+\item No higher-order corrections ($f_1$, $f_2$, etc.) are needed because the leading-order approximation already satisfies the full equation
+\end{enumerate}
+This is a special property of this particular ODE; in general, the multiple-scale method provides an asymptotic approximation, not an exact solution.
+\end{reflection}
+
+\subsubsection*{Step 8b: Comparison with Regular Perturbation}
+
+\noindent The regular perturbation result was:
+\[
+f_{\text{regular}}(t) = e^t + \varepsilon t e^t + O(\varepsilon^2) = e^t(1 + \varepsilon t + O(\varepsilon^2)).
+\]
+
+\noindent The exact/multiple-scale result is:
+\[
+f_{\text{exact}}(t) = \frac{e^t}{1 - \varepsilon t} = e^t(1 + \varepsilon t + \varepsilon^2 t^2 + \varepsilon^3 t^3 + \cdots).
+\]
+
+\begin{justification}
+The regular perturbation expansion is the Taylor series of $1/(1-\varepsilon t)$ truncated at first order. This truncation is valid only when $\varepsilon t \ll 1$, i.e., $t \ll 1/\varepsilon$. For times $t = O(1/\varepsilon)$ or larger, all terms in the series become comparable and the truncation fails.
+
+The multiple-scale method ``resums'' this divergent series by recognising that the $1/(1-\varepsilon t)$ factor represents the slow modulation of the amplitude.
+\end{justification}
+
+\subsubsection*{Step 8c: Domain of Validity}
+
+\noindent The exact solution $f(t) = e^t/(1-\varepsilon t)$ has a singularity at $t = 1/\varepsilon$, where the denominator vanishes and $f \to \infty$. This is a genuine feature of the solution, not an artifact of the method.
+
+\noindent For $t < 1/\varepsilon$, the solution is well-defined and the multiple-scale approximation is uniformly valid.
+
+\subsection*{Final Summary}
+
+\begin{center}
+\fbox{\begin{minipage}{0.95\textwidth}
+\textbf{Complete Solution for Problem 9.1:}
+
+\vspace{0.3cm}
+\textbf{Given:} $\displaystyle\frac{df}{dt} - f = \varepsilon f^2 e^{-t}$, with $f(0) = 1$ and $\varepsilon \ll 1$.
+
+\vspace{0.2cm}
+\textbf{Method:} Multiple scales with $t_0 = t$ (fast) and $t_1 = \varepsilon t$ (slow).
+
+\vspace{0.2cm}
+\textbf{Key steps:}
+\begin{enumerate}
+\item Transform derivative: $\displaystyle\frac{d}{dt} = \frac{\partial}{\partial t_0} + \varepsilon\frac{\partial}{\partial t_1}$
+\item Leading order: $f_0 = A(t_1)e^{t_0}$ with $A(0) = 1$
+\item Solvability condition (no secular terms): $\displaystyle\frac{dA}{dt_1} = A^2$
+\item Solve for $A$: $\displaystyle A(t_1) = \frac{1}{1 - t_1}$
+\end{enumerate}
+
+\vspace{0.2cm}
+\textbf{Result:}
+\[
+f(t) = \frac{e^t}{1 - \varepsilon t}
+\]
+
+\vspace{0.2cm}
+\textbf{Verification:} Direct substitution confirms this is the \textbf{exact solution}.
+\end{minipage}}
+\end{center}
+
+\subsection*{Connection to Lecture Notes}
+
+\begin{reflection}
+This problem illustrates the core concepts of the multiple-scale method from Lecture Notes \S7.1:
+\begin{itemize}
+\item \textbf{\S7.1.1 (Secular terms):} The regular perturbation expansion produces secular terms ($\varepsilon t e^t$) that grow unboundedly, motivating the multiple-scale approach.
+
+\item \textbf{\S7.1.2 (Method setup):} The introduction of fast time $t_0 = t$ and slow time $t_1 = \varepsilon t$, with the derivative transformation via chain rule (equation (406)--(407)).
+
+\item \textbf{Solvability condition:} The requirement that secular terms vanish determines the slow-time evolution of the amplitude, converting what would be unbounded growth into a well-behaved amplitude modulation.
+
+\item \textbf{Uniform validity:} Unlike regular perturbation, the multiple-scale result remains valid for times $t = O(1/\varepsilon)$.
+\end{itemize}
+\end{reflection}
+
+\end{document}

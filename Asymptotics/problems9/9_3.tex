@@ -1,0 +1,548 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage{inputenc}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{enumitem}
+\usepackage{xcolor}
+
+% Custom environments for pedagogical structure
+\newtheoremstyle{problem}
+  {10pt}{10pt}{\normalfont}{}{\bfseries}{.}{.5em}{}
+\theoremstyle{problem}
+\newtheorem{problem}{Problem}
+
+\newenvironment{strategy}{\par\noindent\textbf{Strategy:}\itshape}{\par}
+\newenvironment{justification}{\par\noindent\textbf{Justification:}\itshape}{\par}
+\newenvironment{technique}{\par\noindent\textbf{Technique:}\itshape}{\par}
+\newenvironment{reflection}{\par\noindent\textbf{Reflection:}\itshape}{\par}
+\newenvironment{keyconcept}{\par\noindent\textbf{Key Concept:}\itshape}{\par}
+
+\title{Asymptotics Problem 9.3: Complete Pedagogical Solution}
+\author{Averaging Method for the Duffing Oscillator with Damping}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\begin{problem}
+Consider the Duffing oscillator with a damping term
+\[
+\frac{d^2y}{dt^2} + y + k\frac{dy}{dt} + \varepsilon y^3 = 0
+\]
+with initial conditions $y(0) = a$ and $y'(0) = 0$. Determine an approximate solution for $\varepsilon, k \ll 1$ by using the averaging method.
+\end{problem}
+
+\section*{Solution: Step-by-Step Atomic Breakdown}
+
+\subsection*{Step 1: Understanding the Physical System}
+
+\begin{strategy}
+The Duffing oscillator is a fundamental model in nonlinear dynamics. It describes oscillations in a potential with a cubic nonlinearity, arising from Taylor expansion of symmetric potentials around a stable equilibrium. The damping term $k\dot{y}$ causes energy dissipation. For small $\varepsilon$ and $k$, the solution should resemble a simple harmonic oscillator with slowly varying amplitude and phase.
+\end{strategy}
+
+\begin{justification}
+From Lecture Notes \S7.2, equations (447)--(449), the Duffing equation arises when expanding any symmetric potential $V(y) = V(-y)$ around a stable equilibrium:
+\[
+m\ddot{y} = -V''(0)y - \frac{1}{6}V^{(4)}(0)y^3 + \cdots
+\]
+Identifying $\omega^2 = V''(0)/m$ and $\alpha = -V^{(4)}(0)/(6m)$ gives $\ddot{y} + \omega^2 y = \alpha y^3$. Our equation has $\omega = 1$ (since the coefficient of $y$ is 1) and includes both the nonlinear restoring force $\varepsilon y^3$ and linear damping $k\dot{y}$.
+\end{justification}
+
+\subsection*{Step 2: Recasting the Equation in Standard Form}
+
+\noindent\textbf{Goal:} Write the ODE in the form $\ddot{y} + \omega^2 y = \varepsilon f(y, \dot{y}, t)$ suitable for the averaging method.
+
+\noindent Rearranging our equation:
+\[
+\ddot{y} + y = -k\dot{y} - \varepsilon y^3.
+\]
+
+\noindent This is of the form:
+\[
+\ddot{y} + \omega^2 y = \varepsilon f(y, \dot{y}),
+\]
+where:
+\begin{align*}
+\omega &= 1,\\
+\varepsilon f(y, \dot{y}) &= -k\dot{y} - \varepsilon y^3.
+\end{align*}
+
+\begin{keyconcept}
+In the averaging method, we treat both perturbations (damping $k\dot{y}$ and nonlinearity $\varepsilon y^3$) as small. Formally, both $k$ and $\varepsilon$ are $O(\varepsilon)$ in the sense that they are small parameters causing slow modulation of the oscillator's amplitude and phase.
+\end{keyconcept}
+
+\subsection*{Step 3: The Averaging Method Framework}
+
+\begin{keyconcept}
+\textbf{The Averaging Method of Krylov--Bogoliubov} (Lecture Notes \S7.2, equations (456)--(464)):
+
+For the perturbed oscillator $\ddot{y} + \omega^2 y = \varepsilon f(y, \dot{y}, t)$, we make the ansatz:
+\begin{align*}
+y(t) &= R(t)\cos\mu,\\
+\dot{y}(t) &= -\omega R(t)\sin\mu,
+\end{align*}
+where $\mu = \omega t + \Phi(t)$, and $R(t)$ (amplitude) and $\Phi(t)$ (phase) are slowly varying functions.
+
+The evolution equations for $R$ and $\Phi$ are obtained by averaging over one period $\bar{T} = 2\pi/\omega$:
+\begin{align*}
+\dot{R} &= -\frac{\varepsilon}{\omega}\langle f\sin\mu \rangle,\\
+\dot{\Phi} &= -\frac{\varepsilon}{\omega R}\langle f\cos\mu \rangle,
+\end{align*}
+where the average is defined as:
+\[
+\langle g \rangle = \frac{1}{\bar{T}}\int_{t_0}^{t_0 + \bar{T}} g(t)\,dt = \frac{\omega}{2\pi}\int_0^{2\pi/\omega} g(t)\,dt.
+\]
+\end{keyconcept}
+
+\begin{justification}
+The averaging method replaces the rapidly oscillating dynamics with their time-averaged effect. Since $R$ and $\Phi$ vary slowly compared to the oscillation period, they can be treated as approximately constant during the averaging. This yields the same results as the multiple scales method but through a different approach (Lecture Notes \S7.2, after equation (464)).
+\end{justification}
+
+\subsection*{Step 4: Setting Up the Ansatz}
+
+\noindent With $\omega = 1$, our ansatz becomes:
+\begin{align*}
+y(t) &= R(t)\cos\mu,\\
+\dot{y}(t) &= -R(t)\sin\mu,
+\end{align*}
+where $\mu = t + \Phi(t)$.
+
+\noindent The period of unperturbed oscillation is $\bar{T} = 2\pi$.
+
+\subsection*{Step 5: Expressing $f$ in Terms of $R$ and $\mu$}
+
+\noindent We have $\varepsilon f = -k\dot{y} - \varepsilon y^3$.
+
+\noindent Substituting the ansatz:
+\begin{align*}
+y &= R\cos\mu,\\
+\dot{y} &= -R\sin\mu,\\
+y^3 &= R^3\cos^3\mu.
+\end{align*}
+
+\noindent Therefore:
+\[
+\varepsilon f = -k(-R\sin\mu) - \varepsilon R^3\cos^3\mu = kR\sin\mu - \varepsilon R^3\cos^3\mu.
+\]
+
+\subsection*{Step 6: Computing the Equation for $\dot{R}$}
+
+\noindent From the averaging method:
+\[
+\dot{R} = -\frac{1}{\omega}\langle \varepsilon f \sin\mu \rangle = -\langle \varepsilon f \sin\mu \rangle \quad (\text{since } \omega = 1).
+\]
+
+\noindent Substituting $\varepsilon f$:
+\[
+\dot{R} = -\langle (kR\sin\mu - \varepsilon R^3\cos^3\mu)\sin\mu \rangle.
+\]
+
+\noindent Distributing:
+\[
+\dot{R} = -\langle kR\sin^2\mu \rangle + \langle \varepsilon R^3\cos^3\mu\sin\mu \rangle.
+\]
+
+\subsubsection*{Step 6a: Computing $\langle \sin^2\mu \rangle$}
+
+\begin{technique}
+Using the identity $\sin^2\mu = \frac{1}{2}(1 - \cos 2\mu)$:
+\[
+\langle \sin^2\mu \rangle = \frac{1}{2}\langle 1 - \cos 2\mu \rangle = \frac{1}{2}(1 - \langle \cos 2\mu \rangle).
+\]
+From Lecture Notes \S7.2, equation (465): $\langle \cos(n\mu) \rangle = 0$ for all integers $n \neq 0$.
+
+Therefore:
+\[
+\langle \sin^2\mu \rangle = \frac{1}{2}.
+\]
+\end{technique}
+
+\subsubsection*{Step 6b: Computing $\langle \cos^3\mu\sin\mu \rangle$}
+
+\begin{technique}
+First, use the identity $\cos^2\mu = \frac{1}{2}(1 + \cos 2\mu)$:
+\[
+\cos^3\mu = \cos\mu \cdot \cos^2\mu = \cos\mu \cdot \frac{1}{2}(1 + \cos 2\mu) = \frac{1}{2}\cos\mu + \frac{1}{2}\cos\mu\cos 2\mu.
+\]
+
+For the second term, use the product-to-sum formula:
+\[
+\cos\mu\cos 2\mu = \frac{1}{2}(\cos 3\mu + \cos\mu).
+\]
+
+Therefore:
+\[
+\cos^3\mu = \frac{1}{2}\cos\mu + \frac{1}{4}\cos 3\mu + \frac{1}{4}\cos\mu = \frac{3}{4}\cos\mu + \frac{1}{4}\cos 3\mu.
+\]
+
+Now multiply by $\sin\mu$:
+\[
+\cos^3\mu\sin\mu = \frac{3}{4}\cos\mu\sin\mu + \frac{1}{4}\cos 3\mu\sin\mu.
+\]
+
+Using the product-to-sum formulas:
+\begin{align*}
+\cos\mu\sin\mu &= \frac{1}{2}\sin 2\mu,\\
+\cos 3\mu\sin\mu &= \frac{1}{2}(\sin 4\mu - \sin 2\mu).
+\end{align*}
+
+Therefore:
+\[
+\cos^3\mu\sin\mu = \frac{3}{8}\sin 2\mu + \frac{1}{8}\sin 4\mu - \frac{1}{8}\sin 2\mu = \frac{2}{8}\sin 2\mu + \frac{1}{8}\sin 4\mu = \frac{1}{4}\sin 2\mu + \frac{1}{8}\sin 4\mu.
+\]
+
+Taking the average and using $\langle \sin(n\mu) \rangle = 0$ for $n \neq 0$:
+\[
+\langle \cos^3\mu\sin\mu \rangle = \frac{1}{4}\langle \sin 2\mu \rangle + \frac{1}{8}\langle \sin 4\mu \rangle = 0.
+\]
+\end{technique}
+
+\subsubsection*{Step 6c: Assembling the Equation for $\dot{R}$}
+
+\noindent Substituting back:
+\[
+\dot{R} = -kR \cdot \frac{1}{2} + \varepsilon R^3 \cdot 0 = -\frac{k}{2}R.
+\]
+
+\begin{center}
+\fbox{\begin{minipage}{0.6\textwidth}
+\textbf{Amplitude Equation:}
+\[
+\dot{R} = -\frac{k}{2}R
+\]
+\end{minipage}}
+\end{center}
+
+\subsection*{Step 7: Computing the Equation for $\dot{\Phi}$}
+
+\noindent From the averaging method:
+\[
+\dot{\Phi} = -\frac{1}{\omega R}\langle \varepsilon f \cos\mu \rangle = -\frac{1}{R}\langle \varepsilon f \cos\mu \rangle.
+\]
+
+\noindent Substituting $\varepsilon f$:
+\[
+\dot{\Phi} = -\frac{1}{R}\langle (kR\sin\mu - \varepsilon R^3\cos^3\mu)\cos\mu \rangle.
+\]
+
+\noindent Distributing:
+\[
+\dot{\Phi} = -\langle k\sin\mu\cos\mu \rangle + \langle \varepsilon R^2\cos^4\mu \rangle.
+\]
+
+\subsubsection*{Step 7a: Computing $\langle \sin\mu\cos\mu \rangle$}
+
+\begin{technique}
+Using the identity $\sin\mu\cos\mu = \frac{1}{2}\sin 2\mu$:
+\[
+\langle \sin\mu\cos\mu \rangle = \frac{1}{2}\langle \sin 2\mu \rangle = 0.
+\]
+\end{technique}
+
+\subsubsection*{Step 7b: Computing $\langle \cos^4\mu \rangle$}
+
+\begin{technique}
+Using $\cos^2\mu = \frac{1}{2}(1 + \cos 2\mu)$:
+\[
+\cos^4\mu = \left(\cos^2\mu\right)^2 = \frac{1}{4}(1 + \cos 2\mu)^2 = \frac{1}{4}(1 + 2\cos 2\mu + \cos^2 2\mu).
+\]
+
+Using $\cos^2 2\mu = \frac{1}{2}(1 + \cos 4\mu)$:
+\[
+\cos^4\mu = \frac{1}{4}\left(1 + 2\cos 2\mu + \frac{1}{2}(1 + \cos 4\mu)\right) = \frac{1}{4}\left(\frac{3}{2} + 2\cos 2\mu + \frac{1}{2}\cos 4\mu\right).
+\]
+
+Simplifying:
+\[
+\cos^4\mu = \frac{3}{8} + \frac{1}{2}\cos 2\mu + \frac{1}{8}\cos 4\mu.
+\]
+
+Taking the average:
+\[
+\langle \cos^4\mu \rangle = \frac{3}{8} + \frac{1}{2}\langle \cos 2\mu \rangle + \frac{1}{8}\langle \cos 4\mu \rangle = \frac{3}{8}.
+\]
+\end{technique}
+
+\subsubsection*{Step 7c: Assembling the Equation for $\dot{\Phi}$}
+
+\noindent Substituting back:
+\[
+\dot{\Phi} = -k \cdot 0 + \varepsilon R^2 \cdot \frac{3}{8} = \frac{3\varepsilon R^2}{8}.
+\]
+
+\begin{center}
+\fbox{\begin{minipage}{0.6\textwidth}
+\textbf{Phase Equation:}
+\[
+\dot{\Phi} = \frac{3\varepsilon R^2}{8}
+\]
+\end{minipage}}
+\end{center}
+
+\subsection*{Step 8: Solving the Amplitude Equation}
+
+\noindent\textbf{The ODE:} $\dot{R} = -\frac{k}{2}R$ with initial condition $R(0) = ?$
+
+\subsubsection*{Step 8a: Determining the Initial Condition for $R$}
+
+\noindent From the ansatz at $t = 0$:
+\begin{align*}
+y(0) &= R(0)\cos\Phi(0) = a,\\
+\dot{y}(0) &= -R(0)\sin\Phi(0) = 0.
+\end{align*}
+
+\noindent From $\dot{y}(0) = 0$: Either $R(0) = 0$ (trivial solution) or $\sin\Phi(0) = 0$.
+
+\noindent Since we want a non-trivial solution with $y(0) = a \neq 0$, we need $\sin\Phi(0) = 0$, which means $\Phi(0) = 0$ (or $\Phi(0) = n\pi$ for integer $n$; we choose $\Phi(0) = 0$ for simplicity).
+
+\noindent From $y(0) = R(0)\cos(0) = R(0) = a$:
+\[
+R(0) = a, \quad \Phi(0) = 0.
+\]
+
+\subsubsection*{Step 8b: Solving for $R(t)$}
+
+\noindent The equation $\dot{R} = -\frac{k}{2}R$ is a first-order linear ODE.
+
+\begin{technique}
+Separating variables:
+\[
+\frac{dR}{R} = -\frac{k}{2}dt.
+\]
+Integrating:
+\[
+\ln R = -\frac{k}{2}t + C.
+\]
+Exponentiating:
+\[
+R(t) = R(0)e^{-kt/2}.
+\]
+\end{technique}
+
+\noindent With $R(0) = a$:
+\[
+\boxed{R(t) = ae^{-kt/2}}
+\]
+
+\begin{reflection}
+The amplitude decays exponentially with decay rate $k/2$. This is the expected behavior for a damped oscillator: the damping constant $k$ determines how quickly energy is dissipated. The factor of $1/2$ arises because energy goes as $R^2$, and $R^2 \propto e^{-kt}$ corresponds to amplitude $R \propto e^{-kt/2}$.
+\end{reflection}
+
+\subsection*{Step 9: Solving the Phase Equation}
+
+\noindent\textbf{The ODE:} $\dot{\Phi} = \frac{3\varepsilon R^2}{8}$ with $\Phi(0) = 0$.
+
+\noindent Substituting $R(t) = ae^{-kt/2}$:
+\[
+\dot{\Phi} = \frac{3\varepsilon a^2 e^{-kt}}{8}.
+\]
+
+\subsubsection*{Step 9a: Integrating}
+
+\begin{technique}
+Integrating from $0$ to $t$:
+\[
+\Phi(t) - \Phi(0) = \frac{3\varepsilon a^2}{8}\int_0^t e^{-ks}\,ds.
+\]
+
+Computing the integral:
+\[
+\int_0^t e^{-ks}\,ds = \left[-\frac{1}{k}e^{-ks}\right]_0^t = -\frac{1}{k}e^{-kt} + \frac{1}{k} = \frac{1}{k}(1 - e^{-kt}).
+\]
+
+Therefore:
+\[
+\Phi(t) = \frac{3\varepsilon a^2}{8k}(1 - e^{-kt}).
+\]
+\end{technique}
+
+\[
+\boxed{\Phi(t) = \frac{3\varepsilon a^2}{8k}\left(1 - e^{-kt}\right)}
+\]
+
+\begin{reflection}
+The phase shift $\Phi(t)$ increases from zero and asymptotically approaches a finite limit:
+\[
+\lim_{t \to \infty} \Phi(t) = \frac{3\varepsilon a^2}{8k}.
+\]
+This means the nonlinearity causes a cumulative phase shift, but the total shift remains bounded because the amplitude (and hence the nonlinear effect) decays due to damping. As the oscillation dies out, the phase approaches a constant offset.
+\end{reflection}
+
+\subsection*{Step 10: Assembling the Complete Solution}
+
+\noindent The solution is given by $y(t) = R(t)\cos\mu$ where $\mu = t + \Phi(t)$.
+
+\noindent Substituting our results:
+\begin{align*}
+R(t) &= ae^{-kt/2},\\
+\Phi(t) &= \frac{3\varepsilon a^2}{8k}(1 - e^{-kt}),\\
+\mu &= t + \Phi(t) = t + \frac{3\varepsilon a^2}{8k}(1 - e^{-kt}).
+\end{align*}
+
+\begin{center}
+\fbox{\begin{minipage}{0.92\textwidth}
+\textbf{Complete Approximate Solution:}
+\[
+y(t) \approx a\exp\left(-\frac{k}{2}t\right)\cos\left[t + \frac{3\varepsilon a^2}{8k}\left(1 - e^{-kt}\right)\right]
+\]
+\end{minipage}}
+\end{center}
+
+\subsection*{Step 11: Verification of Initial Conditions}
+
+\subsubsection*{Step 11a: Checking $y(0) = a$}
+
+\noindent At $t = 0$:
+\[
+y(0) = ae^{0}\cos\left[0 + \frac{3\varepsilon a^2}{8k}(1 - 1)\right] = a\cos(0) = a. \quad \checkmark
+\]
+
+\subsubsection*{Step 11b: Checking $\dot{y}(0) = 0$}
+
+\noindent From the ansatz $\dot{y} = -R\sin\mu$:
+\[
+\dot{y}(0) = -a\sin(0) = 0. \quad \checkmark
+\]
+
+\subsection*{Step 12: Physical Interpretation}
+
+\begin{reflection}
+The solution exhibits three distinct physical effects:
+
+\begin{enumerate}
+\item \textbf{Amplitude Decay:} The factor $ae^{-kt/2}$ describes exponential amplitude decay due to the damping term $k\dot{y}$. The decay rate is $k/2$, so the amplitude halves every $t = (2\ln 2)/k$ time units.
+
+\item \textbf{Base Oscillation:} The $\cos(t + \cdots)$ term describes oscillations with natural frequency $\omega = 1$. Without perturbations, this would simply be $a\cos t$.
+
+\item \textbf{Nonlinear Phase Shift:} The term $\frac{3\varepsilon a^2}{8k}(1 - e^{-kt})$ is the cumulative phase shift caused by the cubic nonlinearity $\varepsilon y^3$. This shift:
+\begin{itemize}
+\item Starts at zero when $t = 0$
+\item Grows as the nonlinearity ``bends'' the oscillation frequency
+\item Saturates at $\frac{3\varepsilon a^2}{8k}$ as $t \to \infty$ because the decaying amplitude reduces the nonlinear effect
+\end{itemize}
+
+The sign of $\varepsilon$ determines the direction of the phase shift:
+\begin{itemize}
+\item $\varepsilon > 0$ (hardening spring): phase increases, effective frequency slightly higher than 1
+\item $\varepsilon < 0$ (softening spring): phase decreases, effective frequency slightly lower than 1
+\end{itemize}
+\end{enumerate}
+\end{reflection}
+
+\subsection*{Step 13: Limiting Cases}
+
+\subsubsection*{Case 1: Pure Damping ($\varepsilon = 0$)}
+
+\noindent When $\varepsilon = 0$:
+\[
+y(t) = ae^{-kt/2}\cos t.
+\]
+This is the standard damped harmonic oscillator solution, matching the exact solution for the linear damped oscillator.
+
+\subsubsection*{Case 2: Pure Nonlinearity ($k = 0$)}
+
+\noindent When $k \to 0$, we need to carefully take the limit. Using L'H\^opital's rule or Taylor expansion:
+\[
+\frac{1 - e^{-kt}}{k} \to t \quad \text{as } k \to 0.
+\]
+
+Therefore:
+\[
+\Phi(t) \to \frac{3\varepsilon a^2}{8}t,
+\]
+and the solution becomes:
+\[
+y(t) = a\cos\left(t + \frac{3\varepsilon a^2}{8}t\right) = a\cos\left[\left(1 + \frac{3\varepsilon a^2}{8}\right)t\right].
+\]
+
+\begin{justification}
+This is the well-known result for the undamped Duffing oscillator: the nonlinearity causes a frequency shift proportional to the amplitude squared. The effective frequency is:
+\[
+\omega_{\text{eff}} = 1 + \frac{3\varepsilon a^2}{8}.
+\]
+For a hardening spring ($\varepsilon > 0$), the frequency increases with amplitude.
+\end{justification}
+
+\subsubsection*{Case 3: Long-Time Behavior ($t \to \infty$)}
+
+\noindent As $t \to \infty$:
+\begin{itemize}
+\item $R(t) = ae^{-kt/2} \to 0$: the oscillation amplitude decays to zero.
+\item $\Phi(t) \to \frac{3\varepsilon a^2}{8k}$: the phase approaches a constant limit.
+\item $y(t) \to 0$: the solution decays to the stable equilibrium.
+\end{itemize}
+
+\subsection*{Final Summary}
+
+\begin{center}
+\fbox{\begin{minipage}{0.95\textwidth}
+\textbf{Complete Solution for Problem 9.3:}
+
+\vspace{0.3cm}
+\textbf{Given:} $\ddot{y} + y + k\dot{y} + \varepsilon y^3 = 0$ with $y(0) = a$, $\dot{y}(0) = 0$, and $\varepsilon, k \ll 1$.
+
+\vspace{0.2cm}
+\textbf{Standard form:} $\ddot{y} + \omega^2 y = \varepsilon f$ with $\omega = 1$ and $\varepsilon f = -k\dot{y} - \varepsilon y^3$.
+
+\vspace{0.2cm}
+\textbf{Averaging ansatz:} $y = R\cos\mu$, $\dot{y} = -R\sin\mu$, $\mu = t + \Phi(t)$.
+
+\vspace{0.2cm}
+\textbf{Averaged equations:}
+\begin{align*}
+\dot{R} &= -\frac{k}{2}R\\
+\dot{\Phi} &= \frac{3\varepsilon R^2}{8}
+\end{align*}
+
+\textbf{Initial conditions:} $R(0) = a$, $\Phi(0) = 0$.
+
+\vspace{0.2cm}
+\textbf{Solutions for slow variables:}
+\begin{align*}
+R(t) &= ae^{-kt/2}\\
+\Phi(t) &= \frac{3\varepsilon a^2}{8k}(1 - e^{-kt})
+\end{align*}
+
+\vspace{0.2cm}
+\textbf{Approximate solution:}
+\[
+\boxed{y(t) \approx ae^{-kt/2}\cos\left[t + \frac{3\varepsilon a^2}{8k}\left(1 - e^{-kt}\right)\right]}
+\]
+
+\vspace{0.2cm}
+\textbf{Physical interpretation:}
+\begin{itemize}
+\item Exponential amplitude decay with rate $k/2$
+\item Frequency remains approximately $\omega = 1$
+\item Cumulative phase shift due to nonlinearity, bounded by $\frac{3\varepsilon a^2}{8k}$
+\end{itemize}
+\end{minipage}}
+\end{center}
+
+\subsection*{Connection to Lecture Notes}
+
+\begin{reflection}
+This problem demonstrates the averaging method from Lecture Notes \S7.2, equations (462)--(464). The key steps are:
+
+\begin{enumerate}
+\item \textbf{Transform to amplitude-phase variables:} Express $y = R\cos\mu$ and $\dot{y} = -\omega R\sin\mu$ (equations (456)--(457)).
+
+\item \textbf{Derive evolution equations:} The exact equations (460)--(461) become approximate averaged equations (462)--(463).
+
+\item \textbf{Compute averages:} Use trigonometric identities and the key property $\langle \cos(n\mu) \rangle = \langle \sin(n\mu) \rangle = 0$ for $n \neq 0$ (equation (465)).
+
+\item \textbf{Solve the slow dynamics:} The averaged equations are simpler ODEs that capture the slow modulation.
+\end{enumerate}
+
+The averaging method gives identical results to the multiple scales method (as noted after equation (464)), but through a more physically intuitive averaging process rather than explicit introduction of multiple time scales.
+
+This problem combines two perturbative effects:
+\begin{itemize}
+\item \textbf{Damping} ($k\dot{y}$): Contributes only to $\dot{R}$ (amplitude decay), not to $\dot{\Phi}$.
+\item \textbf{Cubic nonlinearity} ($\varepsilon y^3$): Contributes only to $\dot{\Phi}$ (phase shift), not to $\dot{R}$.
+\end{itemize}
+This separation is a special feature of this particular combination of perturbations.
+\end{reflection}
+
+\end{document}

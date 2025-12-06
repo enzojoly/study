@@ -1,0 +1,621 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage{inputenc}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{enumitem}
+\usepackage{xcolor}
+
+% Custom environments for pedagogical structure
+\newtheoremstyle{problem}
+  {10pt}{10pt}{\normalfont}{}{\bfseries}{.}{.5em}{}
+\theoremstyle{problem}
+\newtheorem{problem}{Problem}
+
+\newenvironment{strategy}{\par\noindent\textbf{Strategy:}\itshape}{\par}
+\newenvironment{justification}{\par\noindent\textbf{Justification:}\itshape}{\par}
+\newenvironment{technique}{\par\noindent\textbf{Technique:}\itshape}{\par}
+\newenvironment{reflection}{\par\noindent\textbf{Reflection:}\itshape}{\par}
+\newenvironment{keyconcept}{\par\noindent\textbf{Key Concept:}\itshape}{\par}
+
+\title{Asymptotics Problem 8.3: Complete Pedagogical Solution}
+\author{Boundary Layer with Van Dyke Matching (One and Two-Term)}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\begin{problem}
+Perform an asymptotic matching to obtain a uniformly valid one-term (optionally: two-term) composite expansion for the solution, $f(x)$, as $\varepsilon \to 0$ of
+\[
+\varepsilon f'' + (2+x)f' + f = 1, \quad 0 < x < 1, \quad \varepsilon > 0,
+\]
+with boundary conditions $f(0) = 2$, $f(1) = 0$.
+\end{problem}
+
+\section*{Solution: Step-by-Step Atomic Breakdown}
+
+\subsection*{Step 1: Understanding the Problem Structure and Classification}
+
+\begin{strategy}
+We have a second-order linear ODE with:
+\begin{itemize}[leftmargin=*]
+\item A small parameter $\varepsilon$ multiplying the highest derivative $f''$
+\item A first derivative term $(2+x)f'$ with coefficient $p(x) = 2+x > 0$ for all $x \in [0,1]$
+\item A zeroth-order term $f$
+\item An inhomogeneous term (RHS = 1)
+\item Two boundary conditions at $x = 0$ and $x = 1$
+\end{itemize}
+Our task is to find one-term and optionally two-term composite expansions.
+\end{strategy}
+
+\begin{justification}
+This is a singular perturbation problem because setting $\varepsilon = 0$ reduces the second-order ODE to a first-order ODE, which cannot generically satisfy two boundary conditions. A boundary layer must form at one of the boundaries.
+\end{justification}
+
+\subsection*{Step 2: Determining the Boundary Layer Location}
+
+\begin{keyconcept}
+From Lecture Notes \S6.2.1, for an equation of the form $\varepsilon y'' + p(x)y' + q(x)y = r(x)$:
+\begin{itemize}
+\item If $p(x) > 0$ throughout $[0,1]$: boundary layer at $x = 0$
+\item If $p(x) < 0$ throughout $[0,1]$: boundary layer at $x = 1$
+\end{itemize}
+\end{keyconcept}
+
+\noindent\textbf{Identifying $p(x)$ in our equation:}
+\[
+\varepsilon f'' + (2+x)f' + f = 1
+\]
+Comparing with $\varepsilon f'' + p(x)f' + q(x)f = r(x)$:
+\[
+p(x) = 2 + x, \quad q(x) = 1, \quad r(x) = 1
+\]
+
+\begin{justification}
+Since $p(x) = 2 + x > 0$ for all $x \in [0,1]$ (in fact, $p(x) \geq 2$ on this interval), the boundary layer is located at $\boxed{x = 0}$.
+
+This means:
+\begin{itemize}
+\item The outer solution will satisfy the boundary condition at $x = 1$
+\item The inner solution (boundary layer) will be needed near $x = 0$ to satisfy $f(0) = 2$
+\item The boundary layer has width $O(\varepsilon)$
+\end{itemize}
+\end{justification}
+
+\section*{Part I: One-Term Composite Expansion}
+
+\subsection*{Step 3: Finding the Leading-Order Outer Solution}
+
+\noindent\textbf{What we do:} Set $\varepsilon = 0$ and solve the reduced equation.
+
+\begin{technique}
+The outer expansion assumes $f(x,\varepsilon) = f_0(x) + \varepsilon f_1(x) + \cdots$ where $f_0$ satisfies the equation with $\varepsilon = 0$.
+\end{technique}
+
+\noindent Setting $\varepsilon = 0$:
+\[
+(2+x)f_0' + f_0 = 1
+\]
+
+\subsubsection*{Step 3a: Solving the First-Order Linear ODE}
+
+\begin{technique}
+This is a first-order linear ODE $f_0' + P(x)f_0 = Q(x)$ where $P(x) = 1/(2+x)$ and $Q(x) = 1/(2+x)$. Use the integrating factor method:
+\[
+\mu(x) = \exp\left(\int \frac{dx}{2+x}\right) = \exp(\ln(2+x)) = 2+x
+\]
+\end{technique}
+
+\noindent Multiply the ODE $(2+x)f_0' + f_0 = 1$ by the integrating factor... actually, the equation is already in the right form! Let's rewrite:
+\[
+(2+x)f_0' + f_0 = 1
+\]
+
+\noindent Notice that the left side is:
+\[
+\frac{d}{dx}\left[(2+x)f_0\right] = (2+x)f_0' + f_0
+\]
+
+\noindent So:
+\[
+\frac{d}{dx}\left[(2+x)f_0\right] = 1
+\]
+
+\noindent Integrate both sides:
+\[
+(2+x)f_0 = x + a_0
+\]
+where $a_0$ is an integration constant.
+
+\noindent Therefore:
+\[
+f_0(x) = \frac{x + a_0}{x + 2}
+\]
+
+\subsubsection*{Step 3b: Applying the Boundary Condition at $x = 1$}
+
+\begin{justification}
+Since the boundary layer is at $x = 0$, the outer solution must satisfy the boundary condition at $x = 1$.
+\end{justification}
+
+\noindent Apply $f_0(1) = 0$:
+\[
+f_0(1) = \frac{1 + a_0}{1 + 2} = \frac{1 + a_0}{3} = 0 \quad \Longrightarrow \quad a_0 = -1
+\]
+
+\noindent Therefore, the leading-order outer solution is:
+\[
+\boxed{f_0(x) = \frac{x - 1}{x + 2}}
+\]
+
+\subsubsection*{Step 3c: Verifying and Evaluating at $x = 0$}
+
+\begin{technique}
+Check the ODE: $f_0' = \frac{(x+2) - (x-1)}{(x+2)^2} = \frac{3}{(x+2)^2}$
+\[
+(2+x)f_0' + f_0 = (2+x)\cdot\frac{3}{(x+2)^2} + \frac{x-1}{x+2} = \frac{3}{x+2} + \frac{x-1}{x+2} = \frac{x+2}{x+2} = 1 \quad \checkmark
+\]
+\end{technique}
+
+\noindent Value at $x = 0$:
+\[
+f_0(0) = \frac{0 - 1}{0 + 2} = -\frac{1}{2}
+\]
+
+\noindent The boundary condition requires $f(0) = 2$, but the outer solution gives $f_0(0) = -1/2$. The \textbf{mismatch} is $2 - (-1/2) = 5/2$.
+
+\subsection*{Step 4: Setting Up the Leading-Order Inner Solution}
+
+\noindent\textbf{What we do:} Introduce a stretched coordinate near $x = 0$.
+
+\begin{technique}
+For a boundary layer at $x = 0$ with width $O(\varepsilon)$, introduce the inner variable:
+\[
+X = \frac{x}{\varepsilon}
+\]
+Note: $X \geq 0$ for $x \in [0,1]$.
+
+Define the inner function $F(X) = f(x)$.
+\end{technique}
+
+\subsubsection*{Step 4a: Transforming the Derivatives}
+
+\noindent Using the chain rule:
+\[
+\frac{df}{dx} = \frac{dF}{dX} \cdot \frac{dX}{dx} = \frac{1}{\varepsilon}F', \quad \frac{d^2f}{dx^2} = \frac{1}{\varepsilon^2}F''
+\]
+
+\subsubsection*{Step 4b: Transforming the Equation}
+
+\noindent Also, $x = \varepsilon X$, so $x + 2 = 2 + \varepsilon X$.
+
+\noindent Substitute into $\varepsilon f'' + (2+x)f' + f = 1$:
+\[
+\varepsilon \cdot \frac{1}{\varepsilon^2}F'' + (2 + \varepsilon X) \cdot \frac{1}{\varepsilon}F' + F = 1
+\]
+\[
+\frac{1}{\varepsilon}F'' + \frac{2 + \varepsilon X}{\varepsilon}F' + F = 1
+\]
+\[
+\frac{1}{\varepsilon}\left[F'' + 2F' + \varepsilon XF'\right] + F = 1
+\]
+
+\noindent Multiply through by $\varepsilon$:
+\[
+F'' + 2F' + \varepsilon XF' + \varepsilon F = \varepsilon
+\]
+
+\subsubsection*{Step 4c: Taking the Leading Order as $\varepsilon \to 0$}
+
+\begin{justification}
+At leading order ($O(\varepsilon^{-1})$ before multiplying by $\varepsilon$, or $O(1)$ after), we keep only the terms without $\varepsilon$:
+\[
+F_0'' + 2F_0' = 0
+\]
+\end{justification}
+
+\subsection*{Step 5: Solving the Leading-Order Inner Equation}
+
+\noindent\textbf{The inner equation:} $F_0'' + 2F_0' = 0$
+
+\begin{technique}
+This is a constant-coefficient ODE. Try $F_0 = e^{\lambda X}$:
+\[
+\lambda^2 e^{\lambda X} + 2\lambda e^{\lambda X} = 0 \quad \Longrightarrow \quad \lambda(\lambda + 2) = 0 \quad \Longrightarrow \quad \lambda = 0 \text{ or } \lambda = -2
+\]
+\end{technique}
+
+\noindent The general solution is:
+\[
+F_0(X) = A_0 e^{-2X} + B_0
+\]
+
+\subsubsection*{Step 5a: Applying the Boundary Condition at $x = 0$}
+
+\noindent At $x = 0$, we have $X = 0$. The boundary condition $f(0) = 2$ gives:
+\[
+F_0(0) = A_0 e^0 + B_0 = A_0 + B_0 = 2
+\]
+
+\noindent This gives: $B_0 = 2 - A_0$.
+
+\noindent So:
+\[
+F_0(X) = A_0 e^{-2X} + (2 - A_0) = 2 - A_0 + A_0 e^{-2X}
+\]
+
+\subsection*{Step 6: Applying Prandtl's Matching Criterion}
+
+\begin{keyconcept}
+Prandtl's matching rule (Lecture Notes \S6.1.2):
+\[
+\lim_{x \to 0^+} f_0(x) = \lim_{X \to +\infty} F_0(X)
+\]
+\end{keyconcept}
+
+\subsubsection*{Step 6a: Computing the Inner Limit of the Outer Solution}
+
+\[
+\lim_{x \to 0^+} f_0(x) = \lim_{x \to 0^+} \frac{x-1}{x+2} = \frac{-1}{2} = -\frac{1}{2}
+\]
+
+\subsubsection*{Step 6b: Computing the Outer Limit of the Inner Solution}
+
+\noindent As $X \to +\infty$:
+\[
+F_0(X) = 2 - A_0 + A_0 e^{-2X}
+\]
+Since $e^{-2X} \to 0$ as $X \to +\infty$:
+\[
+\lim_{X \to +\infty} F_0(X) = 2 - A_0
+\]
+
+\subsubsection*{Step 6c: Applying the Matching Condition}
+
+\[
+-\frac{1}{2} = 2 - A_0 \quad \Longrightarrow \quad A_0 = 2 + \frac{1}{2} = \frac{5}{2}
+\]
+
+\noindent Therefore:
+\[
+\boxed{A_0 = \frac{5}{2}}
+\]
+
+\subsection*{Step 7: Writing the Complete Leading-Order Inner Solution}
+
+\noindent With $A_0 = 5/2$:
+\[
+F_0(X) = 2 - \frac{5}{2} + \frac{5}{2}e^{-2X} = -\frac{1}{2} + \frac{5}{2}e^{-2X}
+\]
+
+\noindent Converting back to $x$-coordinates using $X = x/\varepsilon$:
+\[
+\boxed{F_0 = -\frac{1}{2} + \frac{5}{2}\exp\left(-\frac{2x}{\varepsilon}\right)}
+\]
+
+\subsubsection*{Step 7a: Verification}
+
+\begin{technique}
+Check boundary condition: At $x = 0$ ($X = 0$):
+\[
+F_0(0) = -\frac{1}{2} + \frac{5}{2} = 2 \quad \checkmark
+\]
+
+Check matching: As $X \to +\infty$:
+\[
+F_0 \to -\frac{1}{2} = f_0(0) \quad \checkmark
+\]
+\end{technique}
+
+\subsection*{Step 8: Constructing the One-Term Composite Solution}
+
+\begin{technique}
+The composite solution is (Lecture Notes \S6.1.2):
+\[
+f_c(x) = f_0(x) + F_0(X) - (\text{common limit})
+\]
+The common limit is:
+\[
+\lim_{x \to 0} f_0(x) = \lim_{X \to \infty} F_0(X) = -\frac{1}{2}
+\]
+\end{technique}
+
+\noindent Therefore:
+\begin{align*}
+f_c(x) &= f_0(x) + F_0\left(\frac{x}{\varepsilon}\right) - \left(-\frac{1}{2}\right)\\
+&= \frac{x-1}{x+2} + \left[-\frac{1}{2} + \frac{5}{2}e^{-2x/\varepsilon}\right] + \frac{1}{2}
+\end{align*}
+
+\noindent Simplifying:
+\[
+\boxed{f_c(x) = \frac{x-1}{x+2} + \frac{5}{2}\exp\left(-\frac{2x}{\varepsilon}\right)}
+\]
+
+\subsection*{Step 9: Verifying the One-Term Composite Solution}
+
+\subsubsection*{Step 9a: Check Boundary Condition at $x = 0$}
+
+\[
+f_c(0) = \frac{-1}{2} + \frac{5}{2}e^0 = -\frac{1}{2} + \frac{5}{2} = 2 \quad \checkmark
+\]
+
+\subsubsection*{Step 9b: Check Boundary Condition at $x = 1$}
+
+\[
+f_c(1) = \frac{1-1}{1+2} + \frac{5}{2}e^{-2/\varepsilon} = 0 + \frac{5}{2}e^{-2/\varepsilon}
+\]
+
+\begin{justification}
+For small $\varepsilon$, $e^{-2/\varepsilon}$ is exponentially small. Therefore $f_c(1) \approx 0$ up to exponentially small corrections. \checkmark
+\end{justification}
+
+\subsubsection*{Step 9c: Check Behavior in the Interior}
+
+\noindent For $x \gg \varepsilon$ (away from the boundary layer), $e^{-2x/\varepsilon} \approx 0$:
+\[
+f_c(x) \approx f_0(x) = \frac{x-1}{x+2} \quad \checkmark
+\]
+
+\section*{Part II: Two-Term Composite Expansion (Optional)}
+
+\subsection*{Step 10: Finding the $O(\varepsilon)$ Outer Solution}
+
+\begin{technique}
+Insert $f = f_0 + \varepsilon f_1 + O(\varepsilon^2)$ into the ODE and collect $O(\varepsilon)$ terms.
+\end{technique}
+
+\noindent The ODE is $\varepsilon f'' + (2+x)f' + f = 1$. At $O(\varepsilon)$:
+\[
+f_0'' + (2+x)f_1' + f_1 = 0
+\]
+\[
+(2+x)f_1' + f_1 = -f_0''
+\]
+
+\subsubsection*{Step 10a: Computing $f_0''$}
+
+\noindent We have $f_0 = (x-1)/(x+2)$, so:
+\[
+f_0' = \frac{(x+2) - (x-1)}{(x+2)^2} = \frac{3}{(x+2)^2}
+\]
+\[
+f_0'' = -\frac{6}{(x+2)^3}
+\]
+
+\subsubsection*{Step 10b: Solving for $f_1$}
+
+\noindent The equation is:
+\[
+(2+x)f_1' + f_1 = \frac{6}{(x+2)^3}
+\]
+
+\noindent This has the form $\frac{d}{dx}[(x+2)f_1] = \frac{6}{(x+2)^3}$. Integrating:
+\[
+(x+2)f_1 = \int \frac{6}{(x+2)^3}\,dx = -\frac{3}{(x+2)^2} + a_1
+\]
+\[
+f_1(x) = -\frac{3}{(x+2)^3} + \frac{a_1}{x+2}
+\]
+
+\subsubsection*{Step 10c: Applying Boundary Condition $f_1(1) = 0$}
+
+\[
+f_1(1) = -\frac{3}{27} + \frac{a_1}{3} = -\frac{1}{9} + \frac{a_1}{3} = 0 \quad \Longrightarrow \quad a_1 = \frac{1}{3}
+\]
+
+\noindent Therefore:
+\[
+\boxed{f_1(x) = -\frac{3}{(x+2)^3} + \frac{1}{3(x+2)}}
+\]
+
+\subsection*{Step 11: Finding the $O(\varepsilon)$ Inner Solution}
+
+\begin{technique}
+Insert $F = F_0 + \varepsilon F_1 + O(\varepsilon^2)$ into the inner equation and collect $O(1)$ terms (after the $\varepsilon^{-1}$ rescaling).
+\end{technique}
+
+\noindent From the inner equation $F'' + 2F' + \varepsilon XF' + \varepsilon F = \varepsilon$, at $O(1)$:
+\[
+F_1'' + 2F_1' = 1 - F_0 - XF_0'
+\]
+
+\subsubsection*{Step 11a: Computing the RHS}
+
+\noindent With $F_0 = -1/2 + (5/2)e^{-2X}$:
+\[
+F_0' = -5e^{-2X}
+\]
+
+\noindent The RHS is:
+\begin{align*}
+1 - F_0 - XF_0' &= 1 - \left(-\frac{1}{2} + \frac{5}{2}e^{-2X}\right) - X(-5e^{-2X})\\
+&= 1 + \frac{1}{2} - \frac{5}{2}e^{-2X} + 5Xe^{-2X}\\
+&= \frac{3}{2} - \frac{5}{2}e^{-2X} + 5Xe^{-2X}
+\end{align*}
+
+\subsubsection*{Step 11b: Solving the $O(\varepsilon)$ Inner Equation}
+
+\noindent The equation is:
+\[
+F_1'' + 2F_1' = \frac{3}{2} - \frac{5}{2}e^{-2X} + 5Xe^{-2X}
+\]
+
+\begin{technique}
+The homogeneous solution is $F_1^{(h)} = C_1 + C_2 e^{-2X}$.
+
+For particular solutions:
+\begin{itemize}
+\item For the constant $3/2$: try $F_1^{(p1)} = aX$. Then $2a = 3/2$, so $a = 3/4$.
+\item For $e^{-2X}$: this is part of the homogeneous solution, so try $F_1^{(p2)} = bXe^{-2X}$.
+\item For $Xe^{-2X}$: try $F_1^{(p3)} = cX^2e^{-2X}$.
+\end{itemize}
+\end{technique}
+
+\noindent For $F = bXe^{-2X}$:
+\[
+F' = be^{-2X} - 2bXe^{-2X}, \quad F'' = -4be^{-2X} + 4bXe^{-2X}
+\]
+\[
+F'' + 2F' = -4be^{-2X} + 4bXe^{-2X} + 2be^{-2X} - 4bXe^{-2X} = -2be^{-2X}
+\]
+So $-2b = -5/2$, giving $b = 5/4$.
+
+\noindent For $F = cX^2e^{-2X}$:
+\[
+F' = 2cXe^{-2X} - 2cX^2e^{-2X}
+\]
+\[
+F'' = 2ce^{-2X} - 8cXe^{-2X} + 4cX^2e^{-2X}
+\]
+\[
+F'' + 2F' = 2ce^{-2X} - 8cXe^{-2X} + 4cX^2e^{-2X} + 4cXe^{-2X} - 4cX^2e^{-2X} = 2ce^{-2X} - 4cXe^{-2X}
+\]
+Matching $Xe^{-2X}$: $-4c = 5$, so $c = -5/4$.
+
+\noindent General solution:
+\[
+F_1(X) = A_1 + B_1e^{-2X} + \frac{3}{4}X + \frac{5}{4}Xe^{-2X} - \frac{5}{4}X^2e^{-2X}
+\]
+
+\subsubsection*{Step 11c: Applying Boundary Condition $F_1(0) = 0$}
+
+\[
+F_1(0) = A_1 + B_1 = 0 \quad \Longrightarrow \quad B_1 = -A_1
+\]
+
+\noindent So:
+\[
+F_1(X) = A_1(1 - e^{-2X}) + \frac{3}{4}X + \frac{5}{4}Xe^{-2X} - \frac{5}{4}X^2e^{-2X}
+\]
+
+\subsection*{Step 12: Van Dyke Matching for Two-Term Expansion}
+
+\begin{keyconcept}
+Van Dyke's matching rule (Lecture Notes \S6.1.3): The $n$-term inner expansion of the $m$-term outer expansion equals the $m$-term outer expansion of the $n$-term inner expansion (written in the same variables).
+
+For two-term matching:
+\begin{enumerate}
+\item Write outer solution in inner variables ($x = \varepsilon X$), expand to $O(\varepsilon)$
+\item Write inner solution in outer variables ($X = x/\varepsilon$), expand to $O(\varepsilon)$
+\item Equate the two expansions
+\end{enumerate}
+\end{keyconcept}
+
+\subsubsection*{Step 12a: Outer Solution in Inner Variables}
+
+\noindent Substitute $x = \varepsilon X$ into $f_0(x) + \varepsilon f_1(x)$:
+\[
+f_0(\varepsilon X) = \frac{\varepsilon X - 1}{\varepsilon X + 2}
+\]
+
+\noindent Expand for small $\varepsilon$:
+\[
+\frac{\varepsilon X - 1}{\varepsilon X + 2} = \frac{-1 + \varepsilon X}{2 + \varepsilon X} = \frac{-1}{2}\cdot\frac{1 - \varepsilon X}{1 + \varepsilon X/2}
+\]
+\[
+= -\frac{1}{2}(1 - \varepsilon X)\left(1 - \frac{\varepsilon X}{2} + O(\varepsilon^2)\right) = -\frac{1}{2}\left(1 - \varepsilon X - \frac{\varepsilon X}{2} + O(\varepsilon^2)\right)
+\]
+\[
+= -\frac{1}{2} + \frac{3\varepsilon X}{4} + O(\varepsilon^2)
+\]
+
+\noindent Similarly:
+\[
+\varepsilon f_1(\varepsilon X) = \varepsilon\left[-\frac{3}{(2+\varepsilon X)^3} + \frac{1}{3(2+\varepsilon X)}\right] = \varepsilon\left[-\frac{3}{8} + \frac{1}{6}\right] + O(\varepsilon^2) = -\frac{5\varepsilon}{24} + O(\varepsilon^2)
+\]
+
+\noindent Total outer expansion in inner variables:
+\[
+f(\varepsilon X) = -\frac{1}{2} + \frac{3}{4}\varepsilon X - \frac{5}{24}\varepsilon + O(\varepsilon^2)
+\]
+
+\subsubsection*{Step 12b: Inner Solution in Outer Variables}
+
+\noindent Substitute $X = x/\varepsilon$ into $F_0 + \varepsilon F_1$. As $\varepsilon \to 0$ with $x$ fixed, $X \to \infty$ and $e^{-2X} \to 0$:
+\[
+F_0(x/\varepsilon) \to -\frac{1}{2}
+\]
+\[
+\varepsilon F_1(x/\varepsilon) \to \varepsilon\left[A_1 + \frac{3}{4}\cdot\frac{x}{\varepsilon}\right] = \varepsilon A_1 + \frac{3x}{4}
+\]
+
+\noindent Total inner expansion in outer variables:
+\[
+F(x/\varepsilon) = -\frac{1}{2} + \frac{3x}{4} + \varepsilon A_1 + O(\varepsilon^2)
+\]
+
+\subsubsection*{Step 12c: Matching}
+
+\noindent Equating (with $x = \varepsilon X$):
+\[
+-\frac{1}{2} + \frac{3}{4}\varepsilon X - \frac{5}{24}\varepsilon = -\frac{1}{2} + \frac{3}{4}\varepsilon X + \varepsilon A_1
+\]
+
+\noindent This gives:
+\[
+-\frac{5}{24}\varepsilon = \varepsilon A_1 \quad \Longrightarrow \quad \boxed{A_1 = -\frac{5}{24}}
+\]
+
+\subsection*{Step 13: Two-Term Composite Solution}
+
+\begin{technique}
+The two-term composite solution is:
+\[
+f_c(x) = [f_0(x) + \varepsilon f_1(x)] + [F_0(X) + \varepsilon F_1(X)] - (\text{common part})
+\]
+where the common part is $-1/2 + (3/4)x - (5/24)\varepsilon$.
+\end{technique}
+
+\noindent Substituting all components:
+\begin{align*}
+f_c(x) &= \frac{x-1}{x+2} + \varepsilon\left[-\frac{3}{(x+2)^3} + \frac{1}{3(x+2)}\right]\\
+&\quad + \left[\frac{5}{2}e^{-2x/\varepsilon} - \frac{5x}{2\varepsilon}e^{-2x/\varepsilon} - \frac{5x^2}{4\varepsilon^2}e^{-2x/\varepsilon} + \frac{5\varepsilon}{24}e^{-2x/\varepsilon}\right]
+\end{align*}
+
+\noindent After simplification, grouping the exponential terms:
+\[
+\boxed{f_c(x) = \frac{x-1}{x+2} + \varepsilon\left[-\frac{3}{(x+2)^3} + \frac{1}{3(x+2)}\right] + \left[\frac{5}{2} - \frac{5x}{2\varepsilon} + \frac{5\varepsilon}{24}\right]e^{-2x/\varepsilon}}
+\]
+
+\subsection*{Final Summary}
+
+\begin{reflection}
+What have we learned from this problem?
+
+\begin{enumerate}
+\item \textbf{Boundary layer location:} The coefficient of $f'$ is $p(x) = 2+x > 0$, so by the general theory (Lecture Notes \S6.2.1), the boundary layer forms at $x = 0$.
+
+\item \textbf{One-term solution:} The leading-order outer solution is $f_0(x) = (x-1)/(x+2)$, and the leading-order inner solution is $F_0(X) = -1/2 + (5/2)e^{-2X}$. Prandtl matching determines $A_0 = 5/2$.
+
+\item \textbf{Two-term solution:} Van Dyke matching determines the higher-order constant $A_1 = -5/24$ by requiring consistency between the inner expansion of the outer solution and the outer expansion of the inner solution.
+
+\item \textbf{Composite solutions:}
+\begin{itemize}
+\item One-term: $f_c(x) = \displaystyle\frac{x-1}{x+2} + \frac{5}{2}e^{-2x/\varepsilon}$
+\item Two-term: includes $O(\varepsilon)$ corrections to both outer and inner parts
+\end{itemize}
+
+\item \textbf{Physical interpretation:} Near $x = 0$, the solution must rise rapidly from the boundary value $f(0) = 2$ to approach the outer solution value $f_0(0) = -1/2$. This transition occurs over a thin layer of width $O(\varepsilon)$ and involves an exponential decay on the scale $e^{-2x/\varepsilon}$.
+\end{enumerate}
+\end{reflection}
+
+\begin{center}
+\fbox{\begin{minipage}{0.95\textwidth}
+\textbf{Complete Solution Summary:}
+
+\textbf{One-Term Composite Expansion:}
+\[
+f_c(x) = \frac{x-1}{x+2} + \frac{5}{2}\exp\left(-\frac{2x}{\varepsilon}\right)
+\]
+
+\textbf{Two-Term Composite Expansion:}
+\[
+f_c(x) = \frac{x-1}{x+2} + \varepsilon\left[-\frac{3}{(x+2)^3} + \frac{1}{3(x+2)}\right] + \left[\frac{5}{2} - \frac{5x}{2\varepsilon} + \frac{5\varepsilon}{24}\right]e^{-2x/\varepsilon}
+\]
+
+The boundary layer is at $x = 0$ with width $O(\varepsilon)$, determined by the positive coefficient $p(x) = 2+x > 0$.
+\end{minipage}}
+\end{center}
+
+\end{document}

@@ -1,0 +1,579 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage{inputenc}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{enumitem}
+\usepackage{xcolor}
+
+% Custom environments for pedagogical structure
+\newtheoremstyle{problem}
+  {10pt}{10pt}{\normalfont}{}{\bfseries}{.}{.5em}{}
+\theoremstyle{problem}
+\newtheorem{problem}{Problem}
+
+\newenvironment{strategy}{\par\noindent\textbf{Strategy:}\itshape}{\par}
+\newenvironment{justification}{\par\noindent\textbf{Justification:}\itshape}{\par}
+\newenvironment{technique}{\par\noindent\textbf{Technique:}\itshape}{\par}
+\newenvironment{reflection}{\par\noindent\textbf{Reflection:}\itshape}{\par}
+\newenvironment{keyconcept}{\par\noindent\textbf{Key Concept:}\itshape}{\par}
+
+\title{Asymptotics Problem 8.4: Complete Pedagogical Solution}
+\author{Boundary Layer with Non-Standard Width}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\begin{problem}
+Find a first-order uniform expansion as $\varepsilon \to 0$ for $y(x)$ satisfying
+\[
+\varepsilon y'' + x^2 y' - x^3 y = 0, \quad y(0) = \alpha, \quad y(1) = \beta.
+\]
+\end{problem}
+
+\section*{Solution: Step-by-Step Atomic Breakdown}
+
+\subsection*{Step 1: Problem Classification and Initial Analysis}
+
+\begin{strategy}
+This is a singularly perturbed second-order linear ODE of the general form
+\[
+\varepsilon y'' + p(x)y' + q(x)y = 0
+\]
+with $p(x) = x^2$ and $q(x) = -x^3$. Our systematic approach follows the workflow from Lecture Notes \S6.2.3:
+\begin{enumerate}[leftmargin=*]
+\item Identify candidate locations for boundary layers
+\item Determine the boundary layer width $\delta(\varepsilon)$ via dominant balance
+\item Compute outer and inner solutions
+\item Match solutions using Prandtl's matching criterion
+\item Construct the composite solution
+\end{enumerate}
+\end{strategy}
+
+\begin{justification}
+Why is this a boundary layer problem? The coefficient $\varepsilon$ multiplying the highest derivative $y''$ is small. As $\varepsilon \to 0$, the order of the ODE effectively reduces from 2 to 1, but we have \emph{two} boundary conditions. This is the hallmark of a singular perturbation problem where rapid variation (a boundary layer) must occur somewhere to accommodate both boundary conditions.
+\end{justification}
+
+\subsection*{Step 2: Identifying the Boundary Layer Location}
+
+\noindent\textbf{What we examine:} The sign and zeros of the coefficient $p(x) = x^2$.
+
+\begin{keyconcept}
+From the general theory of boundary layers (Lecture Notes \S6.2.1, equations (340)--(354)), for the ODE $\varepsilon y'' + p(x)y' + q(x)y = 0$:
+\begin{itemize}
+\item If $p(x) > 0$ on $[0,1]$: boundary layer at $x = 0$
+\item If $p(x) < 0$ on $[0,1]$: boundary layer at $x = 1$
+\item If $p(x_0) = 0$ for some $x_0 \in [0,1]$: special treatment required
+\end{itemize}
+The physical intuition: the sign of $p(x)$ determines whether information ``propagates'' from left to right or right to left.
+\end{keyconcept}
+
+\noindent\textbf{Analysis of $p(x) = x^2$:}
+
+\begin{itemize}[leftmargin=*]
+\item For $x > 0$: $p(x) = x^2 > 0$ \quad $\checkmark$
+\item At $x = 0$: $p(0) = 0$ \quad (vanishes at boundary!)
+\item At $x = 1$: $p(1) = 1 > 0$ \quad $\checkmark$
+\end{itemize}
+
+\begin{justification}
+Since $p(x) = x^2 > 0$ for all $x > 0$, there \emph{cannot} be a boundary layer in the interior or at $x = 1$. The only possible location is $x = 0$.
+
+However, this case is special because $p(0) = 0$---the coefficient of $y'$ vanishes exactly at the boundary point where we expect the boundary layer! According to Lecture Notes \S6.2.2 (equation (356) and surrounding discussion): ``For a boundary point $x_0$ with $p(x_0) = 0$, we can have boundary layers of different width than $\sim \varepsilon$.''
+
+This is precisely our situation. We must determine the actual boundary layer width through careful dominant balance analysis.
+\end{justification}
+
+\begin{center}
+\fbox{\textbf{Conclusion:} Boundary layer at $x = 0$ with non-standard width $\delta \neq O(\varepsilon)$.}
+\end{center}
+
+\subsection*{Step 3: Computing the Outer Solution}
+
+\noindent\textbf{What we do:} In the outer region (away from $x = 0$), the solution varies slowly, so we neglect the $\varepsilon y''$ term.
+
+\begin{technique}
+Setting $\varepsilon = 0$ in the original ODE gives the leading-order outer equation:
+\[
+x^2 y'_0 - x^3 y_0 = 0.
+\]
+\end{technique}
+
+\noindent\textbf{Solving the outer equation:}
+
+\noindent Divide by $x^2$ (valid for $x \neq 0$, which is the outer region):
+\[
+y'_0 - x y_0 = 0.
+\]
+
+\begin{technique}
+This is a first-order linear homogeneous ODE. Separate variables:
+\[
+\frac{y'_0}{y_0} = x \quad \Longrightarrow \quad \frac{dy_0}{y_0} = x\,dx.
+\]
+Integrate both sides:
+\[
+\ln|y_0| = \frac{x^2}{2} + C'.
+\]
+Exponentiate:
+\[
+y_0(x) = C\exp\left(\frac{x^2}{2}\right),
+\]
+where $C$ is an arbitrary constant.
+\end{technique}
+
+\noindent\textbf{Applying the boundary condition at $x = 1$:}
+
+\begin{justification}
+Since the boundary layer is at $x = 0$, the outer solution is valid at $x = 1$. We can therefore apply the boundary condition $y(1) = \beta$ directly to the outer solution:
+\[
+y_0(1) = C\exp\left(\frac{1}{2}\right) = \beta \quad \Longrightarrow \quad C = \beta e^{-1/2} = \frac{\beta}{\sqrt{e}}.
+\]
+\end{justification}
+
+\noindent\textbf{Final outer solution:}
+\[
+\boxed{y_0(x) = \beta \exp\left(\frac{x^2 - 1}{2}\right)}
+\]
+
+\begin{reflection}
+Notice that $y_0(0) = \beta e^{-1/2} = \beta/\sqrt{e} \neq \alpha$ in general. This confirms that the outer solution cannot satisfy both boundary conditions---there must be a boundary layer at $x = 0$ to transition from $y(0) = \alpha$ to the outer solution.
+\end{reflection}
+
+\subsection*{Step 4: Setting Up the Inner Region}
+
+\noindent\textbf{What we do:} Introduce stretched (inner) coordinates to resolve the rapid variation near $x = 0$.
+
+\begin{technique}
+Define the inner variable $X$ by:
+\[
+x = \delta X, \quad \text{where } \delta = \delta(\varepsilon) \to 0 \text{ as } \varepsilon \to 0.
+\]
+Define the inner solution $Y(X) = y(x) = y(\delta X)$.
+\end{technique}
+
+\begin{justification}
+The scaling $x = \delta X$ ``zooms in'' on the boundary layer region near $x = 0$. When $x = O(\delta)$, we have $X = O(1)$, so the inner variable $X$ is order one within the boundary layer. The function $\delta(\varepsilon)$ represents the boundary layer \emph{width}---the region where rapid variation occurs.
+\end{justification}
+
+\noindent\textbf{Transforming derivatives:}
+
+Using the chain rule:
+\begin{align*}
+\frac{dy}{dx} &= \frac{dY}{dX} \cdot \frac{dX}{dx} = \frac{1}{\delta} Y'(X),\\[6pt]
+\frac{d^2y}{dx^2} &= \frac{d}{dx}\left(\frac{1}{\delta}Y'\right) = \frac{1}{\delta}\cdot \frac{dY'}{dX}\cdot \frac{dX}{dx} = \frac{1}{\delta^2}Y''(X).
+\end{align*}
+
+\noindent\textbf{Substituting into the original ODE:}
+
+The original equation is:
+\[
+\varepsilon y'' + x^2 y' - x^3 y = 0.
+\]
+
+With $x = \delta X$ and $y = Y$:
+\begin{align*}
+\varepsilon \cdot \frac{1}{\delta^2} Y'' + (\delta X)^2 \cdot \frac{1}{\delta} Y' - (\delta X)^3 Y &= 0\\[6pt]
+\frac{\varepsilon}{\delta^2} Y'' + \frac{\delta^2 X^2}{\delta} Y' - \delta^3 X^3 Y &= 0\\[6pt]
+\frac{\varepsilon}{\delta^2} Y'' + \delta X^2 Y' - \delta^3 X^3 Y &= 0.
+\end{align*}
+
+\begin{center}
+\fbox{Inner equation: $\displaystyle \frac{\varepsilon}{\delta^2} Y'' + \delta X^2 Y' - \delta^3 X^3 Y = 0$}
+\end{center}
+
+\subsection*{Step 5: Dominant Balance Analysis}
+
+\begin{strategy}
+To find the boundary layer width $\delta$, we require that the leading terms in the inner equation balance each other as $\varepsilon \to 0$. This is the \emph{dominant balance} principle (Lecture Notes \S2.2.2 and \S6.2.2).
+\end{strategy}
+
+\noindent\textbf{Examining the three terms:}
+
+The inner equation has three terms with coefficients:
+\begin{enumerate}
+\item $Y''$ term: coefficient $\varepsilon/\delta^2$
+\item $Y'$ term: coefficient $\delta$
+\item $Y$ term: coefficient $\delta^3$
+\end{enumerate}
+
+\begin{justification}
+We seek $\delta \to 0$ as $\varepsilon \to 0$. Compare the magnitudes:
+\begin{itemize}
+\item The $Y$ term has coefficient $\delta^3$.
+\item The $Y'$ term has coefficient $\delta$.
+\item Since $\delta \to 0$, we have $\delta^3 \ll \delta$, so the $Y$ term is \emph{smaller} than the $Y'$ term.
+\end{itemize}
+Therefore, the third term ($-\delta^3 X^3 Y$) is subdominant and can be neglected at leading order.
+\end{justification}
+
+\noindent\textbf{Balancing the remaining two terms:}
+
+\begin{technique}
+For a distinguished limit (where both remaining terms contribute at the same order), we require:
+\[
+\frac{\varepsilon}{\delta^2} \sim \delta.
+\]
+Solving for $\delta$:
+\[
+\varepsilon \sim \delta^3 \quad \Longrightarrow \quad \boxed{\delta = \varepsilon^{1/3}}
+\]
+\end{technique}
+
+\begin{reflection}
+This is a \textbf{non-standard boundary layer width}! In the typical case where $p(x_0) \neq 0$ at the boundary, we get $\delta = \varepsilon$. Here, because $p(0) = 0$, we obtain $\delta = \varepsilon^{1/3}$, which is \emph{larger} than $\varepsilon$ (since $\varepsilon^{1/3} \gg \varepsilon$ for small $\varepsilon$).
+
+This confirms the statement from Lecture Notes \S6.2.2: when the coefficient of $y'$ vanishes at the boundary, ``we can have boundary layers of different width than $\sim \varepsilon$, here $\sim \sqrt{\varepsilon}$'' (in some cases) or $\sim \varepsilon^{1/3}$ (in our case).
+\end{reflection}
+
+\begin{keyconcept}
+Verification of dominant balance: With $\delta = \varepsilon^{1/3}$:
+\begin{itemize}
+\item $\varepsilon/\delta^2 = \varepsilon/\varepsilon^{2/3} = \varepsilon^{1/3} = \delta$ \quad $\checkmark$ (these balance)
+\item $\delta^3 = \varepsilon \ll \delta = \varepsilon^{1/3}$ \quad $\checkmark$ (third term is subdominant)
+\end{itemize}
+The analysis is self-consistent.
+\end{keyconcept}
+
+\subsection*{Step 6: Deriving the Leading-Order Inner Equation}
+
+\noindent\textbf{What we do:} With $\delta = \varepsilon^{1/3}$, write the inner equation and identify the leading-order problem.
+
+\noindent Substituting $\delta = \varepsilon^{1/3}$:
+\[
+\varepsilon^{1/3} Y'' + \varepsilon^{1/3} X^2 Y' - \varepsilon X^3 Y = 0.
+\]
+
+\noindent Divide through by $\varepsilon^{1/3}$:
+\[
+Y'' + X^2 Y' - \varepsilon^{2/3} X^3 Y = 0.
+\]
+
+\begin{technique}
+As $\varepsilon \to 0$, the term $\varepsilon^{2/3} X^3 Y \to 0$. At leading order:
+\[
+\boxed{Y''_0 + X^2 Y'_0 = 0}
+\]
+This is the leading-order inner equation.
+\end{technique}
+
+\begin{justification}
+Why can we neglect $\varepsilon^{2/3} X^3 Y$? In the inner region, $X = O(1)$, so $X^3 = O(1)$. The coefficient $\varepsilon^{2/3} \to 0$, making this term small compared to the $O(1)$ terms $Y''$ and $X^2 Y'$.
+\end{justification}
+
+\subsection*{Step 7: Solving the Inner Equation}
+
+\noindent\textbf{What we solve:} $Y''_0 + X^2 Y'_0 = 0$.
+
+\subsubsection*{Step 7a: First Integration}
+
+\begin{technique}
+This is a second-order ODE that can be reduced to first order by the substitution $P = Y'_0$:
+\[
+P' + X^2 P = 0.
+\]
+This is a separable first-order linear ODE.
+\end{technique}
+
+\noindent Separate variables:
+\[
+\frac{dP}{P} = -X^2\,dX.
+\]
+
+\noindent Integrate:
+\[
+\ln|P| = -\frac{X^3}{3} + C_1.
+\]
+
+\noindent Exponentiate:
+\[
+P = Y'_0 = A\exp\left(-\frac{X^3}{3}\right),
+\]
+where $A$ is an arbitrary constant.
+
+\subsubsection*{Step 7b: Second Integration}
+
+\begin{technique}
+Integrate $Y'_0$ to find $Y_0$:
+\[
+Y_0(X) = A\int_0^X \exp\left(-\frac{s^3}{3}\right)ds + B,
+\]
+where $B$ is another arbitrary constant, and we choose the lower limit of integration as $0$ for convenience.
+\end{technique}
+
+\begin{justification}
+The choice of lower limit $0$ is convenient because:
+\begin{enumerate}
+\item At $X = 0$, the integral vanishes, giving $Y_0(0) = B$ directly.
+\item This form makes applying the boundary condition at $x = 0$ (i.e., $X = 0$) straightforward.
+\end{enumerate}
+\end{justification}
+
+\noindent\textbf{General inner solution:}
+\[
+\boxed{Y_0(X) = A\int_0^X \exp\left(-\frac{s^3}{3}\right)ds + B}
+\]
+
+\subsection*{Step 8: Applying the Boundary Condition at $x = 0$}
+
+\noindent\textbf{What we apply:} $y(0) = \alpha$, which in inner variables is $Y_0(0) = \alpha$.
+
+\noindent From the inner solution:
+\[
+Y_0(0) = A\int_0^0 \exp\left(-\frac{s^3}{3}\right)ds + B = 0 + B = B.
+\]
+
+\noindent Therefore:
+\[
+\boxed{B = \alpha}
+\]
+
+\noindent\textbf{Inner solution with boundary condition:}
+\[
+Y_0(X) = A\int_0^X \exp\left(-\frac{s^3}{3}\right)ds + \alpha
+\]
+
+\begin{reflection}
+We have one remaining unknown constant $A$, which will be determined by matching the inner and outer solutions in the overlap (intermediate) region.
+\end{reflection}
+
+\subsection*{Step 9: Asymptotic Matching}
+
+\begin{strategy}
+We use \textbf{Prandtl's matching rule} (Lecture Notes \S6.1.2): the outer limit of the inner solution must equal the inner limit of the outer solution. This is valid here because both limits approach constants, making the matching straightforward.
+\end{strategy}
+
+\subsubsection*{Step 9a: Inner Limit of the Outer Solution}
+
+\begin{technique}
+The ``inner limit'' means taking $x \to 0^+$ in the outer solution:
+\[
+\lim_{x \to 0^+} y_0(x) = \lim_{x \to 0^+} \beta\exp\left(\frac{x^2-1}{2}\right) = \beta\exp\left(\frac{0-1}{2}\right) = \beta e^{-1/2} = \frac{\beta}{\sqrt{e}}.
+\]
+\end{technique}
+
+\subsubsection*{Step 9b: Outer Limit of the Inner Solution}
+
+\begin{technique}
+The ``outer limit'' means taking $X \to +\infty$ in the inner solution (since $X = x/\varepsilon^{1/3} \to \infty$ as we leave the boundary layer):
+\[
+\lim_{X \to \infty} Y_0(X) = \lim_{X \to \infty} \left[A\int_0^X \exp\left(-\frac{s^3}{3}\right)ds + \alpha\right] = A \cdot I + \alpha,
+\]
+where we define the integral:
+\[
+I = \int_0^\infty \exp\left(-\frac{s^3}{3}\right)ds.
+\]
+\end{technique}
+
+\subsubsection*{Step 9c: Evaluating the Integral $I$}
+
+\begin{technique}
+This is a generalized Gaussian integral. Using the substitution $u = s^3/3$, so $s = (3u)^{1/3}$ and $ds = (3u)^{-2/3}du$:
+\[
+I = \int_0^\infty e^{-u} \cdot (3u)^{-2/3}\,du = 3^{-2/3}\int_0^\infty u^{-2/3}e^{-u}\,du = 3^{-2/3}\Gamma\left(\frac{1}{3}\right),
+\]
+where $\Gamma(z) = \int_0^\infty t^{z-1}e^{-t}dt$ is the gamma function (Lecture Notes \S2.6.1).
+\end{technique}
+
+\begin{justification}
+We used the gamma function identity $\Gamma(z) = \int_0^\infty t^{z-1}e^{-t}dt$ with $z = 1/3$:
+\[
+\int_0^\infty u^{1/3 - 1}e^{-u}\,du = \int_0^\infty u^{-2/3}e^{-u}\,du = \Gamma\left(\frac{1}{3}\right).
+\]
+The numerical value is $\Gamma(1/3) \approx 2.679$.
+\end{justification}
+
+\noindent\textbf{Result:}
+\[
+I = \int_0^\infty \exp\left(-\frac{s^3}{3}\right)ds = 3^{-2/3}\Gamma\left(\frac{1}{3}\right)
+\]
+
+\subsubsection*{Step 9d: Applying Prandtl's Matching Condition}
+
+\begin{technique}
+Equate the inner limit of outer and outer limit of inner:
+\[
+\frac{\beta}{\sqrt{e}} = \alpha + A \cdot I.
+\]
+Solve for $A$:
+\[
+A = \frac{\beta e^{-1/2} - \alpha}{I} = \frac{\beta/\sqrt{e} - \alpha}{I}.
+\]
+\end{technique}
+
+\noindent\textbf{Matched constant:}
+\[
+\boxed{A = \frac{\beta e^{-1/2} - \alpha}{I} = \frac{\beta e^{-1/2} - \alpha}{3^{-2/3}\Gamma(1/3)}}
+\]
+
+\begin{reflection}
+The constant $A$ encodes the ``mismatch'' between the boundary value $\alpha$ and the limiting value $\beta e^{-1/2}$ of the outer solution as $x \to 0$. If $\alpha = \beta e^{-1/2}$, then $A = 0$ and the inner solution reduces to the constant $\alpha$---no boundary layer correction is needed!
+\end{reflection}
+
+\subsection*{Step 10: Constructing the Composite Solution}
+
+\begin{strategy}
+The composite solution is constructed by adding the outer and inner solutions and subtracting their common limit (to avoid double-counting in the overlap region). This follows Lecture Notes \S6.1.3 and equation (353):
+\[
+y_c(x) = y_{\text{outer}}(x) + Y_{\text{inner}}\left(\frac{x}{\delta}\right) - (\text{common limit}).
+\]
+\end{strategy}
+
+\noindent\textbf{Components:}
+\begin{align*}
+\text{Outer solution:} \quad & y_0(x) = \beta\exp\left(\frac{x^2-1}{2}\right)\\[6pt]
+\text{Inner solution:} \quad & Y_0(X) = \alpha + A\int_0^X \exp\left(-\frac{s^3}{3}\right)ds\\[6pt]
+\text{Common limit:} \quad & \frac{\beta}{\sqrt{e}} = \beta e^{-1/2}
+\end{align*}
+
+\begin{technique}
+The common limit is what both solutions approach in the intermediate (matching) region:
+\begin{itemize}
+\item As $x \to 0^+$: $y_0(x) \to \beta e^{-1/2}$
+\item As $X \to \infty$: $Y_0(X) \to \alpha + AI = \beta e^{-1/2}$ (by matching)
+\end{itemize}
+\end{technique}
+
+\noindent\textbf{Composite solution formula:}
+\[
+y_c(x) = y_0(x) + Y_0\left(\frac{x}{\varepsilon^{1/3}}\right) - \frac{\beta}{\sqrt{e}}
+\]
+
+\noindent Substituting:
+\[
+y_c(x) = \beta\exp\left(\frac{x^2-1}{2}\right) + \alpha + A\int_0^{x/\varepsilon^{1/3}} \exp\left(-\frac{s^3}{3}\right)ds - \frac{\beta}{\sqrt{e}}
+\]
+
+\noindent\textbf{Simplifying:}
+
+\begin{technique}
+Using $A = (\beta e^{-1/2} - \alpha)/I$ and the fact that $\int_0^\infty e^{-s^3/3}ds = I$:
+\[
+A\int_0^{X} e^{-s^3/3}ds = \frac{\beta e^{-1/2} - \alpha}{I}\int_0^{X} e^{-s^3/3}ds = \left(\frac{\beta}{\sqrt{e}} - \alpha\right)\frac{\int_0^{X} e^{-s^3/3}ds}{\int_0^{\infty} e^{-s^3/3}ds}.
+\]
+\end{technique}
+
+\noindent Therefore, the composite solution can be written as:
+\begin{align*}
+y_c(x) &= \beta\exp\left(\frac{x^2-1}{2}\right) + \left(\frac{\beta}{\sqrt{e}} - \alpha\right)\left[\frac{\int_0^{x\varepsilon^{-1/3}} e^{-s^3/3}ds}{\int_0^{\infty} e^{-s^3/3}ds} - 1\right]
+\end{align*}
+
+\subsection*{Step 11: Final Answer in Standard Form}
+
+\begin{center}
+\fbox{\begin{minipage}{0.95\textwidth}
+\textbf{First-Order Uniform Expansion:}
+\[
+y_c(x) = \beta\exp\left(\frac{x^2-1}{2}\right) + \left(\frac{\beta}{\sqrt{e}} - \alpha\right)\left[\frac{\displaystyle\int_0^{x\varepsilon^{-1/3}} e^{-s^3/3}\,ds}{\displaystyle\int_0^{\infty} e^{-s^3/3}\,ds} - 1\right]
+\]
+
+Equivalently, with explicit integral notation:
+\[
+y_c(x) = \beta\exp\left(\frac{x^2-1}{2}\right) + \left(\frac{\beta}{\sqrt{e}} - \alpha\right)\left[\frac{\displaystyle\int_0^{x/\varepsilon^{1/3}} \exp\left(-\frac{s^3}{3}\right)ds}{\displaystyle\int_0^{\infty} \exp\left(-\frac{s^3}{3}\right)ds} - 1\right]
+\]
+
+where $\displaystyle\int_0^{\infty} \exp\left(-\frac{s^3}{3}\right)ds = 3^{-2/3}\Gamma\left(\frac{1}{3}\right)$.
+\end{minipage}}
+\end{center}
+
+\subsection*{Step 12: Verification of the Solution}
+
+\subsubsection*{Verification 1: Boundary Condition at $x = 0$}
+
+\begin{technique}
+As $x \to 0^+$:
+\begin{itemize}
+\item $\beta\exp\left(\frac{x^2-1}{2}\right) \to \beta e^{-1/2}$
+\item $x\varepsilon^{-1/3} \to 0$, so $\int_0^{x\varepsilon^{-1/3}} e^{-s^3/3}ds \to 0$
+\end{itemize}
+Therefore:
+\[
+y_c(0) = \frac{\beta}{\sqrt{e}} + \left(\frac{\beta}{\sqrt{e}} - \alpha\right)(0 - 1) = \frac{\beta}{\sqrt{e}} - \frac{\beta}{\sqrt{e}} + \alpha = \alpha \quad \checkmark
+\]
+\end{technique}
+
+\subsubsection*{Verification 2: Boundary Condition at $x = 1$}
+
+\begin{technique}
+At $x = 1$, the inner variable $X = 1/\varepsilon^{1/3} \to \infty$ as $\varepsilon \to 0$:
+\begin{itemize}
+\item $\beta\exp\left(\frac{1-1}{2}\right) = \beta$
+\item $\int_0^{\varepsilon^{-1/3}} e^{-s^3/3}ds \to \int_0^{\infty} e^{-s^3/3}ds = I$
+\end{itemize}
+Therefore:
+\[
+y_c(1) = \beta + \left(\frac{\beta}{\sqrt{e}} - \alpha\right)\left(\frac{I}{I} - 1\right) = \beta + \left(\frac{\beta}{\sqrt{e}} - \alpha\right)(0) = \beta \quad \checkmark
+\]
+\end{technique}
+
+\subsubsection*{Verification 3: Behavior in Outer Region}
+
+\begin{technique}
+For fixed $x > 0$ as $\varepsilon \to 0$:
+\[
+x\varepsilon^{-1/3} \to \infty, \quad \text{so} \quad \frac{\int_0^{x\varepsilon^{-1/3}} e^{-s^3/3}ds}{I} \to 1.
+\]
+Therefore:
+\[
+y_c(x) \to \beta\exp\left(\frac{x^2-1}{2}\right) + \left(\frac{\beta}{\sqrt{e}} - \alpha\right)(1-1) = \beta\exp\left(\frac{x^2-1}{2}\right) = y_0(x) \quad \checkmark
+\]
+\end{technique}
+
+\subsection*{Step 13: Physical Interpretation and Key Insights}
+
+\begin{reflection}
+This problem illustrates several important asymptotic concepts:
+
+\begin{enumerate}
+\item \textbf{Non-standard boundary layer width:} When the coefficient of $y'$ vanishes at the boundary ($p(0) = x^2|_{x=0} = 0$), the boundary layer width is determined by dominant balance as $\delta = \varepsilon^{1/3}$, not $\delta = \varepsilon$. This is because near $x = 0$, the $y'$ term ``turns on'' gradually (like $x^2$), requiring a wider region for the solution to transition.
+
+\item \textbf{The integral $\int_0^\infty e^{-s^3/3}ds$:} This generalized Gaussian integral appears because the inner equation $Y'' + X^2 Y' = 0$ has solutions involving $e^{-X^3/3}$. The exponent $X^3/3$ comes from integrating the coefficient $X^2$.
+
+\item \textbf{Matching via Prandtl's rule:} Both the inner and outer solutions approach constants as they enter the intermediate region, making Prandtl's matching (comparing limits) straightforward. Van Dyke matching would give the same result here.
+
+\item \textbf{Composite solution structure:} The additive form $y_c = y_{\text{outer}} + Y_{\text{inner}} - (\text{common limit})$ ensures that:
+\begin{itemize}
+\item In the inner region: $y_{\text{outer}} \approx \text{common limit}$, so $y_c \approx Y_{\text{inner}}$
+\item In the outer region: $Y_{\text{inner}} \approx \text{common limit}$, so $y_c \approx y_{\text{outer}}$
+\end{itemize}
+This is the essence of matched asymptotic expansions from Lecture Notes \S6.1.3.
+\end{enumerate}
+\end{reflection}
+
+\subsection*{Summary Table}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.8}
+\begin{tabular}{|l|l|}
+\hline
+\textbf{Quantity} & \textbf{Value} \\
+\hline
+Boundary layer location & $x = 0$ \\
+\hline
+Boundary layer width & $\delta = \varepsilon^{1/3}$ \\
+\hline
+Inner variable & $X = x/\varepsilon^{1/3}$ \\
+\hline
+Outer solution & $y_0(x) = \beta\exp\left(\dfrac{x^2-1}{2}\right)$ \\
+\hline
+Inner equation & $Y''_0 + X^2 Y'_0 = 0$ \\
+\hline
+Inner solution & $Y_0(X) = \alpha + A\displaystyle\int_0^X e^{-s^3/3}\,ds$ \\
+\hline
+Matching constant & $A = \dfrac{\beta e^{-1/2} - \alpha}{3^{-2/3}\Gamma(1/3)}$ \\
+\hline
+Common limit & $\beta e^{-1/2} = \dfrac{\beta}{\sqrt{e}}$ \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsection*{Connection to Lecture Material}
+
+\begin{keyconcept}
+This problem is a direct application of the boundary layer workflow from Lecture Notes \S6.2.3, with the special feature that $p(x_0) = 0$ at the boundary (case discussed in \S6.2.2, equation (356)). The key steps parallel Example 1 on page 61--62 of the lecture notes, which treats $\varepsilon y'' + x^2 y' - y = 0$---a closely related problem.
+
+The dominant balance analysis follows \S2.2.2, the matching procedure follows \S6.1.2 (Prandtl's rule), and the composite solution construction follows \S6.1.3 (equation (353)).
+\end{keyconcept}
+
+\end{document}

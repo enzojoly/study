@@ -1,0 +1,626 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage{inputenc}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{enumitem}
+\usepackage{xcolor}
+
+% Custom environments for pedagogical structure
+\newtheoremstyle{problem}
+  {10pt}{10pt}{\normalfont}{}{\bfseries}{.}{.5em}{}
+\theoremstyle{problem}
+\newtheorem{problem}{Problem}
+
+\newenvironment{strategy}{\par\noindent\textbf{Strategy:}\itshape}{\par}
+\newenvironment{justification}{\par\noindent\textbf{Justification:}\itshape}{\par}
+\newenvironment{technique}{\par\noindent\textbf{Technique:}\itshape}{\par}
+\newenvironment{keyconcept}{\par\noindent\textbf{Key Concept:}\itshape}{\par}
+\newenvironment{reflection}{\par\noindent\textbf{Reflection:}\itshape}{\par}
+\newenvironment{warning}{\par\noindent\textbf{Warning:}\itshape}{\par}
+
+\title{Asymptotics Problem 8.6: Complete Pedagogical Solution}
+\author{Boundary Layers When $p(x)$ Vanishes at Both Boundaries}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\begin{problem}
+For the o.d.e.\ $\varepsilon y'' + \sin(x)y' + \sin(2x)y = 0$, $0 \le x \le \pi$, with $y(0) = \pi$, $y(\pi) = 0$, consider asymptotic expansions for $\varepsilon \to 0$ with a boundary layer at either end of the interval, and find one or more asymptotic expansions for the solution $y(x)$ to leading order.
+\end{problem}
+
+\section*{Solution: Step-by-Step Atomic Breakdown}
+
+\subsection*{Step 1: Identify the Problem Structure and Classification}
+
+\begin{strategy}
+We have a singularly perturbed second-order linear ODE of the general form (Lecture Notes \S6.2, Eq.~(340)):
+\[
+\varepsilon y'' + p(x)y' + q(x)y = 0, \quad y(0) = \alpha, \quad y(1) = \beta,
+\]
+where in our case:
+\begin{align*}
+p(x) &= \sin(x) \\
+q(x) &= \sin(2x) = 2\sin(x)\cos(x) \\
+\text{Domain:} \quad & [0, \pi] \\
+\alpha &= \pi, \quad \beta = 0
+\end{align*}
+The key question is: \textbf{Where are the boundary layers located?}
+\end{strategy}
+
+\begin{keyconcept}
+From Lecture Notes \S6.2.1, the standard theory tells us:
+\begin{itemize}
+\item If $p(x) > 0$ throughout $[a,b]$, the boundary layer is at the \textbf{left} endpoint ($x = a$)
+\item If $p(x) < 0$ throughout $[a,b]$, the boundary layer is at the \textbf{right} endpoint ($x = b$)
+\item If $p(x_0) = 0$ for some $x_0$, special analysis is required
+\end{itemize}
+\end{keyconcept}
+
+\subsection*{Step 2: Analyze Where $p(x) = \sin(x)$ Vanishes}
+
+\noindent\textbf{What we observe:}
+\[
+p(x) = \sin(x) = 0 \quad \text{at} \quad x = 0 \quad \text{and} \quad x = \pi
+\]
+
+\begin{warning}
+The coefficient $p(x) = \sin(x)$ vanishes at \textbf{both} boundaries of the domain $[0,\pi]$! This means the standard theory (which assumes $p(x) \neq 0$ on $[0,1]$, see Lecture Notes Eq.~(341)) does not directly apply. We cannot immediately determine the boundary layer location from the sign of $p(x)$ at the boundaries.
+\end{warning}
+
+\begin{justification}
+Why is this problematic? Recall from Lecture Notes \S6.2.1 that boundary layer location depends on the sign of $p(x)$:
+\begin{itemize}
+\item When $p(x_0) > 0$: The inner solution has form $Y_0(X) = A + Be^{-p_0 X}$, which decays as $X \to +\infty$ only if $p_0 > 0$
+\item When $p(x_0) < 0$: The exponential $e^{-p_0 X}$ grows as $X \to +\infty$, preventing matching
+\end{itemize}
+When $p(x_0) = 0$, the exponential character changes completely, and we need a different dominant balance analysis.
+\end{justification}
+
+\begin{strategy}
+Since we cannot determine the boundary layer location a priori, we must:
+\begin{enumerate}
+\item Compute the outer solution (valid away from any boundary layers)
+\item Try an inner solution at $x = 0$ and check if matching is possible
+\item Try an inner solution at $x = \pi$ and check if matching is possible
+\item Based on which matchings succeed, determine the actual structure
+\end{enumerate}
+This is the systematic workflow from Lecture Notes \S6.2.3.
+\end{strategy}
+
+\subsection*{Step 3: Compute the Outer Solution}
+
+\noindent\textbf{What we do:} Set $\varepsilon = 0$ in the ODE to find the leading-order outer solution.
+
+\begin{technique}
+The outer expansion is $y = y_0 + \varepsilon y_1 + \cdots$. At leading order ($\varepsilon^0$):
+\[
+\sin(x) y_0' + \sin(2x) y_0 = 0
+\]
+This is a first-order linear ODE (we've lost the highest derivative!).
+\end{technique}
+
+\subsubsection*{Step 3a: Solving the Reduced Equation}
+
+\noindent Simplify using $\sin(2x) = 2\sin(x)\cos(x)$:
+\[
+\sin(x) y_0' + 2\sin(x)\cos(x) y_0 = 0
+\]
+
+\noindent For $x \neq 0, \pi$ (where $\sin(x) \neq 0$), divide by $\sin(x)$:
+\[
+y_0' + 2\cos(x) y_0 = 0
+\]
+
+\begin{technique}
+This is separable:
+\[
+\frac{dy_0}{y_0} = -2\cos(x)\,dx
+\]
+Integrate both sides:
+\[
+\ln|y_0| = -2\sin(x) + C
+\]
+Therefore:
+\[
+y_0(x) = a\,e^{-2\sin(x)}
+\]
+where $a$ is an arbitrary constant.
+\end{technique}
+
+\begin{justification}
+Why don't we apply boundary conditions yet? We have only \textbf{one} integration constant $a$, but \textbf{two} boundary conditions ($y(0) = \pi$ and $y(\pi) = 0$). The outer solution alone cannot satisfy both boundary conditions --- this is the hallmark of a singular perturbation problem. We must determine which boundary condition the outer solution should satisfy based on where the boundary layer is located.
+\end{justification}
+
+\subsubsection*{Step 3b: Evaluating the Outer Solution at Boundaries}
+
+\noindent At $x = 0$:
+\[
+y_0(0) = a\,e^{-2\sin(0)} = a\,e^0 = a
+\]
+
+\noindent At $x = \pi$:
+\[
+y_0(\pi) = a\,e^{-2\sin(\pi)} = a\,e^0 = a
+\]
+
+\begin{keyconcept}
+Interestingly, $y_0(0) = y_0(\pi) = a$ because $\sin(0) = \sin(\pi) = 0$. This means the outer solution approaches the \textbf{same} constant $a$ at both endpoints. This will be crucial for the matching analysis.
+\end{keyconcept}
+
+\subsection*{Step 4: Try Inner Solution at $x = 0$}
+
+\begin{strategy}
+Assume there is a boundary layer at $x = 0$. Define the inner variable $X = x/\delta$ where $\delta(\varepsilon) \to 0$ as $\varepsilon \to 0$. The boundary layer width $\delta$ will be determined by dominant balance.
+\end{strategy}
+
+\subsubsection*{Step 4a: Transform the ODE}
+
+\noindent Set $x = \delta X$ and $Y(X) = y(x)$. Then:
+\begin{align*}
+\frac{dy}{dx} &= \frac{1}{\delta}\frac{dY}{dX} = \frac{Y'}{\delta} \\
+\frac{d^2y}{dx^2} &= \frac{1}{\delta^2}\frac{d^2Y}{dX^2} = \frac{Y''}{\delta^2}
+\end{align*}
+
+\noindent Substitute into the ODE:
+\[
+\varepsilon \cdot \frac{Y''}{\delta^2} + \sin(\delta X) \cdot \frac{Y'}{\delta} + \sin(2\delta X) \cdot Y = 0
+\]
+
+\subsubsection*{Step 4b: Taylor Expand the Coefficients}
+
+\noindent For small $\delta X$:
+\begin{align*}
+\sin(\delta X) &= \delta X - \frac{(\delta X)^3}{6} + \cdots \approx \delta X \\
+\sin(2\delta X) &= 2\delta X - \frac{(2\delta X)^3}{6} + \cdots \approx 2\delta X
+\end{align*}
+
+\noindent The ODE becomes:
+\[
+\frac{\varepsilon}{\delta^2} Y'' + \frac{\delta X}{\delta} Y' + 2\delta X \cdot Y = 0
+\]
+\[
+\frac{\varepsilon}{\delta^2} Y'' + X Y' + 2\delta X Y = 0
+\]
+
+\begin{justification}
+Why can we use Taylor expansion? Near $x = 0$, the inner variable $X = O(1)$ corresponds to $x = \delta X = O(\delta)$, which is small. Therefore $\sin(\delta X) \approx \delta X$ is an excellent approximation within the boundary layer.
+\end{justification}
+
+\subsubsection*{Step 4c: Dominant Balance Analysis}
+
+\begin{technique}
+We need to determine $\delta(\varepsilon)$ such that the two leading terms balance. Consider the relative sizes:
+\begin{itemize}
+\item First term: $\frac{\varepsilon}{\delta^2} Y''$
+\item Second term: $X Y'$ (coefficient is $O(1)$)
+\item Third term: $2\delta X Y$ (coefficient is $O(\delta)$, subdominant)
+\end{itemize}
+
+For a non-trivial boundary layer, the first two terms must balance:
+\[
+\frac{\varepsilon}{\delta^2} = O(1) \quad \Longrightarrow \quad \delta^2 = \varepsilon \quad \Longrightarrow \quad \boxed{\delta = \sqrt{\varepsilon}}
+\]
+\end{technique}
+
+\begin{justification}
+Why this balance? If $\delta \ll \sqrt{\varepsilon}$, then $\varepsilon/\delta^2 \gg 1$ and the $Y''$ term would dominate alone (no balance). If $\delta \gg \sqrt{\varepsilon}$, then $\varepsilon/\delta^2 \ll 1$ and the $Y''$ term would be negligible (we'd get the outer equation). Only $\delta = \sqrt{\varepsilon}$ gives a proper balance.
+
+This is consistent with Lecture Notes \S6.2.2, Eq.~(356): when $p(x_0) = 0$ but $p'(x_0) \neq 0$, the boundary layer width is $\delta = \sqrt{\varepsilon}$, not $\delta = \varepsilon$.
+\end{justification}
+
+\subsubsection*{Step 4d: Leading-Order Inner Equation at $x = 0$}
+
+\noindent With $\delta = \sqrt{\varepsilon}$, the inner equation becomes:
+\[
+Y'' + XY' + 2\sqrt{\varepsilon} X Y = 0
+\]
+
+\noindent At leading order (neglecting the $O(\sqrt{\varepsilon})$ term):
+\[
+\boxed{Y_0'' + XY_0' = 0}
+\]
+
+\noindent This is a second-order ODE with non-constant coefficients.
+
+\subsubsection*{Step 4e: Solve the Leading-Order Inner Equation}
+
+\begin{technique}
+The equation $Y_0'' + XY_0' = 0$ can be reduced in order. Let $W = Y_0'$:
+\[
+W' + XW = 0 \quad \Longrightarrow \quad \frac{dW}{W} = -X\,dX
+\]
+Integrate:
+\[
+\ln|W| = -\frac{X^2}{2} + C_1 \quad \Longrightarrow \quad W = Y_0' = A\exp\left(-\frac{X^2}{2}\right)
+\]
+\end{technique}
+
+\noindent Integrate again to find $Y_0$:
+\[
+Y_0(X) = A\int_0^X \exp\left(-\frac{s^2}{2}\right)ds + B
+\]
+
+\begin{justification}
+Why integrate from $0$ to $X$? This choice makes the integral vanish at $X = 0$, which simplifies applying the boundary condition. The constant of integration is absorbed into $B$.
+\end{justification}
+
+\subsubsection*{Step 4f: Apply Boundary Condition at $x = 0$}
+
+\noindent At $x = 0$, we have $X = 0$ and $y(0) = \pi$. Therefore:
+\[
+Y_0(0) = A\int_0^0 \exp\left(-\frac{s^2}{2}\right)ds + B = 0 + B = B
+\]
+
+\noindent The boundary condition $Y_0(0) = \pi$ gives:
+\[
+\boxed{B = \pi}
+\]
+
+\noindent So the inner solution at $x = 0$ is:
+\[
+Y_{0,a}(X) = A\int_0^X \exp\left(-\frac{s^2}{2}\right)ds + \pi
+\]
+
+\subsubsection*{Step 4g: Check Matching at $x = 0$}
+
+\begin{technique}
+For matching, we need to check the behavior as $X \to +\infty$ (moving from the inner region toward the outer region). The Gaussian integral:
+\[
+\int_0^{\infty} \exp\left(-\frac{s^2}{2}\right)ds = \sqrt{\frac{\pi}{2}}
+\]
+Therefore:
+\[
+\lim_{X \to +\infty} Y_{0,a}(X) = A\sqrt{\frac{\pi}{2}} + \pi
+\]
+This is a \textbf{finite constant}!
+\end{technique}
+
+\begin{keyconcept}
+The inner solution approaches a constant as $X \to +\infty$. This means matching with the outer solution is \textbf{possible} in principle. The outer solution also approaches a constant ($a$) as $x \to 0$. We will determine both $A$ and $a$ through the matching condition.
+\end{keyconcept}
+
+\subsection*{Step 5: Try Inner Solution at $x = \pi$}
+
+\begin{strategy}
+Now assume there is a boundary layer at $x = \pi$. Define the inner variable by $x - \pi = \delta X$, or equivalently $x = \pi + \delta X$.
+\end{strategy}
+
+\subsubsection*{Step 5a: Transform the ODE}
+
+\noindent Set $x = \pi + \delta X$ and $Y(X) = y(x)$. The derivatives transform the same way:
+\[
+\frac{dy}{dx} = \frac{Y'}{\delta}, \quad \frac{d^2y}{dx^2} = \frac{Y''}{\delta^2}
+\]
+
+\noindent Substitute into the ODE:
+\[
+\frac{\varepsilon}{\delta^2} Y'' + \sin(\pi + \delta X) \cdot \frac{Y'}{\delta} + \sin(2\pi + 2\delta X) \cdot Y = 0
+\]
+
+\subsubsection*{Step 5b: Taylor Expand Around $x = \pi$}
+
+\noindent Use trigonometric identities and Taylor expansion:
+\begin{align*}
+\sin(\pi + \delta X) &= -\sin(\delta X) \approx -\delta X \\
+\sin(2\pi + 2\delta X) &= \sin(2\delta X) \approx 2\delta X
+\end{align*}
+
+\noindent The ODE becomes:
+\[
+\frac{\varepsilon}{\delta^2} Y'' + \frac{-\delta X}{\delta} Y' + 2\delta X \cdot Y = 0
+\]
+\[
+\frac{\varepsilon}{\delta^2} Y'' - X Y' + 2\delta X Y = 0
+\]
+
+\begin{keyconcept}
+Notice the crucial difference: the coefficient of $Y'$ is now $-X$ instead of $+X$! This sign change will have dramatic consequences for whether matching is possible.
+\end{keyconcept}
+
+\subsubsection*{Step 5c: Dominant Balance}
+
+\noindent By the same argument as before, $\delta = \sqrt{\varepsilon}$.
+
+\subsubsection*{Step 5d: Leading-Order Inner Equation at $x = \pi$}
+
+\noindent At leading order:
+\[
+\boxed{Y_0'' - XY_0' = 0}
+\]
+
+\noindent Note the \textbf{minus sign} compared to the equation at $x = 0$.
+
+\subsubsection*{Step 5e: Solve the Leading-Order Inner Equation}
+
+\begin{technique}
+Let $W = Y_0'$:
+\[
+W' - XW = 0 \quad \Longrightarrow \quad \frac{dW}{W} = X\,dX
+\]
+Integrate:
+\[
+\ln|W| = \frac{X^2}{2} + C_1 \quad \Longrightarrow \quad W = Y_0' = C\exp\left(\frac{X^2}{2}\right)
+\]
+\end{technique}
+
+\noindent Integrate again:
+\[
+Y_0(X) = C\int_0^X \exp\left(\frac{s^2}{2}\right)ds + D
+\]
+
+\subsubsection*{Step 5f: Apply Boundary Condition at $x = \pi$}
+
+\noindent At $x = \pi$, we have $X = 0$ and $y(\pi) = 0$. Therefore:
+\[
+Y_0(0) = C \cdot 0 + D = D = 0 \quad \Longrightarrow \quad \boxed{D = 0}
+\]
+
+\noindent So the inner solution at $x = \pi$ is:
+\[
+Y_{0,b}(X) = C\int_0^X \exp\left(\frac{s^2}{2}\right)ds
+\]
+
+\subsubsection*{Step 5g: Check Matching at $x = \pi$}
+
+\begin{technique}
+For matching, we need to check the behavior as $X \to -\infty$ (moving from the boundary layer at $x = \pi$ toward the interior). Consider:
+\[
+\int_0^X \exp\left(\frac{s^2}{2}\right)ds \quad \text{as } X \to -\infty
+\]
+Since $\exp(s^2/2) > 0$ for all $s$, the integral from $0$ to $X < 0$ is:
+\[
+\int_0^X = -\int_X^0 \exp\left(\frac{s^2}{2}\right)ds
+\]
+As $X \to -\infty$, the integrand $\exp(s^2/2) \to \infty$, so:
+\[
+\left|\int_X^0 \exp\left(\frac{s^2}{2}\right)ds\right| \to \infty
+\]
+\end{technique}
+
+\begin{warning}
+The inner solution at $x = \pi$ \textbf{diverges exponentially} as $X \to -\infty$:
+\[
+Y_{0,b}(X) \sim C \cdot (\text{exponentially large}) \quad \text{as } X \to -\infty
+\]
+Unless $C = 0$, this cannot be matched to the outer solution, which is finite.
+\end{warning}
+
+\begin{justification}
+Why does this happen? The sign difference in the inner equation changes the Gaussian from $e^{-X^2/2}$ (decaying) to $e^{+X^2/2}$ (growing). The growing Gaussian cannot be integrated to give a finite limit. This is the mathematical manifestation of the physical fact: boundary layers occur where the flow of information (determined by the sign of $p(x)$) is into the boundary, not out of it.
+\end{justification}
+
+\subsection*{Step 6: Determine the Boundary Layer Structure}
+
+\begin{keyconcept}
+Our analysis reveals:
+\begin{enumerate}
+\item \textbf{At $x = 0$}: Inner solution approaches a finite limit as $X \to +\infty$. \textbf{Matching IS possible.}
+\item \textbf{At $x = \pi$}: Inner solution diverges as $X \to -\infty$. \textbf{Matching is NOT possible.}
+\end{enumerate}
+\textbf{Conclusion:} There is a boundary layer \textbf{only at $x = 0$}, and \textbf{no boundary layer at $x = \pi$}.
+\end{keyconcept}
+
+\begin{justification}
+Why no boundary layer at $x = \pi$? Near $x = \pi$, we have $p(x) = \sin(x) \approx -(\pi - x) < 0$ for $x$ slightly less than $\pi$. According to the general theory (Lecture Notes \S6.2.1), when $p < 0$ near a boundary point, matching fails because the inner solution grows exponentially in the wrong direction. Even though $p(\pi) = 0$ exactly, the \textbf{sign of $p'(\pi) = \cos(\pi) = -1 < 0$} determines that the effective behavior is as if $p < 0$.
+\end{justification}
+
+\subsection*{Step 7: Apply Boundary Condition to Outer Solution}
+
+\noindent Since there is no boundary layer at $x = \pi$, the outer solution must satisfy the boundary condition there:
+\[
+y_0(\pi) = 0
+\]
+
+\noindent From Step 3b, $y_0(\pi) = a$. Therefore:
+\[
+\boxed{a = 0}
+\]
+
+\noindent The outer solution is:
+\[
+\boxed{y_0(x) = 0 \quad \text{for all } x \in (0, \pi]}
+\]
+
+\begin{reflection}
+This is a remarkable result! The outer solution vanishes identically. The entire non-trivial behavior of the solution is concentrated in the boundary layer at $x = 0$. This happens because the boundary condition at $x = \pi$ forces $a = 0$, and the function $e^{-2\sin(x)}$ (while varying between $e^{-2}$ and $1$) is multiplied by zero.
+\end{reflection}
+
+\subsection*{Step 8: Perform Matching at $x = 0$}
+
+\noindent Now we match the inner solution at $x = 0$ with the (now known) outer solution $y_0(x) = 0$.
+
+\subsubsection*{Step 8a: Van Dyke Matching}
+
+\begin{technique}
+Apply Van Dyke's matching rule (Lecture Notes \S6.1.3): The outer expansion of the inner solution must equal the inner expansion of the outer solution.
+
+\textbf{Inner expansion of outer solution:}
+
+The outer solution is $y_0(x) = 0$. Express in inner variable $x = \sqrt{\varepsilon}X$:
+\[
+y_0(\sqrt{\varepsilon}X) = 0
+\]
+This is already $0$ for all $X$.
+
+\textbf{Outer expansion of inner solution:}
+
+The inner solution is:
+\[
+Y_{0,a}(X) = A\int_0^X \exp\left(-\frac{s^2}{2}\right)ds + \pi
+\]
+Express in outer variable $X = x/\sqrt{\varepsilon}$ and take $\varepsilon \to 0$ (which means $X \to \infty$ for fixed $x > 0$):
+\[
+\lim_{X \to \infty} Y_{0,a}(X) = A\sqrt{\frac{\pi}{2}} + \pi
+\]
+\end{technique}
+
+\subsubsection*{Step 8b: Matching Condition}
+
+\noindent For matching:
+\[
+\lim_{X \to \infty} Y_{0,a}(X) = \lim_{x \to 0^+} y_0(x)
+\]
+\[
+A\sqrt{\frac{\pi}{2}} + \pi = 0
+\]
+
+\noindent Solve for $A$:
+\[
+A = -\frac{\pi}{\sqrt{\pi/2}} = -\pi\sqrt{\frac{2}{\pi}} = -\sqrt{2\pi}
+\]
+\[
+\boxed{A = -\sqrt{2\pi}}
+\]
+
+\subsection*{Step 9: Write the Complete Inner Solution}
+
+\noindent The matched inner solution at $x = 0$ is:
+\[
+Y_0(X) = -\sqrt{2\pi}\int_0^X \exp\left(-\frac{s^2}{2}\right)ds + \pi
+\]
+
+\noindent We can express this using the error function. Recall (Lecture Notes \S2.6.2, Eq.~(71)):
+\[
+\text{erf}(z) = \frac{2}{\sqrt{\pi}}\int_0^z e^{-t^2}dt
+\]
+
+\noindent With substitution $t = s/\sqrt{2}$:
+\[
+\int_0^X e^{-s^2/2}ds = \sqrt{2}\int_0^{X/\sqrt{2}} e^{-t^2}dt = \sqrt{2} \cdot \frac{\sqrt{\pi}}{2}\,\text{erf}\left(\frac{X}{\sqrt{2}}\right) = \sqrt{\frac{\pi}{2}}\,\text{erf}\left(\frac{X}{\sqrt{2}}\right)
+\]
+
+\noindent Therefore:
+\begin{align*}
+Y_0(X) &= -\sqrt{2\pi} \cdot \sqrt{\frac{\pi}{2}}\,\text{erf}\left(\frac{X}{\sqrt{2}}\right) + \pi \\
+&= -\pi\,\text{erf}\left(\frac{X}{\sqrt{2}}\right) + \pi \\
+&= \pi\left[1 - \text{erf}\left(\frac{X}{\sqrt{2}}\right)\right]
+\end{align*}
+
+\subsection*{Step 10: Write the Composite Solution}
+
+\noindent Since the outer solution vanishes ($y_0 = 0$), the composite solution equals the inner solution expressed in the original variable $x$.
+
+\noindent Recall $X = x/\sqrt{\varepsilon}$, so:
+\[
+\frac{X}{\sqrt{2}} = \frac{x}{\sqrt{2\varepsilon}}
+\]
+
+\begin{center}
+\fbox{\begin{minipage}{0.9\textwidth}
+\textbf{Final Leading-Order Composite Solution:}
+\[
+\boxed{y_c(x) = \pi\left[1 - \text{erf}\left(\frac{x}{\sqrt{2\varepsilon}}\right)\right] = \pi\,\text{erfc}\left(\frac{x}{\sqrt{2\varepsilon}}\right)}
+\]
+where $\text{erfc}(z) = 1 - \text{erf}(z)$ is the complementary error function.
+\end{minipage}}
+\end{center}
+
+\subsection*{Step 11: Verify the Solution Properties}
+
+\begin{technique}
+Let's verify that our solution satisfies the required properties:
+
+\textbf{Boundary condition at $x = 0$:}
+\[
+y_c(0) = \pi\left[1 - \text{erf}(0)\right] = \pi[1 - 0] = \pi \quad \checkmark
+\]
+
+\textbf{Boundary condition at $x = \pi$:}
+
+As $\varepsilon \to 0$ with $x = \pi$ fixed:
+\[
+\frac{\pi}{\sqrt{2\varepsilon}} \to \infty
+\]
+\[
+\text{erf}\left(\frac{\pi}{\sqrt{2\varepsilon}}\right) \to 1
+\]
+\[
+y_c(\pi) \to \pi[1 - 1] = 0 \quad \checkmark
+\]
+
+\textbf{Behavior in the outer region ($x = O(1)$, $x > 0$):}
+
+For fixed $x > 0$, as $\varepsilon \to 0$:
+\[
+\frac{x}{\sqrt{2\varepsilon}} \to \infty, \quad \text{erf} \to 1, \quad y_c(x) \to 0 = y_0(x) \quad \checkmark
+\]
+
+\textbf{Boundary layer width:}
+
+The transition from $y \approx \pi$ to $y \approx 0$ occurs when $x/\sqrt{2\varepsilon} = O(1)$, i.e., when $x = O(\sqrt{\varepsilon})$. This confirms the boundary layer width is $\delta = \sqrt{\varepsilon}$.
+\end{technique}
+
+\subsection*{Step 12: Physical and Mathematical Interpretation}
+
+\begin{reflection}
+The solution structure reveals several important features:
+
+\begin{enumerate}
+\item \textbf{Boundary layer only at $x = 0$}: Although $p(x) = \sin(x)$ vanishes at both endpoints, a boundary layer exists only at $x = 0$. This is determined by the \textbf{sign of $p'(x)$}:
+\begin{itemize}
+\item At $x = 0$: $p'(0) = \cos(0) = +1 > 0$ $\Rightarrow$ boundary layer exists
+\item At $x = \pi$: $p'(\pi) = \cos(\pi) = -1 < 0$ $\Rightarrow$ no boundary layer
+\end{itemize}
+
+\item \textbf{Boundary layer width $\sim\sqrt{\varepsilon}$}: When $p(x_0) = 0$ but $p'(x_0) \neq 0$, the boundary layer is \textbf{thicker} than the standard $O(\varepsilon)$ width. This is because the coefficient of $y'$ is $O(\delta X) = O(\sqrt{\varepsilon})$ near the boundary, requiring a larger region for the $\varepsilon y''$ term to be important.
+
+\item \textbf{Gaussian profile}: The inner solution involves the error function, which arises from integrating a Gaussian. This is characteristic of boundary layers at points where $p(x)$ has a simple zero.
+
+\item \textbf{Outer solution vanishes}: The solution is essentially concentrated entirely in the boundary layer. Outside the layer, the solution is asymptotically zero. This happens because the boundary condition $y(\pi) = 0$, combined with the fact that $y_0$ is constant at both endpoints, forces $y_0 \equiv 0$.
+
+\item \textbf{Connection to parabolic cylinder functions}: The inner equation $Y'' + XY' = 0$ is related to parabolic cylinder equations (Lecture Notes \S6.2.2). For this specific case, the solution reduces to error functions, but more general cases might require parabolic cylinder functions.
+\end{enumerate}
+\end{reflection}
+
+\subsection*{Summary Table}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.8}
+\begin{tabular}{|l|l|}
+\hline
+\textbf{Component} & \textbf{Result} \\
+\hline
+ODE & $\varepsilon y'' + \sin(x)y' + \sin(2x)y = 0$ \\
+\hline
+Domain & $[0, \pi]$ \\
+\hline
+Boundary conditions & $y(0) = \pi$, $y(\pi) = 0$ \\
+\hline
+Outer solution & $y_0(x) = 0$ \\
+\hline
+Boundary layer location & $x = 0$ only \\
+\hline
+Boundary layer width & $\delta = \sqrt{\varepsilon}$ \\
+\hline
+Inner variable & $X = x/\sqrt{\varepsilon}$ \\
+\hline
+Inner equation & $Y_0'' + XY_0' = 0$ \\
+\hline
+Inner solution & $Y_0(X) = \pi\left[1 - \text{erf}\left(\frac{X}{\sqrt{2}}\right)\right]$ \\
+\hline
+\textbf{Composite solution} & $\displaystyle y_c(x) = \pi\,\text{erfc}\left(\frac{x}{\sqrt{2\varepsilon}}\right)$ \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsection*{Connection to Lecture Material}
+
+\begin{reflection}
+This problem illustrates several key concepts from the course:
+
+\begin{itemize}
+\item \textbf{Workflow for boundary layers} (Lecture Notes \S6.2.3): We followed the systematic approach of identifying candidate locations, computing inner and outer solutions, and checking matching.
+
+\item \textbf{Boundary layers of non-standard width} (Lecture Notes \S6.2.2): When $p(x_0) = 0$, the dominant balance gives $\delta = \sqrt{\varepsilon}$ rather than $\delta = \varepsilon$.
+
+\item \textbf{Sign of $p'(x_0)$ determines layer existence}: Even when $p(x_0) = 0$ at both boundaries, only one may have a boundary layer, determined by whether the exponential in the inner solution decays or grows.
+
+\item \textbf{Error function solutions}: The Gaussian integrals appearing in boundary layer problems (Lecture Notes \S2.6.2) lead naturally to error functions in the final solution.
+
+\item \textbf{Matching determines integration constants}: The constants $A$ in the inner solution and $a$ in the outer solution were both determined by matching conditions and boundary conditions, not independently.
+\end{itemize}
+\end{reflection}
+
+\end{document}

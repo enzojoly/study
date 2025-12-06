@@ -1,0 +1,432 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage{inputenc}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{enumitem}
+\usepackage{xcolor}
+
+% Custom environments for pedagogical structure
+\newtheoremstyle{problem}
+  {10pt}{10pt}{\normalfont}{}{\bfseries}{.}{.5em}{}
+\theoremstyle{problem}
+\newtheorem{problem}{Problem}
+
+\newenvironment{strategy}{\par\noindent\textbf{Strategy:}\itshape}{\par}
+\newenvironment{justification}{\par\noindent\textbf{Justification:}\itshape}{\par}
+\newenvironment{technique}{\par\noindent\textbf{Technique:}\itshape}{\par}
+\newenvironment{reflection}{\par\noindent\textbf{Reflection:}\itshape}{\par}
+\newenvironment{keyconcept}{\par\noindent\textbf{Key Concept:}\itshape}{\par}
+
+\title{Asymptotics Problem 8.1: Complete Pedagogical Solution}
+\author{Boundary Layers with Boundary Layers at Both Ends}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\begin{problem}
+Consider the differential equation $\varepsilon^2 y'' - y = 0$, $-1 < x < 1$, $\varepsilon > 0$, with boundary conditions $y(1) = y(-1) = 1$. Determine outer and inner solutions in leading order, given that there are boundary layers at $x = 1$ and $x = -1$. Is matching needed here? Determine also a composite solution and compare it to the exact solution.
+\end{problem}
+
+\section*{Solution: Step-by-Step Atomic Breakdown}
+
+\subsection*{Step 1: Understanding the Problem Structure and Classification}
+
+\begin{strategy}
+We are given a second-order linear ODE with a small parameter $\varepsilon^2$ multiplying the highest derivative. This is the hallmark of a \emph{singular perturbation problem}. Our goal is to:
+\begin{enumerate}[leftmargin=*]
+\item Find the outer solution (valid away from rapid changes)
+\item Find inner solutions at each boundary layer
+\item Match the solutions to determine unknown constants
+\item Construct a composite solution valid everywhere
+\item Compare with the exact solution
+\end{enumerate}
+\end{strategy}
+
+\begin{justification}
+Why is this a singular perturbation problem? Setting $\varepsilon = 0$ reduces the equation from second-order to zeroth-order: $-y = 0 \Rightarrow y = 0$. This cannot satisfy two boundary conditions $y(\pm 1) = 1$ simultaneously. The ``lost'' derivative signals that the limiting solution is qualitatively different from the perturbed solution, and boundary layers must form where the solution changes rapidly to accommodate the boundary conditions.
+
+This is the classic signature of boundary layer problems as introduced in Lecture Notes \S6.1, which states that singular perturbation problems arise when ``the perturbed solution does not go smoothly with $\varepsilon \to 0$ to the solution for $\varepsilon = 0$.''
+\end{justification}
+
+\subsection*{Step 2: Recognizing the Special Structure of This Problem}
+
+\noindent\textbf{What we observe:}
+\[
+\varepsilon^2 y'' - y = 0
+\]
+
+\begin{keyconcept}
+This equation has a very special feature: there is \emph{no first derivative term} ($y'$ is absent). In the standard boundary layer theory (Lecture Notes \S6.2.1), the sign of the coefficient $p(x)$ of $y'$ determines at which boundary the layer forms. But here $p(x) = 0$ everywhere!
+
+This means: the usual criterion for determining boundary layer location does not directly apply. We are \emph{told} that boundary layers occur at both $x = 1$ and $x = -1$, and we will verify this is consistent.
+\end{keyconcept}
+
+\begin{justification}
+Why boundary layers at both ends? The equation is symmetric under $x \to -x$ (since it contains no odd derivatives), and the boundary conditions are also symmetric: $y(-1) = y(1) = 1$. Therefore, if a boundary layer forms at one end, symmetry dictates one must form at the other end as well. The outer solution, which must be $y_0 = 0$, cannot satisfy either boundary condition, so layers are needed at \emph{both} boundaries.
+\end{justification}
+
+\subsection*{Step 3: Finding the Outer Solution}
+
+\noindent\textbf{What we do:} To find the outer solution, we neglect the $\varepsilon^2$-term in the ODE.
+
+\begin{technique}
+The outer expansion assumes $y(x,\varepsilon) = y_0(x) + \varepsilon y_1(x) + \cdots$ where $y_0$ satisfies the reduced equation obtained by setting $\varepsilon = 0$.
+\end{technique}
+
+\noindent Setting $\varepsilon = 0$ in $\varepsilon^2 y'' - y = 0$ gives:
+\[
+-y_0 = 0 \quad \Longrightarrow \quad \boxed{y_0(x) = 0}
+\]
+
+\begin{justification}
+The outer solution is simply $y_0(x) = 0$. This is the only solution to the reduced equation, and it is valid in the interior of the domain, away from the boundaries. It \emph{cannot} satisfy either boundary condition $y(\pm 1) = 1$, which confirms that boundary layers must exist where the solution transitions rapidly from $0$ to $1$.
+\end{justification}
+
+\subsection*{Step 4: Setting Up the Inner Solution at $x = 1$}
+
+\noindent\textbf{What we do:} Introduce a stretched (inner) coordinate near $x = 1$.
+
+\begin{technique}
+For a boundary layer at $x = 1$, we introduce the inner variable:
+\[
+X = \frac{x - 1}{\delta(\varepsilon)}
+\]
+where $\delta(\varepsilon) \to 0$ as $\varepsilon \to 0$ is the boundary layer thickness to be determined. Define the inner function $Y(X) = y(x)$.
+\end{technique}
+
+\begin{justification}
+Why this transformation? Near $x = 1$, the solution changes rapidly over a scale $\delta \ll 1$. By rescaling, we ``zoom in'' on the boundary layer, making variations of $Y$ with respect to $X$ of order $O(1)$ rather than $O(1/\delta)$. This is the standard procedure from Lecture Notes \S6.1.1.
+\end{justification}
+
+\subsubsection*{Step 4a: Transforming the Equation}
+
+\noindent We need to express $y''$ in terms of $Y$ and $X$. Using the chain rule:
+\[
+\frac{dy}{dx} = \frac{dY}{dX} \cdot \frac{dX}{dx} = \frac{1}{\delta} \frac{dY}{dX} = \frac{1}{\delta} Y'
+\]
+\[
+\frac{d^2y}{dx^2} = \frac{1}{\delta^2} \frac{d^2Y}{dX^2} = \frac{1}{\delta^2} Y''
+\]
+
+\noindent Substituting into $\varepsilon^2 y'' - y = 0$:
+\[
+\varepsilon^2 \cdot \frac{1}{\delta^2} Y'' - Y = 0
+\]
+\[
+\frac{\varepsilon^2}{\delta^2} Y'' - Y = 0
+\]
+
+\subsubsection*{Step 4b: Dominant Balance to Determine $\delta$}
+
+\begin{technique}
+For a \emph{distinguished limit}, we require that the two terms in the inner equation balance at leading order. This means:
+\[
+\frac{\varepsilon^2}{\delta^2} \sim 1 \quad \Longrightarrow \quad \delta \sim \varepsilon
+\]
+\end{technique}
+
+\begin{justification}
+Why must these terms balance? If $\varepsilon^2/\delta^2 \gg 1$, then $Y'' \approx 0$, giving $Y = AX + B$, which cannot match to $y_0 = 0$ as $X \to -\infty$. If $\varepsilon^2/\delta^2 \ll 1$, then $Y \approx 0$, which cannot satisfy $Y(0) = 1$. Only when both terms are comparable do we get a non-trivial boundary layer structure. This is the dominant balance principle from Lecture Notes \S2.2.2 applied to differential equations.
+\end{justification}
+
+\noindent Choosing $\delta = \varepsilon$, the inner equation becomes:
+\[
+Y'' - Y = 0
+\]
+
+\subsection*{Step 5: Solving the Inner Equation at $x = 1$}
+
+\noindent\textbf{The inner equation:} $Y'' - Y = 0$
+
+\begin{technique}
+This is a constant-coefficient ODE. Try $Y = e^{\lambda X}$:
+\[
+\lambda^2 e^{\lambda X} - e^{\lambda X} = 0 \quad \Longrightarrow \quad \lambda^2 - 1 = 0 \quad \Longrightarrow \quad \lambda = \pm 1
+\]
+\end{technique}
+
+\noindent The general solution is:
+\[
+Y(X) = a e^X + b e^{-X}
+\]
+
+\subsubsection*{Step 5a: Applying the Boundary Condition at $x = 1$}
+
+\noindent At $x = 1$, we have $X = (1-1)/\varepsilon = 0$. The boundary condition is $y(1) = 1$, i.e., $Y(0) = 1$:
+\[
+Y(0) = a e^0 + b e^0 = a + b = 1
+\]
+
+\subsubsection*{Step 5b: Matching to the Outer Solution}
+
+\begin{keyconcept}
+The inner solution must match to the outer solution in an \emph{overlap region} where both approximations are valid. As we move away from the boundary layer ($X \to -\infty$, i.e., $x$ moves into the interior), the inner solution must approach the outer solution.
+\end{keyconcept}
+
+\noindent As $X \to -\infty$ (moving into the domain from $x = 1$):
+\[
+Y(X) = a e^X + b e^{-X}
+\]
+\begin{itemize}
+\item The term $a e^X \to 0$ as $X \to -\infty$ \quad (decays: \checkmark)
+\item The term $b e^{-X} \to \infty$ as $X \to -\infty$ \quad (blows up: \texttimes)
+\end{itemize}
+
+\begin{justification}
+For matching to the outer solution $y_0 = 0$, we need $Y(X) \to 0$ as $X \to -\infty$. The exponentially growing term $e^{-X}$ would make $Y \to \infty$, which cannot match to $y_0 = 0$. Therefore, we \emph{must} set $b = 0$.
+\end{justification}
+
+\noindent Setting $b = 0$ and using $a + b = 1$:
+\[
+a = 1, \quad b = 0
+\]
+
+\noindent Therefore, the inner solution at $x = 1$ is:
+\[
+\boxed{Y(X) = e^X = \exp\left(\frac{x-1}{\varepsilon}\right)}
+\]
+
+\subsection*{Step 6: Setting Up the Inner Solution at $x = -1$}
+
+\noindent\textbf{What we do:} Introduce a stretched coordinate near $x = -1$.
+
+\begin{technique}
+For the boundary layer at $x = -1$, introduce:
+\[
+V = \frac{x - (-1)}{\delta} = \frac{x + 1}{\varepsilon}
+\]
+where we use the same layer thickness $\delta = \varepsilon$ (by symmetry of the problem). Define $W(V) = y(x)$.
+\end{technique}
+
+\subsubsection*{Step 6a: Transforming the Equation}
+
+\noindent Similarly to before:
+\[
+\frac{d^2 y}{dx^2} = \frac{1}{\varepsilon^2} W''
+\]
+
+\noindent Substituting into $\varepsilon^2 y'' - y = 0$:
+\[
+W'' - W = 0
+\]
+
+\noindent The general solution is:
+\[
+W(V) = c e^V + d e^{-V}
+\]
+
+\subsubsection*{Step 6b: Applying the Boundary Condition at $x = -1$}
+
+\noindent At $x = -1$, we have $V = 0$. The boundary condition $y(-1) = 1$ gives:
+\[
+W(0) = c + d = 1
+\]
+
+\subsubsection*{Step 6c: Matching to the Outer Solution}
+
+\noindent As $V \to +\infty$ (moving into the domain from $x = -1$):
+\begin{itemize}
+\item The term $c e^V \to \infty$ as $V \to +\infty$ \quad (blows up: \texttimes)
+\item The term $d e^{-V} \to 0$ as $V \to +\infty$ \quad (decays: \checkmark)
+\end{itemize}
+
+\begin{justification}
+For matching to the outer solution $y_0 = 0$, we need $W(V) \to 0$ as $V \to +\infty$. The exponentially growing term $e^V$ must be eliminated, so $c = 0$.
+\end{justification}
+
+\noindent Setting $c = 0$ and using $c + d = 1$:
+\[
+c = 0, \quad d = 1
+\]
+
+\noindent Therefore, the inner solution at $x = -1$ is:
+\[
+\boxed{W(V) = e^{-V} = \exp\left(-\frac{x+1}{\varepsilon}\right)}
+\]
+
+\subsection*{Step 7: Is Matching Needed Here?}
+
+\begin{reflection}
+In this problem, is explicit matching actually \emph{needed}? Let us examine this carefully.
+
+\textbf{What matching typically does:} Matching connects the inner and outer solutions through an intermediate overlap region, determining unknown constants that cannot be fixed by boundary conditions alone.
+
+\textbf{What happened here:}
+\begin{itemize}
+\item The outer solution $y_0 = 0$ is completely determined (no free constants).
+\item Each inner solution has two constants from the general solution of $Y'' - Y = 0$.
+\item One constant is fixed by the boundary condition at the respective boundary.
+\item The other constant is fixed by requiring the solution to remain bounded (not blow up) as we move away from the boundary layer.
+\end{itemize}
+
+\textbf{Conclusion:} The matching condition reduces to the requirement that the inner solution approaches the (constant) outer solution $y_0 = 0$ as we leave the boundary layer. Since $y_0 = 0$, this is simply a \emph{boundedness condition}: the inner solution must decay, not grow, as we move into the interior.
+
+Therefore, \textbf{matching is needed in the sense that we require the inner solution to approach the outer solution}. However, the matching is \emph{trivial} because the outer solution is identically zero, so the matching condition simply requires the inner solution to decay to zero.
+\end{reflection}
+
+\subsection*{Step 8: Constructing the Composite Solution}
+
+\begin{technique}
+The composite solution is formed by adding the inner and outer solutions and subtracting the common limit (to avoid double-counting). From Lecture Notes \S6.1.2 and \S6.2.3:
+\[
+y_c(x) = y_{\text{outer}}(x) + Y_{\text{inner,1}}(X) + W_{\text{inner,2}}(V) - (\text{common limits})
+\]
+\end{technique}
+
+\noindent In our case:
+\begin{itemize}
+\item Outer solution: $y_0(x) = 0$
+\item Inner solution at $x = 1$: $Y(X) = e^X = \exp\left(\frac{x-1}{\varepsilon}\right)$
+\item Inner solution at $x = -1$: $W(V) = e^{-V} = \exp\left(-\frac{x+1}{\varepsilon}\right)$
+\item Common limit of $Y$ as $X \to -\infty$: $0$
+\item Common limit of $W$ as $V \to +\infty$: $0$
+\end{itemize}
+
+\begin{justification}
+Since the outer solution is zero and both inner solutions decay to zero as they match to the outer region, the common limits are all zero. The composite solution is simply the sum of the two inner solutions.
+\end{justification}
+
+\noindent Therefore, the composite solution is:
+\[
+\boxed{y_c(x) = \exp\left(\frac{x-1}{\varepsilon}\right) + \exp\left(-\frac{x+1}{\varepsilon}\right)}
+\]
+
+\noindent This can be rewritten as:
+\[
+y_c(x) = e^{(x-1)/\varepsilon} + e^{-(x+1)/\varepsilon} = \frac{e^{x/\varepsilon} + e^{-x/\varepsilon}}{e^{1/\varepsilon}}
+\]
+
+\subsection*{Step 9: Finding the Exact Solution}
+
+\noindent\textbf{What we do:} Solve $\varepsilon^2 y'' - y = 0$ exactly with $y(\pm 1) = 1$.
+
+\begin{technique}
+The general solution of $\varepsilon^2 y'' - y = 0$ is:
+\[
+y(x) = C_1 e^{x/\varepsilon} + C_2 e^{-x/\varepsilon}
+\]
+Apply boundary conditions to determine $C_1$ and $C_2$.
+\end{technique}
+
+\noindent At $x = 1$:
+\[
+y(1) = C_1 e^{1/\varepsilon} + C_2 e^{-1/\varepsilon} = 1
+\]
+
+\noindent At $x = -1$:
+\[
+y(-1) = C_1 e^{-1/\varepsilon} + C_2 e^{1/\varepsilon} = 1
+\]
+
+\noindent Adding these equations:
+\[
+(C_1 + C_2)(e^{1/\varepsilon} + e^{-1/\varepsilon}) = 2
+\]
+\[
+C_1 + C_2 = \frac{2}{e^{1/\varepsilon} + e^{-1/\varepsilon}} = \frac{1}{\cosh(1/\varepsilon)}
+\]
+
+\noindent Subtracting:
+\[
+(C_1 - C_2)(e^{1/\varepsilon} - e^{-1/\varepsilon}) = 0
+\]
+\[
+C_1 - C_2 = 0 \quad \Longrightarrow \quad C_1 = C_2
+\]
+
+\noindent Therefore:
+\[
+C_1 = C_2 = \frac{1}{2\cosh(1/\varepsilon)}
+\]
+
+\noindent The exact solution is:
+\[
+y(x) = \frac{e^{x/\varepsilon} + e^{-x/\varepsilon}}{2\cosh(1/\varepsilon)} = \frac{\cosh(x/\varepsilon)}{\cosh(1/\varepsilon)}
+\]
+
+\[
+\boxed{y_{\text{exact}}(x) = \frac{\cosh(x/\varepsilon)}{\cosh(1/\varepsilon)}}
+\]
+
+\subsection*{Step 10: Comparing Composite and Exact Solutions}
+
+\noindent\textbf{The composite solution:}
+\[
+y_c(x) = \exp\left(\frac{x-1}{\varepsilon}\right) + \exp\left(-\frac{x+1}{\varepsilon}\right) = \frac{e^{x/\varepsilon} + e^{-x/\varepsilon}}{e^{1/\varepsilon}}
+\]
+
+\noindent\textbf{The exact solution:}
+\[
+y_{\text{exact}}(x) = \frac{\cosh(x/\varepsilon)}{\cosh(1/\varepsilon)} = \frac{e^{x/\varepsilon} + e^{-x/\varepsilon}}{e^{1/\varepsilon} + e^{-1/\varepsilon}}
+\]
+
+\begin{justification}
+The difference lies in the denominator:
+\begin{itemize}
+\item Composite: denominator is $e^{1/\varepsilon}$
+\item Exact: denominator is $e^{1/\varepsilon} + e^{-1/\varepsilon} = e^{1/\varepsilon}(1 + e^{-2/\varepsilon})$
+\end{itemize}
+
+For small $\varepsilon$, we have $e^{-2/\varepsilon} \to 0$ exponentially fast. Therefore:
+\[
+e^{1/\varepsilon} + e^{-1/\varepsilon} = e^{1/\varepsilon}(1 + e^{-2/\varepsilon}) \approx e^{1/\varepsilon}
+\]
+with an error of $O(e^{-2/\varepsilon})$, which is \emph{exponentially small}.
+\end{justification}
+
+\noindent The relative error between composite and exact solutions is:
+\[
+\frac{y_c(x) - y_{\text{exact}}(x)}{y_{\text{exact}}(x)} = \frac{e^{1/\varepsilon} + e^{-1/\varepsilon}}{e^{1/\varepsilon}} - 1 = e^{-2/\varepsilon}
+\]
+
+\begin{center}
+\fbox{\begin{minipage}{0.95\textwidth}
+\textbf{Key Result:} The composite solution differs from the exact solution by an \emph{exponentially small} term of order $O(e^{-2/\varepsilon})$. This is far smaller than any power of $\varepsilon$ and is essentially invisible in asymptotic analysis. The boundary layer method has captured the essential behavior of the exact solution with remarkable accuracy.
+\end{minipage}}
+\end{center}
+
+\subsection*{Final Summary}
+
+\begin{reflection}
+What have we learned from this problem?
+
+\begin{enumerate}
+\item \textbf{Outer solution:} The leading-order outer solution is $y_0 = 0$. This satisfies the reduced equation but none of the boundary conditions.
+
+\item \textbf{Inner solutions:} Boundary layers of width $O(\varepsilon)$ form at both $x = 1$ and $x = -1$. Each inner solution satisfies one boundary condition and decays to match the outer solution.
+
+\item \textbf{Matching:} Matching is conceptually necessary but trivial here, as the outer solution is zero. The matching condition reduces to requiring boundedness of the inner solutions as they extend into the interior.
+
+\item \textbf{Composite solution:}
+\[
+y_c(x) = \exp\left(\frac{x-1}{\varepsilon}\right) + \exp\left(-\frac{x+1}{\varepsilon}\right)
+\]
+
+\item \textbf{Exact solution:}
+\[
+y_{\text{exact}}(x) = \frac{\cosh(x/\varepsilon)}{\cosh(1/\varepsilon)}
+\]
+
+\item \textbf{Error:} The composite solution agrees with the exact solution up to exponentially small errors of order $O(e^{-2/\varepsilon})$.
+
+\item \textbf{Physical interpretation:} The solution is essentially zero in the interior $|x| < 1 - O(\varepsilon)$, with thin layers of width $\sim \varepsilon$ at each boundary where the solution rises sharply from $0$ to $1$. The symmetry of the problem under $x \to -x$ is reflected in the symmetric structure of the solution.
+\end{enumerate}
+\end{reflection}
+
+\begin{center}
+\fbox{\begin{minipage}{0.95\textwidth}
+\textbf{Complete Solution Summary:}
+\begin{align*}
+\text{Outer solution:} \quad & y_0(x) = 0 \\[0.3cm]
+\text{Inner solution at } x = 1: \quad & Y(X) = e^X = \exp\left(\frac{x-1}{\varepsilon}\right) \\[0.3cm]
+\text{Inner solution at } x = -1: \quad & W(V) = e^{-V} = \exp\left(-\frac{x+1}{\varepsilon}\right) \\[0.3cm]
+\text{Composite solution:} \quad & y_c(x) = \exp\left(\frac{x-1}{\varepsilon}\right) + \exp\left(-\frac{x+1}{\varepsilon}\right) \\[0.3cm]
+\text{Exact solution:} \quad & y(x) = \frac{\cosh(x/\varepsilon)}{\cosh(1/\varepsilon)}
+\end{align*}
+The composite solution differs from the exact solution by $O(e^{-2/\varepsilon})$.
+\end{minipage}}
+\end{center}
+
+\end{document}

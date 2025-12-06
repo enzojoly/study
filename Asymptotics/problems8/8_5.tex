@@ -1,0 +1,432 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage{inputenc}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{enumitem}
+\usepackage{xcolor}
+
+% Custom environments for pedagogical structure
+\newtheoremstyle{problem}
+  {10pt}{10pt}{\normalfont}{}{\bfseries}{.}{.5em}{}
+\theoremstyle{problem}
+\newtheorem{problem}{Problem}
+
+\newenvironment{strategy}{\par\noindent\textbf{Strategy:}\itshape}{\par}
+\newenvironment{justification}{\par\noindent\textbf{Justification:}\itshape}{\par}
+\newenvironment{technique}{\par\noindent\textbf{Technique:}\itshape}{\par}
+\newenvironment{keyconcept}{\par\noindent\textbf{Key Concept:}\itshape}{\par}
+\newenvironment{reflection}{\par\noindent\textbf{Reflection:}\itshape}{\par}
+
+\title{Asymptotics Problem 8.5: Complete Pedagogical Solution}
+\author{Van Dyke Matching and Composite Expansions}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\begin{problem}
+Carefully explain how successful Van Dyke matching of inner and outer asymptotic expansions, in one dimension, can lead to a composite expansion usable over the whole domain. Is this possible when the domain has a boundary layer at both ends of the domain?
+\end{problem}
+
+\section*{Solution: Step-by-Step Atomic Breakdown}
+
+\subsection*{Step 1: Understanding the Problem Context}
+
+\begin{strategy}
+This is a conceptual question about the theory of matched asymptotic expansions. We must:
+\begin{enumerate}[leftmargin=*]
+\item Recall what inner and outer expansions represent physically and mathematically
+\item Explain what Van Dyke matching accomplishes
+\item Show how a composite expansion is constructed from matched inner and outer solutions
+\item Demonstrate that the composite expansion is uniformly valid over the entire domain
+\item Extend the argument to the case of boundary layers at both ends of the domain
+\end{enumerate}
+\end{strategy}
+
+\begin{justification}
+Why is this question fundamental? In singular perturbation problems (Lecture Notes \S6.1--6.2), neither the outer solution alone nor the inner solution alone provides a uniformly valid approximation across the whole domain. The outer solution breaks down near boundary layers, while the inner solution is only valid in the boundary layer region. The composite expansion is the mathematical construction that ``stitches together'' these solutions to give a single approximation valid everywhere. Understanding this construction is essential for applying boundary layer methods correctly.
+\end{justification}
+
+\subsection*{Step 2: Setting Up the Framework}
+
+\noindent\textbf{What we have:} Consider a general boundary layer problem of the form (Lecture Notes Eq.~(340)):
+\[
+\varepsilon y'' + p(x)y' + q(x)y = 0, \quad y(0) = \alpha, \quad y(1) = \beta,
+\]
+where $x \in [0,1]$ and $0 < \varepsilon \ll 1$ is a small parameter.
+
+\begin{keyconcept}
+The fundamental issue is that when $\varepsilon \to 0$, we lose the highest derivative term, reducing the order of the ODE. This means we cannot satisfy all boundary conditions with the ``outer'' (reduced) equation. The resolution is that there exist narrow ``boundary layer'' regions where the solution changes rapidly and the $\varepsilon y''$ term remains important.
+\end{keyconcept}
+
+\noindent\textbf{Two distinct asymptotic expansions emerge:}
+
+\begin{enumerate}[leftmargin=*]
+\item \textbf{Outer expansion:} Valid away from the boundary layer, where the solution varies slowly:
+\[
+y(x) \sim \sum_{m=0}^{M} \psi_m(\varepsilon) y_m(x) \quad \text{as } \varepsilon \to 0,
+\]
+typically with $\psi_m(\varepsilon) = \varepsilon^m$.
+
+\item \textbf{Inner expansion:} Valid within the boundary layer, using a stretched (magnified) variable $X = (x - x_0)/\delta(\varepsilon)$:
+\[
+Y(X) \sim \sum_{n=0}^{N} \chi_n(\varepsilon) Y_n(X) \quad \text{as } \varepsilon \to 0,
+\]
+where $\delta(\varepsilon) \to 0$ is the boundary layer width determined by dominant balance.
+\end{enumerate}
+
+\begin{justification}
+Why two expansions? The outer expansion captures the ``bulk'' behavior where derivatives are $O(1)$. The inner expansion captures the rapid transition region where the stretched variable $X = O(1)$ corresponds to $x - x_0 = O(\delta) \ll 1$. Neither alone covers the full domain: the outer solution typically fails to satisfy boundary conditions at the layer location, while the inner solution is only meaningful near $x_0$.
+\end{justification}
+
+\subsection*{Step 3: The Matching Region and Van Dyke's Rule}
+
+\noindent\textbf{What we need:} A systematic way to connect inner and outer solutions.
+
+\begin{keyconcept}
+The key insight is that there exists an \textbf{intermediate region} (also called the ``overlap'' or ``matching'' region) where \emph{both} the inner and outer expansions are simultaneously valid. In this region, they must agree --- this agreement determines the previously undetermined constants in each expansion.
+\end{keyconcept}
+
+\subsubsection*{Step 3a: Prandtl's Matching Rule (Leading Order)}
+
+\noindent For leading order matching, Prandtl's rule (Lecture Notes \S6.1.2, Eq.~(334)) states:
+\[
+\lim_{x \to x_0} y_0(x) = \lim_{X \to \pm\infty} Y_0(X),
+\]
+where the sign depends on whether we approach the boundary layer from the left or right.
+
+\begin{justification}
+Why does this work? As we move from the outer region toward the boundary layer, $x \to x_0$. Simultaneously, from the perspective of the inner variable, $X = (x-x_0)/\delta \to \pm\infty$ as we move away from the center of the layer. In the overlap region, both limits describe the same physical location, so the function values must agree.
+\end{justification}
+
+\subsubsection*{Step 3b: Van Dyke's Matching Rule (Higher Orders)}
+
+\noindent For higher order matching, Van Dyke's rule (Lecture Notes \S6.1.3) provides a systematic procedure:
+
+\begin{center}
+\fbox{\begin{minipage}{0.9\textwidth}
+\textbf{Van Dyke Matching Principle:}
+
+The $n$-term inner expansion of the $m$-term outer expansion equals the $m$-term outer expansion of the $n$-term inner expansion.
+\end{minipage}}
+\end{center}
+
+\begin{technique}
+To apply Van Dyke matching:
+\begin{enumerate}
+\item Take the $m$-term outer expansion $y(x) = y_0(x) + \varepsilon y_1(x) + \cdots + \varepsilon^{m-1}y_{m-1}(x)$
+\item Rewrite in inner variables: substitute $x = x_0 + \delta X$
+\item Expand for small $\varepsilon$ (or equivalently small $\delta$), keeping only the first $n$ terms
+\item Separately, take the $n$-term inner expansion $Y(X) = Y_0(X) + \chi_1 Y_1(X) + \cdots$
+\item Rewrite in outer variables: substitute $X = (x-x_0)/\delta$
+\item Expand for small $\varepsilon$, keeping only the first $m$ terms
+\item Equate the results term by term to determine matching conditions
+\end{enumerate}
+\end{technique}
+
+\begin{justification}
+Why is Van Dyke's rule more powerful than Prandtl's? Consider the example from Lecture Notes \S6.1.3: At higher orders, Prandtl's matching fails because terms like $X \to \infty$ appear unboundedly. Van Dyke's rule handles this by comparing expansions in a more symmetric way, ensuring that divergent terms cancel appropriately. As shown in Eqs.~(338)--(339), Van Dyke matching with $n=2$ yields consistent matching constants $A_0 = e$ and $A_1 = e$.
+\end{justification}
+
+\subsection*{Step 4: Constructing the Composite Expansion}
+
+\noindent\textbf{The fundamental question:} Given successfully matched inner and outer expansions, how do we construct a \emph{single} approximation valid over the \emph{entire} domain?
+
+\subsubsection*{Step 4a: The Key Assumption}
+
+\begin{keyconcept}
+Successful Van Dyke matching implies that there exists a \textbf{common asymptotic behavior} in the matching region. Specifically, if inner and outer expansions match successfully, there exists an intermediate expansion $u(x)$ such that:
+\begin{itemize}
+\item The outer expansion $y(x) \to u(x)$ as $x \to x_0$ (approaching the boundary layer)
+\item The inner expansion $Y(X) \to u(x)$ as $X \to \pm\infty$ (leaving the boundary layer)
+\end{itemize}
+This common limit $u(x)$ captures the behavior in the overlap region.
+\end{keyconcept}
+
+\begin{justification}
+Why must this common limit exist? The matching conditions \emph{define} this common behavior. When we write
+\[
+\lim_{x \to x_0} y(x) = \lim_{X \to \infty} Y(X),
+\]
+we are asserting that both expansions approach the same function in the intermediate region. This function is precisely $u(x)$.
+\end{justification}
+
+\subsubsection*{Step 4b: The Composite Expansion Formula}
+
+\noindent\textbf{Definition:} The \textbf{composite expansion} is constructed as:
+\[
+\boxed{y_c(x) = y(x) + Y\left(\frac{x-x_0}{\delta}\right) - u(x)}
+\]
+where:
+\begin{itemize}
+\item $y(x)$ is the outer expansion (valid away from the layer)
+\item $Y(X)$ is the inner expansion (valid in the layer), evaluated at $X = (x-x_0)/\delta$
+\item $u(x)$ is the common limit in the matching region
+\end{itemize}
+
+\begin{justification}
+Why this particular formula? The construction is designed so that $y_c(x)$ reduces to the correct expansion in each region:
+\begin{itemize}
+\item \textbf{In the outer region} (away from the boundary layer): Here $Y(X) \to u(x)$ because we're far from the layer center, so $X \to \pm\infty$. Therefore:
+\[
+y_c(x) = y(x) + u(x) - u(x) = y(x) \quad \checkmark
+\]
+
+\item \textbf{In the inner region} (within the boundary layer): Here $y(x) \to u(x)$ because we're approaching the layer from the outer region. Therefore:
+\[
+y_c(x) = u(x) + Y(X) - u(x) = Y(X) \quad \checkmark
+\]
+
+\item \textbf{In the matching region} (overlap): Both $y(x) \to u(x)$ and $Y(X) \to u(x)$, so:
+\[
+y_c(x) = u(x) + u(x) - u(x) = u(x) \quad \checkmark
+\]
+\end{itemize}
+The subtraction of $u(x)$ is essential: it prevents ``double counting'' the common behavior that appears in both inner and outer expansions.
+\end{justification}
+
+\subsection*{Step 5: Verifying Uniform Validity}
+
+\begin{strategy}
+We now prove rigorously that the composite expansion $y_c(x)$ is uniformly valid over the entire domain $[0,1]$.
+\end{strategy}
+
+\subsubsection*{Step 5a: Behavior in Each Region}
+
+\noindent Let us denote:
+\begin{align*}
+\text{Inner expansion:} \quad & Y(X) \sim \sum_{n=0}^{N} \chi_n(\varepsilon)Y_n(X) \\
+\text{Outer expansion:} \quad & y(x) \sim \sum_{m=0}^{M} \psi_m(\varepsilon)y_m(x) \\
+\text{Common limit:} \quad & u(x) \sim \sum_{k=0}^{K} \phi_k(\varepsilon)u_k(x)
+\end{align*}
+
+\begin{technique}
+The composite expansion $y_c = y + Y - u$ satisfies:
+
+\textbf{Case 1: In the outer region} (far from boundary layer, $|x - x_0| \gg \delta$):
+\begin{itemize}
+\item $y(x) = y(x)$ (the outer solution itself)
+\item $Y(X) \to u(x)$ (because $X \to \pm\infty$, inner solution approaches its limit)
+\item $u(x) = u(x)$ (the common limit)
+\end{itemize}
+Therefore: $y_c(x) = y(x) + u(x) - u(x) = y(x)$.
+
+\textbf{Case 2: In the inner region} (within boundary layer, $|x - x_0| = O(\delta)$):
+\begin{itemize}
+\item $y(x) \to u(x)$ (outer solution approaches its limit near the layer)
+\item $Y(X) = Y(X)$ (the inner solution itself)
+\item $u(x) = u(x)$ (the common limit)
+\end{itemize}
+Therefore: $y_c(x) = u(x) + Y(X) - u(x) = Y(X)$.
+\end{technique}
+
+\begin{justification}
+This demonstrates the key property: the composite expansion $y_c(x)$ automatically ``switches'' between the inner and outer solutions as we move through the domain. In the outer region, it equals $y(x)$; in the inner region, it equals $Y(X)$; and in the overlap, all three expressions agree. This is precisely what we mean by \textbf{uniform validity}: the approximation is accurate throughout the entire domain, not just in one region or another.
+\end{justification}
+
+\subsubsection*{Step 5b: The Error Analysis}
+
+\begin{keyconcept}
+The error in the composite expansion is uniformly small:
+\[
+y_{\text{exact}}(x) - y_c(x) = O(\varepsilon^{\min(N,M)+1})
+\]
+uniformly for all $x \in [0,1]$, provided matching is successful to the appropriate order.
+\end{keyconcept}
+
+\begin{justification}
+Why is the error uniform?
+\begin{itemize}
+\item In the outer region: The outer expansion $y(x)$ approximates the exact solution with error $O(\varepsilon^{M+1})$, and $y_c = y$ there.
+\item In the inner region: The inner expansion $Y(X)$ approximates the exact solution with error $O(\chi_{N+1})$, and $y_c = Y$ there.
+\item In the matching region: Both expansions are valid with their respective errors, and they agree by construction.
+\end{itemize}
+The composite inherits the accuracy of whichever expansion is valid in each region.
+\end{justification}
+
+\subsection*{Step 6: Extension to Two Boundary Layers}
+
+\noindent\textbf{The second part of the question:} Is composite expansion construction possible when there are boundary layers at \emph{both} ends of the domain?
+
+\begin{keyconcept}
+Yes! The method extends naturally to multiple boundary layers. The key is to construct inner solutions for \emph{each} boundary layer and subtract the appropriate common limits.
+\end{keyconcept}
+
+\subsubsection*{Step 6a: Setup for Two Boundary Layers}
+
+\noindent Suppose we have:
+\begin{itemize}
+\item A boundary layer at $x = 0$ with inner solution $Y(X)$, where $X = x/\delta_1$
+\item A boundary layer at $x = 1$ with inner solution $Z(V)$, where $V = (x-1)/\delta_2$
+\item An outer solution $y(x)$ valid in the interior
+\end{itemize}
+
+\noindent The matching conditions are:
+\begin{align*}
+\text{At } x = 0: \quad & \lim_{x \to 0^+} y(x) = \lim_{X \to +\infty} Y(X) = u(x) \\
+\text{At } x = 1: \quad & \lim_{x \to 1^-} y(x) = \lim_{V \to -\infty} Z(V) = v(x)
+\end{align*}
+where $u(x)$ and $v(x)$ are the common limits at each boundary layer.
+
+\subsubsection*{Step 6b: The Two-Layer Composite Formula}
+
+\noindent\textbf{Definition:} For two boundary layers, the composite expansion is:
+\[
+\boxed{y_c(x) = y(x) + Y\left(\frac{x}{\delta_1}\right) + Z\left(\frac{x-1}{\delta_2}\right) - u(x) - v(x)}
+\]
+
+\begin{technique}
+Verification of uniform validity:
+
+\textbf{Case 1: In the left boundary layer} (near $x = 0$):
+\begin{itemize}
+\item $Y(X) = Y(X)$ (inner solution at $x=0$)
+\item $y(x) \to u(x)$ (outer solution approaches left common limit)
+\item $Z(V) \to v(x)$ (right inner solution approaches its limit as $V \to -\infty$, but also $x \to 0$ means we're far from $x=1$)
+\item $u(x) = u(x)$, $v(x) = v(x)$
+\end{itemize}
+Result: $y_c(x) = u(x) + Y(X) + v(x) - u(x) - v(x) = Y(X)$ \checkmark
+
+\textbf{Case 2: In the right boundary layer} (near $x = 1$):
+\begin{itemize}
+\item $Z(V) = Z(V)$ (inner solution at $x=1$)
+\item $y(x) \to v(x)$ (outer solution approaches right common limit)
+\item $Y(X) \to u(x)$ (left inner solution approaches its limit as $X \to +\infty$)
+\item $u(x) = u(x)$, $v(x) = v(x)$
+\end{itemize}
+Result: $y_c(x) = v(x) + u(x) + Z(V) - u(x) - v(x) = Z(V)$ \checkmark
+
+\textbf{Case 3: In the outer region} (away from both boundaries):
+\begin{itemize}
+\item $y(x) = y(x)$ (outer solution)
+\item $Y(X) \to u(x)$ (left inner approaches its limit)
+\item $Z(V) \to v(x)$ (right inner approaches its limit)
+\end{itemize}
+Result: $y_c(x) = y(x) + u(x) + v(x) - u(x) - v(x) = y(x)$ \checkmark
+\end{technique}
+
+\begin{justification}
+The structure is analogous to the single-layer case, but we must subtract \emph{both} common limits to avoid double counting. Each subtraction removes the overlap with one boundary layer. The formula generalizes naturally: for $n$ boundary layers with inner solutions $Y_1, Y_2, \ldots, Y_n$ and common limits $u_1, u_2, \ldots, u_n$:
+\[
+y_c(x) = y(x) + \sum_{i=1}^{n} Y_i - \sum_{i=1}^{n} u_i
+\]
+\end{justification}
+
+\subsection*{Step 7: Illustrative Example from Lecture Notes}
+
+\noindent\textbf{Example (Lecture Notes, Problem 1 of Solutions 8):} Consider
+\[
+\varepsilon^2 y'' - y = 0, \quad -1 < x < 1, \quad y(-1) = y(1) = 1.
+\]
+
+\begin{technique}
+This problem has boundary layers at \emph{both} $x = -1$ and $x = 1$.
+
+\textbf{Outer solution:} Setting $\varepsilon = 0$ gives $-y = 0$, so:
+\[
+y_0(x) = 0
+\]
+
+\textbf{Inner solution at $x = 1$:} Set $X = (x-1)/\varepsilon$, then $Y'' - Y = 0$ with $Y(0) = 1$:
+\[
+Y(X) = e^X = \exp\left(\frac{x-1}{\varepsilon}\right)
+\]
+(choosing the decaying solution as $X \to -\infty$ for matching)
+
+\textbf{Inner solution at $x = -1$:} Set $V = (x+1)/\varepsilon$, then $W'' - W = 0$ with $W(0) = 1$:
+\[
+W(V) = e^{-V} = \exp\left(-\frac{x+1}{\varepsilon}\right)
+\]
+(choosing the decaying solution as $V \to +\infty$ for matching)
+
+\textbf{Common limits:} Both $Y(X) \to 0$ as $X \to -\infty$ and $W(V) \to 0$ as $V \to +\infty$, so:
+\[
+u = 0, \quad v = 0
+\]
+
+\textbf{Composite solution:}
+\[
+y_c(x) = 0 + \exp\left(\frac{x-1}{\varepsilon}\right) + \exp\left(-\frac{x+1}{\varepsilon}\right) - 0 - 0
+\]
+\[
+= \exp\left(\frac{x-1}{\varepsilon}\right) + \exp\left(-\frac{x+1}{\varepsilon}\right)
+\]
+\end{technique}
+
+\begin{justification}
+This can be rewritten as:
+\[
+y_c(x) = \frac{\exp(x/\varepsilon) + \exp(-x/\varepsilon)}{\exp(1/\varepsilon)} = \frac{\cosh(x/\varepsilon)}{\frac{1}{2}e^{1/\varepsilon}(1 + e^{-2/\varepsilon})}
+\]
+Comparing with the exact solution:
+\[
+y_{\text{exact}}(x) = \frac{\cosh(x/\varepsilon)}{\cosh(1/\varepsilon)}
+\]
+The composite differs from the exact solution only by an exponentially small factor $e^{-2/\varepsilon}$ in the denominator --- an error that is beyond all orders in the asymptotic expansion!
+\end{justification}
+
+\subsection*{Step 8: Summary and Key Insights}
+
+\begin{center}
+\fbox{\begin{minipage}{0.95\textwidth}
+\textbf{Main Results:}
+
+\textbf{Part 1: Single Boundary Layer}
+
+For an inner expansion $Y(X) \sim \sum_{n=0}^{N} \chi_n(\varepsilon)Y_n(X)$ and outer expansion $y(x) \sim \sum_{m=0}^{M} \psi_m(\varepsilon)y_m(x)$ with common limit $u(x)$ in the matching region, the composite expansion
+\[
+y_c(x) = y(x) + Y\left(\frac{x-x_0}{\delta}\right) - u(x)
+\]
+is \textbf{uniformly valid} over the entire domain because:
+\begin{itemize}
+\item In the inner region: $y \to u$, so $y_c \to Y$
+\item In the outer region: $Y \to u$, so $y_c \to y$
+\item In the matching region: both $y \to u$ and $Y \to u$, so $y_c \to u$
+\end{itemize}
+
+\textbf{Part 2: Two Boundary Layers}
+
+Yes, this is possible! With inner solutions $Y$ and $Z$ at left and right boundaries respectively, and common limits $u$ and $v$:
+\[
+y_c(x) = y(x) + Y + Z - u - v
+\]
+This remains uniformly valid because:
+\begin{itemize}
+\item Near left boundary: $y \to u$, $Z \to v$, so $y_c \to Y$
+\item Near right boundary: $y \to v$, $Y \to u$, so $y_c \to Z$
+\item In the bulk: $Y \to u$, $Z \to v$, so $y_c \to y$
+\end{itemize}
+\end{minipage}}
+\end{center}
+
+\subsection*{Final Reflections}
+
+\begin{reflection}
+The composite expansion method embodies several deep asymptotic principles:
+
+\begin{enumerate}
+\item \textbf{Scale separation} (Lecture Notes \S6.1): Different scales dominate in different regions. The outer solution captures $O(1)$ variations; the inner solution captures $O(\delta)$ variations.
+
+\item \textbf{Matching as consistency} (Lecture Notes \S6.1.2--6.1.3): Van Dyke matching is not just a technique for finding constants --- it \emph{verifies} that our asymptotic structure is self-consistent. If matching fails, we have chosen the wrong scales or wrong expansion forms.
+
+\item \textbf{Additive composition} (Lecture Notes \S6.2): The formula $y_c = y + Y - u$ is not arbitrary. It is the unique additive combination that:
+\begin{itemize}
+\item Includes all physics (both inner and outer behaviors)
+\item Avoids double counting (subtracts common part)
+\item Reduces correctly in each region
+\end{itemize}
+
+\item \textbf{Generalization}: The method extends to:
+\begin{itemize}
+\item Multiple boundary layers (subtract each common limit)
+\item Interior layers (same principle, different geometry)
+\item Higher dimensions (more complex matching regions)
+\item Time-dependent problems (moving boundaries)
+\end{itemize}
+
+\item \textbf{Connection to physical intuition}: The composite solution ``knows'' which approximation to use where. Near boundaries, it uses the inner solution that captures rapid variations. In the bulk, it uses the outer solution that captures slow variations. The construction is not ad hoc --- it emerges naturally from the matching conditions.
+\end{enumerate}
+\end{reflection}
+
+\end{document}

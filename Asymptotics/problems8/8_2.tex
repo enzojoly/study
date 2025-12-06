@@ -1,0 +1,487 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage{inputenc}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{enumitem}
+\usepackage{xcolor}
+
+% Custom environments for pedagogical structure
+\newtheoremstyle{problem}
+  {10pt}{10pt}{\normalfont}{}{\bfseries}{.}{.5em}{}
+\theoremstyle{problem}
+\newtheorem{problem}{Problem}
+
+\newenvironment{strategy}{\par\noindent\textbf{Strategy:}\itshape}{\par}
+\newenvironment{justification}{\par\noindent\textbf{Justification:}\itshape}{\par}
+\newenvironment{technique}{\par\noindent\textbf{Technique:}\itshape}{\par}
+\newenvironment{reflection}{\par\noindent\textbf{Reflection:}\itshape}{\par}
+\newenvironment{keyconcept}{\par\noindent\textbf{Key Concept:}\itshape}{\par}
+
+\title{Asymptotics Problem 8.2: Complete Pedagogical Solution}
+\author{Boundary Layer with Inhomogeneous ODE and Prandtl Matching}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\begin{problem}
+Obtain a one-term composite expansion for $\varepsilon \to 0$, for the solution of
+\[
+\varepsilon \frac{d^2f}{dx^2} - \frac{df}{dx} + \frac{f}{x+1} = 2, \quad 0 < x < 1, \quad \varepsilon > 0,
+\]
+with boundary conditions $f(0) = 0$, $f(1) = 3$, using Prandtl's matching criterion.
+\end{problem}
+
+\section*{Solution: Step-by-Step Atomic Breakdown}
+
+\subsection*{Step 1: Understanding the Problem Structure and Classification}
+
+\begin{strategy}
+We have a second-order linear ODE with:
+\begin{itemize}[leftmargin=*]
+\item A small parameter $\varepsilon$ multiplying the highest derivative $f''$
+\item A first derivative term $-f'$ (coefficient is $-1$, which is \emph{negative})
+\item A variable coefficient term $f/(x+1)$
+\item An inhomogeneous term (RHS = 2)
+\item Two boundary conditions at $x = 0$ and $x = 1$
+\end{itemize}
+Our task is to find a one-term composite expansion using Prandtl's matching.
+\end{strategy}
+
+\begin{justification}
+This is a singular perturbation problem because setting $\varepsilon = 0$ reduces the second-order ODE to a first-order ODE, which generically cannot satisfy two boundary conditions. Therefore, a boundary layer must form at one of the boundaries.
+
+The key question is: \emph{At which boundary does the layer form?}
+\end{justification}
+
+\subsection*{Step 2: Determining the Boundary Layer Location}
+
+\begin{keyconcept}
+From Lecture Notes \S6.2.1, for an equation of the form $\varepsilon y'' + p(x)y' + q(x)y = r(x)$, the location of the boundary layer is determined by the \textbf{sign of the coefficient $p(x)$}:
+\begin{itemize}
+\item If $p(x) > 0$ throughout $[0,1]$: boundary layer at $x = 0$
+\item If $p(x) < 0$ throughout $[0,1]$: boundary layer at $x = 1$
+\end{itemize}
+The physical intuition: information ``flows'' in the direction of decreasing $y$ along characteristics, and the layer forms where the outer solution cannot meet the imposed boundary condition.
+\end{keyconcept}
+
+\noindent\textbf{Identifying $p(x)$ in our equation:}
+
+\noindent Rewrite the equation in standard form:
+\[
+\varepsilon f'' - f' + \frac{f}{x+1} = 2
+\]
+Comparing with $\varepsilon f'' + p(x)f' + q(x)f = r(x)$:
+\[
+p(x) = -1, \quad q(x) = \frac{1}{x+1}, \quad r(x) = 2
+\]
+
+\begin{justification}
+Since $p(x) = -1 < 0$ for all $x \in [0,1]$, the boundary layer is located at $\boxed{x = 1}$.
+
+This means:
+\begin{itemize}
+\item The outer solution will satisfy the boundary condition at $x = 0$
+\item The inner solution (boundary layer) will be needed near $x = 1$ to satisfy $f(1) = 3$
+\item The boundary layer has width $O(\varepsilon)$
+\end{itemize}
+\end{justification}
+
+\subsection*{Step 3: Finding the Outer Solution}
+
+\noindent\textbf{What we do:} Neglect the $\varepsilon f''$ term to obtain the reduced (outer) equation.
+
+\begin{technique}
+The outer expansion assumes $f(x,\varepsilon) = f_0(x) + \varepsilon f_1(x) + \cdots$ where $f_0$ satisfies the equation with $\varepsilon = 0$.
+\end{technique}
+
+\noindent Setting $\varepsilon = 0$:
+\[
+-f_0' + \frac{f_0}{x+1} = 2
+\]
+
+\noindent Rearranging:
+\[
+f_0' - \frac{f_0}{x+1} = -2
+\]
+
+\subsubsection*{Step 3a: Solving the First-Order Linear ODE}
+
+\begin{technique}
+This is a first-order linear ODE of the form $f_0' + P(x)f_0 = Q(x)$ where $P(x) = -1/(x+1)$ and $Q(x) = -2$. Use the integrating factor method:
+\[
+\mu(x) = \exp\left(\int P(x)\,dx\right) = \exp\left(-\int \frac{dx}{x+1}\right) = \exp(-\ln(x+1)) = \frac{1}{x+1}
+\]
+\end{technique}
+
+\noindent Multiply the ODE by $\mu(x) = 1/(x+1)$:
+\[
+\frac{f_0'}{x+1} - \frac{f_0}{(x+1)^2} = \frac{-2}{x+1}
+\]
+
+\noindent The left side is exactly $\frac{d}{dx}\left[\frac{f_0}{x+1}\right]$:
+\[
+\frac{d}{dx}\left[\frac{f_0}{x+1}\right] = \frac{-2}{x+1}
+\]
+
+\noindent Integrate both sides:
+\[
+\frac{f_0}{x+1} = -2\ln(x+1) + C
+\]
+
+\noindent Therefore:
+\[
+f_0(x) = (x+1)\left[C - 2\ln(x+1)\right] = C(x+1) - 2(x+1)\ln(x+1)
+\]
+
+\subsubsection*{Step 3b: Applying the Boundary Condition at $x = 0$}
+
+\begin{justification}
+Since the boundary layer is at $x = 1$, the outer solution must satisfy the boundary condition at $x = 0$. (The boundary condition at $x = 1$ will be handled by the inner solution.)
+\end{justification}
+
+\noindent Apply $f_0(0) = 0$:
+\[
+f_0(0) = C(0+1) - 2(0+1)\ln(0+1) = C - 2\cdot 0 = C = 0
+\]
+
+\noindent Therefore, the outer solution is:
+\[
+\boxed{f_0(x) = -2(x+1)\ln(x+1)}
+\]
+
+\subsubsection*{Step 3c: Verifying the Outer Solution}
+
+\begin{technique}
+Always verify that the solution satisfies the original ODE:
+\begin{align*}
+f_0(x) &= -2(x+1)\ln(x+1)\\
+f_0'(x) &= -2\left[\ln(x+1) + (x+1)\cdot\frac{1}{x+1}\right] = -2\ln(x+1) - 2
+\end{align*}
+\end{technique}
+
+\noindent Check the ODE $-f_0' + f_0/(x+1) = 2$:
+\begin{align*}
+-f_0' + \frac{f_0}{x+1} &= -(-2\ln(x+1) - 2) + \frac{-2(x+1)\ln(x+1)}{x+1}\\
+&= 2\ln(x+1) + 2 - 2\ln(x+1)\\
+&= 2 \quad \checkmark
+\end{align*}
+
+\noindent Check $f_0(0) = -2(1)\ln(1) = -2 \cdot 0 = 0$ \quad \checkmark
+
+\subsubsection*{Step 3d: Evaluating the Outer Solution at $x = 1$}
+
+\begin{justification}
+We need to know the value of the outer solution at $x = 1$ for the matching process. This tells us how much the inner solution must ``correct'' to meet the actual boundary condition.
+\end{justification}
+
+\[
+f_0(1) = -2(1+1)\ln(1+1) = -2 \cdot 2 \cdot \ln(2) = -4\ln(2)
+\]
+
+\noindent The boundary condition requires $f(1) = 3$, but the outer solution gives $f_0(1) = -4\ln(2) \approx -2.77$.
+
+\noindent The \textbf{mismatch} is: $3 - (-4\ln 2) = 3 + 4\ln 2 \approx 5.77$.
+
+\subsection*{Step 4: Setting Up the Inner Solution at $x = 1$}
+
+\noindent\textbf{What we do:} Introduce a stretched coordinate near $x = 1$.
+
+\begin{technique}
+For a boundary layer at $x = 1$ with width $O(\varepsilon)$, introduce the inner variable:
+\[
+X = \frac{x - 1}{\varepsilon}
+\]
+Note: $X \leq 0$ for $x \in [0,1]$ since $x - 1 \leq 0$.
+
+Define the inner function $F(X) = f(x)$.
+\end{technique}
+
+\subsubsection*{Step 4a: Transforming the Derivatives}
+
+\noindent Using the chain rule:
+\[
+\frac{df}{dx} = \frac{dF}{dX} \cdot \frac{dX}{dx} = \frac{1}{\varepsilon}F'
+\]
+\[
+\frac{d^2f}{dx^2} = \frac{1}{\varepsilon^2}F''
+\]
+
+\subsubsection*{Step 4b: Transforming the Equation}
+
+\noindent Also, we need to express $x$ in terms of $X$:
+\[
+x = 1 + \varepsilon X \quad \Longrightarrow \quad x + 1 = 2 + \varepsilon X
+\]
+
+\noindent Substitute into the original ODE $\varepsilon f'' - f' + f/(x+1) = 2$:
+\[
+\varepsilon \cdot \frac{1}{\varepsilon^2}F'' - \frac{1}{\varepsilon}F' + \frac{F}{2 + \varepsilon X} = 2
+\]
+
+\noindent Simplifying:
+\[
+\frac{1}{\varepsilon}F'' - \frac{1}{\varepsilon}F' + \frac{F}{2 + \varepsilon X} = 2
+\]
+
+\noindent Multiply through by $\varepsilon$:
+\[
+F'' - F' + \frac{\varepsilon F}{2 + \varepsilon X} = 2\varepsilon
+\]
+
+\subsubsection*{Step 4c: Taking the Leading Order as $\varepsilon \to 0$}
+
+\begin{justification}
+As $\varepsilon \to 0$, the terms $\varepsilon F/(2+\varepsilon X) \to 0$ and $2\varepsilon \to 0$. The leading order inner equation is:
+\[
+F_0'' - F_0' = 0
+\]
+This is a homogeneous constant-coefficient ODE.
+\end{justification}
+
+\subsection*{Step 5: Solving the Inner Equation}
+
+\noindent\textbf{The inner equation:} $F_0'' - F_0' = 0$
+
+\begin{technique}
+Try $F_0 = e^{\lambda X}$:
+\[
+\lambda^2 e^{\lambda X} - \lambda e^{\lambda X} = 0 \quad \Longrightarrow \quad \lambda(\lambda - 1) = 0 \quad \Longrightarrow \quad \lambda = 0 \text{ or } \lambda = 1
+\]
+\end{technique}
+
+\noindent The general solution is:
+\[
+F_0(X) = A + Be^X
+\]
+where $A$ and $B$ are constants to be determined.
+
+\subsubsection*{Step 5a: Applying the Boundary Condition at $x = 1$}
+
+\noindent At $x = 1$, we have $X = (1-1)/\varepsilon = 0$. The boundary condition $f(1) = 3$ gives:
+\[
+F_0(0) = A + Be^0 = A + B = 3
+\]
+
+\noindent This gives us one equation: $A + B = 3$.
+
+\subsubsection*{Step 5b: Rewriting the Solution in a Convenient Form}
+
+\begin{technique}
+It is useful to rewrite the general solution using the boundary condition. From $A + B = 3$, we have $B = 3 - A$. Substituting:
+\[
+F_0(X) = A + (3-A)e^X = A(1 - e^X) + 3e^X
+\]
+Alternatively, rearranging:
+\[
+F_0(X) = 3e^X + A(1 - e^X)
+\]
+This form clearly shows: $F_0(0) = 3 \cdot 1 + A \cdot 0 = 3$ \checkmark
+\end{technique}
+
+\subsection*{Step 6: Applying Prandtl's Matching Criterion}
+
+\begin{keyconcept}
+Prandtl's matching rule (Lecture Notes \S6.1.2) states that the inner and outer solutions must agree in an overlap region. Formally:
+\[
+\lim_{x \to 1^-} f_0(x) = \lim_{X \to -\infty} F_0(X)
+\]
+The left side is the ``inner limit of the outer solution'' (approaching the boundary layer from outside).
+The right side is the ``outer limit of the inner solution'' (moving away from the boundary into the interior).
+\end{keyconcept}
+
+\subsubsection*{Step 6a: Computing the Inner Limit of the Outer Solution}
+
+\noindent As $x \to 1^-$:
+\[
+\lim_{x \to 1^-} f_0(x) = \lim_{x \to 1^-} \left[-2(x+1)\ln(x+1)\right] = -2(2)\ln(2) = -4\ln 2
+\]
+
+\subsubsection*{Step 6b: Computing the Outer Limit of the Inner Solution}
+
+\noindent As $X \to -\infty$ (moving into the domain from $x = 1$):
+\[
+F_0(X) = 3e^X + A(1 - e^X)
+\]
+\begin{itemize}
+\item $e^X \to 0$ as $X \to -\infty$
+\item $1 - e^X \to 1$ as $X \to -\infty$
+\end{itemize}
+
+\noindent Therefore:
+\[
+\lim_{X \to -\infty} F_0(X) = 3 \cdot 0 + A \cdot 1 = A
+\]
+
+\subsubsection*{Step 6c: Applying the Matching Condition}
+
+\noindent Prandtl's rule requires:
+\[
+\lim_{x \to 1^-} f_0(x) = \lim_{X \to -\infty} F_0(X)
+\]
+\[
+-4\ln 2 = A
+\]
+
+\noindent Therefore:
+\[
+\boxed{A = -4\ln 2}
+\]
+
+\subsection*{Step 7: Writing the Complete Inner Solution}
+
+\noindent With $A = -4\ln 2$:
+\[
+F_0(X) = 3e^X + (-4\ln 2)(1 - e^X) = 3e^X - 4\ln 2 + 4(\ln 2)e^X
+\]
+\[
+F_0(X) = (3 + 4\ln 2)e^X - 4\ln 2
+\]
+
+\noindent Converting back to $x$-coordinates using $X = (x-1)/\varepsilon$:
+\[
+\boxed{F_0 = (3 + 4\ln 2)\exp\left(\frac{x-1}{\varepsilon}\right) - 4\ln 2}
+\]
+
+\subsubsection*{Step 7a: Verifying the Inner Solution}
+
+\begin{technique}
+Check boundary condition: At $x = 1$ ($X = 0$):
+\[
+F_0(0) = (3 + 4\ln 2) \cdot 1 - 4\ln 2 = 3 \quad \checkmark
+\]
+
+Check matching: As $X \to -\infty$:
+\[
+F_0 \to (3 + 4\ln 2) \cdot 0 - 4\ln 2 = -4\ln 2 = f_0(1) \quad \checkmark
+\]
+\end{technique}
+
+\subsection*{Step 8: Constructing the Composite Solution}
+
+\begin{technique}
+The composite solution is formed by adding the outer and inner solutions and subtracting their common limit to avoid double-counting (Lecture Notes \S6.1.2 and \S6.2.3):
+\[
+f_c(x) = f_0(x) + F_0(X) - (\text{common limit})
+\]
+The common limit is the value both solutions approach in the overlap region, which is:
+\[
+\lim_{x \to 1} f_0(x) = \lim_{X \to -\infty} F_0(X) = -4\ln 2
+\]
+\end{technique}
+
+\noindent Therefore:
+\begin{align*}
+f_c(x) &= f_0(x) + F_0\left(\frac{x-1}{\varepsilon}\right) - (-4\ln 2)\\
+&= -2(x+1)\ln(x+1) + \left[(3 + 4\ln 2)\exp\left(\frac{x-1}{\varepsilon}\right) - 4\ln 2\right] + 4\ln 2
+\end{align*}
+
+\noindent Simplifying:
+\[
+\boxed{f_c(x) = -2(x+1)\ln(x+1) + (3 + 4\ln 2)\exp\left(\frac{x-1}{\varepsilon}\right)}
+\]
+
+\subsection*{Step 9: Verifying the Composite Solution}
+
+\subsubsection*{Step 9a: Check Boundary Condition at $x = 0$}
+
+\begin{align*}
+f_c(0) &= -2(1)\ln(1) + (3 + 4\ln 2)\exp\left(\frac{-1}{\varepsilon}\right)\\
+&= 0 + (3 + 4\ln 2) \cdot e^{-1/\varepsilon}
+\end{align*}
+
+\begin{justification}
+For small $\varepsilon$, the term $e^{-1/\varepsilon}$ is exponentially small (essentially zero). Therefore:
+\[
+f_c(0) \approx 0 \quad \checkmark
+\]
+The boundary condition at $x = 0$ is satisfied up to exponentially small corrections.
+\end{justification}
+
+\subsubsection*{Step 9b: Check Boundary Condition at $x = 1$}
+
+\begin{align*}
+f_c(1) &= -2(2)\ln(2) + (3 + 4\ln 2)\exp(0)\\
+&= -4\ln 2 + 3 + 4\ln 2\\
+&= 3 \quad \checkmark
+\end{align*}
+
+\subsubsection*{Step 9c: Check Behavior in the Interior}
+
+\noindent For $0 < x < 1 - O(\varepsilon)$ (away from the boundary layer):
+\[
+\exp\left(\frac{x-1}{\varepsilon}\right) \approx 0 \quad \text{(exponentially small)}
+\]
+
+\noindent Therefore, in the interior:
+\[
+f_c(x) \approx f_0(x) = -2(x+1)\ln(x+1) \quad \checkmark
+\]
+
+\subsection*{Step 10: Physical Interpretation and Summary}
+
+\begin{reflection}
+What have we learned from this problem?
+
+\begin{enumerate}
+\item \textbf{Boundary layer location:} The coefficient of $f'$ is $p(x) = -1 < 0$, so by the general theory (Lecture Notes \S6.2.1), the boundary layer forms at $x = 1$.
+
+\item \textbf{Outer solution behavior:} The outer solution $f_0(x) = -2(x+1)\ln(x+1)$ satisfies $f_0(0) = 0$ but gives $f_0(1) = -4\ln 2 \neq 3$. The ``mismatch'' of $3 + 4\ln 2$ must be corrected by the boundary layer.
+
+\item \textbf{Inner solution structure:} The inner equation $F_0'' - F_0' = 0$ has solutions involving $e^X$. Only the decaying exponential (for $X \to -\infty$) can match to the outer solution.
+
+\item \textbf{Prandtl matching:} The matching condition $\lim_{x \to 1} f_0(x) = \lim_{X \to -\infty} F_0(X)$ determines the free constant $A = -4\ln 2$.
+
+\item \textbf{Composite solution:} The one-term composite expansion is:
+\[
+f_c(x) = -2(x+1)\ln(x+1) + (3 + 4\ln 2)\exp\left(\frac{x-1}{\varepsilon}\right)
+\]
+
+\item \textbf{Inhomogeneous term:} The presence of the RHS term ``$= 2$'' affects only the outer solution (making it nonzero). The inner solution at leading order is still homogeneous because the inhomogeneity is $O(\varepsilon)$ in the inner region.
+
+\item \textbf{Boundary layer width:} The boundary layer has width $O(\varepsilon)$. For $x < 1 - O(\varepsilon)$, the exponential term is negligible, and the solution is well-approximated by the outer solution alone.
+\end{enumerate}
+\end{reflection}
+
+\begin{center}
+\fbox{\begin{minipage}{0.95\textwidth}
+\textbf{Complete Solution Summary:}
+\begin{align*}
+\text{Outer solution:} \quad & f_0(x) = -2(x+1)\ln(x+1) \\[0.3cm]
+\text{Inner solution:} \quad & F_0(X) = (3 + 4\ln 2)e^X - 4\ln 2, \quad X = \frac{x-1}{\varepsilon} \\[0.3cm]
+\text{Common limit:} \quad & -4\ln 2 \\[0.3cm]
+\text{Composite solution:} \quad & f_c(x) = -2(x+1)\ln(x+1) + (3 + 4\ln 2)\exp\left(\frac{x-1}{\varepsilon}\right)
+\end{align*}
+The boundary layer is at $x = 1$ with width $O(\varepsilon)$, determined by the negative coefficient of $f'$.
+\end{minipage}}
+\end{center}
+
+\subsection*{Numerical Verification}
+
+\begin{reflection}
+For concreteness, let's compute some values. With $\ln 2 \approx 0.693$:
+\begin{itemize}
+\item $3 + 4\ln 2 \approx 3 + 2.772 = 5.772$
+\item $-4\ln 2 \approx -2.772$
+\end{itemize}
+
+At $x = 0.5$ (middle of domain), for small $\varepsilon$:
+\begin{align*}
+f_c(0.5) &\approx -2(1.5)\ln(1.5) + 5.772 \cdot e^{-0.5/\varepsilon}\\
+&\approx -3 \cdot 0.405 + (\text{negligible})\\
+&\approx -1.22
+\end{align*}
+
+Near $x = 1$ (in the boundary layer), for $\varepsilon = 0.01$ and $x = 0.99$:
+\begin{align*}
+f_c(0.99) &\approx -2(1.99)\ln(1.99) + 5.772 \cdot e^{-0.01/0.01}\\
+&\approx -2.74 + 5.772 \cdot e^{-1}\\
+&\approx -2.74 + 2.12\\
+&\approx -0.62
+\end{align*}
+
+And at $x = 1$: $f_c(1) = -2.77 + 5.77 = 3.00$ \checkmark
+\end{reflection}
+
+\end{document}
